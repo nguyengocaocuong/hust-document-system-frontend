@@ -10,8 +10,12 @@ import {
   persistReducer,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
-const rootReducer = combineReducers({});
+import authReducer from './authState'
+import { authApi } from "../services/AuthService";
+const rootReducer = combineReducers({
+  auth: authReducer,
+  [authApi.reducerPath]: authApi.reducer
+});
 const persistConig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConig, rootReducer);
 export const store = configureStore({
@@ -21,5 +25,5 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(authApi.middleware),
 });

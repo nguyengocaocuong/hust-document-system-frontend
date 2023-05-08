@@ -9,11 +9,13 @@ import {
   TextField,
   Typography,
   useTheme,
+  Button
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/base";
+import { useLoginMutation } from "../services/AuthService";
 function Signin() {
   const theme = useTheme();
+  const [login] = useLoginMutation();
   const [creadentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -24,6 +26,7 @@ function Signin() {
   };
   const handleLogin = async () => {
     if (creadentials.email === "" || creadentials.password === "") return;
+    await login(creadentials);
     setCredentials({
       email: "",
       password: "",
