@@ -20,6 +20,12 @@ export const authState = createSlice({
         state.token = null;
       }
     );
+    builder.addMatcher(
+      authApi.endpoints.register.matchFulfilled,
+      (state, action) => {
+        console.log(action.payload);
+      }
+    );
   },
 });
 

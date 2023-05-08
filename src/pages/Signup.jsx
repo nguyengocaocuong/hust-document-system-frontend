@@ -13,6 +13,7 @@ import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "../services/AuthService";
+import { convertJsonToFormData } from "../utils/ConvertData";
 
 function Signup() {
   const theme = useTheme();
@@ -23,18 +24,21 @@ function Signup() {
     matchingPassword: "",
     firstName: "",
     lastName: "",
+    name: "Nguyen Ngo Cao Cuong",
   });
   const handleOnChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const handleRegister = async () => {
-    await register();
+    const formData = convertJsonToFormData(user);
+    await register(formData);
     setUser({
       email: "",
       password: "",
       matchingPassword: "",
       firstName: "",
       lastName: "",
+      name: "Nguyen Ngo Cao Cuong",
     });
   };
   const [agree, setAgree] = useState(false);
@@ -165,6 +169,27 @@ function Signup() {
                 label="Enter your password"
                 variant="outlined"
                 value={user.password}
+                onChange={handleOnChange}
+                size="medium"
+              />
+            </Box>
+            <Box mb={2}>
+              <TextField
+                inputProps={{
+                  style: {
+                    fontSize: "17px",
+                  },
+                }}
+                InputLabelProps={{
+                  style: {
+                    fontSize: "17px",
+                  },
+                }}
+                sx={{ width: "100%" }}
+                name="matchingPassword"
+                label="Enter your matchingPassword"
+                variant="outlined"
+                value={user.matchingPassword}
                 onChange={handleOnChange}
                 size="medium"
               />
