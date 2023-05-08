@@ -13,7 +13,7 @@ import storage from "redux-persist/lib/storage";
 import authReducer from './authState'
 import { authApi } from "../services/AuthService";
 const rootReducer = combineReducers({
-  auth: authReducer,
+  authentication: authReducer,
   [authApi.reducerPath]: authApi.reducer
 });
 const persistConig = { key: "root", storage, version: 1 };
