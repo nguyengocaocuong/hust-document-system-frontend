@@ -1,0 +1,25 @@
+# Định dạng thụt đầu dòng cho CSS, SCSS, SASS, LESS, và JSON
+[*.{css,scss,sass,less,json}]
+indent_style = tab
+indent_size = 3
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Định dạng thụt đầu dòng cho HTML
+[*.html]
+indent_style = tab
+indent_size = 3
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Định dạng thụt đầu dòng cho YAML và Markdown
+[*.{yaml,yml,md}]
+indent_style = tab
+indent_size = 3
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Cấu hình cho Visual Studio Code
+[*.json]
+indent_style = tab
+indent_size = 3
