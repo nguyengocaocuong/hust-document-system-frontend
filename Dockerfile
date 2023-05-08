@@ -4,4 +4,5 @@ WORKDIR /app
 COPY . .
 
 RUN yarn install
-RUN yarn start
+CMD ["yarn","start"]
+EXPOSE 3000
