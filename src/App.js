@@ -4,6 +4,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import BoxFull from "./containers/BoxFull";
 import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 function App() {
   const [theme, colorMode] = useMode();
   return (
@@ -17,6 +18,10 @@ function App() {
                 <Route
                   path="sign-in"
                   element={<Signin />}
+                />
+                <Route
+                  path="sign-up"
+                  element={<Signup />}
                 />
               </Routes>
             </BoxFull>
