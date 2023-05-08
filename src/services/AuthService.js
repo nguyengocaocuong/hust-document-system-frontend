@@ -15,8 +15,17 @@ export const authApi = createApi({
       invalidatesTags: ["Authentications"],
       transformResponse: (response) => response?.content,
     }),
+    register: builder.mutation({
+      query: (user) => ({
+        url: "/register",
+        method: "POST",
+        body: user,
+      }),
+      invalidatesTags: ["Authentications"],
+      transformResponse: (response) => response?.content,
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;
 export const { endpoints, reducerPath, reducer, middleware } = authApi;

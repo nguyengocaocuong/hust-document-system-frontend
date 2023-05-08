@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import BoxBetween from "../containers/BoxBetween";
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
 import { Link } from "react-router-dom";
+import { useRegisterMutation } from "../services/AuthService";
 
 function Signup() {
   const theme = useTheme();
+  const [register] = useRegisterMutation();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,7 +27,16 @@ function Signup() {
   const handleOnChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const handleRegister = () => {};
+  const handleRegister = async () => {
+    await register();
+    setUser({
+      email: "",
+      password: "",
+      matchingPassword: "",
+      firstName: "",
+      lastName: "",
+    });
+  };
   const [agree, setAgree] = useState(false);
   return (
     <BoxBetween height={"100vh"}>
@@ -124,7 +143,7 @@ function Signup() {
                 name="email"
                 label="Enter your email"
                 variant="outlined"
-                value={user.password}
+                value={user.email}
                 onChange={handleOnChange}
                 size="medium"
               />
