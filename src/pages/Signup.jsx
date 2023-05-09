@@ -12,7 +12,7 @@ import {
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
 import { Link } from "react-router-dom";
-import { useRegisterMutation } from "../services/authService";
+import { useRegisterMutation } from "../services/AuthService";
 import { convertJsonToFormData } from "../utils/ConvertData";
 
 function Signup() {
