@@ -21,7 +21,7 @@ function Sidebar() {
           maxWidth: "250px",
           border: "1px solid #D8D9D9",
         },
-        border: "none",
+        borderRight:"1px solid #D8D9D9"
       }}
       transitionDuration={500}
     >

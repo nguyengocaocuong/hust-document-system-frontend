@@ -201,7 +201,7 @@ export const themeSettings = (mode) => {
     },
     shape:{
       borderRadius: 8
-    }
+    },
    
   };
 };

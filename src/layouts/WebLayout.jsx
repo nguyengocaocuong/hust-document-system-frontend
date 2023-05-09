@@ -1,7 +1,8 @@
 import React from "react";
 import BoxFull from "../containers/BoxFull";
-import Sidebar from '../containers/sidebar'
-import Content from '../containers/content'
+import Sidebar from "../containers/sidebar";
+import Content from "../containers/content";
+import { Box } from "@mui/material";
 function WebLayout() {
   return (
     <BoxFull
@@ -9,10 +10,10 @@ function WebLayout() {
       maxWidth={"100vw"}
       width={"100vw"}
       overflow={"hidden"}
-      display={'flex'}
+      display={"flex"}
     >
-        <Sidebar/>
-        <Content/>
+      <Sidebar />
+      <Content />
     </BoxFull>
   );
 }
