@@ -6,8 +6,12 @@ import BoxFull from "./containers/BoxFull";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+import { useSelector } from "react-redux";
+import UserLayout from "./layouts/UserLayout";
+import WebLayout from "./layouts/WebLayout";
 function App() {
   const [theme, colorMode] = useMode();
+  const { isLogin, user } = useSelector((state) => state.authentication);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -16,18 +20,16 @@ function App() {
           <BoxFull>
             <BoxFull maxHeight={"100vh"}>
               <Routes>
-                <Route
-                  path="sign-in"
-                  element={<Signin />}
-                />
-                <Route
-                  path="sign-up"
-                  element={<Signup />}
-                />
-                <Route
-                  path="forgot-password"
-                  element={<ForgotPassword />}
-                />
+                <Route path="/" element={<WebLayout />}>
+                  {isLogin && user?.roleType === "ADMIN" ? (
+                    <Route path="/" element={<div>Admin Layout</div>}></Route>
+                  ) : (
+                    <Route path="/" element={<UserLayout />}></Route>
+                  )}
+                </Route>
+                <Route path="sign-in" element={<Signin />} />
+                <Route path="sign-up" element={<Signup />} />
+                <Route path="forgot-password" element={<ForgotPassword />} />
               </Routes>
             </BoxFull>
           </BoxFull>
