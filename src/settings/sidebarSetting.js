@@ -104,4 +104,4 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
   }
 ];
 
-export const SidebarItem = (roleType) => roleType === "ADMIN" ? [[],[]] : [userSidebarItem, userSidebarSettingItem] 
+export const GetSidebarItem = (roleType) => roleType === "ADMIN" ? [[],[]] : [userSidebarItem, userSidebarSettingItem] 
