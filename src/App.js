@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import { useSelector } from "react-redux";
 import UserLayout from "./layouts/UserLayout";
 import WebLayout from "./layouts/WebLayout";
+import { ProSidebarProvider } from "react-pro-sidebar";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -16,23 +17,25 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <CssBaseline />
-          <BoxFull>
-            <BoxFull maxHeight={"100vh"}>
-              <Routes>
-                <Route path="/" element={<WebLayout />}>
-                  {isLogin && user?.roleType === "ADMIN" ? (
-                    <Route path="/" element={<div>Admin Layout</div>}></Route>
-                  ) : (
-                    <Route path="/" element={<UserLayout />}></Route>
-                  )}
-                </Route>
-                <Route path="sign-in" element={<Signin />} />
-                <Route path="sign-up" element={<Signup />} />
-                <Route path="forgot-password" element={<ForgotPassword />} />
-              </Routes>
+          <ProSidebarProvider>
+            <CssBaseline />
+            <BoxFull>
+              <BoxFull maxHeight={"100vh"}>
+                <Routes>
+                  <Route path="/" element={<WebLayout />}>
+                    {isLogin && user?.roleType === "ADMIN" ? (
+                      <Route path="/" element={<div>Admin Layout</div>}></Route>
+                    ) : (
+                      <Route path="/" element={<UserLayout />}></Route>
+                    )}
+                  </Route>
+                  <Route path="sign-in" element={<Signin />} />
+                  <Route path="sign-up" element={<Signup />} />
+                  <Route path="forgot-password" element={<ForgotPassword />} />
+                </Routes>
+              </BoxFull>
             </BoxFull>
-          </BoxFull>
+          </ProSidebarProvider>
         </BrowserRouter>
       </ThemeProvider>
     </ColorModeContext.Provider>
