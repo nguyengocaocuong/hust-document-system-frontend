@@ -1,12 +1,23 @@
-import { BottomNavigation, BottomNavigationAction, Box, IconButton, InputBase, Typography, styled } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Box,
+  IconButton,
+  InputBase,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import RestoreIcon from "@mui/icons-material/Restore";
+
 const CustomBottomNavigationAction = styled(BottomNavigationAction)(
-    `
+  `
     &.Mui-selected {
       color: red;
     }
@@ -14,13 +25,23 @@ const CustomBottomNavigationAction = styled(BottomNavigationAction)(
       color:red;
     }
   `
-  );
+);
 function Recommend() {
+  const theme = useTheme();
   const location = useLocation();
   const [toogleRightContainer, setToggleRightContainer] = useState(true);
 
   return (
-    <>
+    <Box
+      height={"100%"}
+      maxHeight={"100%"}
+      p={toogleRightContainer ? 2 : 0}
+      sx={{
+        transition: "width 0.4s",
+        transitionTimingFunction: 'linear',
+        width: toogleRightContainer ? "100%" : 0,
+      }}
+    >
       <Box width={"100%"}>
         <IconButton onClick={() => setToggleRightContainer(false)}>
           <ClearOutlinedIcon />
@@ -47,7 +68,7 @@ function Recommend() {
         />
       </Box>
       <Box
-        height={"67vh"}
+        height={"calc(100% - 150px)"}
         width={"100%"}
         sx={{ backgroundColor: "transparent" }}
         overflow={"hidden"}
@@ -74,7 +95,7 @@ function Recommend() {
           icon={<LocationOnIcon />}
         />
       </BottomNavigation>
-    </>
+    </Box>
   );
 }
 

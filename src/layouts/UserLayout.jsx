@@ -16,9 +16,7 @@ function UserLayout() {
       >
         <Outlet/>
       </Box>
-      <Box width={"100%"} height={"100%"} overflow={"auto"} p={2}>
         <Recommend/>
-      </Box>
     </BoxFull>
   );
 }
