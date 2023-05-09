@@ -3,35 +3,74 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
 import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
-import { Box, CardActions, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  CardActions,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 function PostCardActions() {
   const [like, setLike] = useState(false);
 
   return (
     <CardActions
       disableSpacing
-      sx={{ display: "flex", justifyContent: "space-between" }}
+      style={{ padding: "16px", display: "block", paddingBottom: "0" }}
     >
-      <Box width={"calc(70%)"} textAlign={"start"}>
-        <Typography fontSize={"12px"}>{like ? "24" : "23"} người</Typography>
-        <Divider />
-        {like ? (
-          <FavoriteOutlinedIcon sx={{ fontSize: "25px", color: "red" }} />
-        ) : (
-          <FavoriteBorderOutlinedIcon sx={{ fontSize: "20px" }} />
-        )}
-      </Box>
-      <Box width={"30%"} display={"flex"}>
-        <Box width={"50%"} textAlign={"center"}>
-          <Typography fontSize={"12px"}>23 câu trả lời</Typography>
-          <Divider />
-          <QuestionAnswerOutlinedIcon sx={{ fontSize: "20px" }} />
+      <Divider />
+      <Box
+        width={"100%"}
+        display="flex"
+        justifyContent="space-between"
+        pt={"5px"}
+        pb={"5px"}
+      >
+        <Box display={"flex"} alignItems={"center"}>
+          <FavoriteOutlinedIcon sx={{ fontSize: "18px", color: "red" }} />
+          <Typography fontSize={"12px"} ml={"5px"}>
+            {like ? "24" : "23"} người
+          </Typography>
         </Box>
-        <Box width={"50%"} textAlign={"center"}>
+        <Box display={"flex"}>
+          <Typography fontSize={"12px"} mr={"10px"}>
+            23 câu trả lời
+          </Typography>
           <Typography fontSize={"12px"}>13 bình luận</Typography>
-          <Divider />
-          <InsertCommentOutlinedIcon sx={{ fontSize: "20px" }} />
         </Box>
+      </Box>
+      <Divider />
+      <Box display={"flex"} justifyContent={"space-between"} p={"5px"}>
+        <IconButton
+          sx={{
+            width: "30%",
+            textAlign: "center",
+            borderRadius: "5px",
+            "&:hover": { backgroundColor: "#ECDCDC" },
+          }}
+        >
+          <FavoriteBorderOutlinedIcon sx={{ fontSize: "20px" }} />
+        </IconButton>
+        <IconButton
+          sx={{
+            width: "30%",
+            textAlign: "center",
+            borderRadius: "5px",
+            "&:hover": { backgroundColor: "#ECDCDC" },
+          }}
+        >
+          <QuestionAnswerOutlinedIcon sx={{ fontSize: "20px" }} />
+        </IconButton>
+        <IconButton
+          sx={{
+            width: "30%",
+            textAlign: "center",
+            borderRadius: "5px",
+            "&:hover": { backgroundColor: "#ECDCDC" },
+          }}
+        >
+          <InsertCommentOutlinedIcon sx={{ fontSize: "20px" }} />
+        </IconButton>
       </Box>
     </CardActions>
   );
