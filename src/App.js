@@ -11,6 +11,7 @@ import UserLayout from "./layouts/UserLayout";
 import WebLayout from "./layouts/WebLayout";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import Home from "./pages/Home";
+import PostDetailt from "./components/posts/postDetailt";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -28,7 +29,11 @@ function App() {
                       <Route path="/" element={<div>Admin Layout</div>}></Route>
                     ) : (
                       <Route path="/" element={<UserLayout />}>
-                        <Route index element={<Home />}></Route>
+                        <Route index element={<Home />}/>
+                        <Route
+                            path="post/:id"
+                            element={<PostDetailt />}
+                          ></Route>
                       </Route>
                     )}
                   </Route>
