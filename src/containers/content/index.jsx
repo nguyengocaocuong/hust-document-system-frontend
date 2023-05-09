@@ -7,7 +7,7 @@ function Content() {
   return (
     <BoxFull>
       <Header />
-      <Box p={2} width={'100%'} height={'calc(100vh - 72px)'} overflow={'hidden'}>
+      <Box width={'100%'} height={'calc(100vh - 72px)'} overflow={'hidden'}>
         <Outlet />
       </Box>
     </BoxFull>

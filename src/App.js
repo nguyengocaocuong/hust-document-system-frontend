@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import UserLayout from "./layouts/UserLayout";
 import WebLayout from "./layouts/WebLayout";
 import { ProSidebarProvider } from "react-pro-sidebar";
+import Home from "./pages/Home";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -26,7 +27,9 @@ function App() {
                     {isLogin && user?.roleType === "ADMIN" ? (
                       <Route path="/" element={<div>Admin Layout</div>}></Route>
                     ) : (
-                      <Route path="/" element={<UserLayout />}></Route>
+                      <Route path="/" element={<UserLayout />}>
+                        <Route index element={<Home />}></Route>
+                      </Route>
                     )}
                   </Route>
                   <Route path="sign-in" element={<Signin />} />
