@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authApi } from "../services/AuthService";
+import { authApi } from "../services/authService";
 
 const initialState = {
   isLogin: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const authState = createSlice({
-  name: "authentication",
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -22,9 +22,9 @@ export const authState = createSlice({
       }
     );
     builder.addMatcher(
-      authApi.endpoints.register.matchFulfilled,
+      authApi.endpoints.generateToken.matchFulfilled,
       (state, action) => {
-        console.log(action.payload);
+        state.token = action.payload
       }
     );
   },

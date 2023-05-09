@@ -1,18 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-export const authApi = createApi({
+export const postApi = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_API_VERSION}/authentication`,
+    baseUrl: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_API_VERSION}/users/posts`,
   }),
-  tagTypes: ["auth"],
+  tagTypes: ["Posts"],
   endpoints: (builder) => ({
-    login: builder.mutation({
+    getAllPosts: builder.mutation({
       query: (credentials) => ({
         url: "/login",
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: ["auth"],
+      invalidatesTags: ["Posts"],
       transformResponse: (response) => response?.content,
     }),
     register: builder.mutation({
@@ -21,16 +21,16 @@ export const authApi = createApi({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ["auth"],
+      invalidatesTags: ["Posts"],
       transformResponse: (response) => response?.content,
     }),
     generateToken: builder.mutation({
       query: (credentials)=>({
-        url: '/authenticate',
+        url: 'authenticated',
         method: 'POST',
         body: credentials
       }),
-      invalidatesTags: ["auth"],
+      invalidatesTags: ["Posts"],
       transformResponse: (response) => response?.content,
     }),
     resetPassword: builder.mutation({
@@ -41,11 +41,11 @@ export const authApi = createApi({
           email
         }
       }),
-      invalidatesTags: ["auth"],
+      invalidatesTags: ["Posts"],
       transformResponse: (response) => response?.content,
     }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGenerateTokenMutation, useResetPasswordMutation } = authApi;
-export const { endpoints, reducerPath, reducer, middleware } = authApi;
+export const {  } = postApi;
+export const { endpoints, reducerPath, reducer, middleware } = postApi;

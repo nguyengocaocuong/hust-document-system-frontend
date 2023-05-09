@@ -3,7 +3,7 @@ import BoxBetween from "../containers/BoxBetween";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
-import { useResetPasswordMutation } from "../services/AuthService";
+import { useResetPasswordMutation } from "../services/authService";
 
 function ForgotPassword() {
   const theme = useTheme();
