@@ -26,15 +26,26 @@ export const authApi = createApi({
     }),
     generateToken: builder.mutation({
       query: (credentials)=>({
-        url: '',
+        url: 'authenticated',
         method: 'POST',
         body: credentials
       }),
       invalidatesTags: ["Authentications"],
       transformResponse: (response) => response?.content,
-    })
+    }),
+    resetPassword: builder.mutation({
+      query: (email)=>({
+        url: '/resetPassword',
+        method: 'GET',
+        params: {
+          email
+        }
+      }),
+      invalidatesTags: ["Authentications"],
+      transformResponse: (response) => response?.content,
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGenerateTokenMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGenerateTokenMutation, useResetPasswordMutation } = authApi;
 export const { endpoints, reducerPath, reducer, middleware } = authApi;
