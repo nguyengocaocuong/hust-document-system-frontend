@@ -1,5 +1,5 @@
 import { BottomNavigation, BottomNavigationAction, Box, IconButton, InputBase, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
