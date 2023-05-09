@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import BoxFull from "./containers/BoxFull";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   const [theme, colorMode] = useMode();
   return (
@@ -22,6 +23,10 @@ function App() {
                 <Route
                   path="sign-up"
                   element={<Signup />}
+                />
+                <Route
+                  path="forgot-password"
+                  element={<ForgotPassword />}
                 />
               </Routes>
             </BoxFull>

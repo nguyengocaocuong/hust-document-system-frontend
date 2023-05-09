@@ -24,8 +24,17 @@ export const authApi = createApi({
       invalidatesTags: ["Authentications"],
       transformResponse: (response) => response?.content,
     }),
+    generateToken: builder.mutation({
+      query: (credentials)=>({
+        url: '',
+        method: 'POST',
+        body: credentials
+      }),
+      invalidatesTags: ["Authentications"],
+      transformResponse: (response) => response?.content,
+    })
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGenerateTokenMutation } = authApi;
 export const { endpoints, reducerPath, reducer, middleware } = authApi;
