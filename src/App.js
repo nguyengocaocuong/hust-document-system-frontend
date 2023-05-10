@@ -12,6 +12,7 @@ import WebLayout from "./layouts/WebLayout";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import Home from "./pages/Home";
 import PostDetailt from "./components/posts/postDetailt";
+import Shared from "./pages/Shared";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -30,6 +31,7 @@ function App() {
                     ) : (
                       <Route path="/" element={<UserLayout />}>
                         <Route index element={<Home />} />
+                        <Route path="shared" element={<Shared />} />
                         <Route path="post/:id" element={<PostDetailt />} />
                       </Route>
                     )}
