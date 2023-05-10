@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 function PostCardActions() {
-  const [like, setLike] = useState(false);
 
   return (
     <CardActions
@@ -29,7 +28,7 @@ function PostCardActions() {
         <Box display={"flex"} alignItems={"center"}>
           <FavoriteOutlinedIcon sx={{ fontSize: "18px", color: "red" }} />
           <Typography fontSize={"12px"} ml={"5px"}>
-            {like ? "24" : "23"} người
+            23 người
           </Typography>
         </Box>
         <Box display={"flex"}>

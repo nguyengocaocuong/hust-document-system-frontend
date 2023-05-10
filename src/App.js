@@ -30,10 +30,7 @@ function App() {
                     ) : (
                       <Route path="/" element={<UserLayout />}>
                         <Route index element={<Home />} />
-                        <Route
-                          path="post/:id"
-                          element={<PostDetailt />}
-                        ></Route>
+                        <Route path="post/:id" element={<PostDetailt />} />
                       </Route>
                     )}
                   </Route>

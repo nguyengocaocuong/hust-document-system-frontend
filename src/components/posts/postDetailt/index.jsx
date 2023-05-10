@@ -7,6 +7,8 @@ import PostDetailtContent from "./PostDetailtContent";
 import PostCardDetailtActions from "./PostCardDetailtActions";
 import PostDetailtComment from "./PostDetailtComment";
 import PostDetailtAnswer from "./PostDetailtAnswer";
+const MemoizedChildComponent = React.memo(PostDetailtContent);
+
 function PostDetailt() {
   const { data } = useGetAllPostsQuery();
   const [selectedId, setSelectedId] = useState(null);
@@ -21,10 +23,10 @@ function PostDetailt() {
           borderRight="1px solid #D8D9D9"
           borderBottom="1px solid #D8D9D9"
         >
-            <PostDetailtContent />
+            <MemoizedChildComponent />
         </Box>
         <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
-          <PostDetailtHeader data={data.content[0]} />
+          {/* <PostDetailtHeader data={data?.content[0]} /> */}
           <PostCardDetailtActions
             handleSelectedId={handleSelectedId}
             selectedId={selectedId}
