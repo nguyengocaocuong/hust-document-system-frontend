@@ -29,14 +29,15 @@ function App() {
                       <Route path="/" element={<div>Admin Layout</div>}></Route>
                     ) : (
                       <Route path="/" element={<UserLayout />}>
-                        <Route index element={<Home />}/>
+                        <Route index element={<Home />} />
                         <Route
-                            path="post/:id"
-                            element={<PostDetailt />}
-                          ></Route>
+                          path="post/:id"
+                          element={<PostDetailt />}
+                        ></Route>
                       </Route>
                     )}
                   </Route>
+                  <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-up" element={<Signup />} />
                   <Route path="forgot-password" element={<ForgotPassword />} />
