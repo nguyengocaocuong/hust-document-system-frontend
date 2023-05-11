@@ -8,7 +8,7 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 function index() {
   return (
     <Box
-      width={"100%"}
+      width={"calc(100% - 250px)"}
       height={"72px"}
       display={"flex"}
       justifyContent={"space-between"}
@@ -34,7 +34,7 @@ function index() {
         alignItems={"center"}
         p={"5px"}
       >
-        <IconButton sx={{marginRight: '16px'}}>
+        <IconButton sx={{ marginRight: "16px" }}>
           <Badge badgeContent={4} color="error">
             <NotificationsActiveOutlinedIcon style={{ fontSize: "25px" }} />
           </Badge>

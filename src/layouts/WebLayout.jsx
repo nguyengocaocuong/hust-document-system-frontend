@@ -2,7 +2,6 @@ import React from "react";
 import BoxFull from "../containers/BoxFull";
 import Sidebar from "../containers/sidebar";
 import Content from "../containers/content";
-import { Box } from "@mui/material";
 function WebLayout() {
   return (
     <BoxFull

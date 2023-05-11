@@ -6,10 +6,8 @@ import {
   InputBase,
   Typography,
   styled,
-  useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -27,14 +25,13 @@ const CustomBottomNavigationAction = styled(BottomNavigationAction)(
   `
 );
 function Recommend() {
-  const theme = useTheme();
-  const location = useLocation();
   const [toogleRightContainer, setToggleRightContainer] = useState(true);
 
   return (
     <Box
       height={"100%"}
       maxHeight={"100%"}
+      width={'100%'}
       p={toogleRightContainer ? 2 : 0}
       sx={{
         transition: "width 0.4s",

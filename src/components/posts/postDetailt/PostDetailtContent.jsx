@@ -43,40 +43,40 @@ function PostDetailtContent({
 }) {
   const docs = [
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/docx",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/docx`,
       fileType: "docx",
       fileName: "docxtest.docx",
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/xls",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/xls`,
       fileType: "xls",
       fileName: "doxtest.xls",
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/pdf",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/pdf`,
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/txt",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/txt`,
       fileType: "txt",
       fileName: "docxtest.txt",
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/xlsx",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/xlsx`,
       fileType: "xlsx",
       fileName: "docxtest.xlsx",
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/doc",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/doc`,
       fileType: "doc",
       fileName: "docxtest.doc",
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/html",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/html`,
       fileType: "html",
       fileName: "docxtest.html",
     },
     {
-      uri: "http://ip172-18-0-27-chdqaeo1k7jg00beetjg-8081.direct.labs.play-with-docker.com/api/v1/public/odt",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/odt`,
       fileType: "odt",
       fileName: "docxtest.odt",
     },
