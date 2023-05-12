@@ -1,8 +1,3 @@
-import avatar1 from "../assets/images/avatar/05.jpg";
-import avatar2 from "../assets/images/avatar/06.jpg";
-import avatar3 from "../assets/images/avatar/07.jpg";
-import avatar4 from "../assets/images/avatar/1.jpg";
-const avatars = [avatar1, avatar2, avatar3, avatar4];
 export const filterSetting = [
   {
     title: "Loại file",
