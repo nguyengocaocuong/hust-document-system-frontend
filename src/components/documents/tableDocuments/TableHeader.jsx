@@ -17,6 +17,8 @@ function TabelHeader({
       pt={0}
       pl={1}
       pr={1}
+      height={'30px'}
+      maxHeight={'30px'}
       width={"100%"}
       textAlign={"left"}
       sx={{ borderBottom: "1px solid gray" }}

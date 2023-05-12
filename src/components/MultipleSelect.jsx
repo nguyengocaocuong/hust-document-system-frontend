@@ -8,7 +8,6 @@ import { Typography } from "@mui/material";
 const MenuProps = {
   PaperProps: {
     style: {
-      width: "80px",
       padding: 0,
     },
   },
@@ -22,7 +21,7 @@ export default function MultipleSelect({ items, title }) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: "120px" }} size="small">
+      <FormControl sx={{ m: 1, minWidth: "100px" }} size="small">
         <Select
           displayEmpty
           value={selected}
@@ -44,7 +43,7 @@ export default function MultipleSelect({ items, title }) {
               sx={{ textAlign: "start", pl:1, pt:1, "&:hover":{backgroundColor:'#C9CFDB'} }}
             >
               {item.icon} 
-              <Typography style={{marginLeft:'5px'}}>{item.label}</Typography>
+              {item.label}
             </MenuItem>
           ))}
            <MenuItem

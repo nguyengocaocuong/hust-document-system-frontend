@@ -10,7 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import HistoryIcon from '@mui/icons-material/History';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
  const userSidebarItem = [
   {
     type: "ITEM",
@@ -19,13 +19,7 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
     Icon: PostAddIcon,
     selectedColor: "white",
   },
-  {
-    type: "ITEM",
-    title: "Yêu thích",
-    to: "/favorite",
-    Icon: FavoriteBorderIcon,
-    selectedColor: "white",
-  },
+
   {
     type: "ITEM",
     title: "Được chia sẻ",
@@ -49,9 +43,23 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
       },
       {
         type: "ITEM",
+        title: "Yêu thích",
+        to: "/driver/favorite",
+        Icon: FavoriteBorderIcon,
+        selectedColor: "white",
+      },
+      {
+        type: "ITEM",
         title: "Bài đã đăng",
         to: "/driver/post",
         Icon: DynamicFeedIcon,
+        selectedColor: "red",
+      },
+      {
+        type: "ITEM",
+        title: "Bị báo cáo",
+        to: "/driver/report",
+        Icon: ReportProblemIcon,
         selectedColor: "red",
       },
       {

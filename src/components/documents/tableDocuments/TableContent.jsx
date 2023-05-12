@@ -176,7 +176,7 @@ const dataTest = [
 ]
 function TableContent({ data = dataTest }) {
   return (
-    <Box width={'100%'} maxHeight={'50%'} overflow={'auto'}>
+    <Box width={'100%'} maxHeight={'calc(100% - 380px)'} overflow={'auto'}>
       {data.map((doc, index) => (
         <TableItem data={doc} key={index} />
       ))}
