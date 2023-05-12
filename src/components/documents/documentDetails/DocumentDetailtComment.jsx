@@ -25,7 +25,7 @@ const commentData = [
 function DocumentDetailtComment() {
   const [data, setData] = useState(commentData);
   return (
-    <Box width={"100%"}>
+    <Box width={"100%"} sx={{backgroundColor:'red'}}>
       <CommentSection
         currentUser={{
           currentUserId: "01a",
@@ -52,9 +52,6 @@ function DocumentDetailtComment() {
           color: "white",
           fontSize:'10px'
         }}
-        //   removeEmoji={true}
-          // overlayStyle={{ backgroundColor: "#0f0d29", color: "white" }}
-        // replyInputStyle={{ borderBottom: "1px solid black", color: "black", backgroundColor:'transparent' }}
       />
     </Box>
   );

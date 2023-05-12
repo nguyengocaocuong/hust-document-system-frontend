@@ -33,10 +33,9 @@ function PostDetailt() {
           />
           <Box
             width="100%"
-            height={"calc(100% - 186px)"}
-            maxHeight={"calc(100% - 186px)"}
-            mt={2}
-            overflow={"auto"}
+            height={"calc(100% - 180px)"}
+            maxHeight={"calc(100% - 180px)"}
+            overflow={"hidden"}
           >
             {selectedId === null ? (
               <></>

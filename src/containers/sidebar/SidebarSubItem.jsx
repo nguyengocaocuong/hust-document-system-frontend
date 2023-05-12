@@ -24,6 +24,7 @@ function SidebarSubItem({ title, to, Icon, selectedColor, data = [] }) {
           ? "linear-gradient(90deg, rgba(255,0,4,1) 0%, rgba(255,174,174,0.8856792717086834) 0%, rgba(246,228,228,1) 100%)"
           : "transparent",
         borderLeft: location.pathname.startsWith(to) ? "3px solid red" : "none",
+        borderRadius:'0 5px 5px 0'
       }}
     >
       {data.map((item, index) => (

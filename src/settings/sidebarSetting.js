@@ -7,11 +7,13 @@ import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import HistoryIcon from '@mui/icons-material/History';
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
- const userSidebarItem = [
+import HistoryIcon from "@mui/icons-material/History";
+import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+const userSidebarItem = [
   {
     type: "ITEM",
     title: "Đăng bài",
@@ -29,54 +31,70 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
   },
   {
     type: "SUB_ITEM",
+    title: "Học tập",
+    to: "/education",
+    Icon: SchoolOutlinedIcon,
+    selectedColor: "red",
+    data: [
+      {
+        type: "ITEM",
+        title: "Tài liệu",
+        to: "/education/document",
+        Icon: InsertDriveFileOutlinedIcon,
+        selectedColor: "red",
+      },
+      {
+        type: "ITEM",
+        title: "Bài đánh giá",
+        to: "/education/review",
+        Icon: RateReviewOutlinedIcon,
+        selectedColor: "red",
+      },
+    ],
+  },
+  {
+    type: "SUB_ITEM",
     title: "Cá nhân",
-    to: "/driver",
+    to: "/private",
     Icon: AddToDriveIcon,
     selectedColor: "red",
     data: [
       {
         type: "ITEM",
         title: "Tài liệu",
-        to: "/driver/document",
+        to: "/private/document",
         Icon: DocumentScannerIcon,
         selectedColor: "red",
       },
       {
         type: "ITEM",
         title: "Yêu thích",
-        to: "/driver/favorite",
+        to: "/private/favorite",
         Icon: FavoriteBorderIcon,
         selectedColor: "white",
       },
       {
         type: "ITEM",
         title: "Bài đã đăng",
-        to: "/driver/post",
+        to: "/private/posted",
         Icon: DynamicFeedIcon,
         selectedColor: "red",
       },
       {
         type: "ITEM",
         title: "Bị báo cáo",
-        to: "/driver/report",
-        Icon: ReportProblemIcon,
+        to: "/private/report",
+        Icon: ReportProblemOutlinedIcon,
         selectedColor: "red",
       },
       {
         type: "ITEM",
         title: "Thông tin cá nhân",
-        to: "/driver/profile",
+        to: "/private/profile",
         Icon: ContactMailOutlinedIcon,
         selectedColor: "red",
-      }
+      },
     ],
-  },
-  {
-    type: "ITEM",
-    title: "Thông báo",
-    to: "/notifications",
-    Icon: NotificationsNoneIcon,
-    selectedColor: "white",
   },
   {
     type: "ITEM",
@@ -87,29 +105,44 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
   },
 ];
 
- const userSidebarSettingItem = [
+const userSidebarSettingItem = [
   {
     type: "ITEM",
     title: "Thùng rác",
     to: "/trash",
     Icon: DeleteOutlineOutlinedIcon,
-    selectedColor: "red"
+    selectedColor: "red",
   },
   {
     type: "ITEM",
     title: "Cài đặt",
     to: "/setting",
     Icon: SettingsOutlinedIcon,
-    selectedColor: "red"
-
+    selectedColor: "red",
   },
   {
     type: "ITEM",
     title: "Thoát",
     to: "/sign-out",
     Icon: LogoutIcon,
-    selectedColor: "red"
-  }
+    selectedColor: "red",
+  },
 ];
 
-export const GetSidebarItem = (roleType) => roleType === "ADMIN" ? [[],[]] : [userSidebarItem, userSidebarSettingItem] 
+export const GetSidebarItem = (roleType) =>
+  roleType === "ADMIN" ? [[], []] : [userSidebarItem, userSidebarSettingItem];
+export const getBreadcrumbs = (pathName = "") => {
+  const breadcrumbs = [];
+  for (let i = 0; i < userSidebarItem.length; i++) {
+    if (userSidebarItem[i]["type"] === "ITEM") continue;
+    if (pathName.startsWith(userSidebarItem[i]["to"])) {
+      breadcrumbs[0] = userSidebarItem[i]
+      for (let j = 0; j < userSidebarItem[i]["data"].length; j++) {
+        if (pathName.startsWith(userSidebarItem[i]["data"][j]["to"]))
+          breadcrumbs[breadcrumbs.length] = userSidebarItem[i]["data"][j]
+      }
+    }
+  }
+  const [last, ...first] = breadcrumbs.reverse()
+  return [first.reverse(), last];
+};

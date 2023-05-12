@@ -3,7 +3,7 @@ import React from "react";
 import PostCardAnswer from "../../posts/postCardAnswer";
 function DocumentDetailtAnswer() {
   return (
-    <Box width={"100%"} pr={2} pl={2}>
+    <Box width={"100%"} pr={2} pl={2} mt={2} maxHeight={'100%'} overflow={'auto'}>
       <Stack spacing={1}>
         {Array.from({ length: Math.round(Math.random() * 10) }, () =>
           Math.random()
