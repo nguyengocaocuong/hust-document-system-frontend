@@ -8,7 +8,7 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 function index() {
   return (
     <Box
-      width={"calc(100% - 250px)"}
+      width={"100%"}
       height={"72px"}
       display={"flex"}
       justifyContent={"space-between"}

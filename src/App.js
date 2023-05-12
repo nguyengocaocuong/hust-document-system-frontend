@@ -13,6 +13,7 @@ import { ProSidebarProvider } from "react-pro-sidebar";
 import Home from "./pages/Home";
 import PostDetailt from "./components/posts/postDetailt";
 import Shared from "./pages/Shared";
+import DocumentDetailt from "./components/documents/documentDetails"
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -33,6 +34,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="shared" element={<Shared />} />
                         <Route path="post/:id" element={<PostDetailt />} />
+                        <Route path="document/:id" element={<DocumentDetailt />} />
                       </Route>
                     )}
                   </Route>

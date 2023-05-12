@@ -7,14 +7,14 @@ function DocumentCard({ document }) {
   return (
     <Box width={"100%"} display={"flex"} justifyContent={"center"} p={2}>
       <Box
-        width={"250px"}
-        height={"300px"}
+        width={"180px"}
+        height={"220px"}
         sx={{ backgroundColor: "white" }}
         borderRadius={1}
         textAlign={"center"}
         boxShadow={3}
       >
-        <Box width={"100%"} height={"180px"} overflow={"hidden"}>
+        <Box width={"100%"} height={"150px"} overflow={"hidden"}>
           <img src={document.thumbnail} alt="?" width={"100%"} />
         </Box>
         <Box width={"100%"} height={"84px"} textAlign={"start"} p={1}>

@@ -128,11 +128,11 @@ function ListDocuments() {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 7,
+    slidesToScroll: 7,
   };
   return (
-    <Box width={"100%"} maxWidth={"100%"} pt={2}>
+    <Box width={"100%"} maxWidth={"100%"} pt={0} p={2}>
       <Typography style={{fontWeight:600}} mb={-1}>Mới nhất</Typography>
       <Slider {...settings} prevArrow={<></>} nextArrow={<></>}>
         {documents.map((document, index) => (

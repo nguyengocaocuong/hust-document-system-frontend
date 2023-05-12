@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import BoxFull from "../../../containers/BoxFull";
 import { Box } from "@mui/material";
 import { useGetAllPostsQuery } from "../../../services/PostService";
-import PostDetailtHeader from "./PostDetailtHeader";
-import PostDetailtContent from "./PostDetailtContent";
-import PostCardDetailtActions from "./PostCardDetailtActions";
-import PostDetailtComment from "./PostDetailtComment";
-import PostDetailtAnswer from "./PostDetailtAnswer";
-const MemoizedChildComponent = React.memo(PostDetailtContent);
+import DocumentDetailtContent from "./DocumentDetailtContent";
+import DocumentCardDetailtActions from "./DocumentCardDetailtActions";
+import DocumentDetailtComment from "./DocumentDetailtComment";
+import DocumentDetailtAnswer from "./DocumentDetailtAnswer";
+import DocumentDetailtHeader from "./DocumentDetailtHeader";
+const MemoizedChildComponent = React.memo(DocumentDetailtContent);
 
 function PostDetailt() {
   const { data } = useGetAllPostsQuery();
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(1);
   const handleSelectedId = (id) => {
     setSelectedId(id === selectedId ? null : id);
   };
@@ -26,8 +26,8 @@ function PostDetailt() {
             <MemoizedChildComponent />
         </Box>
         <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
-          <PostDetailtHeader data={data?.content[0]} />
-          <PostCardDetailtActions
+          <DocumentDetailtHeader data={data?.content[0]} />
+          <DocumentCardDetailtActions
             handleSelectedId={handleSelectedId}
             selectedId={selectedId}
           />
@@ -41,9 +41,9 @@ function PostDetailt() {
             {selectedId === null ? (
               <></>
             ) : selectedId === 2 ? (
-              <PostDetailtComment />
+              <DocumentDetailtComment />
             ) : (
-              <PostDetailtAnswer />
+              <DocumentDetailtAnswer />
             )}
           </Box>
         </Box>

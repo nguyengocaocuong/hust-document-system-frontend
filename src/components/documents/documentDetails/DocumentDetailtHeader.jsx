@@ -1,9 +1,9 @@
-import { Avatar, Box, Chip, Typography } from "@mui/material";
+import { Avatar, Box, Chip, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { red } from "@mui/material/colors";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import FlagIcon from "@mui/icons-material/Flag";
-function PostDetailtHeader({ data = {owner: {name: 'Nguyen Ngo Cao Cuong'}, subject:{name:'Math II'}} }) {
+function DocumentDetailtHeader({ data = {owner:{name:'Nguyen Ngo Cao Cuong'}, subject:{name:'MATH II'}} }) {
   return (
     <Box
       width={"100%"}
@@ -49,4 +49,5 @@ function PostDetailtHeader({ data = {owner: {name: 'Nguyen Ngo Cao Cuong'}, subj
   );
 }
 
-export default PostDetailtHeader;
+export default DocumentDetailtHeader;
+
