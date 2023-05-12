@@ -2,13 +2,14 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import ListDocuments from "../components/documents/listDocuments";
 import TableDocuments from "../components/documents/tableDocuments";
-import Filter from "../components/Filter";
 import {
   FileTypeFilter,
   DocumentTypeFilter,
   SemesterFilter,
   SubjectCodeFilter,
 } from "../settings/sharedSetting";
+import Filter from "../components/Filter";
+
 function Shared() {
   return (
     <Box
