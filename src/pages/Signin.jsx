@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import BoxBetween from "../containers/BoxBetween";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";

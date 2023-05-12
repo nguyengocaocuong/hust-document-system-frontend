@@ -1,7 +1,6 @@
 import React from "react";
 import BoxFull from "../../../containers/BoxFull";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import { useParams } from "react-router-dom";
 
 function DocumentDetailtContent({
   data = {
@@ -42,7 +41,6 @@ function DocumentDetailtContent({
     ],
   },
 }) {
-  const params = useParams()
   const docs = [
     {
       uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/docx`,

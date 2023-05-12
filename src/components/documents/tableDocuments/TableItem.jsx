@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import avatar from "../../../assets/images/avatar/05.jpg";
 import { getIconForDocByFileName } from "../../../utils/DocumentUtils";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
