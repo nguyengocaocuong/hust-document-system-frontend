@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 function Content() {
   return (
     <BoxFull>
-      <Header width={'100%'}/>
+      <Header />
       <Box width={'100%'} height={'calc(100vh - 72px)'} overflow={'hidden'}>
         <Outlet />
       </Box>

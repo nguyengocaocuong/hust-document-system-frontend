@@ -123,7 +123,7 @@ const documents = [
     type: "FILE",
   },
 ];
-function ListDocuments() {
+function ListDocuments({title}) {
   const settings = {
     dots: false,
     infinite: true,
@@ -133,7 +133,7 @@ function ListDocuments() {
   };
   return (
     <Box width={"100%"} maxWidth={"100%"} pt={0} p={2} height={'270px'}>
-      <Typography style={{fontWeight:600}} mb={-1}>Mới nhất</Typography>
+      <Typography style={{fontWeight:600}} mb={-1}>{title}</Typography>
       <Slider {...settings} prevArrow={<></>} nextArrow={<></>}>
         {documents.map((document, index) => (
           <DocumentCard document={document} key={index} />

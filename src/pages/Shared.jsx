@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, IconButton, Typography } from "@mui/material";
 import ListDocuments from "../components/documents/listDocuments";
 import TableDocuments from "../components/documents/tableDocuments";
 import {
@@ -9,20 +9,31 @@ import {
   SubjectCodeFilter,
 } from "../settings/sharedSetting";
 import Filter from "../components/Filter";
-
+import GridViewIcon from "@mui/icons-material/GridView";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 function Shared() {
+  const [type, setType] = useState(false);
   return (
     <Box
-      pt={2}
       width={"100%"}
       height={"100%"}
-      overflow={"hidden"}
+      overflow={"auto"}
       sx={{ backgroundColor: "white" }}
     >
-      <Box pt={0} p={2} pb={0} maxHeight={"80px"} height={"80px"}>
-        <Typography variant="h4" color={"text.secondary"}>
-          Tài liệu được chia sẻ
-        </Typography>
+     <Box m={2}  maxHeight={"60px"} height={"60px"}>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Typography variant="h4" color={"text.secondary"}>
+            Tài liệu được chia sẻ
+          </Typography>
+          <IconButton onClick={() => setType(!type)}>
+            {type ? <PlaylistAddCheckIcon /> : <GridViewIcon />}
+          </IconButton>
+        </Box>
+
         <Filter
           data={[
             FileTypeFilter,
@@ -32,7 +43,7 @@ function Shared() {
           ]}
         />
       </Box>
-      <ListDocuments />
+      <ListDocuments title={"Vừa được chia sẻ"}/>
       <TableDocuments />
     </Box>
   );

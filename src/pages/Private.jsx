@@ -4,7 +4,11 @@ import { Outlet } from "react-router-dom";
 
 function Private() {
   return (
-    <Box p={2}>
+    <Box
+      sx={{ backgroundColor: "white" }}
+      height={"100%"}
+      maxHeight={"100%"}
+    >
       <Outlet />
     </Box>
   );

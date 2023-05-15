@@ -17,6 +17,7 @@ import DocumentDetailt from "./components/documents/documentDetails";
 import Private from "./pages/Private";
 import Posted from "./pages/Posted";
 import Document from "./pages/Document";
+import Favorite from "./pages/Favorite";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -44,6 +45,7 @@ function App() {
                         <Route path="private" element={<Private />}>
                           <Route index path="document" element={<Document />} />
                           <Route index path="posted" element={<Posted />} />
+                          <Route index path="favorite" element={<Favorite />} />
                         </Route>
                       </Route>
                     )}

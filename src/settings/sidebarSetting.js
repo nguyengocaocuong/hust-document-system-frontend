@@ -71,7 +71,7 @@ const userSidebarItem = [
         title: "Yêu thích",
         to: "/private/favorite",
         Icon: FavoriteBorderIcon,
-        selectedColor: "white",
+        selectedColor: "red",
       },
       {
         type: "ITEM",
