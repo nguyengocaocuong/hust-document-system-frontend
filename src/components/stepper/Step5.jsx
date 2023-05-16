@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const Step5 = ({ save }) => {
+const Step5 = ({ reset }) => {
   return (
     <BoxBetween>
       <Box border={"1px dotted gray"} textAlign={"center"} p={2}>
@@ -20,7 +20,7 @@ const Step5 = ({ save }) => {
             Đăng bài thành công
           </Typography>
         </Box>
-        <Button variant="contained" sx={{textTransform:'none'}} onClick={save}>Viết bài mới</Button>
+        <Button variant="contained" sx={{textTransform:'none'}} onClick={reset}>Viết bài mới</Button>
       </Box>
     </BoxBetween>
   );

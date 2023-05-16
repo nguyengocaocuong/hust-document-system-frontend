@@ -13,9 +13,6 @@ function Writing() {
     type: null,
     content: null,
   });
-  const handleNextStep = () => {
-    setData({ ...data, activeStep: data.activeStep + 1 });
-  };
   const selectType = (type) => {
     setData({ ...data, activeStep: data.activeStep + 1, type });
   };
@@ -41,6 +38,13 @@ function Writing() {
     });
     console.log(data);
   };
+  const newPost = () => {
+    setData({
+      activeStep: 0,
+      type: null,
+      content: null,
+    });
+  };
   return (
     <Box width={"100%"} height={"100%"} sx={{ backgroundColor: "white" }}>
       <Stepper activeStep={data.activeStep} />
@@ -52,7 +56,7 @@ function Writing() {
         {data.activeStep === 2 && <Step3 setContent={setContent} data={data} />}
         {data.activeStep === 3 && <Step4 setting={setting} data={data} />}
         {data.activeStep === 4 && (
-          <Step5 handleNextStep={handleNextStep} data={data} />
+          <Step5 reset={newPost} data={data} />
         )}
       </Box>
     </Box>

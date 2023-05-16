@@ -2,7 +2,6 @@ import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
 import React from "react";
 import SearchBox from "../../components/SearchBox";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
-import avatar from "../../assets/images/avatar/06.jpg";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { useSelector } from "react-redux";
 
@@ -42,7 +41,7 @@ function Header() {
             <NotificationsActiveOutlinedIcon style={{ fontSize: "25px" }} />
           </Badge>
         </IconButton>
-        <Avatar alt="Remy Sharp" src={avatar} />
+        <Avatar alt="Remy Sharp" src={user.avatar} />
         <Box ml={"5px"}>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             {`${user.firstName} ${user.lastName}`}

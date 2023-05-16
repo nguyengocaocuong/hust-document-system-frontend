@@ -17,6 +17,13 @@ function Editor({editorState, setEditorState}) {
       toolbarClassName="toolbarClassName"
       editorState={editorState}
       onEditorStateChange={setEditorState}
+      toolbar={{
+        inline: { inDropdown: true },
+        list: { inDropdown: true },
+        textAlign: { inDropdown: true },
+        link: { inDropdown: true },
+        history: { inDropdown: true },
+      }}
     />
   );
 }

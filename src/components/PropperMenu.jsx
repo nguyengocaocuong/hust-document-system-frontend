@@ -61,7 +61,7 @@ const PropperMenu = ({ icon = <MoreVertIcon />, action }) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {action.map((ac, index) => (
-          <MenuItem onClick={() => ac.handle(handleCloseSettingOpen)} sx={{'&:hover':{backgroundColor:'#DDE2EE'}}}>
+          <MenuItem key={index} onClick={() => ac.handle(handleCloseSettingOpen)} sx={{'&:hover':{backgroundColor:'#DDE2EE'}}}>
             {ac.icon} {ac.label}
           </MenuItem>
         ))}

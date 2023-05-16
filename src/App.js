@@ -17,14 +17,16 @@ import DocumentDetailt from "./components/documents/documentDetails";
 import Private from "./pages/Private";
 import Posted from "./pages/Posted";
 import Document from "./pages/Document";
-import Favorite from "./pages/Favorite";
 import Writing from "./pages/Writing";
 import Editor from "./components/editor";
 import Profile from "./pages/Profile";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Education from "./pages/education";
-import EducationDocument from "./pages/education/Document";
+import Subject from "./pages/education/Subject";
+import Review from "./pages/education/Review";
+import SubjectDetail from "./pages/education/SubjectDetail";
+import Favorite from "./pages/Favorite";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -32,48 +34,72 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <BrowserRouter>
-          <ProSidebarProvider>
-            <CssBaseline />
-            <BoxFull>
-              <BoxFull maxHeight={"100vh"}>
-                <Routes>
-                  <Route path="/" element={<WebLayout />}>
-                    {isLogin && user?.roleType === "ADMIN" ? (
-                      <Route path="/" element={<div>Admin Layout</div>}></Route>
-                    ) : (
-                      <Route path="/" element={<UserLayout />}>
-                        <Route index element={<Home />} />
-                        <Route path="writing" element={<Writing />} />
-                        <Route path="shared" element={<Shared />} />
-                        <Route path="editor" element={<Editor />} />
-                        <Route path="post/:id" element={<PostDetailt />} />
+          <BrowserRouter>
+            <ProSidebarProvider>
+              <CssBaseline />
+              <BoxFull>
+                <BoxFull maxHeight={"100vh"}>
+                  <Routes>
+                    <Route path="/" element={<WebLayout />}>
+                      {isLogin && user?.roleType === "ADMIN" ? (
                         <Route
-                          path="document/:id"
-                          element={<DocumentDetailt />}
-                        />
-                        <Route path="education" element={<Education/>}>
-                          <Route index path="document" element={<EducationDocument/>}/>
-                        </Route>
+                          path="/"
+                          element={<div>Admin Layout</div>}
+                        ></Route>
+                      ) : (
+                        <Route path="/" element={<UserLayout />}>
+                          <Route index element={<Home />} />
+                          <Route path="writing" element={<Writing />} />
+                          <Route path="shared" element={<Shared />} />
+                          <Route path="editor" element={<Editor />} />
+                          <Route path="post/:id" element={<PostDetailt />} />
+                          <Route
+                            path="document/:id"
+                            element={<DocumentDetailt />}
+                          />
+                          <Route path="education" element={<Education />}>
+                            <Route
+                              index
+                              path="document"
+                              element={<Subject />}
+                            />
+                            <Route
+                              index
+                              path="document/:id"
+                              element={<SubjectDetail />}
+                            />
+                            <Route index path="review" element={<Review />} />
+                          </Route>
 
-                        <Route path="private" element={<Private />}>
-                          <Route index path="document" element={<Document />} />
-                          <Route index path="posted" element={<Posted />} />
-                          <Route index path="favorite" element={<Favorite />} />
-                          <Route index path="profile" element={<Profile />} />
+                          <Route path="private" element={<Private />}>
+                            <Route
+                              index
+                              path="document"
+                              element={<Document />}
+                            />
+                            <Route index path="posted" element={<Posted />} />
+                            <Route
+                              index
+                              path="favorite"
+                              element={<Favorite />}
+                            />
+                            <Route index path="profile" element={<Profile />} />
+                          </Route>
                         </Route>
-                      </Route>
-                    )}
-                  </Route>
-                  <Route path="sign-in" element={<Signin />} />
-                  <Route path="sign-in" element={<Signin />} />
-                  <Route path="sign-up" element={<Signup />} />
-                  <Route path="forgot-password" element={<ForgotPassword />} />
-                </Routes>
+                      )}
+                    </Route>
+                    <Route path="sign-in" element={<Signin />} />
+                    <Route path="sign-in" element={<Signin />} />
+                    <Route path="sign-up" element={<Signup />} />
+                    <Route
+                      path="forgot-password"
+                      element={<ForgotPassword />}
+                    />
+                  </Routes>
+                </BoxFull>
               </BoxFull>
-            </BoxFull>
-          </ProSidebarProvider>
-        </BrowserRouter>
+            </ProSidebarProvider>
+          </BrowserRouter>
         </LocalizationProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
