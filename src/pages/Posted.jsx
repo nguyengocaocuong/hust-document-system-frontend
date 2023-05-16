@@ -1,7 +1,5 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
-import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-import PreviewIcon from "@mui/icons-material/Preview";
 import MultipleSelect from "../components/MultipleSelect";
 function Posted() {
   return (
@@ -33,31 +31,13 @@ function Posted() {
               </Typography>
               <Box p={1} pt={2}>
                 <Stack spacing={1.5}>
-                  <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    color={"red"}
-                    sx={{ color: "red" }}
-                  >
-                    <HistoryEduIcon sx={{ fontSize: "20px" }} />{" "}
-                    <Typography variant="h5">Hỏi đáp</Typography>
-                  </Box>
-                  <Box display={"flex"} alignItems={"center"}>
-                    <PreviewIcon
-                      sx={{ fontSize: "20px", color: "text.primary" }}
-                    />{" "}
-                    <Typography variant="h5" color={"text.primary"}>
-                      Review giảng viên
-                    </Typography>
-                  </Box>
-                  <Box display={"flex"} alignItems={"center"}>
-                    <PreviewIcon
-                      sx={{ fontSize: "20px", color: "text.primary" }}
-                    />{" "}
-                    <Typography variant="h5" color={"text.primary"}>
-                      Review môn học
-                    </Typography>
-                  </Box>
+                  <Typography variant="h5">Hỏi đáp</Typography>
+                  <Typography variant="h5" color={"text.primary"}>
+                    Review giảng viên
+                  </Typography>
+                  <Typography variant="h5" color={"text.primary"}>
+                    Review môn học
+                  </Typography>
                 </Stack>
               </Box>
             </Box>
@@ -122,7 +102,9 @@ function Posted() {
           </Typography>
           <Box p={2}>
             <Grid container spacing={1}>
-              <Grid item xl={6}>d</Grid>
+              <Grid item xl={6}>
+                d
+              </Grid>
             </Grid>
           </Box>
         </Box>

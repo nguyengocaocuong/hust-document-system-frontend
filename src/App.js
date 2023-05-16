@@ -23,6 +23,8 @@ import Editor from "./components/editor";
 import Profile from "./pages/Profile";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Education from "./pages/education";
+import EducationDocument from "./pages/education/Document";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -50,6 +52,10 @@ function App() {
                           path="document/:id"
                           element={<DocumentDetailt />}
                         />
+                        <Route path="education" element={<Education/>}>
+                          <Route index path="document" element={<EducationDocument/>}/>
+                        </Route>
+
                         <Route path="private" element={<Private />}>
                           <Route index path="document" element={<Document />} />
                           <Route index path="posted" element={<Posted />} />

@@ -1,0 +1,2 @@
+const beautifulColors = ['#FFC107', '#FF5722', '#4CAF50', '#2196F3', '#9C27B0', '#673AB7', '#F44336', '#E91E63', '#3F51B5', '#FFEB3B', '#CDDC39', '#00BCD4', '#FF9800', '#607D8B', '#795548', '#009688', '#8BC34A', '#FF5252', '#3F729B', '#9B3F73'];
+export const colorRanger = ()=> beautifulColors[Math.round(Math.random()*100) % beautifulColors.length]

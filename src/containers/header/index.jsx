@@ -4,8 +4,10 @@ import SearchBox from "../../components/SearchBox";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import avatar from "../../assets/images/avatar/06.jpg";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import { useSelector } from "react-redux";
 
-function index() {
+function Header() {
+  const {user} = useSelector(state => state.authentication)
   return (
     <Box
       width={"100%"}
@@ -43,7 +45,7 @@ function index() {
         <Avatar alt="Remy Sharp" src={avatar} />
         <Box ml={"5px"}>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Nguyễn Ngô Cao Cường
+            {`${user.firstName} ${user.lastName}`}
           </Typography>
           <Box
             p="0"
@@ -64,4 +66,4 @@ function index() {
   );
 }
 
-export default index;
+export default Header;
