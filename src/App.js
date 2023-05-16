@@ -19,12 +19,17 @@ import Posted from "./pages/Posted";
 import Document from "./pages/Document";
 import Favorite from "./pages/Favorite";
 import Writing from "./pages/Writing";
+import Editor from "./components/editor";
+import Profile from "./pages/Profile";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <BrowserRouter>
           <ProSidebarProvider>
             <CssBaseline />
@@ -39,6 +44,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="writing" element={<Writing />} />
                         <Route path="shared" element={<Shared />} />
+                        <Route path="editor" element={<Editor />} />
                         <Route path="post/:id" element={<PostDetailt />} />
                         <Route
                           path="document/:id"
@@ -48,6 +54,7 @@ function App() {
                           <Route index path="document" element={<Document />} />
                           <Route index path="posted" element={<Posted />} />
                           <Route index path="favorite" element={<Favorite />} />
+                          <Route index path="profile" element={<Profile />} />
                         </Route>
                       </Route>
                     )}
@@ -61,6 +68,7 @@ function App() {
             </BoxFull>
           </ProSidebarProvider>
         </BrowserRouter>
+        </LocalizationProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

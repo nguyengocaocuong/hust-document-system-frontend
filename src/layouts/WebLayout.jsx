@@ -2,8 +2,11 @@ import React from "react";
 import BoxFull from "../containers/BoxFull";
 import Sidebar from "../containers/sidebar";
 import Content from "../containers/content";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 function WebLayout() {
-  return (
+  const { isLogin } = useSelector((state) => state.authentication);
+  return isLogin ? (
     <BoxFull
       maxHeight={"100vh"}
       maxWidth={"100vw"}
@@ -14,6 +17,8 @@ function WebLayout() {
       <Sidebar />
       <Content />
     </BoxFull>
+  ) : (
+    <Navigate to={"/sign-in"} replace />
   );
 }
 

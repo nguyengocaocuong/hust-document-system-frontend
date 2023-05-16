@@ -1,0 +1,28 @@
+import React from "react";
+import BoxBetween from "../../containers/BoxBetween";
+import {
+  Box,
+  Button,
+  Typography,
+} from "@mui/material";
+
+const Step5 = ({ save }) => {
+  return (
+    <BoxBetween>
+      <Box border={"1px dotted gray"} textAlign={"center"} p={2}>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          pb={2}
+        >
+          <Typography variant="h3" color={"text.secondary"}>
+            Đăng bài thành công
+          </Typography>
+        </Box>
+        <Button variant="contained" sx={{textTransform:'none'}} onClick={save}>Viết bài mới</Button>
+      </Box>
+    </BoxBetween>
+  );
+};
+export default Step5;

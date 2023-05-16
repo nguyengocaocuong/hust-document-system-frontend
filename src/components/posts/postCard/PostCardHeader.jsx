@@ -17,9 +17,9 @@ function PostCardHeader({ data }) {
           aria-label="recipe"
           src={avatar[Math.round(Math.random() * 10) % 4]}
         >
-          {data.owner.name.substring(
-            data.owner.name.lastIndexOf(" ") + 1,
-            data.owner.name.lastIndexOf(" ") + 2
+          {data.owner.lastName.substring(
+            data.owner.lastName.lastIndexOf(" ") + 1,
+            data.owner.lastName.lastIndexOf(" ") + 2
           )}
         </Avatar>
       }
@@ -36,7 +36,7 @@ function PostCardHeader({ data }) {
           </IconButton>
         </Box>
       }
-      title={data.owner.name}
+      title={`${data.owner.firstName} ${data.owner.lastName}`}
       subheader={data.owner.createAt}
     />
   );

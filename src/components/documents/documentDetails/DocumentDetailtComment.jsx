@@ -25,7 +25,7 @@ const commentData = [
 function DocumentDetailtComment() {
   const [data, setData] = useState(commentData);
   return (
-    <Box width={"100%"} sx={{backgroundColor:'red'}}>
+    <Box width={"100%"} >
       <CommentSection
         currentUser={{
           currentUserId: "01a",

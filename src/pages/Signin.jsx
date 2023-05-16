@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import BoxBetween from "../containers/BoxBetween";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
@@ -11,18 +11,15 @@ import {
   useTheme,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
-  useGenerateTokenMutation,
   useLoginMutation,
 } from "../services/AuthService";
 import { useSelector } from "react-redux";
-import { convertJsonToFormData } from "../utils/ConvertData";
 function Signin() {
   const theme = useTheme();
   const [login] = useLoginMutation();
-  const {isLogin} = useSelector(state => state.authentication)
-  const [generateToken] = useGenerateTokenMutation();
+  const { isLogin } = useSelector((state) => state.authentication);
   const [creadentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -34,16 +31,10 @@ function Signin() {
   const handleLogin = async () => {
     if (creadentials.email === "" || creadentials.password === "") return;
     await login(creadentials);
-    if (isLogin) {
-      await generateToken(convertJsonToFormData(creadentials));
-    }
-    setCredentials({
-      email: "",
-      password: "",
-    });
   };
-
-  return (
+  return isLogin  ? (
+    <Navigate to={"/"} replace />
+  ) : (
     <Box height={"100vh"} width={"100vw"}>
       <BoxBetween>
         <Box
@@ -67,17 +58,18 @@ function Signin() {
             </Box>
             <Box display={"flex"} justifyContent={"center"}>
               <Typography variant="h3" mb={"16px"} mt={"10px"}>
-                Sign In
+                Đăng nhập
               </Typography>
             </Box>
             <Box display={"flex"} justifyContent={"center"}>
               <Typography variant="h4" mb={"16px"} color={"text.secondary"}>
-                Login to Hust Document
+                Đăng nhập vào Hust Document
               </Typography>
             </Box>
             <Box width={"100%"}>
               <Box mb={2} mt={2}>
                 <TextField
+                  required
                   inputProps={{
                     style: {
                       fontSize: "17px",
@@ -90,7 +82,7 @@ function Signin() {
                   }}
                   sx={{ width: "100%" }}
                   name="email"
-                  label="Enter your email"
+                  label="Email"
                   variant="outlined"
                   value={creadentials.email}
                   style={{ fontSize: "17px" }}
@@ -100,6 +92,8 @@ function Signin() {
               </Box>
               <Box mb={2}>
                 <TextField
+                  required
+                  type="password"
                   inputProps={{
                     style: {
                       fontSize: "17px",
@@ -112,7 +106,7 @@ function Signin() {
                   }}
                   sx={{ width: "100%" }}
                   name="password"
-                  label="Enter your password"
+                  label="Password"
                   variant="outlined"
                   value={creadentials.password}
                   onChange={handleOnChange}
@@ -125,7 +119,7 @@ function Signin() {
                 alignItems={"center"}
               >
                 <FormControlLabel
-                  label="Remember me"
+                  label="Nhớ mật khẩu"
                   name="remember"
                   componentsProps={{ typography: { variant: "h5" } }}
                   control={
@@ -143,7 +137,7 @@ function Signin() {
                     }}
                     to={"/forgot-password"}
                   >
-                    Forgot password
+                    Bạn quên mật khẩu?
                   </Link>
                 </Typography>
               </Box>
@@ -152,17 +146,17 @@ function Signin() {
                   variant="contained"
                   onClick={handleLogin}
                   sx={{
-                    textTransform: "capitalize",
+                    textTransform: "none",
                     fontSize: "18px",
                     border: "5px",
                   }}
                 >
-                  SignIn
+                  Đăng nhập
                 </Button>
               </BoxBetween>
               <BoxBetween>
                 <Typography variant="h4">
-                  Create account{" "}
+                  Tạo tài khoản mới{" "}
                   <Link
                     style={{
                       textDecoration: "none",

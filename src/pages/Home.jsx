@@ -6,10 +6,9 @@ import Recommend from "../containers/recommend";
 
 function Home() {
   const { data } = useGetAllPostsQuery();
-
   return (
-    <Box width={"100%"} display={'flex'} height={'100%'}>
-      <Box width={"300%"} borderRight="1px solid #D8D9D9" overflow={'auto'}>
+    <Box width={"100%"} display={"flex"} height={"100%"}>
+      <Box width={"300%"} borderRight="1px solid #D8D9D9" overflow={"auto"}>
         <Box display={"flex"} justifyContent={"center"}>
           <Box width={"60%"} maxWidth={"500px"} pt={2} pb={2}>
             <Stack spacing={2}>

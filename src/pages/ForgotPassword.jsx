@@ -18,76 +18,81 @@ function ForgotPassword() {
     setEmail("");
   };
   return (
-    <BoxBetween>
-      <Box
-        maxWidth={"450px"}
-        width={"90%"}
-        p={"30px"}
-        border={1}
-        borderColor={"#f1f1f1"}
-        borderRadius={1}
-        boxShadow={4}
-      >
-        <Box width={"100%"}>
-          {/* LOGO */}
-          <Box display={"flex"} justifyContent={"space-around"} width={"100%"}>
-            <img src={logo} height={"40px"} alt="" />
-            <img src={logoWhite} height={"40px"} alt="" />
-          </Box>
-          {/* TITLE */}
-          <Box display={"flex"} justifyContent={"center"}>
-            <Typography
-              variant="h2"
-              mb={"16px"}
-              mt={"10px"}
-              color={theme.palette.text.secondary}
-            >
-              Reset Password
-            </Typography>
-          </Box>
-          <Box display={"flex"} justifyContent={"center"}>
-            <Typography variant="h5" mb={"16px"} sx={{ textAlign: "center" }}>
-              Enter your email address and we'll send you an email with
-              instructions to reset your password.
-            </Typography>
-          </Box>
-          {/* FORM */}
+    <Box height={"100vh"} width={"100vw"}>
+      <BoxBetween>
+        <Box
+          maxWidth={"450px"}
+          width={"90%"}
+          p={"30px"}
+          border={1}
+          borderColor={"#f1f1f1"}
+          borderRadius={1}
+          boxShadow={4}
+        >
           <Box width={"100%"}>
-            <Box mb={2} mt={2}>
-              <TextField
-                inputProps={{
-                  style: {
-                    fontSize: "17px",
-                  },
-                }}
-                InputLabelProps={{
-                  style: {
-                    fontSize: "17px",
-                  },
-                }}
-                sx={{ width: "100%" }}
-                name="email"
-                label="Enter your email"
-                variant="outlined"
-                value={email}
-                style={{ fontSize: "17px" }}
-                onChange={handleOnChange}
-                size="medium"
-              />
+            {/* LOGO */}
+            <Box
+              display={"flex"}
+              justifyContent={"space-around"}
+              width={"100%"}
+            >
+              <img src={logo} height={"40px"} alt="" />
+              <img src={logoWhite} height={"40px"} alt="" />
             </Box>
-            <BoxBetween mb={"16px"} mt={3}>
-              <Button
-                variant="contained"
-                onClick={handleResetPassword}
-                sx={{ textTransform: "capitalize", fontSize: "18px" }}
+            {/* TITLE */}
+            <Box display={"flex"} justifyContent={"center"}>
+              <Typography
+                variant="h2"
+                mb={"16px"}
+                mt={"10px"}
+                color={theme.palette.text.secondary}
               >
-                Reset
-              </Button>
-            </BoxBetween>
+                Đặt lại mật khẩu
+              </Typography>
+            </Box>
+            <Box display={"flex"} justifyContent={"center"}>
+              <Typography variant="h5" mb={"16px"} sx={{ textAlign: "center" }}>
+                Nhập tài khoản email của bạn vào bên dưới, chúng tôi sẽ gửi cho bạn một email đặt lại mật khẩu
+              </Typography>
+            </Box>
+            {/* FORM */}
+            <Box width={"100%"}>
+              <Box mb={2} mt={2}>
+                <TextField
+                  inputProps={{
+                    style: {
+                      fontSize: "17px",
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: {
+                      fontSize: "17px",
+                    },
+                  }}
+                  sx={{ width: "100%" }}
+                  name="email"
+                  label="Nhập email của bạn"
+                  variant="outlined"
+                  value={email}
+                  style={{ fontSize: "17px" }}
+                  onChange={handleOnChange}
+                  size="medium"
+                />
+              </Box>
+              <BoxBetween mb={"16px"} mt={3}>
+                <Button
+                  variant="contained"
+                  onClick={handleResetPassword}
+                  sx={{ textTransform: "capitalize", fontSize: "18px" }}
+                >
+                  Xác nhận
+                </Button>
+              </BoxBetween>
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </BoxBetween>
+      </BoxBetween>
+    </Box>
   );
 }
 

@@ -13,6 +13,7 @@ import StepConnector, {
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import CreateIcon from "@mui/icons-material/Create";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box } from "@mui/material";
 const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
@@ -118,6 +119,7 @@ function ColorlibStepIcon(props) {
     2: <EmojiObjectsIcon />,
     3: <CreateIcon />,
     4: <SaveAsIcon />,
+    5: <CheckCircleIcon />,
   };
 
   return (
@@ -153,6 +155,7 @@ const steps = [
   "Chọn đối tượng viết bài",
   "Viết bài",
   "Lưu bài viết",
+  "Hoàn thành"
 ];
 
 function Stepper({activeStep = 0}) {

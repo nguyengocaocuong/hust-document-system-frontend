@@ -4,7 +4,6 @@ import { authApi } from "../services/AuthService";
 const initialState = {
   isLogin: false,
   user: null,
-  token: null,
 };
 
 export const authState = createSlice({
@@ -18,15 +17,9 @@ export const authState = createSlice({
         console.log(action.payload);
         state.isLogin = true;
         state.user = action.payload;
-        state.token = null;
       }
     );
-    builder.addMatcher(
-      authApi.endpoints.generateToken.matchFulfilled,
-      (state, action) => {
-        state.token = action.payload
-      }
-    );
+   
   },
 });
 

@@ -20,9 +20,9 @@ function DocumentDetailtHeader({ data = {owner:{name:'Nguyen Ngo Cao Cuong'}, su
           aria-label="recipe"
           src={data.owner.avatar}
         >
-          {data.owner.name.substring(
-            data.owner.name.lastIndexOf(" ") + 1,
-            data.owner.name.lastIndexOf(" ") + 2
+          {data.owner.firstName.substring(
+            data.owner.firstName.lastIndexOf(" ") + 1,
+            data.owner.firstName.lastIndexOf(" ") + 2
           )}
         </Avatar>
         <Typography variant="h6" ml="10px">

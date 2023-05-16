@@ -9,6 +9,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       padding: 0,
+      maxHeight:'300px'
     },
   },
 };
@@ -18,10 +19,13 @@ export default function MultipleSelect({
   title,
   width,
   hiddenTitle = false,
+  all = true,
+  handle
 }) {
   const [selected, setSelectedId] = React.useState();
   const handleChange = (event) => {
     setSelectedId(event.target.value);
+    handle(event.target.value)
   };
   const [key, setKey] = React.useState("");
   return (
@@ -94,17 +98,19 @@ export default function MultipleSelect({
               {item.label}
             </MenuItem>
           ))}
-          <MenuItem
-            value={null}
-            sx={{
-              textAlign: "start",
-              pl: 1,
-              pt: 1,
-              "&:hover": { backgroundColor: "#C9CFDB" },
-            }}
-          >
-            <Typography style={{ marginLeft: "5px" }}>Tất cả</Typography>
-          </MenuItem>
+          {all && (
+            <MenuItem
+              value={null}
+              sx={{
+                textAlign: "start",
+                pl: 1,
+                pt: 1,
+                "&:hover": { backgroundColor: "#C9CFDB" },
+              }}
+            >
+              <Typography style={{ marginLeft: "5px" }}>Tất cả</Typography>
+            </MenuItem>
+          )}
         </Select>
       </FormControl>
     </div>
