@@ -17,9 +17,9 @@ const userSidebarItem = [
   {
     type: "ITEM",
     title: "Đăng bài",
-    to: "/new",
+    to: "/writing",
     Icon: PostAddIcon,
-    selectedColor: "white",
+    selectedColor: "red",
   },
 
   {
@@ -27,7 +27,7 @@ const userSidebarItem = [
     title: "Được chia sẻ",
     to: "/shared",
     Icon: ShareIcon,
-    selectedColor: "white",
+    selectedColor: "red",
   },
   {
     type: "SUB_ITEM",

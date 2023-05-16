@@ -1,126 +1,132 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Paper,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
-import BoxBetween from "../containers/BoxBetween";
-import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
-import { Link } from "react-router-dom";
-import backgroundImage from "../assets/images/background.png";
-import folder1 from "../assets/images/folder-1.png";
-import folder2 from "../assets/images/folder-2.png";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import PreviewIcon from "@mui/icons-material/Preview";
+import MultipleSelect from "../components/MultipleSelect";
 function Posted() {
-  const theme = useTheme();
   return (
-    <Box width={"100%"}>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Paper elevation={3}>
-            <Box p="20px" pb="35px">
-              <Grid container spacing={2}>
-                <Grid item xs={8}>
-                  <Box width={"100%"} maxWidth={"400px"}>
-                    <Typography
-                      variant="h3"
-                      color={theme.palette.text.secondary}
-                      mb="15px"
-                    >
-                      Xin chào {'Nguyễn Ngô Cao Cường'}
-                    </Typography>
-                    <Typography variant="h5" mb="45px">
-                      Bạn có 5 bài review giảng viên, 2 bài review môn học cần hoàn thành
-                    </Typography>
-                    <Link
-                      to={"/"}
-                      style={{ textDecoration: "none", cursor: "pointer" }}
-                    >
-                      <Typography
-                        variant="h4"
-                        display={"flex"}
-                        alignItems={"center"}
-                      >
-                        Xem danh sách{" "}
-                        <ArrowForwardOutlinedIcon
-                          color={theme.palette.background.main}
-                          style={{ fontSize: "18px", marginLeft: "8px" }}
-                        />
-                      </Typography>
-                    </Link>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-                  <img src={backgroundImage} width={"100%"} height={"115%"} />
-                </Grid>
-              </Grid>
-            </Box>
-          </Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper elevation={3}>
-            <Box p="20px">
+    <Box width={"100%"} height={"100%"}>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        width={"100%"}
+        height={"100%"}
+      >
+        <Box
+          width={"25%"}
+          height={"100%"}
+          borderRight="1px solid #D8D9D9"
+          sx={{ backgroundColor: "white" }}
+          p={2}
+          display={"flex"}
+          a
+          justifyContent={"center"}
+        >
+          <Stack spacing={4}>
+            <Box>
               <Typography
                 variant="h3"
-                color={theme.palette.text.secondary}
-                mb="15px"
+                color={"text.secondary"}
+                sx={{ fontWeight: "bold" }}
               >
-                Truy cập nhanh
+                Bài viết của bạn
               </Typography>
-              <Box
-                display={"flex"}
-                justifyContent={"space-around"}
-                width={"100%"}
-              >
-                <Card sx={{ width: "47%"}}>
-                  <CardMedia
-                    component="img"
-                    image={folder1}
-                    alt="Paella dish"
-                    sx={{ marginBottom: "15px", padding: "9px", width:'120px', height:'120px'}}
-                  />
-                  <CardContent
-                    sx={{ margin: "0", padding: "0", maxHeight: "35px" }}
+              <Box p={1} pt={2}>
+                <Stack spacing={1.5}>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    color={"red"}
+                    sx={{ color: "red" }}
                   >
-                    <BoxBetween>
-                      <Typography
-                        variant="h5"
-                        color={theme.palette.text.primary}
-                      >
-                        Review giảng viên
-                      </Typography>
-                    </BoxBetween>
-                  </CardContent>
-                </Card>
-                <Card sx={{ width: "47%" }}>
-                  <CardMedia
-                    component="img"
-                    image={folder2}
-                    alt="Paella dish"
-                    sx={{ marginBottom: "15px", padding: "9px", width:'120px', height:'120px' }}
-                  />
-                  <CardContent
-                    sx={{ margin: "0", padding: "0", maxHeight: "35px" }}
-                  >
-                    <BoxBetween>
-                      <Typography
-                        variant="h5"
-                        color={theme.palette.text.primary}
-                      >
-                        Review môn học
-                      </Typography>
-                    </BoxBetween>
-                  </CardContent>
-                </Card>
+                    <HistoryEduIcon sx={{ fontSize: "20px" }} />{" "}
+                    <Typography variant="h5">Hỏi đáp</Typography>
+                  </Box>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <PreviewIcon
+                      sx={{ fontSize: "20px", color: "text.primary" }}
+                    />{" "}
+                    <Typography variant="h5" color={"text.primary"}>
+                      Review giảng viên
+                    </Typography>
+                  </Box>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <PreviewIcon
+                      sx={{ fontSize: "20px", color: "text.primary" }}
+                    />{" "}
+                    <Typography variant="h5" color={"text.primary"}>
+                      Review môn học
+                    </Typography>
+                  </Box>
+                </Stack>
               </Box>
             </Box>
-          </Paper>
-        </Grid>
-      </Grid>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                Lọc bài viết
+              </Typography>
+              <Box p={1} pt={2}>
+                <Stack spacing={1.5}>
+                  <MultipleSelect
+                    title={"Giảng viên"}
+                    items={[]}
+                    width={"150px"}
+                  />
+                  <MultipleSelect
+                    title={"Môn học"}
+                    items={[]}
+                    width={"150px"}
+                  />
+                  <MultipleSelect title={"Học kỳ"} items={[]} width={"150px"} />
+                </Stack>
+              </Box>
+            </Box>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                Trạng thái bài viết
+              </Typography>
+              <Box p={1} pt={2}>
+                <Stack spacing={1.5}>
+                  <Typography variant="h5" color={"red"}>
+                    Tất cả
+                  </Typography>
+                  <Typography variant="h5" color={"text.primary"}>
+                    Đang viết
+                  </Typography>
+                  <Typography variant="h5" color={"text.primary"}>
+                    Chờ phê duyệt
+                  </Typography>
+                  <Typography variant="h5" color={"text.primary"}>
+                    Đã phê duyệt
+                  </Typography>
+                  <Typography variant="h5" color={"text.primary"}>
+                    Bị báo cáo
+                  </Typography>
+                </Stack>
+              </Box>
+            </Box>
+          </Stack>
+        </Box>
+        <Box
+          width={"75%"}
+          height={"100%"}
+          sx={{ backgroundColor: "white" }}
+          p={2}
+        >
+          <Typography
+            variant="h3"
+            color={"text.secondary"}
+            sx={{ fontWeight: "bold" }}
+          >
+            Danh sách bài viết
+          </Typography>
+          <Box p={2}>
+            <Grid container spacing={1}>
+              <Grid item xl={6}>d</Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 }

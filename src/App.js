@@ -18,6 +18,7 @@ import Private from "./pages/Private";
 import Posted from "./pages/Posted";
 import Document from "./pages/Document";
 import Favorite from "./pages/Favorite";
+import Writing from "./pages/Writing";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -36,6 +37,7 @@ function App() {
                     ) : (
                       <Route path="/" element={<UserLayout />}>
                         <Route index element={<Home />} />
+                        <Route path="writing" element={<Writing />} />
                         <Route path="shared" element={<Shared />} />
                         <Route path="post/:id" element={<PostDetailt />} />
                         <Route
