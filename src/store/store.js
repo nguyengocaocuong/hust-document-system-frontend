@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
   [teacherApi.reducerPath]: teacherApi.reducer,
   [subjectApi.reducerPath]: subjectApi.reducer,
 });
-const persistConig = { key: "root", storage, version: 1 };
+const persistConig = { key: "root", storage, version: 1, whitelist: ['authentication'] };
 const persistedReducer = persistReducer(persistConig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,

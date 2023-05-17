@@ -1,14 +1,28 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
-import { Outlet } from "react-router-dom";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import QuizIcon from "@mui/icons-material/Quiz";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-const Slide = ({ data = { type: "SLIDE" } }) => {
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import slideImg from "../../assets/images/document/slide.png";
+import ebookImg from "../../assets/images/document/ebook.png";
+import projectImg from "../../assets/images/document/project.png";
+import exameImg from "../../assets/images/document/exam.png";
+import ideaImg from "../../assets/images/document/idea.png";
+import homeworkImg from "../../assets/images/document/homework.png";
+const items = [
+  { title: "Slide môn học", img: slideImg, color: "#FF9F00" },
+  { title: "Tài liệu tham khảo", img: ebookImg, color: "#F55A8E" },
+  { title: "Đề tài bài tập lớn", img: projectImg, color: "#8F9FF5" },
+  { title: "Đề thi", img: exameImg, color: "#B49CFE" },
+  { title: "Bài tập về nhà", img: homeworkImg, color: "#EB5569" },
+  { title: "Các tài liệu khác", img: ideaImg, color: "#7974E3" },
+];
+const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
   return (
     <Box
-      width={"calc(100% / 3)"}
+      width={"50%"}
       display={"flex"}
       p={2}
       alignItems={"center"}
@@ -19,9 +33,45 @@ const Slide = ({ data = { type: "SLIDE" } }) => {
         width={"90%"}
         height={"100%"}
         borderRadius={2}
-        sx={{backgroundColor:'#c2e7ff'}}
+        sx={{
+          backgroundColor: "#c2e7ff",
+          transition: "box-shadow 0.4s",
+          "&:hover": { boxShadow: 4 },
+          cursor: "pointer",
+        }}
         p={2}
-      >fsfs</Box>
+      >
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          height={"30px"}
+          pb={1}
+        >
+          <Typography variant="h5" fontWeight={700}>
+            {data.title}
+          </Typography>
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        </Box>
+        <Box
+          width={"100%"}
+          height={"120px"}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <img src={data.img} width={"100x"} alt=""/>
+          <Box p={2} height={"100%"}>
+            <Typography variant="h3" fontWeight={700} color={data.color}>
+              153 Slide{" "}
+            </Typography>
+            <Typography variant="h6" fontWeight={700}>
+              được chia sẻ bởi mọi người{" "}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };
@@ -35,15 +85,14 @@ function SubjectDetail() {
         overflow={"auto"}
         borderRight={"1px solid #D8D9D9"}
         p={2}
+        boxShadow={3}
       >
-        <Typography variant="h2" textAlign={"center"} p={2} pb={4}>
+        <Typography variant="h2" textAlign={"center"} p={2} pb={3}>
           <strong>MATH II</strong>
         </Typography>
         <Divider />
         <Box p={2}>
-          <Typography variant="h3" pb={1.5}>
-            Thông tin học phần
-          </Typography>
+          <Typography variant="h3">Thông tin học phần</Typography>
           <Stack spacing={2}>
             <Box>
               <Typography variant="h6">
@@ -77,40 +126,88 @@ function SubjectDetail() {
         </Box>
         <Divider />
         <Box p={2}>
-          <Typography variant="h3" pb={1.5}>
-            Tài liệu môn học
-          </Typography>
-          <Stack spacing={2}>
-            <Box display={"flex"} alignItems={"center"} color={"#F78662"}>
+          <Typography variant="h3">Tài liệu môn học</Typography>
+          <Box overflow={"auto"} display={"flex"} flexWrap={"wrap"}>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              color={"#F78662"}
+              p={1}
+              width={"50%"}
+            >
               <SlideshowIcon sx={{ width: "25px", height: "25px" }} />{" "}
               <Typography variant="h5" fontWeight={500} pl={1.5}>
-                153 slide môn học
+                153 slide
               </Typography>
             </Box>
-            <Box display={"flex"} alignItems={"center"} color={"#009688"}>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              color={"#009688"}
+              width={"50%"}
+              p={1}
+            >
               <QuizIcon sx={{ width: "25px", height: "25px" }} />{" "}
               <Typography variant="h5" fontWeight={500} pl={1.5}>
                 23 đề thi
               </Typography>
             </Box>
-            <Box display={"flex"} alignItems={"center"} color={"primary.main"}>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              color={"primary.main"}
+              width={"50%"}
+              p={1}
+            >
               <QuestionAnswerIcon sx={{ width: "25px", height: "25px" }} />{" "}
               <Typography variant="h5" fontWeight={500} pl={1.5}>
-                23 đề thi
+                23 đáp án
               </Typography>
             </Box>
-            <Box display={"flex"} alignItems={"center"} color={"success.main"}>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              color={"success.main"}
+              width={"50%"}
+              p={1}
+            >
               <AccountTreeIcon sx={{ width: "25px", height: "25px" }} />{" "}
               <Typography variant="h5" fontWeight={500} pl={1.5}>
                 2 bài tập lớn
               </Typography>
             </Box>
-          </Stack>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              color={"success.main"}
+              width={"50%"}
+              p={1}
+            >
+              <AccountTreeIcon sx={{ width: "25px", height: "25px" }} />{" "}
+              <Typography variant="h5" fontWeight={500} pl={1.5}>
+                2 bài tập lớn
+              </Typography>
+            </Box>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              color={"success.main"}
+              width={"50%"}
+              p={0.5}
+            >
+              <AccountTreeIcon sx={{ width: "25px", height: "25px" }} />{" "}
+              <Typography variant="h5" fontWeight={500} pl={1.5}>
+                2 bài tập lớn
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         <Divider />
       </Box>
-      <Box width={"70%"} height={"100%"} overflow={"auto"}>
-        <Slide />
+      <Box width={"70%"} overflow={"auto"} display={"flex"} flexWrap={"wrap"}>
+        {items.map((item, index) => (
+          <Slide key={index} data={item} />
+        ))}
       </Box>
     </Box>
   );
