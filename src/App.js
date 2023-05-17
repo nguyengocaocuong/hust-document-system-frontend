@@ -60,12 +60,12 @@ function App() {
                           <Route path="education" element={<Education />}>
                             <Route
                               index
-                              path="document"
+                              path="subject"
                               element={<Subject />}
                             />
                             <Route
                               index
-                              path="document/:id"
+                              path="subject/:id"
                               element={<SubjectDetail />}
                             />
                             <Route index path="review" element={<Review />} />

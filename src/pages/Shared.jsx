@@ -11,6 +11,8 @@ import {
 import Filter from "../components/Filter";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import Subject from "./education/Subject";
+
 function Shared() {
   const [type, setType] = useState(false);
   return (
@@ -20,7 +22,7 @@ function Shared() {
       overflow={"auto"}
       sx={{ backgroundColor: "white" }}
     >
-     <Box m={2}  maxHeight={"60px"} height={"60px"}>
+      <Box m={2} maxHeight={"60px"} height={"60px"}>
         <Box
           display={"flex"}
           alignItems={"center"}
@@ -43,8 +45,8 @@ function Shared() {
           ]}
         />
       </Box>
-      <ListDocuments title={"Vừa được chia sẻ"}/>
-      <TableDocuments />
+      <ListDocuments title={"Vừa được chia sẻ"} />
+      {type ? <TableDocuments /> : <Subject />}
     </Box>
   );
 }

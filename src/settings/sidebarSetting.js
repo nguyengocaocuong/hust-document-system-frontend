@@ -38,8 +38,8 @@ const userSidebarItem = [
     data: [
       {
         type: "ITEM",
-        title: "Tài liệu",
-        to: "/education/document",
+        title: "Tài liệu môn học",
+        to: "/education/subject",
         Icon: InsertDriveFileOutlinedIcon,
         selectedColor: "red",
       },

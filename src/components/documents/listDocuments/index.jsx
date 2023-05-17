@@ -128,8 +128,8 @@ function ListDocuments({title}) {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
+    slidesToShow: 6,
+    slidesToScroll: 6,
   };
   return (
     <Box width={"100%"} maxWidth={"100%"} pt={0} p={2} height={'270px'}>
