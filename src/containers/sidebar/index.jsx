@@ -38,7 +38,7 @@ function Sidebar() {
           })}
         </Menu>
       </Box>
-      <Box position={"fixed"} bottom={0} left={0} width={"250px"}>
+      <Box bottom={0} left={0}>
         <Divider />
         <Menu style={{ marginTop: "15px" }}>
           {sidebaerSettingItem.map((item, index) => (

@@ -153,7 +153,7 @@ const data = [
 ];
 function Subject({ subjects = data }) {
   return (
-    <Box sx={{backgroundColor:'white'}}>
+    <Box sx={{backgroundColor:'white'}} height={'100%'}>
       <Box p={2}>
         <Typography variant="h3" color={"text.secondary"}>
           Tài liệu học tập

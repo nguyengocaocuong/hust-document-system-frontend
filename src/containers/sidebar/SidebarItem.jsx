@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import React from "react";
 import { MenuItem, menuClasses } from "react-pro-sidebar";
 import { Link, useLocation } from "react-router-dom";
-
 function SidebarItem({
   title,
   to,
@@ -46,9 +45,9 @@ function SidebarItem({
       }
       component={<Link to={to} />}
     >
-      <Typography style={{ fontSize: subItem || setting ? "15px" : "16px" }}>
-        {title}
-      </Typography>
+        <Typography style={{ fontSize: subItem || setting ? "15px" : "16px" }}>
+          {title}
+        </Typography>
     </MenuItem>
   );
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import BoxFull from "../containers/BoxFull";
 import Sidebar from "../containers/sidebar";
-import Content from "../containers/content";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import Content from "../containers/Content";
 function WebLayout() {
   const { isLogin } = useSelector((state) => state.authentication);
   return isLogin ? (

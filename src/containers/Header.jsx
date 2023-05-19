@@ -1,12 +1,14 @@
 import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
+import { useProSidebar } from 'react-pro-sidebar';
 import React, { useState } from "react";
-import SearchBox from "../../components/SearchBox";
+import SearchBox from "../components/SearchBox";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { useSelector } from "react-redux";
-import Notification from "../Notification";
+import Notification from "./Notification";
 
 function Header() {
+  const { collapseSidebar, collapsed } = useProSidebar();
   const { user } = useSelector((state) => state.authentication);
   const [isShow, setShow] = useState(false);
   const toggle = ()=>{
@@ -29,7 +31,7 @@ function Header() {
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        <IconButton>
+        <IconButton onClick={()=> collapseSidebar(!collapsed)}>
           <MenuOpenOutlinedIcon style={{ fontSize: "25px" }} />
         </IconButton>
         <SearchBox placeHolde={"Bạn tìm gì?"} />

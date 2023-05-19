@@ -31,14 +31,14 @@ const userSidebarItem = [
   {
     type: "ITEM",
     title: "Tài liệu",
-    to: "education",
+    to: "/education",
     Icon: SchoolOutlinedIcon,
     selectedColor: "red",
   },
   {
     type: "ITEM",
     title: "Bài đánh giá",
-    to: "review",
+    to: "/review",
     Icon: RateReviewOutlinedIcon,
     selectedColor: "red",
   },

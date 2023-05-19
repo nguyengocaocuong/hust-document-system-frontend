@@ -1,6 +1,6 @@
 import React from "react";
-import BoxFull from "../BoxFull";
-import Header from "../header";
+import BoxFull from "./BoxFull";
+import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 function Content() {
