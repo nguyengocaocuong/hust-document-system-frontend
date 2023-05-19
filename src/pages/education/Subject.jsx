@@ -1,14 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import SubjectCard from "./SubjectCard";
-import {
-  FileTypeFilter,
-  DocumentTypeFilter,
-  SemesterFilter,
-  SubjectCodeFilter,
-  StatusFilter,
-} from "../../settings/sharedSetting";
-import Filter from "../../components/Filter";
 const data = [
   {
     id: 1,
@@ -151,24 +143,13 @@ const data = [
     documentTotal: 42,
   },
 ];
-function Subject({ subjects = data }) {
+function Subject({ subjects = data, title = "Tài liệu học tập" }) {
   return (
-    <Box sx={{backgroundColor:'white'}} height={'100%'}>
+    <Box sx={{ backgroundColor: "white" }} height={"100%"}>
       <Box p={2}>
         <Typography variant="h3" color={"text.secondary"}>
-          Tài liệu học tập
+          {title}
         </Typography>
-      </Box>
-      <Box p={2} pt={0}>
-        <Filter
-          data={[
-            FileTypeFilter,
-            DocumentTypeFilter,
-            SemesterFilter,
-            SubjectCodeFilter,
-            StatusFilter,
-          ]}
-        />
       </Box>
       <Box p={2} pt={1} display={"flex"} flexWrap={"wrap"}>
         {subjects.map((subject, index) => (

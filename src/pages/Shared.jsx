@@ -12,7 +12,7 @@ import Filter from "../components/Filter";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Subject from "./education/Subject";
-
+import { Documents } from "../data/Documents";
 function Shared() {
   const [type, setType] = useState(false);
   return (
@@ -45,7 +45,7 @@ function Shared() {
           ]}
         />
       </Box>
-      <ListDocuments title={"Vừa được chia sẻ"} />
+      <ListDocuments title={"Vừa được chia sẻ"} items={Documents}/>
       {type ? <TableDocuments /> : <Subject />}
     </Box>
   );

@@ -1,12 +1,12 @@
 import React from "react";
-import { Avatar, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import MultipleSelect from "../components/MultipleSelect";
-import avatar1 from "../assets/images/avatar/1.jpg";
-import avatar2 from "../assets/images/avatar/05.jpg";
-import avatar3 from "../assets/images/avatar/06.jpg";
-import avatar4 from "../assets/images/avatar/07.jpg";
+// import avatar1 from "../assets/images/avatar/1.jpg";
+// import avatar2 from "../assets/images/avatar/05.jpg";
+// import avatar3 from "../assets/images/avatar/06.jpg";
+// import avatar4 from "../assets/images/avatar/07.jpg";
 import { getIconForDocByFileName } from "../utils/DocumentUtils";
-function Filter({data}) {
+function Filter({ data }) {
   return (
     <Box display={"flex"}>
       {data.map((item, index) => (
@@ -25,10 +25,11 @@ function Filter({data}) {
             label: (
               <Typography style={{ marginLeft: "5px" }}>{i.label}</Typography>
             ),
+            value: i.label
           }))}
         />
       ))}
-      <MultipleSelect
+      {/* <MultipleSelect
         title={"Chia sẻ bởi"}
         items={[
           {
@@ -64,7 +65,7 @@ function Filter({data}) {
             ),
           },
         ]}
-      />
+      /> */}
     </Box>
   );
 }

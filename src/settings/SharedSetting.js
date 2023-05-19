@@ -3,7 +3,7 @@ export const FileTypeFilter = {
   item: [
     {
       icon: ".pdf",
-      label: "pdf",
+      label: "pdf"
     },
     {
       icon: ".docx",
@@ -69,11 +69,11 @@ export const SubjectCodeFilter = {
   ],
 };
 export const StatusFilter = {
-  title: 'Trạng thái',
+  title: "Trạng thái",
   item: [
-    {label:'Đang viết'},
-    {label:'Bị ẩn'},
-    {label:'Công khai'},
-    {label:'Cá nhân'},
-  ]
-}
+    { label: "Đang viết" },
+    { label: "Bị ẩn" },
+    { label: "Công khai" },
+    { label: "Cá nhân" },
+  ],
+};

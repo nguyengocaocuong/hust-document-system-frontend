@@ -12,6 +12,8 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import ListDocuments from "../components/documents/listDocuments";
 import TableDocuments from "../components/documents/tableDocuments";
+import Subject from "./education/Subject";
+import { Documents } from "../data/Documents";
 function Document() {
   const [type, setType] = useState(false);
   return (
@@ -21,31 +23,31 @@ function Document() {
       overflow={"auto"}
       sx={{ backgroundColor: "white" }}
     >
-      <Box m={2}  maxHeight={"60px"} height={"60px"}>
+      <Box m={2} maxHeight={"60px"} height={"60px"}>
         <Box
           display={"flex"}
           alignItems={"center"}
           justifyContent={"space-between"}
         >
           <Typography variant="h4" color={"text.secondary"}>
-            Tài liệu cá nhân của bạn
+            Tài liệu được chia sẻ
           </Typography>
           <IconButton onClick={() => setType(!type)}>
             {type ? <PlaylistAddCheckIcon /> : <GridViewIcon />}
           </IconButton>
         </Box>
+
         <Filter
           data={[
             FileTypeFilter,
             DocumentTypeFilter,
             SemesterFilter,
             SubjectCodeFilter,
-            StatusFilter,
           ]}
         />
       </Box>
-      <ListDocuments title={"Vừa mới truy cập"}/>
-      <TableDocuments />
+      <ListDocuments title={"Vừa được chia sẻ"} items={Documents}/>
+      {type ? <TableDocuments /> : <Subject />}
     </Box>
   );
 }

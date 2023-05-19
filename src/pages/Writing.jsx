@@ -39,6 +39,13 @@ function Writing() {
       content: { ...data.content, data: html },
     });
   };
+  const reset = () => {
+    setData({
+      activeStep: 0,
+      type: null,
+      content: null,
+    });
+  };
   const setting = async (setting) => {
     switch (data.type) {
       case "POST":
@@ -70,17 +77,7 @@ function Writing() {
         break;
         default: break;
     }
-    if (
-      (isPostSuccess && data.type === "POST") ||
-      (isReviewSubjectSuccess && data.type === "REVIEW_SUBJECT") ||
-      (isReviewTeacherSuccess && data.type === "REVIEW_TEACHER")
-    ) {
-      setData({
-        ...data,
-        activeStep: data.activeStep + 1,
-        content: { ...data.content, setting },
-      });
-    }
+  
   };
   useEffect(() => {
     if (
@@ -95,13 +92,7 @@ function Writing() {
       });
     }
   }, [isPostSuccess, isReviewSubjectSuccess, isReviewTeacherSuccess]);
-  const newPost = () => {
-    setData({
-      activeStep: 0,
-      type: null,
-      content: null,
-    });
-  };
+ 
   return (
     <Box width={"100%"} height={"100%"} sx={{ backgroundColor: "white" }}>
       <Stepper activeStep={data.activeStep} />
@@ -112,7 +103,7 @@ function Writing() {
         )}
         {data.activeStep === 2 && <Step3 setContent={setContent} data={data} />}
         {data.activeStep === 3 && <Step4 setting={setting} data={data} />}
-        {data.activeStep === 4 && <Step5 reset={newPost} data={data} />}
+        {data.activeStep === 4 && <Step5 reset={reset} data={data} />}
       </Box>
     </Box>
   );

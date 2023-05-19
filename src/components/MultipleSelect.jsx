@@ -15,76 +15,55 @@ const MenuProps = {
 };
 
 export default function MultipleSelect({
-  items,
+  items = [],
   title,
   width,
-  hiddenTitle = false,
   all = true,
-  handle,
 }) {
-  const [selected, setSelectedId] = React.useState();
-  const handleChange = (event) => {
-    setSelectedId(event.target.value);
-    handle(event.target.value);
+  const [state, setState] = React.useState(items)
+  const [ _ , setSelectedId] = React.useState();
+  const handleChange = (_ ,value) => {
+    setSelectedId(value || null);
   };
   const [key, setKey] = React.useState("");
+  const onChangeKey = (e) =>{
+    setKey(e.target.value)
+  }
   return (
     <div>
       <FormControl sx={{ minWidth: { width }, mr: 2 }} size="small">
         <Select
           defaultValue={""}
           displayEmpty
-          value={selected}
           onChange={handleChange}
           input={<OutlinedInput />}
           MenuProps={MenuProps}
           renderValue={(selected) => {
             if (!selected) {
-              return hiddenTitle ? (
-                <Box
-                  value={null}
-                  sx={{
-                    textAlign: "start",
-                    backgroundColor: "#EBECEC",
-                    borderRadius: 1,
-                    p: 0.5,
-                  }}
-                >
-                  <InputBase
-                    placeholder={title}
-                    value={key}
-                    onChange={(e) => setKey(e.target.value)}
-                    sx={{ color: "text.secondary" }}
-                  />
-                </Box>
-              ) : (
-                <em>{title}</em>
-              );
+              return <em>{title}</em>;
             }
             return selected;
           }}
           style={{ backgroundColor: "white" }}
         >
-          {!hiddenTitle && (
-            <Box
-              value={null}
-              sx={{
-                textAlign: "start",
-                m: 1,
-                p: 0.5,
-                backgroundColor: "#EBECEC",
-                borderRadius: 1,
-              }}
-            >
-              <InputBase
-                placeholder="Tìm kiếm nhanh"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                sx={{ color: "text.secondary" }}
-              />
-            </Box>
-          )}
-          {items.map((item, index) => (
+          <Box
+            value={null}
+            sx={{
+              textAlign: "start",
+              m: 1,
+              p: 0.5,
+              backgroundColor: "#EBECEC",
+              borderRadius: 1,
+            }}
+          >
+            <InputBase
+              placeholder="Tìm kiếm"
+              value={key}
+              onChange={onChangeKey}
+              sx={{ color: "text.secondary" }}
+            />
+          </Box>
+          {state.map((item, index) => (
             <MenuItem
               key={index}
               value={item.value}
