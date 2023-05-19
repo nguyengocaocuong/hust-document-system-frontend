@@ -15,14 +15,23 @@ import { authApi } from "../services/AuthService";
 import { postApi } from "../services/PostService";
 import { teacherApi } from "../services/TeacherService";
 import { subjectApi } from "../services/SubjectService";
+import { reviewTeacherApi } from "../services/ReviewTeacherService";
+import { reviewSubjectApi } from "../services/ReviewSubjectService";
 const rootReducer = combineReducers({
   authentication: authReducer,
   [authApi.reducerPath]: authApi.reducer,
   [postApi.reducerPath]: postApi.reducer,
   [teacherApi.reducerPath]: teacherApi.reducer,
   [subjectApi.reducerPath]: subjectApi.reducer,
+  [reviewTeacherApi.reducerPath]: reviewTeacherApi.reducer,
+  [reviewSubjectApi.reducerPath]: reviewSubjectApi.reducer,
 });
-const persistConig = { key: "root", storage, version: 1, whitelist: ['authentication'] };
+const persistConig = {
+  key: "root",
+  storage,
+  version: 1,
+  whitelist: ["authentication"],
+};
 const persistedReducer = persistReducer(persistConig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
@@ -31,5 +40,12 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware, postApi.middleware, teacherApi.middleware, subjectApi.middleware),
+    }).concat(
+      authApi.middleware,
+      postApi.middleware,
+      teacherApi.middleware,
+      subjectApi.middleware,
+      reviewTeacherApi.middleware,
+      reviewSubjectApi.middleware
+    ),
 });

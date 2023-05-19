@@ -22,7 +22,6 @@ import Editor from "./components/editor";
 import Profile from "./pages/Profile";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import Education from "./pages/education";
 import Subject from "./pages/education/Subject";
 import Review from "./pages/education/Review";
 import SubjectDetail from "./pages/education/SubjectDetail";
@@ -57,19 +56,13 @@ function App() {
                             path="document/:id"
                             element={<DocumentDetailt />}
                           />
-                          <Route path="education" element={<Education />}>
-                            <Route
-                              index
-                              path="subject"
-                              element={<Subject />}
-                            />
-                            <Route
-                              index
-                              path="subject/:id"
-                              element={<SubjectDetail />}
-                            />
-                            <Route index path="review" element={<Review />} />
-                          </Route>
+                          <Route index path="education" element={<Subject />} />
+                          <Route
+                            index
+                            path="education/:id"
+                            element={<SubjectDetail />}
+                          />
+                          <Route index path="review" element={<Review />} />
 
                           <Route path="private" element={<Private />}>
                             <Route

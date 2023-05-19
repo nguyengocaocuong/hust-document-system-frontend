@@ -17,7 +17,7 @@ function SubjectCard({ data }) {
       mb={3}
     >
       <Link
-        to={`/education/subject/${data.id}`}
+        to={`/education/${data.id}`}
         style={{ textDecoration: "none", width: "100%", color:'inherit' }}
       >
         <Box

@@ -40,12 +40,12 @@ const Step4 = ({ setting }) => {
               name="radio-buttons-group"
             >
               <FormControlLabel
-                value="true"
+                value={true}
                 control={<Radio />}
                 label="Hoàn thành"
               />
               <FormControlLabel
-                value="false"
+                value={false}
                 control={<Radio />}
                 label="Đang viết"
               />

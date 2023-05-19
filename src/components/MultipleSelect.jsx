@@ -9,7 +9,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       padding: 0,
-      maxHeight:'300px'
+      maxHeight: "300px",
     },
   },
 };
@@ -20,18 +20,19 @@ export default function MultipleSelect({
   width,
   hiddenTitle = false,
   all = true,
-  handle
+  handle,
 }) {
   const [selected, setSelectedId] = React.useState();
   const handleChange = (event) => {
     setSelectedId(event.target.value);
-    handle(event.target.value)
+    handle(event.target.value);
   };
   const [key, setKey] = React.useState("");
   return (
     <div>
       <FormControl sx={{ minWidth: { width }, mr: 2 }} size="small">
         <Select
+          defaultValue={""}
           displayEmpty
           value={selected}
           onChange={handleChange}
@@ -86,7 +87,7 @@ export default function MultipleSelect({
           {items.map((item, index) => (
             <MenuItem
               key={index}
-              value={item.label}
+              value={item.value}
               sx={{
                 textAlign: "start",
                 pl: 1,

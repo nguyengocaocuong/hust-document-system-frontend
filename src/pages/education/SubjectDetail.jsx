@@ -28,6 +28,7 @@ const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
       alignItems={"center"}
       height={"200px"}
       justifyContent={"center"}
+      sx={{backgroundColor:'white'}}
     >
       <Box
         width={"90%"}
@@ -78,20 +79,20 @@ const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
 
 function SubjectDetail() {
   return (
-    <Box height={"100%"} overflow={"hidden"} display={"flex"}>
+    <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={'white'}>
       <Box
         width={"30%"}
         height={"100%"}
         overflow={"auto"}
         borderRight={"1px solid #D8D9D9"}
         p={2}
-        boxShadow={3}
+        boxShadow={5}
       >
         <Typography variant="h2" textAlign={"center"} p={2} pb={3}>
           <strong>MATH II</strong>
         </Typography>
         <Divider />
-        <Box p={2}>
+        <Box p={2} >
           <Typography variant="h3">Thông tin học phần</Typography>
           <Stack spacing={2}>
             <Box>

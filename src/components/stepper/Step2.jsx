@@ -34,6 +34,7 @@ const Step2 = ({ selectObject, data }) => {
                     {teacher.name}
                   </Typography>
                 ),
+                value: teacher.id
               }))}
               handle={selectObject}
               hiddenTitle
@@ -52,6 +53,7 @@ const Step2 = ({ selectObject, data }) => {
                   {teacher.name}
                 </Typography>
               ),
+              value:teacher.id
             }))}
             handle={selectObject}
             hiddenTitle

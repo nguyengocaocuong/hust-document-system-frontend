@@ -11,7 +11,6 @@ import HistoryIcon from "@mui/icons-material/History";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
-import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 const userSidebarItem = [
   {
@@ -30,27 +29,18 @@ const userSidebarItem = [
     selectedColor: "red",
   },
   {
-    type: "SUB_ITEM",
-    title: "Học tập",
-    to: "/education",
+    type: "ITEM",
+    title: "Tài liệu",
+    to: "education",
     Icon: SchoolOutlinedIcon,
     selectedColor: "red",
-    data: [
-      {
-        type: "ITEM",
-        title: "Tài liệu môn học",
-        to: "/education/subject",
-        Icon: InsertDriveFileOutlinedIcon,
-        selectedColor: "red",
-      },
-      {
-        type: "ITEM",
-        title: "Bài đánh giá",
-        to: "/education/review",
-        Icon: RateReviewOutlinedIcon,
-        selectedColor: "red",
-      },
-    ],
+  },
+  {
+    type: "ITEM",
+    title: "Bài đánh giá",
+    to: "review",
+    Icon: RateReviewOutlinedIcon,
+    selectedColor: "red",
   },
   {
     type: "SUB_ITEM",

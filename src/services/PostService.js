@@ -13,11 +13,16 @@ export const postApi = createApi({
   }),
   tagTypes: ["posts"],
   endpoints: (builder) => ({
-    getAllPosts: builder.query({
-        query: () => ''
+    getAllPosts: builder.query({ query: () => "" }),
+    createPost: builder.mutation({
+      query: (formData)=> ({
+        url:'',
+        method: 'POST',
+        body: formData
+      })
     })
   }),
 });
 
-export const {useGetAllPostsQuery} = postApi;
+export const { useGetAllPostsQuery, useCreatePostMutation } = postApi;
 export const { endpoints, reducerPath, reducer, middleware } = postApi;

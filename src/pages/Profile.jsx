@@ -14,19 +14,17 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import React, { useRef, useState } from "react";
-import avatar from "../assets/images/avatar/05.jpg";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { DatePicker } from "@mui/x-date-pickers";
 import BoxBetween from "../containers/BoxBetween";
+import { useSelector } from "react-redux";
 function Profile() {
+  const {user} = useSelector(state => state.authentication)
+  const [profile, setProfile] = useState({...user})
   const theme = useTheme();
   const fileRef = useRef();
   const [file, setFile] = useState(null);
-  const [role, setRole] = useState("USER");
 
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
   return (
     <Box p={2}>
       <Grid container spacing={2}>
@@ -44,7 +42,7 @@ function Profile() {
             <Box display={"flex"} justifyContent={"center"} p="15px" pt="0">
               <Box position={"relative"}>
                 <img
-                  src={file === null ? avatar : URL.createObjectURL(file)}
+                  src={file === null ? profile.avatar : URL.createObjectURL(file)}
                   style={{
                     width: "120px",
                     height: "120px",
@@ -94,9 +92,8 @@ function Profile() {
                 </Typography>
                 <Select
                   defaultValue="USER"
-                  value={role}
+                  value={profile.role}
                   hiddenLabel
-                  onChange={handleChange}
                   sx={{ minWidth: "100%" }}
                   size="small"
                   disabled
@@ -118,6 +115,7 @@ function Profile() {
                   placeholder="Enter user facebook"
                   size="small"
                   sx={{ width: "100%" }}
+                  value={profile.facebookUrl}
                 />
               </Box>
               <Box mb={"15px"}>
@@ -133,6 +131,7 @@ function Profile() {
                   placeholder="Enter user instagram"
                   size="small"
                   sx={{ width: "100%" }}
+                  value={profile.instagramUrl}
                 />
               </Box>
               <Box mb={"15px"}>
@@ -148,6 +147,7 @@ function Profile() {
                   placeholder="Enter user twitter"
                   size="small"
                   sx={{ width: "100%" }}
+                  value={profile.twitterUrl}
                 />
               </Box>
             </Stack>
@@ -181,6 +181,7 @@ function Profile() {
                         placeholder="Nhập tên người dùng"
                         size="small"
                         sx={{ width: "100%" }}
+                        value={profile.lastName}
                       />
                     </Box>
                   </Grid>
@@ -198,6 +199,7 @@ function Profile() {
                         placeholder="Nhập họ người dùng"
                         size="small"
                         sx={{ width: "100%" }}
+                        value={profile.firstName}
                       />
                     </Box>
                   </Grid>
@@ -215,6 +217,7 @@ function Profile() {
                         placeholder="Nhập địa chỉ người dùng"
                         size="small"
                         sx={{ width: "100%" }}
+                        value={profile.address}
                       />
                     </Box>
                   </Grid>
@@ -232,6 +235,7 @@ function Profile() {
                         placeholder="Nhập số điện thoại người dùng"
                         size="small"
                         sx={{ width: "100%" }}
+                        value={profile.phoneNumber}
                       />
                     </Box>
                   </Grid>
@@ -296,6 +300,7 @@ function Profile() {
                         size="small"
                         sx={{ width: "100%" }}
                         required={true}
+                        value={profile.username}
                       />
                     </Box>
                   </Grid>
@@ -314,6 +319,7 @@ function Profile() {
                         size="small"
                         sx={{ width: "100%" }}
                         required={true}
+                        value={profile.email}
                       />
                     </Box>
                   </Grid>
@@ -332,13 +338,13 @@ function Profile() {
                         placeholder="Mật khẩu người dùng"
                         size="small"
                         sx={{ width: "100%" }}
-                        required={true}
+                        value={profile.password}
                       />
                     </Box>
                   </Grid>
                   <Grid item xl={12} textAlign={"center"}>
                     <Button size="large" variant="contained">
-                      Đăng ký người dùng
+                     Cập nhật
                     </Button>
                   </Grid>
                 </Grid>

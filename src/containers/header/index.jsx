@@ -1,12 +1,18 @@
 import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import SearchBox from "../../components/SearchBox";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { useSelector } from "react-redux";
+import Notification from "../Notification";
 
 function Header() {
-  const {user} = useSelector(state => state.authentication)
+  const { user } = useSelector((state) => state.authentication);
+  const [isShow, setShow] = useState(false);
+  const toggle = ()=>{
+    setShow(!isShow)
+  }
+
   return (
     <Box
       width={"100%"}
@@ -36,7 +42,7 @@ function Header() {
         alignItems={"center"}
         p={"5px"}
       >
-        <IconButton sx={{ marginRight: "16px" }}>
+        <IconButton sx={{ marginRight: "16px" }} onClick={toggle}>
           <Badge badgeContent={4} color="error">
             <NotificationsActiveOutlinedIcon style={{ fontSize: "25px" }} />
           </Badge>
@@ -61,6 +67,7 @@ function Header() {
           </Box>
         </Box>
       </Box>
+      <Notification isShow={isShow} toggle={toggle} />
     </Box>
   );
 }
