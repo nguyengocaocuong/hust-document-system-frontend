@@ -19,16 +19,15 @@ export default function MultipleSelect({
   title,
   width,
   all = true,
+  handle = (e) => console.log(e)
 }) {
-  const [state, setState] = React.useState(items)
-  const [ _ , setSelectedId] = React.useState();
-  const handleChange = (_ ,value) => {
-    setSelectedId(value || null);
+  const handleChange = (e) => {
+    handle(e.target.value)
   };
   const [key, setKey] = React.useState("");
-  const onChangeKey = (e) =>{
-    setKey(e.target.value)
-  }
+  const onChangeKey = (e) => {
+    setKey(e.target.value);
+  };
   return (
     <div>
       <FormControl sx={{ minWidth: { width }, mr: 2 }} size="small">
@@ -57,13 +56,13 @@ export default function MultipleSelect({
             }}
           >
             <InputBase
-              placeholder="Tìm kiếm"
+              placeholder="Tìm kiếm nhanh"
               value={key}
               onChange={onChangeKey}
               sx={{ color: "text.secondary" }}
             />
           </Box>
-          {state.map((item, index) => (
+          {items.map((item, index) => (
             <MenuItem
               key={index}
               value={item.value}

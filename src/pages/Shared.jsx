@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import ListDocuments from "../components/documents/listDocuments";
 import TableDocuments from "../components/documents/tableDocuments";
-import {
-  FileTypeFilter,
-  DocumentTypeFilter,
-  SemesterFilter,
-  SubjectCodeFilter,
-} from "../settings/sharedSetting";
 import Filter from "../components/Filter";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Subject from "./education/Subject";
 import { Documents } from "../data/Documents";
+import {
+  useGetAllSemesterQuery,
+  useGetAllSubjectDocumentTypeQuery,
+} from "../services/SubjectService";
 function Shared() {
   const [type, setType] = useState(false);
+  const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
+    useGetAllSubjectDocumentTypeQuery();
+  const { data: semesterFilter = { title: "Học kỳ", item: [] } } =
+    useGetAllSemesterQuery();
   return (
     <Box
       width={"100%"}
@@ -38,14 +40,12 @@ function Shared() {
 
         <Filter
           data={[
-            FileTypeFilter,
-            DocumentTypeFilter,
-            SemesterFilter,
-            SubjectCodeFilter,
+            subjectDocumentFilter,
+            semesterFilter,
           ]}
         />
       </Box>
-      <ListDocuments title={"Vừa được chia sẻ"} items={Documents}/>
+      <ListDocuments title={"Vừa được chia sẻ"} items={Documents} />
       {type ? <TableDocuments /> : <Subject />}
     </Box>
   );

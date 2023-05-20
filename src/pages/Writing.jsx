@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Stepper from "../components/stepper";
 import Step1 from "../components/stepper/Step1";
 import Step2 from "../components/stepper/Step2";
@@ -75,24 +75,22 @@ function Writing() {
           })
         );
         break;
-        default: break;
+      default:
+        break;
     }
-  
   };
-  useEffect(() => {
-    if (
-      (isPostSuccess && data.type === "POST") ||
+  if (
+    data.activeStep === 3 &&
+    ((isPostSuccess && data.type === "POST") ||
       (isReviewSubjectSuccess && data.type === "REVIEW_SUBJECT") ||
-      (isReviewTeacherSuccess && data.type === "REVIEW_TEACHER")
-    ) {
-      setData({
-        ...data,
-        activeStep: data.activeStep + 1,
-        content: { ...data.content, setting },
-      });
-    }
-  }, [isPostSuccess, isReviewSubjectSuccess, isReviewTeacherSuccess]);
- 
+      (isReviewTeacherSuccess && data.type === "REVIEW_TEACHER"))
+  ) {
+    setData({
+      ...data,
+      activeStep: data.activeStep + 1,
+      content: { ...data.content, setting },
+    });
+  }
   return (
     <Box width={"100%"} height={"100%"} sx={{ backgroundColor: "white" }}>
       <Stepper activeStep={data.activeStep} />

@@ -1,5 +1,5 @@
 import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import QuizIcon from "@mui/icons-material/Quiz";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
@@ -12,12 +12,12 @@ import exameImg from "../../assets/images/document/exam.png";
 import ideaImg from "../../assets/images/document/idea.png";
 import homeworkImg from "../../assets/images/document/homework.png";
 const items = [
-  { title: "Slide môn học", img: slideImg, color: "#FF9F00" },
-  { title: "Tài liệu tham khảo", img: ebookImg, color: "#F55A8E" },
-  { title: "Đề tài bài tập lớn", img: projectImg, color: "#8F9FF5" },
-  { title: "Đề thi", img: exameImg, color: "#B49CFE" },
-  { title: "Bài tập về nhà", img: homeworkImg, color: "#EB5569" },
-  { title: "Các tài liệu khác", img: ideaImg, color: "#7974E3" },
+  { title: "Slide môn học", subTitle:'Slide',img: slideImg, color: "#FF9F00" },
+  { title: "Tài liệu tham khảo",subTitle: 'Tài liệu', img: ebookImg, color: "#F55A8E" },
+  { title: "Đề tài bài tập lớn", subTitle: 'Đề tài',img: projectImg, color: "#8F9FF5" },
+  { title: "Đề thi", img: exameImg,subTitle:'Đề thi', color: "#B49CFE" },
+  { title: "Bài tập về nhà",subTitle:'Bài tập', img: homeworkImg, color: "#EB5569" },
+  { title: "Các tài liệu khác",subTitle:'Tài liệu', img: ideaImg, color: "#7974E3" },
 ];
 const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
   return (
@@ -28,7 +28,6 @@ const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
       alignItems={"center"}
       height={"200px"}
       justifyContent={"center"}
-      sx={{backgroundColor:'white'}}
     >
       <Box
         width={"90%"}
@@ -62,10 +61,10 @@ const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
           display={"flex"}
           alignItems={"center"}
         >
-          <img src={data.img} width={"100x"} alt=""/>
+          <img src={data.img} width={"100x"} alt="" />
           <Box p={2} height={"100%"}>
             <Typography variant="h3" fontWeight={700} color={data.color}>
-              153 Slide{" "}
+              {Math.round(Math.random()*300)} {data.subTitle}{" "}
             </Typography>
             <Typography variant="h6" fontWeight={700}>
               được chia sẻ bởi mọi người{" "}
@@ -78,8 +77,9 @@ const Slide = ({ data = { title: "Slide môn học", img: slideImg } }) => {
 };
 
 function SubjectDetail() {
+  const [selected, setSelected] = useState(null);
   return (
-    <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={'white'}>
+    <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={"white"}>
       <Box
         width={"30%"}
         height={"100%"}
@@ -92,7 +92,7 @@ function SubjectDetail() {
           <strong>MATH II</strong>
         </Typography>
         <Divider />
-        <Box p={2} >
+        <Box p={2}>
           <Typography variant="h3">Thông tin học phần</Typography>
           <Stack spacing={2}>
             <Box>
@@ -205,7 +205,13 @@ function SubjectDetail() {
         </Box>
         <Divider />
       </Box>
-      <Box width={"70%"} overflow={"auto"} display={"flex"} flexWrap={"wrap"}>
+      <Box
+        width={"70%"}
+        overflow={"auto"}
+        display={"flex"}
+        flexWrap={"wrap"}
+        bgColor={"transparent"}
+      >
         {items.map((item, index) => (
           <Slide key={index} data={item} />
         ))}

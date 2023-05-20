@@ -19,8 +19,11 @@ import { DatePicker } from "@mui/x-date-pickers";
 import BoxBetween from "../containers/BoxBetween";
 import { useSelector } from "react-redux";
 function Profile() {
-  const {user} = useSelector(state => state.authentication)
-  const [profile, setProfile] = useState({...user})
+  const { user } = useSelector((state) => state.authentication);
+  const [profile, setProfile] = useState({ ...user });
+  const handleChange = (e) => {
+    setProfile(profile);
+  };
   const theme = useTheme();
   const fileRef = useRef();
   const [file, setFile] = useState(null);
@@ -42,7 +45,9 @@ function Profile() {
             <Box display={"flex"} justifyContent={"center"} p="15px" pt="0">
               <Box position={"relative"}>
                 <img
-                  src={file === null ? profile.avatar : URL.createObjectURL(file)}
+                  src={
+                    file === null ? profile.avatar : URL.createObjectURL(file)
+                  }
                   style={{
                     width: "120px",
                     height: "120px",
@@ -111,6 +116,7 @@ function Profile() {
                   Facebook Url:
                 </Typography>
                 <TextField
+                  onChange={handleChange}
                   hiddenLabel
                   placeholder="Enter user facebook"
                   size="small"
@@ -344,7 +350,7 @@ function Profile() {
                   </Grid>
                   <Grid item xl={12} textAlign={"center"}>
                     <Button size="large" variant="contained">
-                     Cập nhật
+                      Cập nhật
                     </Button>
                   </Grid>
                 </Grid>

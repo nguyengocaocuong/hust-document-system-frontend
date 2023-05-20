@@ -6,8 +6,7 @@ import {
   DocumentTypeFilter,
   SemesterFilter,
   SubjectCodeFilter,
-  StatusFilter,
-} from "../settings/sharedSetting";
+} from "../settings/SharedSetting";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import ListDocuments from "../components/documents/listDocuments";

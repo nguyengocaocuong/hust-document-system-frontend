@@ -33,31 +33,9 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-const data = [
-  {
-    type: "SHARED",
-    by: {
-      firstName: "Nguyen Ngo",
-      lastName: "Cao Cuong",
-      avartar:
-        "https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg",
-    },
-    document: { name: "document.pdf", path: "" },
-  },
-  {
-    type: "APPROVE",
-    by: {
-      firstName: "Nguyen Ngo",
-      lastName: "Cao Cuong",
-      avartar:
-        "https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg",
-    },
-    document: { name: "document.pdf", path: "" },
-  },
-];
-function Notification({ isShow, toggle }) {
-  const [value, setValue] = React.useState(0);
 
+function Notification({ isShow, toggle, data = [] }) {
+  const [value, setValue] = React.useState(0);
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };

@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 function Education() {
   return (
-    <Box bgcolor={"white"} height={"100%"}>
+    <Box sx={{backgroundColor:'white'}} height={"100%"}>
       <Outlet />
     </Box>
   );

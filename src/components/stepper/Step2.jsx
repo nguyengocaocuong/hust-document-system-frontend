@@ -27,7 +27,7 @@ const Step2 = ({ selectObject, data }) => {
         {data.type === "REVIEW_TEACHER" ? (
           teachers ? (
             <MultipleSelect
-              title={"Nhập tên giảng viên"}
+              title={"Chọn giảng viên"}
               items={teachers.map((teacher) => ({
                 label: (
                   <Typography style={{ marginLeft: "5px" }}>
@@ -38,7 +38,6 @@ const Step2 = ({ selectObject, data }) => {
               }))}
               handle={selectObject}
               hiddenTitle
-              width={"250px"}
               all={false}
             />
           ) : (
@@ -46,7 +45,7 @@ const Step2 = ({ selectObject, data }) => {
           )
         ) : subjects ? (
           <MultipleSelect
-            title={"Nhập tên môn học"}
+            title={"Chọn môn học"}
             items={subjects.map((teacher) => ({
               label: (
                 <Typography style={{ marginLeft: "5px" }}>
@@ -57,7 +56,6 @@ const Step2 = ({ selectObject, data }) => {
             }))}
             handle={selectObject}
             hiddenTitle
-            width={"250px"}
             all={false}
           />
         ) : (

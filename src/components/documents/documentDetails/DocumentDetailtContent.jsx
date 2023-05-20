@@ -43,14 +43,9 @@ function DocumentDetailtContent({
 }) {
   const docs = [
     {
-      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/docx`,
-      fileType: "docx",
-      fileName: "docxtest.docx",
-    },
-    {
-      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/xls`,
-      fileType: "xls",
-      fileName: "doxtest.xls",
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/html`,
+      fileType: "html",
+      fileName: "docxtest.html",
     },
     {
       uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/pdf`,
@@ -70,15 +65,21 @@ function DocumentDetailtContent({
       fileType: "doc",
       fileName: "docxtest.doc",
     },
-    {
-      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/html`,
-      fileType: "html",
-      fileName: "docxtest.html",
-    },
+    
     {
       uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/odt`,
       fileType: "odt",
       fileName: "docxtest.odt",
+    },
+    {
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/docx`,
+      fileType: "docx",
+      fileName: "docxtest.docx",
+    },
+    {
+      uri: `${process.env.REACT_APP_BASE_URL}/api/v1/public/xls`,
+      fileType: "xls",
+      fileName: "doxtest.xls",
     },
   ];
   return (

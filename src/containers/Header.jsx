@@ -6,7 +6,38 @@ import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { useSelector } from "react-redux";
 import Notification from "./Notification";
-
+const data = [
+  {
+    type: "SHARED",
+    by: {
+      firstName: "Nguyen Ngo",
+      lastName: "Cao Cuong",
+      avartar:
+        "https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg",
+    },
+    document: { name: "document.pdf", path: "" },
+  },
+  {
+    type: "SHARED",
+    by: {
+      firstName: "Nguyen Ngo",
+      lastName: "Cao Cuong",
+      avartar:
+        "https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg",
+    },
+    document: { name: "document.pdf", path: "" },
+  },
+  {
+    type: "APPROVE",
+    by: {
+      firstName: "Nguyen Ngo",
+      lastName: "Cao Cuong",
+      avartar:
+        "https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg",
+    },
+    document: { name: "document.pdf", path: "" },
+  },
+];
 function Header() {
   const { collapseSidebar, collapsed } = useProSidebar();
   const { user } = useSelector((state) => state.authentication);
@@ -14,6 +45,7 @@ function Header() {
   const toggle = ()=>{
     setShow(!isShow)
   }
+  const [notificationData, setNotificationData] = useState(data)
 
   return (
     <Box
@@ -45,7 +77,7 @@ function Header() {
         p={"5px"}
       >
         <IconButton sx={{ marginRight: "16px" }} onClick={toggle}>
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={data.length} color="error">
             <NotificationsActiveOutlinedIcon style={{ fontSize: "25px" }} />
           </Badge>
         </IconButton>
@@ -69,7 +101,7 @@ function Header() {
           </Box>
         </Box>
       </Box>
-      <Notification isShow={isShow} toggle={toggle} />
+      <Notification isShow={isShow} toggle={toggle} data={notificationData} setNotificationData={setNotificationData}/>
     </Box>
   );
 }

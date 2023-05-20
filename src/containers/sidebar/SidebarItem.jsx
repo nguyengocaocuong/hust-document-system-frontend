@@ -11,7 +11,7 @@ function SidebarItem({
   setting = false,
 }) {
   const location = useLocation();
-  const isSelected = location.pathname === to;
+  const isSelected = location.pathname.startsWith(to);
   return (
     <MenuItem
       style={{
