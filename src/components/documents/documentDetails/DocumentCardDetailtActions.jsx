@@ -6,7 +6,7 @@ import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined
 import TranslateIcon from '@mui/icons-material/Translate';
 
 import { Box, Divider, IconButton, Typography } from "@mui/material";
-function DocumentCardDetailtActions({handleSelectedId, selectedId}) {
+function DocumentCardDetailtActions({handleSelectedId, selectedId, document}) {
   return (
     <Box maxHeight={'80px'} pr={1} pl={1}>
       <Box
@@ -19,19 +19,19 @@ function DocumentCardDetailtActions({handleSelectedId, selectedId}) {
         <Box display={"flex"} alignItems={"center"}>
           <FavoriteOutlinedIcon sx={{ fontSize: "18px", color: "red" }} />
           <Typography fontSize={"14px"} ml={"5px"}>
-            23 người
+            {document.commentSubjectDocumentList.length} người
           </Typography>
         </Box>
         <Box display={"flex"}>
           <Box display={"flex"} alignItems={"center"} mr={2}>
             <Typography fontSize={"14px"} mr={"5px"}>
-              23
+              {document.answerSubjectDocumentList.length}
             </Typography>
             <QuestionAnswerOutlinedIcon sx={{ fontSize: "18px" }} />
           </Box>
           <Box display={"flex"} alignItems={"center"}>
             <Typography fontSize={"14px"} mr={"5px"}>
-              13
+            {document.commentSubjectDocumentList.length}
             </Typography>
             <InsertCommentOutlinedIcon sx={{ fontSize: "18px" }} />
           </Box>

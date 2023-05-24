@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
-import BoxBetween from "../../containers/BoxBetween";
+import BoxBetween from "../../components/BoxBetween";
 
 const Step1 = ({ selectType }) => {
   return (

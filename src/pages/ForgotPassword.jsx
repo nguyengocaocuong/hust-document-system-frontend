@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BoxBetween from "../containers/BoxBetween";
+import BoxBetween from "../components/BoxBetween";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";

@@ -1,5 +1,5 @@
 import React from "react";
-import BoxFull from "../containers/BoxFull";
+import BoxFull from "../components/BoxFull";
 import { Outlet } from "react-router-dom";
 function UserLayout() {
   return (

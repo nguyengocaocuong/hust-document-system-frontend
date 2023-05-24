@@ -3,8 +3,7 @@ import React from "react";
 import { red } from "@mui/material/colors";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import FlagIcon from "@mui/icons-material/Flag";
-function DocumentDetailtHeader({ data = {owner:{name:'Nguyen Ngo Cao Cuong'}, subject:{name:'MATH II'}} }) {
-  
+function DocumentDetailtHeader({ document = {}, subjectDetail = {} }) {
   return (
     <Box
       width={"100%"}
@@ -19,22 +18,22 @@ function DocumentDetailtHeader({ data = {owner:{name:'Nguyen Ngo Cao Cuong'}, su
         <Avatar
           sx={{ bgcolor: red[500] }}
           aria-label="recipe"
-          src={data.owner.avatar}
+          src={document.owner.avatar}
         >
-          {data.owner.firstName?.substring(
-            data.owner.firstName?.lastIndexOf(" ") + 1,
-            data.owner.firstName?.lastIndexOf(" ") + 2
+          {document.owner.firstName?.substring(
+            document.owner.firstName?.lastIndexOf(" ") + 1,
+            document.owner.firstName?.lastIndexOf(" ") + 2
           )}
         </Avatar>
         <Typography variant="h6" ml="10px">
-          {data.owner.name}
+          {`${document.owner.lastName}`}
         </Typography>
       </Box>
       <Box display={"flex"} height={"100%"} alignItems={"center"}>
         {" "}
         <Chip
           icon={<LocalOfferIcon />}
-          label={data.subject.name}
+          label={subjectDetail.name}
           size="small"
           sx={{marginRight:'5px'}}
           color="info"

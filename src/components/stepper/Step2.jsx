@@ -1,12 +1,16 @@
 import React from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { useGetAllTeacherQuery } from "../../services/TeacherService";
+import {
+  useGetAllTeacherForFilterQuery,
+} from "../../services/TeacherService";
 import MultipleSelect from "../MultipleSelect";
-import { useGetAllSubjectQuery } from "../../services/SubjectService";
+import { useGetAllSubjectForFilterQuery } from "../../services/SubjectService";
 
 const Step2 = ({ selectObject, data }) => {
-  const { data: teachers } = useGetAllTeacherQuery();
-  const { data: subjects } = useGetAllSubjectQuery();
+  const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
+    useGetAllSubjectForFilterQuery();
+  const { data: teacherFilter = { title: "Giảng viên", item: [] } } =
+    useGetAllTeacherForFilterQuery();
   return (
     <Box display={"flex"} justifyContent={"center"} p={2}>
       <Box
@@ -25,16 +29,16 @@ const Step2 = ({ selectObject, data }) => {
           ?
         </Typography>
         {data.type === "REVIEW_TEACHER" ? (
-          teachers ? (
+          teacherFilter ? (
             <MultipleSelect
               title={"Chọn giảng viên"}
-              items={teachers.map((teacher) => ({
+              items={teacherFilter.item.map((teacher) => ({
                 label: (
                   <Typography style={{ marginLeft: "5px" }}>
-                    {teacher.name}
+                    {teacher.label}
                   </Typography>
                 ),
-                value: teacher.id
+                value: teacher.value,
               }))}
               handle={selectObject}
               hiddenTitle
@@ -43,16 +47,16 @@ const Step2 = ({ selectObject, data }) => {
           ) : (
             <CircularProgress color="secondary" />
           )
-        ) : subjects ? (
+        ) : subjectDocumentFilter ? (
           <MultipleSelect
             title={"Chọn môn học"}
-            items={subjects.map((teacher) => ({
+            items={subjectDocumentFilter.item.map((subject) => ({
               label: (
                 <Typography style={{ marginLeft: "5px" }}>
-                  {teacher.name}
+                  {subject.label}
                 </Typography>
               ),
-              value:teacher.id
+              value: subject.value,
             }))}
             handle={selectObject}
             hiddenTitle

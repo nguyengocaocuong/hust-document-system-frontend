@@ -16,7 +16,7 @@ import {
 import React, { useRef, useState } from "react";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { DatePicker } from "@mui/x-date-pickers";
-import BoxBetween from "../containers/BoxBetween";
+import BoxBetween from "../components/BoxBetween";
 import { useSelector } from "react-redux";
 function Profile() {
   const { user } = useSelector((state) => state.authentication);

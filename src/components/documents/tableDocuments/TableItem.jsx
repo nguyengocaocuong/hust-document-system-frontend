@@ -7,7 +7,7 @@ import PropperMenu from "../../PropperMenu";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {  useNavigate } from "react-router-dom";
-const getAction = (navigate, document)=>{
+const getAction = (navigate)=>{
   return [
     {
       icon:<VisibilityIcon sx={{fontSize:'13px', marginRight:'5px'}}/>,

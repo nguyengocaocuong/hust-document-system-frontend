@@ -11,7 +11,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import ListDocuments from "../components/documents/listDocuments";
 import TableDocuments from "../components/documents/tableDocuments";
-import Subject from "./education/Subject";
+import Subject from "../components/subject/Subject";
 import { Documents } from "../data/Documents";
 function Document() {
   const [type, setType] = useState(false);

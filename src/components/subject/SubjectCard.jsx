@@ -6,8 +6,8 @@ import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlin
 import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
 import { colorRanger } from "../../utils/Colorrange";
 import { Link } from "react-router-dom";
-
-function SubjectCard({ data }) {
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+function SubjectCard({ subject }) {
   return (
     <Box
       width={"25%"}
@@ -17,7 +17,7 @@ function SubjectCard({ data }) {
       mb={3}
     >
       <Link
-        to={`/education/${data.id}`}
+        to={`/education/${subject.id}`}
         style={{ textDecoration: "none", width: "100%", color:'inherit' }}
       >
         <Box
@@ -34,15 +34,15 @@ function SubjectCard({ data }) {
         >
           <Box width={"100%"} display={"flex"} alignItems={"center"}>
             <MenuBookIcon
-              sx={{ width: "80px", height: "80px", color: `${colorRanger()}` }}
+              sx={{ width: "80px", height: "80px", color: `${colorRanger(subject.id)}` }}
             />
             <Box ml={2}>
               <Stack spacing={0.5}>
                 <Typography variant="h5">
-                  <strong>{data.subjectCode}</strong>
+                  <strong>{subject.subjectCode}</strong>
                 </Typography>
                 <Typography variant="h6" noWrap>
-                  Môn học : <strong>{data.name}</strong>
+                  Môn học : <strong>{subject.name}</strong>
                 </Typography>
                 <Box
                   display={"flex"}
@@ -50,14 +50,24 @@ function SubjectCard({ data }) {
                   pt={1}
                   width={"100%"}
                 >
-                  <Tooltip title="Lượt bình luận">
+                  <Tooltip title="Yêu thích">
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      pr={2}
+                      color={"red"}
+                    >
+                      <FavoriteBorderIcon style={{marginRight:'5px'}}/> <strong>{subject.totalFavorite}</strong>
+                    </Box>
+                  </Tooltip>
+                  <Tooltip title="Bình luận">
                     <Box
                       display={"flex"}
                       alignItems={"center"}
                       pr={2}
                       color={"primary.main"}
                     >
-                      <QuestionAnswerOutlinedIcon /> {data.likeTotal}
+                      <InsertCommentOutlinedIcon style={{marginRight:'5px'}}/> <strong>{subject.totalComment}</strong>
                     </Box>
                   </Tooltip>
                   <Tooltip title="Tài liệu">
@@ -66,7 +76,7 @@ function SubjectCard({ data }) {
                       alignItems={"center"}
                       color={"success.main"}
                     >
-                      <InsertCommentOutlinedIcon /> {data.documentTotal}
+                      <QuestionAnswerOutlinedIcon style={{marginRight:'5px'}}/> <strong>{subject.totalDocument}</strong>
                     </Box>
                   </Tooltip>
                 </Box>

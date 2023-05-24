@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import BoxBetween from "../containers/BoxBetween";
 import {
   Box,
   Button,
@@ -15,6 +14,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useRegisterMutation } from "../services/AuthService";
 import { convertJsonToFormData } from "../utils/ConvertData";
 import { useSelector } from "react-redux";
+import BoxBetween from "../components/BoxBetween";
 
 function Signup() {
   const theme = useTheme();

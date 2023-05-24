@@ -1,9 +1,10 @@
 import React from "react";
-import BoxFull from "../containers/BoxFull";
-import Sidebar from "../containers/sidebar";
+import BoxFull from "../components/BoxFull";
+import Sidebar from "../components/sidebar";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import Content from "../containers/Content";
+import { Navigate, Outlet } from "react-router-dom";
+import Header from "../components/Header";
+import { Box } from "@mui/material";
 function WebLayout() {
   const { isLogin } = useSelector((state) => state.authentication);
   return isLogin ? (
@@ -15,7 +16,12 @@ function WebLayout() {
       display={"flex"}
     >
       <Sidebar />
-      <Content />
+      <BoxFull>
+        <Header />
+        <Box width={"100%"} height={"calc(100vh - 72px)"} overflow={"hidden"}>
+          <Outlet />
+        </Box>
+      </BoxFull>
     </BoxFull>
   ) : (
     <Navigate to={"/sign-in"} replace />

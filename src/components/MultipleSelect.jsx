@@ -18,12 +18,10 @@ export default function MultipleSelect({
   items = [],
   title,
   width,
+  value = "",
   all = true,
-  handle = (e) => console.log(e)
+  handle = (e) => console.log(e),
 }) {
-  const handleChange = (e) => {
-    handle(e.target.value)
-  };
   const [key, setKey] = React.useState("");
   const onChangeKey = (e) => {
     setKey(e.target.value);
@@ -33,8 +31,9 @@ export default function MultipleSelect({
       <FormControl sx={{ minWidth: { width }, mr: 2 }} size="small">
         <Select
           defaultValue={""}
+          value={value}
           displayEmpty
-          onChange={handleChange}
+          onChange={(e) => handle(e.target.value)}
           input={<OutlinedInput />}
           MenuProps={MenuProps}
           renderValue={(selected) => {

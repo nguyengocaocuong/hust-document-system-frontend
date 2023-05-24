@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import BoxBetween from "../containers/BoxBetween";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
 import {
@@ -16,6 +15,7 @@ import {
   useLoginMutation,
 } from "../services/AuthService";
 import { useSelector } from "react-redux";
+import BoxBetween from "../components/BoxBetween";
 function Signin() {
   const theme = useTheme();
   const [login] = useLoginMutation();

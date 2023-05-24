@@ -1,10 +1,10 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import BoxBetween from "../../containers/BoxBetween";
+import BoxBetween from "../../components/BoxBetween";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import Editor from "../editor";
 import draftToHtml from "draftjs-to-html";
 import React from "react";
 import { EditorState, convertToRaw } from "draft-js";
+import Editor from "../Editor";
 const Step3 = ({ setContent }) => {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 

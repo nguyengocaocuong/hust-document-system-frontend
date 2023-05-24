@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BoxFull from "../../../containers/BoxFull";
+import BoxFull from "../../../components/BoxFull";
 import { Box } from "@mui/material";
 import { useGetAllPostsQuery } from "../../../services/PostService";
 import PostDetailtHeader from "./PostDetailtHeader";

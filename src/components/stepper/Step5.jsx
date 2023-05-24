@@ -1,5 +1,5 @@
 import React from "react";
-import BoxBetween from "../../containers/BoxBetween";
+import BoxBetween from "../../components/BoxBetween";
 import {
   Box,
   Button,
