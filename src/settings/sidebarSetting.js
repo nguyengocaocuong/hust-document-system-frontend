@@ -5,7 +5,6 @@ import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import LogoutIcon from "@mui/icons-material/Logout";
 import HistoryIcon from "@mui/icons-material/History";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
@@ -117,14 +116,7 @@ const userSidebarSettingItem = [
     to: "/setting",
     Icon: SettingsOutlinedIcon,
     selectedColor: "red",
-  },
-  {
-    type: "ITEM",
-    title: "Thoát",
-    to: "/sign-out",
-    Icon: LogoutIcon,
-    selectedColor: "red",
-  },
+  }
 ];
 
 export const GetSidebarItem = (roleType) =>

@@ -1,21 +1,23 @@
 import { Box, Stack } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { Avatar, Grid, Tooltip, Typography } from "@mui/material";
 import PropperMenu from "../../PropperMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import PreviewIcon from '@mui/icons-material/Preview';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import ShareIcon from '@mui/icons-material/Share';
+import PreviewIcon from "@mui/icons-material/Preview";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import ShareIcon from "@mui/icons-material/Share";
 import { useNavigate } from "react-router-dom";
+import DocumentViewerModal from "../../modal/DocumentViewerModal";
 
-const getAction = (navigate, document, subjectDetail) => {
+const getAction = (navigate, document, subjectDetail, openModal) => {
   return [
     {
       icon: <PreviewIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Xem trước</Typography>,
       handle: (close) => {
+        openModal()
         close();
       },
     },
@@ -23,7 +25,9 @@ const getAction = (navigate, document, subjectDetail) => {
       icon: <VisibilityIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Xem chi tiết</Typography>,
       handle: (close) => {
-        navigate(`/document-detail`, {state: {document, subjectDetail}})
+        navigate(`/education/subject-document/${document.id}`, {
+          state: { subjectDetailId: subjectDetail.id },
+        });
         close();
       },
     },
@@ -31,24 +35,22 @@ const getAction = (navigate, document, subjectDetail) => {
       icon: (
         <AddCircleOutlineIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
       ),
-      label: <Typography sx={{ fontSize: "13px" }}>Thêm câu trả lời</Typography>,
+      label: <Typography sx={{ fontSize: "13px" }}>Thêm đáp án</Typography>,
       handle: (close) => {
         close();
       },
     },
     {
-      icon: (
-        <InsertLinkIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
+      icon: <InsertLinkIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
+      label: (
+        <Typography sx={{ fontSize: "13px" }}>Lấy link truy cập</Typography>
       ),
-      label: <Typography sx={{ fontSize: "13px" }}>Lấy link truy cập</Typography>,
       handle: (close) => {
         close();
       },
     },
     {
-      icon: (
-        <ShareIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
-      ),
+      icon: <ShareIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Chia sẻ</Typography>,
       handle: (close) => {
         close();
@@ -57,10 +59,13 @@ const getAction = (navigate, document, subjectDetail) => {
   ];
 };
 function DocumentCard({ document, subjectDetail }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
   return (
     <Grid item xl={4}>
-      <Box width={"100%"} display={"flex"} p={2} justifyContent={'center'}>
+      <Box width={"100%"} display={"flex"} p={2} justifyContent={"center"}>
         <Box
           width={"230px"}
           height={"280px"}
@@ -86,7 +91,9 @@ function DocumentCard({ document, subjectDetail }) {
                 <strong>{`${document?.owner?.firstName} ${document?.owner.lastName}`}</strong>
               </Typography>
             </Tooltip>
-            <PropperMenu action={getAction(navigate,document, subjectDetail)} />
+            <PropperMenu
+              action={getAction(navigate, document, subjectDetail, openModal)}
+            />
           </Box>
           <Box width={"100%"} height={"130px"} overflow={"hidden"}>
             <img src={document?.document?.thumbnail} alt="?" width={"100%"} />
@@ -123,6 +130,16 @@ function DocumentCard({ document, subjectDetail }) {
           </Box>
         </Box>
       </Box>
+      <DocumentViewerModal
+        open={open}
+        closeModal={closeModal}
+        docs={[
+          {
+            uri: `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocuments/${document.id}/readFile`,
+            fileName: document.document.name,
+          },
+        ]}
+      />
     </Grid>
   );
 }

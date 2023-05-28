@@ -1,17 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetSidebarItem } from "../../settings/SidebarSetting";
 import { Sidebar as ProSidebar, Menu, sidebarClasses } from "react-pro-sidebar";
 import SidebarHeader from "./SidebarHeader";
 import SidebarHomeItem from "./SidebarHomeItem";
 import SidebarItem from "./SidebarItem";
 import SidebarSubItem from "./SidebarSubItem";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { MenuItem, menuClasses } from "react-pro-sidebar";
+import {signOut} from "../../store/authState"
 function Sidebar() {
   const {
     user: { roleType },
   } = useSelector((state) => state.authentication);
-  const [sidebarItem, sidebaerSettingItem] = GetSidebarItem(roleType);
+  const [sidebarItem, sidebarSettingItem] = GetSidebarItem(roleType);
+  const dispatch = useDispatch()
+  const handleSignOut = ()=>{
+    dispatch(signOut())
+  }
   return (
     <ProSidebar
       rootStyles={{
@@ -21,7 +28,7 @@ function Sidebar() {
           maxWidth: "250px",
           border: "1px solid #D8D9D9",
         },
-        borderRight:"1px solid #D8D9D9"
+        borderRight: "1px solid #D8D9D9",
       }}
       transitionDuration={500}
     >
@@ -41,9 +48,37 @@ function Sidebar() {
       <Box bottom={0} left={0}>
         <Divider />
         <Menu style={{ marginTop: "15px" }}>
-          {sidebaerSettingItem.map((item, index) => (
+          {sidebarSettingItem.map((item, index) => (
             <SidebarItem key={index} {...item} setting />
           ))}
+          <MenuItem
+            style={{
+              height: "37px",
+              width: "95%",
+              borderRadius: "0 5px 5px 0",
+            }}
+            rootStyles={{
+              ["." + menuClasses.button]: {
+                "&:hover": {
+                  color: "red",
+                },
+              },
+            }}
+            icon={
+              <LogoutIcon
+                style={{
+                  fontSize: "20px",
+                }}
+              />
+            }
+            component={<Box  onClick={handleSignOut} />}
+          >
+            <Typography
+              style={{ fontSize: "15px"}}
+            >
+              Thoát
+            </Typography>
+          </MenuItem>
         </Menu>
       </Box>
     </ProSidebar>

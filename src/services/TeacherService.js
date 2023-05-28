@@ -30,8 +30,17 @@ export const teacherApi = createApi({
         }),
       }),
     }),
+    createTeacher:  builder.mutation({
+      query: (teacher) => ({
+        url: "",
+        method: "POST",
+        body: teacher,
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["teachers"],
+    }),
   }),
 });
 
-export const {useGetAllTeacherQuery, useGetAllTeacherForFilterQuery} = teacherApi;
+export const {useGetAllTeacherQuery, useGetAllTeacherForFilterQuery, useCreateTeacherMutation} = teacherApi;
 export const { endpoints, reducerPath, reducer, middleware } = teacherApi;

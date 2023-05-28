@@ -17,6 +17,7 @@ export const subjectApi = createApi({
     "commentSubjectDocument",
     "answerSubjectDocument",
     "semester",
+    "favoriteSubjectDocument",
   ],
   endpoints: (builder) => ({
     // SUBJECT
@@ -64,7 +65,25 @@ export const subjectApi = createApi({
       },
       providesTags: ["subject"],
     }),
-    
+    createSubject:  builder.mutation({
+      query: (subject) => ({
+        url: "",
+        method: "POST",
+        body: subject,
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["subject"],
+    }),
+    favoriteSubject:  builder.mutation({
+      query: (data) => ({
+        url: `/${data.subjectId}/favorite`,
+        method: "POST",
+        body: data.body,
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["subject"],
+    }),
+
     // COMMENT SUBJECT DOCUMENT
     getAllCommentSubjectDocument: builder.query({
       query: (id) => `/subjectDocument/${id}/comment`,
@@ -90,6 +109,14 @@ export const subjectApi = createApi({
       transformResponse: (response) => response?.content,
       providesTags: ["subjectDocument"],
     }),
+    favoriteSubjectDocument: builder.mutation({
+      query: (id) => ({
+        url: `subjectDocument/${id}/favorite`,
+        method: "POST",
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["favoriteSubjectDocument"],
+    }),
 
     // SUBJECT DOCUMENT
     getSubjectDocumentDetail: builder.query({
@@ -113,6 +140,26 @@ export const subjectApi = createApi({
       }),
       providesTags: ["subjectDocument"],
     }),
+    updloadSubjectDocumentForSubject: builder.mutation({
+      query: (data) => ({
+        url: `/${data.subjectId}/subjectDocument`,
+        method: "POST",
+        body: data.subjectDocument
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["subjectDocument"],
+    }),
+
+    // ANSER SUBJECT DOCUMENT
+    uploadAnswerForSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}/answerSubjectDocument`,
+        method: "POST",
+        body: data.answer
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["favoriteSubjectDocument"],
+    }),
 
     // SEMESTER
     getAllSemesterForFilter: builder.query({
@@ -126,7 +173,7 @@ export const subjectApi = createApi({
         })),
       }),
       providesTags: ["semester"],
-    }), 
+    }),
   }),
 });
 
@@ -140,5 +187,10 @@ export const {
   useDeleteCommentSubjectDocumentMutation,
   useGetSubjectDocumentDetailQuery,
   useGetAllCommentSubjectDocumentQuery,
+  useFavoriteSubjectDocumentMutation,
+  useUploadAnswerForSubjectDocumentMutation,
+  useUpdloadSubjectDocumentForSubjectMutation,
+  useCreateSubjectMutation,
+  useFavoriteSubjectMutation
 } = subjectApi;
 export const { endpoints, reducerPath, reducer, middleware } = subjectApi;

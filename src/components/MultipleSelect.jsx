@@ -21,14 +21,14 @@ export default function MultipleSelect({
   value = "",
   all = true,
   handle = (e) => console.log(e),
+  style
 }) {
   const [key, setKey] = React.useState("");
   const onChangeKey = (e) => {
     setKey(e.target.value);
   };
   return (
-    <div>
-      <FormControl sx={{ minWidth: { width }, mr: 2 }} size="small">
+      <FormControl sx={{ minWidth: { width }, mr: 2, ...style}} size="small">
         <Select
           defaultValue={""}
           value={value}
@@ -91,6 +91,5 @@ export default function MultipleSelect({
           )}
         </Select>
       </FormControl>
-    </div>
   );
 }

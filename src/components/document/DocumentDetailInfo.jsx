@@ -1,22 +1,29 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import DocumentDetailtHeader from "./DocumentDetailtHeader";
-import DocumentCardDetailtActions from "./DocumentCardDetailtActions";
-import Comment from "../../comment";
-import DocumentDetailtAnswer from "./DocumentDetailtAnswer";
-
-function DocumentDetailInfo({data, subjectDetail, document}) {
+import DocumentDetailHeader from "./DocumentDetailHeader";
+import DocumentDetailAction from "./DocumentDetailAction";
+import Comment from '../comment'
+import DocumentDetailtAnswer from "./DocumentDetailAnswer";
+function DocumentDetailInfo({
+  owner = {},
+  objectName,
+  comments = {},
+  answers = [],
+  favorites = {}
+}) {
   const [selectedId, setSelectedId] = useState(1);
   const handleSelectedId = (id) => {
     setSelectedId(id === selectedId ? null : id);
   };
   return (
     <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
-      <DocumentDetailtHeader document={data} subjectDetail={subjectDetail} />
-      <DocumentCardDetailtActions
+      <DocumentDetailHeader owner={owner} objectName={objectName} />
+      <DocumentDetailAction
         handleSelectedId={handleSelectedId}
-        document={data}
         selectedId={selectedId}
+        totalComment={comments.data.length}
+        totalAnswer={answers.data.length}
+        favorite={favorites}
       />
       <Box
         width="100%"
@@ -28,9 +35,9 @@ function DocumentDetailInfo({data, subjectDetail, document}) {
         {selectedId === null ? (
           <></>
         ) : selectedId === 2 ? (
-          <Comment subjectDocumentId={document.id} type={"SUBJECT_DOCUMENT"} />
+          <Comment comments={comments} />
         ) : (
-          <DocumentDetailtAnswer />
+          <DocumentDetailtAnswer answers={answers}/>
         )}
       </Box>
     </Box>

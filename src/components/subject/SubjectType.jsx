@@ -21,7 +21,7 @@ const getAction = (data, select, openModal) => {
       ),
       label: <Typography sx={{ fontSize: "13px" }}>Thêm tài liệu</Typography>,
       handle: (close) => {
-        openModal(data)
+        openModal()
         close();
       },
     },

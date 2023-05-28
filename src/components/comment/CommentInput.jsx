@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
 
-const CommentInput = ({ handleSubmit, parentCommentId, reply = false }) => {
+const CommentInput = ({ add, parentCommentId, reply = false }) => {
   const { user } = useSelector((state) => state.authentication);
   const [comment, setComment] = useState("");
   return (
@@ -13,13 +13,12 @@ const CommentInput = ({ handleSubmit, parentCommentId, reply = false }) => {
       sx={{ backgroundColor: !reply && "#F2F2F2" }}
       display={"flex"}
       alignItems={"center"}
-      boxShadow={!reply && 1}
       height={reply ? "45px" : "50px"}
     >
       <Avatar
         src={user.avatar}
         sx={{ width: reply ? "30px" : "35px", height: reply ? "30px" : "35px" }}
-      />
+      >{user?.lastName.substring(user?.lastName.lastIndexOf(" ") + 1,user?.lastName.lastIndexOf(" ") + 2)}</Avatar>
       <InputBase
         placeholder="Viết bình luận"
         value={comment}
@@ -36,7 +35,7 @@ const CommentInput = ({ handleSubmit, parentCommentId, reply = false }) => {
       />
       <IconButton
         onClick={() =>
-          handleSubmit(
+          add(
             parentCommentId ? { comment, parentCommentId } : { comment },
             () => setComment("")
           )

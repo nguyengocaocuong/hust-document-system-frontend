@@ -5,11 +5,9 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Filter from "../components/Filter";
 import TableDocuments from "../components/documents/tableDocuments";
-import { useGetAllSubjectQuery } from "../services/SubjectService";
 
 function Education() {
   const [type, setType] = useState(false);
-  const { data: subjects = [] } = useGetAllSubjectQuery();
   const onSearching = (data) => {
     console.log(data);
   };
@@ -31,7 +29,7 @@ function Education() {
         </Box>
         <Filter onSearching={onSearching} />
       </Box>
-      {type ? <TableDocuments /> : <Subject subjects={subjects} />}
+      {type ? <TableDocuments /> : <Subject />}
     </Box>
   );
 }

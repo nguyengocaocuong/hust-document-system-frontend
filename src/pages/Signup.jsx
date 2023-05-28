@@ -10,13 +10,14 @@ import {
 } from "@mui/material";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../services/AuthService";
 import { convertJsonToFormData } from "../utils/ConvertData";
 import { useSelector } from "react-redux";
 import BoxBetween from "../components/BoxBetween";
 
 function Signup() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { isLogin } = useSelector((state) => state.authentication);
   const [register, { isSuccess }] = useRegisterMutation();
@@ -34,10 +35,7 @@ function Signup() {
     const formData = convertJsonToFormData(user);
     await register(formData);
   };
-  const [agree, setAgree] = useState(false);
-  return isSuccess ? (
-    <Navigate to={"/sign-in"} replace />
-  ) : isLogin ? (
+  return isLogin ? (
     <Navigate to={"/"} replace />
   ) : (
     <Box height={"100vh"} width={"100vw"}>
@@ -68,7 +66,7 @@ function Signup() {
                 mt={"10px"}
                 color={theme.palette.text.secondary}
               >
-                Đăng Ký
+                {isSuccess ? "Đăng ký thành công" : "Đăng Ký"}
               </Typography>
             </Box>
             <Box display={"flex"} justifyContent={"center"}>
@@ -76,169 +74,179 @@ function Signup() {
                 variant="h4"
                 mb={"16px"}
                 color={theme.palette.text.secondary}
+                textAlign={"center"}
               >
-                Đăng ký tài khoản mới
+                {isSuccess
+                  ? "Chúng tôi đã gửi đến email kích hoạt tới tài khoản của bạn, kiểm tra email để kích hoạt tài khoản của bạn"
+                  : "Đăng ký tài khoản mới"}
               </Typography>
             </Box>
-            <Box width={"100%"}>
+            {isSuccess ? (
               <Box
-                mb={2}
-                mt={2}
-                display={"flex"}
-                justifyContent={"space-between"}
                 width={"100%"}
-              >
-                <Box width={"45%"}>
-                  <TextField
-                    inputProps={{
-                      style: {
-                        fontSize: "17px",
-                      },
-                    }}
-                    InputLabelProps={{
-                      style: {
-                        fontSize: "17px",
-                      },
-                    }}
-                    sx={{ width: "100%" }}
-                    name="firstName"
-                    label="Họ"
-                    variant="outlined"
-                    value={user.firstName}
-                    style={{ fontSize: "17px" }}
-                    onChange={handleOnChange}
-                    size="medium"
-                  />
-                </Box>
-                <Box width={"45%"}>
-                  <TextField
-                    inputProps={{
-                      style: {
-                        fontSize: "17px",
-                      },
-                    }}
-                    InputLabelProps={{
-                      style: {
-                        fontSize: "17px",
-                      },
-                    }}
-                    sx={{ width: "100%" }}
-                    name="lastName"
-                    label="Tên"
-                    variant="outlined"
-                    value={user.lastName}
-                    style={{ fontSize: "17px" }}
-                    onChange={handleOnChange}
-                    size="medium"
-                  />
-                </Box>
-              </Box>
-              <Box mb={2}>
-                <TextField
-                  inputProps={{
-                    style: {
-                      fontSize: "17px",
-                    },
-                  }}
-                  InputLabelProps={{
-                    style: {
-                      fontSize: "17px",
-                    },
-                  }}
-                  sx={{ width: "100%" }}
-                  name="email"
-                  label="Email"
-                  variant="outlined"
-                  value={user.email}
-                  onChange={handleOnChange}
-                  size="medium"
-                />
-              </Box>
-              <Box mb={2}>
-                <TextField
-                  inputProps={{
-                    style: {
-                      fontSize: "17px",
-                    },
-                  }}
-                  InputLabelProps={{
-                    style: {
-                      fontSize: "17px",
-                    },
-                  }}
-                  sx={{ width: "100%" }}
-                  type="password"
-                  name="password"
-                  label="Mật khẩu"
-                  variant="outlined"
-                  value={user.password}
-                  onChange={handleOnChange}
-                  size="medium"
-                />
-              </Box>
-              <Box mb={2}>
-                <TextField
-                  inputProps={{
-                    style: {
-                      fontSize: "17px",
-                    },
-                  }}
-                  InputLabelProps={{
-                    style: {
-                      fontSize: "17px",
-                    },
-                  }}
-                  sx={{ width: "100%" }}
-                  name="matchingPassword"
-                  label="Xác nhận mật khẩu"
-                  type="password"
-                  variant="outlined"
-                  value={user.matchingPassword}
-                  onChange={handleOnChange}
-                  size="medium"
-                />
-              </Box>
-              <Box
                 display={"flex"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
+                justifyContent={"center"}
+                pt={2}
               >
-                <FormControlLabel
-                  label="Tôi đồng ý các điều khoản đối với người dùng"
-                  name="agree"
-                  componentsProps={{ typography: { variant: "h5" } }}
-                  control={
-                    <Checkbox
-                      checked={agree}
-                      onChange={() => setAgree(!agree)}
-                    />
-                  }
-                />
-              </Box>
-              <BoxBetween mb={"16px"} mt={3}>
                 <Button
-                  variant="contained"
-                  onClick={handleRegister}
-                  sx={{ textTransform: "capitalize", fontSize: "18px" }}
+                  variant="outlined"
+                  color="primary"
+                  sx={{ textTransform: "capitalize" }}
+                  onClick={() => navigate("/sign-in")}
                 >
-                  Đăng ký
+                  Đến trang login
                 </Button>
-              </BoxBetween>
-              <BoxBetween>
-                <Typography variant="h4">
-                  Bạn đã có tài khoản{" "}
-                  <Link
-                    style={{
-                      textDecoration: "none",
-                      color: theme.palette.primary.main,
+              </Box>
+            ) : (
+              <Box width={"100%"}>
+                <Box
+                  mb={2}
+                  mt={2}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  width={"100%"}
+                >
+                  <Box width={"45%"}>
+                    <TextField
+                      inputProps={{
+                        style: {
+                          fontSize: "17px",
+                        },
+                      }}
+                      InputLabelProps={{
+                        style: {
+                          fontSize: "17px",
+                        },
+                      }}
+                      sx={{ width: "100%" }}
+                      name="firstName"
+                      label="Họ"
+                      variant="outlined"
+                      value={user.firstName}
+                      style={{ fontSize: "17px" }}
+                      onChange={handleOnChange}
+                      size="medium"
+                    />
+                  </Box>
+                  <Box width={"45%"}>
+                    <TextField
+                      inputProps={{
+                        style: {
+                          fontSize: "17px",
+                        },
+                      }}
+                      InputLabelProps={{
+                        style: {
+                          fontSize: "17px",
+                        },
+                      }}
+                      sx={{ width: "100%" }}
+                      name="lastName"
+                      label="Tên"
+                      variant="outlined"
+                      value={user.lastName}
+                      style={{ fontSize: "17px" }}
+                      onChange={handleOnChange}
+                      size="medium"
+                    />
+                  </Box>
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    inputProps={{
+                      style: {
+                        fontSize: "17px",
+                      },
                     }}
-                    to={"/sign-in"}
+                    InputLabelProps={{
+                      style: {
+                        fontSize: "17px",
+                      },
+                    }}
+                    sx={{ width: "100%" }}
+                    type="email"
+                    name="email"
+                    label="Email"
+                    variant="outlined"
+                    value={user.email}
+                    onChange={handleOnChange}
+                    size="medium"
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    inputProps={{
+                      style: {
+                        fontSize: "17px",
+                      },
+                    }}
+                    InputLabelProps={{
+                      style: {
+                        fontSize: "17px",
+                      },
+                    }}
+                    sx={{ width: "100%" }}
+                    type="password"
+                    name="password"
+                    label="Mật khẩu"
+                    variant="outlined"
+                    value={user.password}
+                    onChange={handleOnChange}
+                    size="medium"
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    inputProps={{
+                      style: {
+                        fontSize: "17px",
+                      },
+                    }}
+                    InputLabelProps={{
+                      style: {
+                        fontSize: "17px",
+                      },
+                    }}
+                    sx={{ width: "100%" }}
+                    name="matchingPassword"
+                    label="Xác nhận mật khẩu"
+                    type="password"
+                    variant="outlined"
+                    value={user.matchingPassword}
+                    onChange={handleOnChange}
+                    size="medium"
+                  />
+                </Box>
+                <Box
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                ></Box>
+                <BoxBetween mb={"16px"} mt={3}>
+                  <Button
+                    variant="contained"
+                    onClick={handleRegister}
+                    sx={{ textTransform: "capitalize", fontSize: "18px" }}
                   >
-                    Đăng nhập
-                  </Link>
-                </Typography>
-              </BoxBetween>
-            </Box>
+                    Đăng ký
+                  </Button>
+                </BoxBetween>
+                <BoxBetween>
+                  <Typography variant="h4">
+                    Bạn đã có tài khoản{" "}
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: theme.palette.primary.main,
+                      }}
+                      to={"/sign-in"}
+                    >
+                      Đăng nhập
+                    </Link>
+                  </Typography>
+                </BoxBetween>
+              </Box>
+            )}
           </Box>
         </Box>
       </BoxBetween>

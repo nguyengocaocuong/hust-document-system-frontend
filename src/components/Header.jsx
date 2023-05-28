@@ -6,6 +6,7 @@ import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { useSelector } from "react-redux";
 import Notification from "./Notification";
+import { deepOrange } from "@mui/material/colors";
 const data = [
   {
     type: "SHARED",
@@ -81,9 +82,9 @@ function Header() {
             <NotificationsActiveOutlinedIcon style={{ fontSize: "25px" }} />
           </Badge>
         </IconButton>
-        <Avatar alt="Remy Sharp" src={user.avatar} />
+        <Avatar sx={{ bgcolor: deepOrange[500] }} alt="Remy Sharp" src={user.avatar} >{ user.lastName.substring(user.lastName.lastIndexOf(" ") + 1,user.lastName.lastIndexOf(" ")+2)}</Avatar>
         <Box ml={"5px"}>
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          <Typography fontSize={'13px'}>
             {`${user.firstName} ${user.lastName}`}
           </Typography>
           <Box

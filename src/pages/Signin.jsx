@@ -11,9 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import { Link, Navigate } from "react-router-dom";
-import {
-  useLoginMutation,
-} from "../services/AuthService";
+import { useLoginMutation } from "../services/AuthService";
 import { useSelector } from "react-redux";
 import BoxBetween from "../components/BoxBetween";
 function Signin() {
@@ -32,7 +30,7 @@ function Signin() {
     if (creadentials.email === "" || creadentials.password === "") return;
     await login(creadentials);
   };
-  return isLogin  ? (
+  return isLogin ? (
     <Navigate to={"/"} replace />
   ) : (
     <Box height={"100vh"} width={"100vw"}>
@@ -81,6 +79,7 @@ function Signin() {
                     },
                   }}
                   sx={{ width: "100%" }}
+                  type="email"
                   name="email"
                   label="Email"
                   variant="outlined"
@@ -164,7 +163,7 @@ function Signin() {
                     }}
                     to={"/sign-up"}
                   >
-                    SignUp
+                    Đăng ký
                   </Link>
                 </Typography>
               </BoxBetween>

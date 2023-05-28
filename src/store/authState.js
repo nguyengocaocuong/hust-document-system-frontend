@@ -9,7 +9,12 @@ const initialState = {
 export const authState = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    signOut: (state)=>{
+      state.isLogin = false
+      state.user = null
+    }
+  },
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
@@ -22,5 +27,5 @@ export const authState = createSlice({
   },
 });
 
-// export const {} = authState.actions;
+export const {signOut} = authState.actions;
 export default authState.reducer;

@@ -1,19 +1,36 @@
-import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Chip, Divider, Grid, Stack, Typography } from "@mui/material";
+import React, { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetSubjectDetailQuery } from "../../services/SubjectService";
 import SubjectType from "./SubjectType";
 import { documentType as type } from "../../settings/SubjectSetting";
 import SubjectTypeDetail from "./SubjectTypeDetail";
-import CustomModal from "../../components/modal";
-
+import SubjectDocumentModal from "../../components/modal/SubjectDocumentModal";
+import DoneIcon from "@mui/icons-material/Done";
+import BoxBetween from "../BoxBetween";
+import { useDropzone } from "react-dropzone";
 function SubjectDetail() {
   const { id } = useParams();
-  const { data: subjectDetail = [], isSuccess } = useGetSubjectDetailQuery(id);
-  const [selected, setSelected] = useState(null);
+  const {
+    data: subjectDetail,
+    isSuccess,
+    refetch,
+  } = useGetSubjectDetailQuery(id);
+  const [selected, setSelected] = useState([]);
+  const handleSelected = (item) => {
+    console.log(item);
+    if (selected.find((i) => i.type === item.type))
+      setSelected(selected.filter((i) => i.type !== item.type));
+    else setSelected([...selected, item]);
+  };
   const [modalData, setModalData] = useState({ open: false, data: null });
-  const openModal = (data)=> setModalData({data, open: true})
-  const closeModal = ()=> setModalData({data:null, open: false})
+  const openModal = (data) => setModalData({ data, open: true });
+  const closeModal = () => setModalData({ data: null, open: false });
+
+  const onDrop = useCallback((acceptedFiles) => {
+      setModalData(() =>({ acceptedFiles, open: true }))
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={"white"}>
       {isSuccess && (
@@ -64,65 +81,89 @@ function SubjectDetail() {
             <Divider />
             <Box p={2}>
               <Typography variant="h3">Tài liệu môn học</Typography>
-              <Grid container pt={2}>
+              <Box display={"flex"} flexWrap={"wrap"}>
                 {subjectDetail?.subjectDocuments?.map((document, index) => (
-                  <Grid item xl={6} key={index}>
-                    <Typography
-                      noWrap
-                      variant="h5"
-                      fontWeight={500}
-                      p={1}
-                      pl={2}
-                      color={type[document.type].color}
-                      onClick={() =>
-                        setSelected(
-                          selected?.type === document.type
-                            ? undefined
-                            : document
-                        )
+                  <Box p={1} key={index}>
+                    <Chip
+                      onClick={() => handleSelected(document)}
+                      color={
+                        selected?.find((i) => i.type === document.type)
+                          ? "success"
+                          : "primary"
                       }
                       sx={{
-                        boxShadow: selected?.type === document.type ? 2 : 0,
+                        boxShadow: selected?.find(
+                          (i) => i.type === document.type
+                        )
+                          ? 2
+                          : 0,
                         transform: "box-shadow 0.4s",
                         cursor: "pointer",
+
                         "&:hover": {
                           boxShadow: 2,
                         },
                         width: "100%",
                       }}
-                    >
-                      <strong>{document.documents.length}</strong>{" "}
-                      {type[document.type].title}
-                    </Typography>
-                  </Grid>
+                      label={type[document.type].title}
+                      icon={
+                        selected?.find((i) => i.type === document.type) !=
+                          undefined && <DoneIcon />
+                      }
+                    />
+                  </Box>
                 ))}
-              </Grid>
+              </Box>
             </Box>
             <Divider />
           </Box>
           <Box width={"70%"} overflow={"auto"}>
-            {selected && (
-              <SubjectTypeDetail
-                subjectType={selected}
-                subjectDetail={subjectDetail}
-              />
-            )}
-            {!selected && (
+            {selected.length > 0 &&
+              selected.map((s, index) => (
+                <SubjectTypeDetail
+                  key={index}
+                  subjectType={s}
+                  subjectDetail={subjectDetail}
+                />
+              ))}
+            {selected.length === 0 && (
               <Grid container spacing={0}>
                 {subjectDetail?.subjectDocuments?.map((item, index) => (
                   <SubjectType
                     key={index}
                     data={item}
-                    select={() => setSelected(item)}
-                    openModal={openModal}
+                    select={() => setSelected([item])}
+                    openModal={() => openModal(item)}
                   />
                 ))}
               </Grid>
             )}
+            {subjectDetail?.subjectDocuments.length === 0 && (
+              <BoxBetween >
+                <Box {...getRootProps()} p={5} border={isDragActive ? `3px dotted blue` : `1px dotted  gray`}>
+                  <img
+                    src="https://www.printcmr.com/images/414notfound.png"
+                    alt="?"
+                  />
+                  <Typography variant="h4">Môn học này chưa có tài liệu</Typography>
+                  <Typography>{isDragActive ? "Thả tài liệu ra": "Kéo tài liệu vào đây để tải lên"}</Typography>
+                </Box>
+                <input {...getInputProps()} />
+              </BoxBetween>
+            )}
           </Box>
         </>
       )}
-      <CustomModal type={'ADD_SUBJECT_DOCUMENT'} modalData={modalData} handleClose={closeModal}/>
+      {(modalData.data || modalData.acceptedFiles ) && (
+        <SubjectDocumentModal
+          subjectId={id}
+          open={modalData.open}
+          closeModal={closeModal}
+          subjectType={modalData.data}
+          acceptedFiles={modalData.acceptedFiles}
+          refetch={refetch}
+        />
+      )}
     </Box>
   );
 }

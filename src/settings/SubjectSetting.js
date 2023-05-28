@@ -21,7 +21,7 @@ export const documentType  = {
       title: "Bài kiểm tra",
       subTitle: "EXAM",
       img: examImg,
-      color: "#ABCDEF",
+      color: "#558CE6",
     },
     QUIZ: {
       title: "Kiểm tra nhanh",

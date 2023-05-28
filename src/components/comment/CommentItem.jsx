@@ -7,7 +7,7 @@ import CommentInput from "./CommentInput";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector } from "react-redux";
-const getAction = (comment, user, handleClear) => {
+const getAction = (comment, user, clear) => {
   const actions = [
     {
       icon: <CreateIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
@@ -20,19 +20,14 @@ const getAction = (comment, user, handleClear) => {
       icon: <DeleteIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Xóa bình luận</Typography>,
       handle: (close) => {
-        handleClear(comment.id);
+        clear(comment.id);
         close();
       },
     },
   ];
   return user.id === comment.owner.id ? actions : [actions[0]];
 };
-const CommentItem = ({
-  comment,
-  handleSubmit,
-  handleClear,
-  childComment = false,
-}) => {
+const CommentItem = ({ comment, add, clear, childComment = false }) => {
   const [isReply, setReply] = useState(false);
   const { user } = useSelector((state) => state.authentication);
   return (
@@ -51,8 +46,13 @@ const CommentItem = ({
       >
         <Avatar
           src={comment.owner?.avatar}
-          sx={{ width: "35px", height: "35px", mr: 1 }}
-        />
+          sx={{ width: "35px", height: "35px", mr: 1}}
+        >
+          {comment.owner?.lastName.substring(
+            comment.owner?.lastName.lastIndexOf(" ") + 1,
+            comment.owner?.lastName.lastIndexOf(" ") + 2
+          )}
+        </Avatar>
         <Box width={"100%"}>
           <Box display={"flex"} width={"100%"}>
             <Box width={"calc(100% - 50px)"}>
@@ -98,22 +98,24 @@ const CommentItem = ({
               </Box>
             </Box>
             <Box>
-              <PropperMenu action={getAction(comment, user, handleClear)} />
+              <PropperMenu action={getAction(comment, user, clear)} />
             </Box>
           </Box>
           {isReply && (
-            <CommentInput
-              handleSubmit={handleSubmit}
-              parentCommentId={comment.id}
-              reply={true}
-            />
+            <CommentInput add={add} parentCommentId={comment.id} reply={true} />
           )}
         </Box>
       </Box>
       {comment?.childComment.length > 0 && (
         <Stack>
           {comment.childComment.map((comment, index) => (
-            <CommentItem comment={comment} key={index} childComment />
+            <CommentItem
+              comment={comment}
+              key={index}
+              childComment
+              clear={clear}
+              add={add}
+            />
           ))}
         </Stack>
       )}
