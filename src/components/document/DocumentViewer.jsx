@@ -33,7 +33,7 @@ function DocumentViewer({ docs = [] }) {
             defaultZoom: 1,
             zoomJump: 0.2,
           },
-          pdfVerticalScrollByDefault: false,
+          pdfVerticalScrollByDefault: true,
         }}
       />
     </BoxFull>
