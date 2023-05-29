@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
-import DocumentCard from "../documents/documentsCard";
+import DocumentCard from "../document/DocumentCard";
 import { documentType as type } from "../../settings/SubjectSetting";
 
 function SubjectTypeDetail({ subjectType = {}, subjectDetail = {} }) {

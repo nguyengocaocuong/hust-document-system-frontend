@@ -2,7 +2,7 @@ import { Box, Stack } from "@mui/system";
 import React from "react";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { Avatar, Grid, Tooltip, Typography } from "@mui/material";
-import PropperMenu from "../../PropperMenu";
+import PropperMenu from "../PropperMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -89,7 +89,7 @@ function DocumentCard({ document, subjectDetail }) {
             <PropperMenu action={getAction(navigate,document, subjectDetail)} />
           </Box>
           <Box width={"100%"} height={"130px"} overflow={"hidden"}>
-            <img src={document?.document?.thumbnail} alt="?" width={"100%"} />
+            <img src={`http://localhost:8080/api/v1/public/${document?.document.id}/thumbnail`} alt="???" width={"100%"} />
           </Box>
           <Box width={"100%"} height={"84px"} textAlign={"start"} p={1}>
             <Stack spacing={1}>

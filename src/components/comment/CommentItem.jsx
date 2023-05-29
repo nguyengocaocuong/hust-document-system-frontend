@@ -7,6 +7,7 @@ import CommentInput from "./CommentInput";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector } from "react-redux";
+import { red } from "@mui/material/colors";
 const getAction = (comment, user, clear) => {
   const actions = [
     {
@@ -46,7 +47,7 @@ const CommentItem = ({ comment, add, clear, childComment = false }) => {
       >
         <Avatar
           src={comment.owner?.avatar}
-          sx={{ width: "35px", height: "35px", mr: 1}}
+          sx={{ width: "35px", height: "35px", mr: 1, bgcolor: red[500]}}
         >
           {comment.owner?.lastName.substring(
             comment.owner?.lastName.lastIndexOf(" ") + 1,
@@ -57,7 +58,7 @@ const CommentItem = ({ comment, add, clear, childComment = false }) => {
           <Box display={"flex"} width={"100%"}>
             <Box width={"calc(100% - 50px)"}>
               <Typography fontWeight={700} fontSize={"13px"}>
-                {comment.owner?.lastName}
+                {`${comment.owner?.firstName} ${comment.owner?.lastName}`}
               </Typography>
               <Typography>{comment.comment}</Typography>
               <Box display={"flex"} alignItems={"center"}>

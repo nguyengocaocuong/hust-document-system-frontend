@@ -1,6 +1,7 @@
 import { Box, Modal } from "@mui/material";
 import React from "react";
 import DocumentViewer from "../document/DocumentViewer";
+import PDFViewer from "../../pages/PDFViewer";
 
 const style = {
   position: "absolute",
@@ -16,8 +17,9 @@ function DocumentViewerModal({ open, closeModal, docs = [] }) {
   return (
     <Modal open={open} onClose={closeModal}>
       <Box sx={{ ...style }}>
-        <Box height={"100vh"} width={"50vw"} overflow={"auto"}>
-          <DocumentViewer docs={docs} />
+        <Box width={'80vw'} height={'100vh'} overflow={"auto"}>
+          {docs[0]?.fileName.includes(".pdf") && (<PDFViewer url={docs[0]?.uri}/>)}
+          {!docs[0]?.fileName.includes(".pdf") && (<DocumentViewer docs={docs} />)}
         </Box>
       </Box>
     </Modal>

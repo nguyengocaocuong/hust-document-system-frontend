@@ -54,11 +54,11 @@ function SubjectCard({ subject }) {
           />
           <Box ml={2}>
             <Stack spacing={0.5}>
-              <Typography variant="h5">
+              <Typography variant="h5" color={'text.secondary'} textTransform={'uppercase'}>
                 <strong>{subject.subjectCode}</strong>
               </Typography>
-              <Typography variant="h6" noWrap>
-                Môn học : <strong>{subject.name}</strong>
+              <Typography variant="h6" noWrap fontWeight={100}>
+                <strong>{subject.name}</strong>
               </Typography>
               <Box display={"flex"} alignItems={"center"} pt={1} width={"100%"}>
                 <Tooltip title="Yêu thích">

@@ -13,16 +13,15 @@ export const reviewSubjectApi = createApi({
   }),
   tagTypes: ["reviewSubjects"],
   endpoints: (builder) => ({
-    getAllReviewSubjects: builder.query({ query: () => "" }),
     createReviewSubject: builder.mutation({
-      query: (formData)=> ({
-        url:'',
-        method: 'POST',
-        body: formData
-      })
-    })
+      query: (formData) => ({
+        url: "",
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllReviewSubjectsQuery, useCreateReviewSubjectMutation } = reviewSubjectApi;
+export const { useCreateReviewSubjectMutation } = reviewSubjectApi;
 export const { endpoints, reducerPath, reducer, middleware } = reviewSubjectApi;

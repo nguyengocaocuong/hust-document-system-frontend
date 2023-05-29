@@ -24,6 +24,7 @@ import SubjectDetail from "./components/subject/SubjectDetail";
 import Education from "./pages/Education";
 import SubjectDocumentDetail from "./components/SubjectDocumentDetail";
 import PDFViewer from "./pages/PDFViewer";
+import Review from "./pages/Review";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -47,6 +48,7 @@ function App() {
                         <Route path="/" element={<UserLayout />}>
                           <Route index element={<Home />} />
                           <Route path="/test" element={<PDFViewer/>}/>
+                          <Route path="/review" element={<Review/>}/>
                           <Route path="writing" element={<Writing />} />
                           <Route path="post/:id" element={<PostDetailt />} />
                           <Route
@@ -57,7 +59,9 @@ function App() {
                             index
                             path="education"
                             element={<Education />}
-                          />
+                          >
+                            
+                          </Route>
                           <Route
                             path="education/:id"
                             element={<SubjectDetail />}

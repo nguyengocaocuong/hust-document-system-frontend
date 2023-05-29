@@ -9,8 +9,8 @@ import {
 } from "../settings/SharedSetting";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
-import ListDocuments from "../components/documents/listDocuments";
-import TableDocuments from "../components/documents/tableDocuments";
+// import ListDocuments from "../components/document/listDocuments";
+import TableDocuments from "../components/document/TableDocument";
 import Subject from "../components/subject/Subject";
 import { Documents } from "../data/Documents";
 function Document() {
@@ -45,7 +45,7 @@ function Document() {
           ]}
         />
       </Box>
-      <ListDocuments title={"Vừa được chia sẻ"} items={Documents}/>
+      {/* <ListDocuments title={"Vừa được chia sẻ"} items={Documents}/> */}
       {type ? <TableDocuments /> : <Subject />}
     </Box>
   );
