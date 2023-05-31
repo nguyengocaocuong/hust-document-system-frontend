@@ -1,5 +1,4 @@
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
@@ -10,15 +9,6 @@ import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import { Badge, IconButton } from "@mui/material";
-const NotificationIcon = () => (
-  <IconButton >
-    <Badge badgeContent={4} color="error">
-      <NotificationsNoneIcon style={{ fontSize: "25px" }}/>
-    </Badge>
-  </IconButton>
-);
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -57,13 +47,6 @@ const userSidebarItem = [
       },
       {
         type: "ITEM",
-        title: "Yêu thích",
-        to: "/private/favorite",
-        Icon: FavoriteBorderIcon,
-        selectedColor: "red",
-      },
-      {
-        type: "ITEM",
         title: "Bài đã đăng",
         to: "/private/posted",
         Icon: DynamicFeedIcon,
@@ -84,14 +67,6 @@ const userSidebarItem = [
         selectedColor: "red",
       },
     ],
-  },
-
-  {
-    type: "ITEM",
-    title: "Thông báo",
-    to: "/notification",
-    Icon: NotificationIcon,
-    selectedColor: "red",
   },
   {
     type: "ITEM",

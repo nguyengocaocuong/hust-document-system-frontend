@@ -5,17 +5,19 @@ import { Avatar, Grid, Tooltip, Typography } from "@mui/material";
 import PropperMenu from "../PropperMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import PreviewIcon from '@mui/icons-material/Preview';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import ShareIcon from '@mui/icons-material/Share';
+import PreviewIcon from "@mui/icons-material/Preview";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import ShareIcon from "@mui/icons-material/Share";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const getAction = (navigate, document, subjectDetail) => {
+const getAction = (navigate, document, subjectDetail, preview) => {
   return [
     {
       icon: <PreviewIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Xem trước</Typography>,
       handle: (close) => {
+        preview();
         close();
       },
     },
@@ -23,7 +25,7 @@ const getAction = (navigate, document, subjectDetail) => {
       icon: <VisibilityIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Xem chi tiết</Typography>,
       handle: (close) => {
-        navigate(`/document-detail`, {state: {document, subjectDetail}})
+        navigate(`/education/subject-document/${1}`);
         close();
       },
     },
@@ -31,24 +33,24 @@ const getAction = (navigate, document, subjectDetail) => {
       icon: (
         <AddCircleOutlineIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
       ),
-      label: <Typography sx={{ fontSize: "13px" }}>Thêm câu trả lời</Typography>,
+      label: (
+        <Typography sx={{ fontSize: "13px" }}>Thêm câu trả lời</Typography>
+      ),
       handle: (close) => {
         close();
       },
     },
     {
-      icon: (
-        <InsertLinkIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
+      icon: <InsertLinkIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
+      label: (
+        <Typography sx={{ fontSize: "13px" }}>Lấy link truy cập</Typography>
       ),
-      label: <Typography sx={{ fontSize: "13px" }}>Lấy link truy cập</Typography>,
       handle: (close) => {
         close();
       },
     },
     {
-      icon: (
-        <ShareIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
-      ),
+      icon: <ShareIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
       label: <Typography sx={{ fontSize: "13px" }}>Chia sẻ</Typography>,
       handle: (close) => {
         close();
@@ -56,11 +58,11 @@ const getAction = (navigate, document, subjectDetail) => {
     },
   ];
 };
-function DocumentCard({ document, subjectDetail }) {
-  const navigate = useNavigate()
+function DocumentCard({ document, subjectDetail, preview }) {
+  const navigate = useNavigate();
   return (
     <Grid item xl={4}>
-      <Box width={"100%"} display={"flex"} p={2} justifyContent={'center'}>
+      <Box width={"100%"} display={"flex"} p={2} justifyContent={"center"}>
         <Box
           width={"230px"}
           height={"280px"}
@@ -86,10 +88,16 @@ function DocumentCard({ document, subjectDetail }) {
                 <strong>{`${document?.owner?.firstName} ${document?.owner.lastName}`}</strong>
               </Typography>
             </Tooltip>
-            <PropperMenu action={getAction(navigate,document, subjectDetail)} />
+            <PropperMenu
+              action={getAction(navigate, document, subjectDetail, preview)}
+            />
           </Box>
           <Box width={"100%"} height={"130px"} overflow={"hidden"}>
-            <img src={`http://localhost:8080/api/v1/public/${document?.document.id}/thumbnail`} alt="???" width={"100%"} />
+            <img
+              src={`http://localhost:8080/api/v1/public/${document?.document.id}/thumbnail`}
+              alt="???"
+              width={"100%"}
+            />
           </Box>
           <Box width={"100%"} height={"84px"} textAlign={"start"} p={1}>
             <Stack spacing={1}>

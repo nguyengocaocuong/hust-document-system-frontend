@@ -1,4 +1,3 @@
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import { useEffect, useState } from "react";
@@ -20,7 +19,6 @@ const PDFViewer = ({
         });
         const data = await response.blob();
         setPdfData(URL.createObjectURL(data));
-        console.log(URL.createObjectURL(data));
       } catch (error) {
         console.error("Error fetching PDF data:", error);
       }
