@@ -174,6 +174,12 @@ export const subjectApi = createApi({
       }),
       providesTags: ["semester"],
     }),
+    // REVIEW SUBJECT
+    getAllReviewSubject: builder.query({
+      query: () =>  `/reviewSubject`,
+      transformResponse: (response) => response?.content,
+      providesTags: ["semester"],
+    }),
   }),
 });
 
@@ -191,6 +197,7 @@ export const {
   useUploadAnswerForSubjectDocumentMutation,
   useUpdloadSubjectDocumentForSubjectMutation,
   useCreateSubjectMutation,
-  useFavoriteSubjectMutation
+  useFavoriteSubjectMutation,
+  useGetAllReviewSubjectQuery
 } = subjectApi;
 export const { endpoints, reducerPath, reducer, middleware } = subjectApi;

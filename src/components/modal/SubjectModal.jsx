@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import EmptyTextarea, { StyledTextarea } from "../EmptyTextarea";
-import { useCreateSubjectMutation, useGetAllSubjectForFilterQuery } from "../../services/SubjectService";
+import { useCreateSubjectMutation, useGetAllSubjectForFilterQuery, useGetAllSubjectQuery } from "../../services/SubjectService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
 const style = {
   position: "absolute",
@@ -31,12 +31,14 @@ function SubjectModal({ open, closeModal}) {
   };
   const theme = useTheme();
   const {refetch} = useGetAllSubjectForFilterQuery()
+  const {refetch: refetchAll} = useGetAllSubjectQuery()
   const [createSubject] = useCreateSubjectMutation();
   const createNewSubject = () => {
     createSubject(convertJsonToFormData(subject)).then((response) => {
       setSubject({ subjectCode: "", name: "", description: "" });
       closeModal()
       refetch()
+      refetchAll()
     });
   };
   return (

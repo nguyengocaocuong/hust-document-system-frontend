@@ -3,18 +3,19 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useLocation } from "react-router-dom";
 import { getBreadcrumbs } from "../settings/SidebarSetting";
-
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 function IconBreadcrumbs() {
   const location = useLocation();
-  const [data, { Icon, title }] = getBreadcrumbs(location.pathname);
+  const [data] = getBreadcrumbs(location.pathname);
   return (
     <Breadcrumbs
       sx={{
         height: "50px",
-        backgroundColor: "#E7E9EB",
+        backgroundColor: "white",
         display: "flex",
         alignItems: "center",
         pl: 2,
+        borderBottom: "1px solid #D8D9D9",
       }}
     >
       {data.map(({ Icon, title, to }, index) => (
@@ -49,8 +50,8 @@ function IconBreadcrumbs() {
         sx={{ display: "flex", alignItems: "center" }}
         color="text.primary"
       >
-        <Icon sx={{ fontSize: "20px", mr: 0.5 }} />
-        {title}
+        <AccessAlarmIcon sx={{ fontSize: "20px", mr: 0.5 }} />
+        {'Home'}
       </Typography>
     </Breadcrumbs>
   );

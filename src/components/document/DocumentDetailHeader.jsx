@@ -20,13 +20,13 @@ function DocumentDetailHeader({ owner = {}, objectName}) {
           aria-label="recipe"
           src={owner.avatar}
         >
-          {owner.firstName?.substring(
-            owner.firstName?.lastIndexOf(" ") + 1,
-            owner.firstName?.lastIndexOf(" ") + 2
+          {owner.lastName?.substring(
+            owner.lastName?.lastIndexOf(" ") + 1,
+            owner.lastName?.lastIndexOf(" ") + 2
           )}
         </Avatar>
-        <Typography variant="h6" ml="10px">
-          {`${owner.lastName}`}
+        <Typography fontWeight={400} ml="10px" textTransform={'capitalize'}>
+          {`${owner.firstName} ${owner.lastName}`}
         </Typography>
       </Box>
       <Box display={"flex"} height={"100%"} alignItems={"center"}>

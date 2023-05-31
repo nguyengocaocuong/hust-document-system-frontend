@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import MultipleSelect from "../MultipleSelect";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useUpdloadSubjectDocumentForSubjectMutation } from "../../services/SubjectService";
+import { documentType } from "../../settings/SubjectSetting";
 const style = {
   position: "absolute",
   top: "50%",
@@ -21,20 +22,22 @@ function SubjectDocumentModal({
   subjectType,
   subjectId,
   refetch,
-  acceptedFiles = []
+  acceptedFiles = [],
 }) {
   const [updloadSubjectDocumentForSubject] =
     useUpdloadSubjectDocumentForSubjectMutation();
   const [data, setData] = useState({
-    content: "",
+    description: "",
     documents: acceptedFiles,
-    type: subjectType?.type ? subjectType?.type : 'EXAM',
+    type: subjectType?.type ? subjectType?.type : "EXAM",
+    isPublic: 'Chỉ mình tôi',
   });
   const uploadAnswer = () => {
     const formData = new FormData();
-    formData.append("description", data.content);
+    formData.append("description", data.description);
     formData.append("type", data.type);
-    formData.append("documents", data.documents[0]);
+    formData.append("isPublic", data.isPublic === 'Chỉ mình tôi' ? 0 : 1)
+    data.documents.forEach((file) => formData.append("documents", file));
     updloadSubjectDocumentForSubject({
       subjectId,
       subjectDocument: formData,
@@ -57,24 +60,35 @@ function SubjectDocumentModal({
     <Modal open={open} onClose={closeModal}>
       <Box sx={{ ...style }}>
         <Box p={2}>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            minWidth={"350px"}
+          <Typography
+            variant="h3"
+            textAlign={"start"}
+            color={"text.secondary"}
           >
-            <Typography
-              variant="h3"
-              textAlign={"center"}
-              color={"text.secondary"}
-            >
-              Thêm tài liệu mới
-            </Typography>
+            Thêm tài liệu mới
+          </Typography>
+          <Box display={"flex"} alignItems={"center"} minWidth={"350px"} pt={2}>
             <MultipleSelect
-              items={[]}
+              items={Object.keys(documentType).map((value) => ({
+                value,
+                label: <Typography>{value}</Typography>,
+              }))}
               title={"Kiểu tài liệu"}
               all={false}
+              style={{ marginRight: 2 }}
+              value={data?.type}
+              handle={(type) => setData({ ...data, type })}
+            />
+            <MultipleSelect
+              items={["Bất kỳ ai", "Chỉ mình tôi"].map((value) => ({
+                value,
+                label: <Typography>{value}</Typography>,
+              }))}
+              title={"Trạng thái tài liệu"}
+              all={false}
               style={{ marginRight: 0 }}
+              value={data?.isPublic}
+              handle={(isPublic) => setData({ ...data, isPublic })}
             />
           </Box>
           <Box my={2} border={"1px solid gray"} borderRadius={1}>
@@ -83,11 +97,11 @@ function SubjectDocumentModal({
               placeholder="Mô tả tài liệu"
               sx={{ p: 1, width: "100%" }}
               width={"100%"}
-              value={data.content}
+              value={data.description}
               onChange={(e) =>
                 setData({
                   ...data,
-                  content: e.target.value,
+                  description: e.target.value,
                 })
               }
             />
@@ -132,7 +146,7 @@ function SubjectDocumentModal({
           <Box display={"flex"} justifyContent={"end"} mt={2}>
             <Button
               disabled={
-                data.content.length === 0 || data.documents.length === 0
+                data.description.length === 0 || data.documents.length === 0
               }
               variant="contained"
               color="primary"

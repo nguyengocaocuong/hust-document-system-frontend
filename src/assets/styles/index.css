@@ -25,6 +25,14 @@ body {
 	height: 480px;
 }
 
-#proxy-renderer{
+#proxy-renderer {
 	overflow-y: hidden;
+}
+
+#review-content h3 {
+	line-height: 0.8rem;
+}
+
+#review-content h2 {
+	line-height: 1.2rem;
 }

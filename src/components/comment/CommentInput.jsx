@@ -2,6 +2,7 @@ import { Avatar, Box, IconButton, InputBase } from "@mui/material";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
+import { red } from "@mui/material/colors";
 
 const CommentInput = ({ add, parentCommentId, reply = false }) => {
   const { user } = useSelector((state) => state.authentication);
@@ -17,8 +18,17 @@ const CommentInput = ({ add, parentCommentId, reply = false }) => {
     >
       <Avatar
         src={user.avatar}
-        sx={{ width: reply ? "30px" : "35px", height: reply ? "30px" : "35px" }}
-      >{user?.lastName.substring(user?.lastName.lastIndexOf(" ") + 1,user?.lastName.lastIndexOf(" ") + 2)}</Avatar>
+        sx={{
+          width: reply ? "30px" : "35px",
+          height: reply ? "30px" : "35px",
+          backgroundColor: `${red[500]}!important`,
+        }}
+      >
+        {user?.lastName.substring(
+          user?.lastName.lastIndexOf(" ") + 1,
+          user?.lastName.lastIndexOf(" ") + 2
+        )}
+      </Avatar>
       <InputBase
         placeholder="Viết bình luận"
         value={comment}

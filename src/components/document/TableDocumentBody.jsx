@@ -1,10 +1,10 @@
 import React from "react";
-import avatar1 from "../../../assets/images/avatar/05.jpg";
-import avatar3 from "../../../assets/images/avatar/06.jpg";
-import avatar4 from "../../../assets/images/avatar/07.jpg";
-import avatar2 from "../../../assets/images/avatar/1.jpg";
-import TableItem from "./TableItem";
-import { Box } from "@mui/material";
+import avatar1 from "../../assets/images/avatar/05.jpg";
+import avatar3 from "../../assets/images/avatar/06.jpg";
+import avatar4 from "../../assets/images/avatar/07.jpg";
+import avatar2 from "../../assets/images/avatar/1.jpg";
+// import TableItem from "./TableItem";
+import { Box, Typography } from "@mui/material";
 const avatars = [avatar1, avatar2, avatar3, avatar4];
 const names = [
   "Nguyễn Ngô Cao Cường",
@@ -178,7 +178,8 @@ function TableContent({ data = dataTest }) {
   return (
     <Box width={'100%'}  overflow={'auto'}>
       {data.map((doc, index) => (
-        <TableItem data={doc} key={index} />
+        // <TableItem data={doc} key={index} />
+        <Typography>item</Typography>
       ))}
     </Box>
   );
