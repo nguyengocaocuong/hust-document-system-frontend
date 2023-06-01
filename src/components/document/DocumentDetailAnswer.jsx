@@ -2,7 +2,7 @@ import { Box, Button, Stack } from "@mui/material";
 import React, { memo, useState } from "react";
 import DocumentAnswer from "./DocumentAnswer";
 import AddIcon from "@mui/icons-material/Add";
-import AnswerSubjectDocumentModal from "../modal/AnswerSubjectDocumentModal";
+import AnswerModal from "../modal/AnswerModal";
 const MemoDocumentAnswer = memo(({ answers }) => (
   <Stack spacing={1}>
     {answers.map((answer, index) => (
@@ -45,7 +45,11 @@ function DocumentDetailtAnswer({ answers }) {
       >
         <MemoDocumentAnswer answers={answers.data} />
       </Box>
-      <AnswerSubjectDocumentModal open={open} closeModal={closeModal} addAnswer={answers.add}/>
+      <AnswerModal
+        open={open}
+        closeModal={closeModal}
+        addAnswer={answers.add}
+      />
     </Box>
   );
 }

@@ -10,8 +10,11 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-function PostCardActions() {
-
+function PostCardActions({
+  totalFavorite = 0,
+  totalAnswer = 0,
+  totalComment = 0,
+}) {
   return (
     <CardActions
       disableSpacing
@@ -28,14 +31,14 @@ function PostCardActions() {
         <Box display={"flex"} alignItems={"center"}>
           <FavoriteOutlinedIcon sx={{ fontSize: "18px", color: "red" }} />
           <Typography fontSize={"12px"} ml={"5px"}>
-            23 người
+            {totalFavorite} người
           </Typography>
         </Box>
         <Box display={"flex"}>
           <Typography fontSize={"12px"} mr={"10px"}>
-            23 câu trả lời
+            {totalAnswer} câu trả lời
           </Typography>
-          <Typography fontSize={"12px"}>13 bình luận</Typography>
+          <Typography fontSize={"12px"}>{totalComment} bình luận</Typography>
         </Box>
       </Box>
       <Divider />

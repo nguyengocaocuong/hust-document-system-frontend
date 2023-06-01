@@ -1,54 +1,58 @@
-import React, { useState } from "react";
+import React from "react";
 import BoxFull from "../../../components/BoxFull";
-import { Box } from "@mui/material";
-import { useGetAllPostsQuery } from "../../../services/PostService";
-import PostDetailtHeader from "./PostDetailtHeader";
-import PostDetailtContent from "./PostDetailtContent";
-import PostCardDetailtActions from "./PostCardDetailtActions";
-import PostDetailtComment from "./PostDetailtComment";
-import PostDetailtAnswer from "./PostDetailtAnswer";
-const MemoizedChildComponent = React.memo(PostDetailtContent);
+import { Box, Typography } from "@mui/material";
+import { useGetPostDetailQuery } from "../../../services/PostService";
+import { useParams } from "react-router-dom";
+import PostInfo from "./PostInfo";
 
 function PostDetailt() {
-  const { data } = useGetAllPostsQuery();
-  const [selectedId, setSelectedId] = useState(null);
-  const handleSelectedId = (id) => {
-    setSelectedId(id === selectedId ? null : id);
-  };
-  return (
+  const { id } = useParams();
+  const { data: postDetail, isSuccess } = useGetPostDetailQuery(id);
+  return isSuccess ? (
     <BoxFull sx={{ backgroundColor: "white" }}>
       <Box display={"flex"} height={"100%"}>
         <Box
           width={`70%`}
           borderRight="1px solid #D8D9D9"
           borderBottom="1px solid #D8D9D9"
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          position={"relative"}
         >
-            <MemoizedChildComponent />
-        </Box>
-        <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
-          <PostDetailtHeader data={data?.content[0]} />
-          <PostCardDetailtActions
-            handleSelectedId={handleSelectedId}
-            selectedId={selectedId}
+          <img
+            src={postDetail.document.path}
+            alt={postDetail.document.name}
+            style={{
+              maxHeight: "100%",
+              maxWidth: "100%",
+              width: "auto",
+              height: "auto",
+            }}
           />
           <Box
-            width="100%"
-            height={"calc(100% - 186px)"}
-            maxHeight={"calc(100% - 186px)"}
-            mt={2}
-            overflow={"auto"}
+            position={"absolute"}
+            bottom={0}
+            left={0}
+            width={"100%"}
+            p={2}
+            sx={{
+              backgroundColor: "gray",
+              opacity: "0.1",
+              "&:hover": { color: "white", opacity: 1 },
+              transition: 'opacity 0.4s'
+            }}
           >
-            {selectedId === null ? (
-              <></>
-            ) : selectedId === 2 ? (
-              <PostDetailtComment />
-            ) : (
-              <PostDetailtAnswer />
-            )}
+            <Typography variant="h6" textAlign={"center"}>
+              {postDetail.description}
+            </Typography>
           </Box>
         </Box>
+        <PostInfo postDetail={postDetail} />
       </Box>
     </BoxFull>
+  ) : (
+    <></>
   );
 }
 

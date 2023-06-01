@@ -39,20 +39,20 @@ function DocumentAnswer({ answer }) {
             <Avatar
               sx={{ bgcolor: red[500] }}
               aria-label="recipe"
-              src={answer.owner.avatar}
+              src={answer?.owner.avatar}
               style={{ width: "40px", height: "40px" }}
             >
-              {answer.owner.lastName.substring(
-                answer.owner.lastName.lastIndexOf(" ") + 1,
-                answer.owner.lastName.lastIndexOf(" ") + 2
+              {answer?.owner.lastName.substring(
+                answer?.owner.lastName.lastIndexOf(" ") + 1,
+                answer?.owner.lastName.lastIndexOf(" ") + 2
               )}
             </Avatar>
             <Box>
               <Typography sx={{ fontSize: "15px" }} ml="10px">
-                {`${answer.owner.firstName} ${answer.owner.lastName}`}
+                {`${answer?.owner.firstName} ${answer?.owner.lastName}`}
               </Typography>
               <Typography sx={{ fontSize: "12px" }} ml="10px">
-                {answer.createdAt.substring(0, 10)}
+                {answer?.createdAt.substring(0, 10)}
               </Typography>
             </Box>
           </Box>
@@ -62,7 +62,7 @@ function DocumentAnswer({ answer }) {
             component="div"
             sx={{ lineHeight: "17px" }}
           >
-            {isShowAll ? answer.content : answer.content?.substring(0, 90)}{" "}
+            {isShowAll ? answer?.content : answer?.content?.substring(0, 90)}{" "}
             <Typography
               fontWeight={700}
               fontSize={"10px"}
@@ -70,7 +70,7 @@ function DocumentAnswer({ answer }) {
               display={"inline"}
               onClick={() => setShowAll(!isShowAll)}
             >
-              {answer.content?.length > 90 && isShowAll
+              {answer?.content?.length > 90 && isShowAll
                 ? "(ẩn bớt)"
                 : "(xem thêm)"}
             </Typography>

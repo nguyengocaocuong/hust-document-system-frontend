@@ -3,18 +3,18 @@ import { Avatar, Chip, IconButton, CardHeader, Box } from "@mui/material";
 import { red } from "@mui/material/colors";
 import ClearIcon from "@mui/icons-material/Clear";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-function PostCardHeader({ data }) {
+function PostCardHeader({ owner, subject }) {
   return (
     <CardHeader
       avatar={
         <Avatar
           sx={{ bgcolor: red[500] }}
           aria-label="recipe"
-          src={data.owner.avatar}
+          src={owner.avatar}
         >
-          {data.owner.lastName.substring(
-            data.owner.lastName.lastIndexOf(" ") + 1,
-            data.owner.lastName.lastIndexOf(" ") + 2
+          {owner.lastName.substring(
+            owner.lastName.lastIndexOf(" ") + 1,
+            owner.lastName.lastIndexOf(" ") + 2
           )}
         </Avatar>
       }
@@ -23,7 +23,7 @@ function PostCardHeader({ data }) {
           {" "}
           <Chip
             icon={<LocalOfferIcon />}
-            label={data.subject.name}
+            label={subject.name}
             size="small"
           />
           <IconButton>
@@ -31,8 +31,8 @@ function PostCardHeader({ data }) {
           </IconButton>
         </Box>
       }
-      title={`${data.owner.firstName} ${data.owner.lastName}`}
-      subheader={data.owner.createAt}
+      title={`${owner.firstName} ${owner.lastName}`}
+      subheader={owner.createAt}
     />
   );
 }

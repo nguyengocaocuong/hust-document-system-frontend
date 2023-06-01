@@ -107,7 +107,7 @@ const CommentItem = ({ comment, add, clear, childComment = false }) => {
           )}
         </Box>
       </Box>
-      {comment?.childComment.length > 0 && (
+      {comment?.childComment?.length > 0 && (
         <Stack>
           {comment.childComment.map((comment, index) => (
             <CommentItem

@@ -27,7 +27,7 @@ function DocumentCardDetailAction({
         pb={"5px"}
       >
         <Box display={"flex"} alignItems={"center"}>
-          <FavoriteOutlinedIcon sx={{ fontSize: "18px", color: "red" }} />
+          <FavoriteOutlinedIcon sx={{ fontSize: "18px" }} />
           <Typography fontSize={"14px"} ml={"5px"}>
             {favorite.data?.length} người
           </Typography>
