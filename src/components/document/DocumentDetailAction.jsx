@@ -27,7 +27,9 @@ function DocumentCardDetailAction({
         pb={"5px"}
       >
         <Box display={"flex"} alignItems={"center"}>
-          <FavoriteOutlinedIcon sx={{ fontSize: "18px" }} />
+          <FavoriteOutlinedIcon
+            sx={{ fontSize: "18px" }}
+          />
           <Typography fontSize={"14px"} ml={"5px"}>
             {favorite.data?.length} người
           </Typography>
@@ -101,8 +103,10 @@ function DocumentCardDetailAction({
             width: "calc(10%)",
             textAlign: "center",
             borderRadius: "5px",
-            "&:hover": { color: "red" },
+            color: selectedId === 3 ? "red" : "",
+            "&:hover": { backgroundColor: "#ECDCDC" },
           }}
+          onClick={() => handleSelectedId(3)}
         >
           <TranslateIcon sx={{ fontSize: "25px" }} />
         </IconButton>

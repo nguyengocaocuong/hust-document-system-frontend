@@ -1,72 +1,102 @@
 import { Box, Stack } from "@mui/system";
 import React from "react";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import { Avatar, Grid, Tooltip, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import PropperMenu from "../PropperMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PreviewIcon from "@mui/icons-material/Preview";
-import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import ShareIcon from "@mui/icons-material/Share";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import Owner from "../Owner";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { useDispatch } from "react-redux";
+import {
+  openAnswerSubjectDocumentModal,
+  openReportModal,
+} from "../../store/modalState";
+import FlagIcon from "@mui/icons-material/Flag";
+import DownloadIcon from "@mui/icons-material/Download";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
 
-const getAction = (navigate, document, subjectDetail, preview) => {
-  return [
-    {
-      icon: <PreviewIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: <Typography sx={{ fontSize: "13px" }}>Xem trước</Typography>,
-      handle: (close) => {
-        preview();
-        close();
-      },
-    },
-    {
-      icon: <VisibilityIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: <Typography sx={{ fontSize: "13px" }}>Xem chi tiết</Typography>,
-      handle: (close) => {
-        navigate(`/education/subject-document/${1}`);
-        close();
-      },
-    },
-    {
-      icon: (
-        <AddCircleOutlineIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
-      ),
-      label: (
-        <Typography sx={{ fontSize: "13px" }}>Thêm câu trả lời</Typography>
-      ),
-      handle: (close) => {
-        close();
-      },
-    },
-    {
-      icon: <InsertLinkIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: (
-        <Typography sx={{ fontSize: "13px" }}>Lấy link truy cập</Typography>
-      ),
-      handle: (close) => {
-        close();
-      },
-    },
-    {
-      icon: <ShareIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: <Typography sx={{ fontSize: "13px" }}>Chia sẻ</Typography>,
-      handle: (close) => {
-        close();
-      },
-    },
-  ];
-};
-function DocumentCard({ document, subjectDetail, preview }) {
+function DocumentCard({
+  document,
+  subjectDetail,
+  preview = () => {},
+  share = () => {},
+}) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const previewDetail = () => {
+    navigate(`/education/subject-document/${document.id}`);
+  };
+  const addNewAnswer = () => {
+    dispatch(
+      openAnswerSubjectDocumentModal({
+        subjectDocumentId: document.id,
+      })
+    );
+  };
+  const reportSubjectDocument = () => {
+    dispatch(
+      openReportModal({
+        subjectId: subjectDetail.id,
+      })
+    );
+  };
+  const downloadSubjectDocument = () => {
+    alert("download");
+  };
+
+  const copyUrl = () => {
+    const url = `http://localhost:3000/education/subject-document/${document.id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert("Đã copy vào clipboard");
+      })
+      .catch((error) => {
+        console.error("Lỗi khi sao chép vào clipboard:", error);
+      });
+  };
+  const actions = () => [
+    { Icon: PreviewIcon, label: "Xem trước", action: preview },
+    { Icon: VisibilityIcon, label: "Xem chi tiết", action: previewDetail },
+    {
+      Icon: AddCircleOutlineIcon,
+      label: "Thêm đáp án",
+      action: addNewAnswer,
+    },
+    {
+      Icon: DownloadIcon,
+      label: "Tải tài liệu",
+      action: downloadSubjectDocument,
+    },
+    {
+      Icon: FlagIcon,
+      label: "Báo cáo tài liệu",
+      action: reportSubjectDocument,
+    },
+    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
+    { Icon: ShareIcon, label: "Chia sẻ", action: share },
+  ];
   return (
     <Grid item xl={4}>
-      <Box width={"100%"} display={"flex"} p={2} justifyContent={"center"}>
+      <Box
+        width={"100%"}
+        display={"flex"}
+        p={2}
+        pb={0}
+        justifyContent={"center"}
+        onClick={previewDetail}
+      >
         <Box
-          width={"230px"}
-          height={"280px"}
-          maxHeight={"280px"}
+          width={"280px"}
+          height={"295px"}
+          maxHeight={"295px"}
           sx={{
             backgroundColor: "white",
             cursor: "pointer",
@@ -78,55 +108,82 @@ function DocumentCard({ document, subjectDetail, preview }) {
           textAlign={"center"}
           boxShadow={3}
         >
-          <Box p={1} display={"flex"} alignItems={"center"}>
-            <Avatar src={document?.owner.avatar} />
-            <Tooltip
-              title={`Tài liệu này được chia sẻ bởi ${document?.owner.firstName} ${document?.owner.lastName}`}
-            >
-              <Typography textAlign={"start"} pl={1} noWrap>
-                Chia sẻ bởi <br />
-                <strong>{`${document?.owner?.firstName} ${document?.owner.lastName}`}</strong>
-              </Typography>
-            </Tooltip>
-            <PropperMenu
-              action={getAction(navigate, document, subjectDetail, preview)}
-            />
-          </Box>
-          <Box width={"100%"} height={"130px"} overflow={"hidden"}>
-            <img
-              src={`http://localhost:8080/api/v1/public/${document?.document.id}/thumbnail`}
-              alt="???"
+          <Owner
+            owner={document?.owner}
+            createdAt={document?.document?.createdAt}
+            listItem={[<PropperMenu key={1} action={actions()} />]}
+            sx={{ p: 1 }}
+          />
+          <Box
+            width={"100%"}
+            height={"140px"}
+            overflow={"hidden"}
+            p={0.5}
+            bgcolor={"#F3F3F3"}
+            borderRadius={1}
+          >
+            <Box
               width={"100%"}
-            />
+              height={"100%"}
+              overflow={"hidden"}
+              borderRadius={1}
+            >
+              <img
+                src={document?.document.thumbnail}
+                alt="???"
+                width={"100%"}
+              />
+            </Box>
           </Box>
-          <Box width={"100%"} height={"84px"} textAlign={"start"} p={1}>
+          <Box width={"100%"} height={"84px"} textAlign={"start"} p={1} pt={2}>
             <Stack spacing={1}>
-              <Box
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  textAlign: "start",
-                  alignItems: "center",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box display={"flex"} alignItems={"center"}>
-                  <LocalOfferIcon style={{ fontSize: 12 }} sx={{ mr: 1 }} />{" "}
-                  {document?.type}
-                </Box>
-                <Typography color={"text.primary"} fontSize={"10px"}>
-                  {document?.document?.createdAt?.substring(0, 10)}
-                </Typography>
-              </Box>
-
+              <Typography display={"flex"} alignItems={"center"}>
+                <LocalOfferIcon
+                  sx={{
+                    width: "15px",
+                    height: "15px",
+                    marginRight: 0.5,
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                  }}
+                />{" "}
+                {subjectDetail.name}
+              </Typography>
               <Typography
-                variant="h5"
-                sx={{ fontSize: 15, fontWeight: 700, color: "gray" }}
+                sx={{
+                  fontSize: 15,
+                  color: "gray",
+                  lineHeight: "17px",
+                }}
                 noWrap
               >
-                {document?.description?.substring(0, 50)}
+                {document.description}
               </Typography>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                px={3}
+              >
+                <Box display={"flex"} alignItems={"center"} mr={2}>
+                  <FavoriteIcon />
+                  <Typography ml={1}>
+                    {document?.favoriteSubjectDocumentList?.length}
+                  </Typography>
+                </Box>
+                <Box display={"flex"} alignItems={"center"} mr={2}>
+                  <QuestionAnswerIcon />
+                  <Typography ml={1}>
+                    {document?.answerSubjectDocumentList?.length}
+                  </Typography>
+                </Box>
+                <Box display={"flex"} alignItems={"center"}>
+                  <ChatBubbleIcon />
+                  <Typography ml={1}>
+                    {document?.commentSubjectDocumentList?.length}
+                  </Typography>
+                </Box>
+              </Box>
             </Stack>
           </Box>
         </Box>

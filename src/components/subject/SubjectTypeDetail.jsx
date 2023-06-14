@@ -2,12 +2,28 @@ import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import DocumentCard from "../document/DocumentCard";
 import { documentType as type } from "../../settings/SubjectSetting";
-import DocumentViewerModal from "../modal/DocumentViewerModal";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  openDocumentViewerModal,
+  openSharingModal,
+} from "../../store/modalState";
 function SubjectTypeDetail({ subjectType = {}, subjectDetail = {} }) {
-  const [modalData, setModalData] = useState({ data: null, open: false });
-  const openModal = (data) => setModalData({ data, open: true });
-  const closeModal = () => setModalData({ data: null, open: false });
+  const dispatch = useDispatch();
+  const previewDocument = (subjectDocument) => {
+    dispatch(
+      openDocumentViewerModal({
+        docs: [
+          {
+            uri: `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${subjectDocument?.id}/readFile`,
+            fileName: subjectDocument.document.name,
+          },
+        ],
+      })
+    );
+  };
+  const sharingDocument = (subjectDocument) => {
+    dispatch(openSharingModal({ subjectDocumentId: subjectDocument.id }));
+  };
   return (
     <Box p={2} width={"100%"}>
       <Box>
@@ -21,22 +37,11 @@ function SubjectTypeDetail({ subjectType = {}, subjectDetail = {} }) {
             document={document}
             key={index}
             subjectDetail={subjectDetail}
-            preview={() => openModal(document)}
+            preview={() => previewDocument(document)}
+            share={() => sharingDocument(document)}
           />
         ))}
       </Grid>
-      {modalData.open && (
-        <DocumentViewerModal
-          open={modalData.open}
-          closeModal={closeModal}
-          docs={[
-            {
-              uri: `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocuments/${modalData.data?.id}/readFile`,
-              fileName: modalData.data?.document.name,
-            },
-          ]}
-        />
-      )}
     </Box>
   );
 }

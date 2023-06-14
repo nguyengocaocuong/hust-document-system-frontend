@@ -24,4 +24,3 @@ export const reviewSubjectApi = createApi({
 });
 
 export const { useCreateReviewSubjectMutation } = reviewSubjectApi;
-export const { endpoints, reducerPath, reducer, middleware } = reviewSubjectApi;

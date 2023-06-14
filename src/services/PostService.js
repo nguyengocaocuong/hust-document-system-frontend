@@ -17,6 +17,10 @@ export const postApi = createApi({
       query: () => "",
       transformResponse: (response) => response?.content,
     }),
+    getAllPostCreatedByUser: builder.query({
+      query: () => "/owner",
+      transformResponse: (response) => response?.content,
+    }),
     getPostDetail: builder.query({
       query: (id) => `/${id}`,
       transformResponse: (response) => response?.content,
@@ -59,6 +63,13 @@ export const postApi = createApi({
       transformResponse: (response) => response?.content,
       providesTags: ["post"],
     }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
     updateCommentPost: builder.mutation({
       query: (data) => ({
         url: `/comment/${data.id}`,
@@ -81,8 +92,8 @@ export const postApi = createApi({
     }),
     toggleFavoriteAnswerPost: builder.mutation({
       query: (answerId) => ({
-        url: `/answer/${answerId}`,
-        method: "GET",
+        url: `/answer/${answerId}/favorite`,
+        method: "POST",
       }),
     }),
   }),
@@ -90,6 +101,7 @@ export const postApi = createApi({
 
 export const {
   useGetAllPostsQuery,
+  useGetAllPostCreatedByUserQuery,
   useCreatePostMutation,
   useGetPostDetailQuery,
   useFavoritePostMutation,
@@ -99,6 +111,6 @@ export const {
   useCreateAnswerForPostMutation,
   useGetAllAnswerForPostQuery,
   useToggleFavoriteAnswerPostMutation,
-  useUpdateCommentPostMutation
+  useUpdateCommentPostMutation,
+  useDeletePostMutation
 } = postApi;
-export const { endpoints, reducerPath, reducer, middleware } = postApi;

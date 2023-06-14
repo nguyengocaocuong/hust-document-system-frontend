@@ -22,13 +22,15 @@ const ICON = {
   docx,
   drive,
   folder,
-  image,
   link,
   github,
   html,
   xlsx,
   office,
   xls,
+  png: image,
+  jpg: image,
+  jpeg: image,
 };
 export const getIconForDocByFileName = (fileName) =>
   ICON[fileName.substring(fileName.lastIndexOf(".") + 1)];

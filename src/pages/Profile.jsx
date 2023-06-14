@@ -17,17 +17,35 @@ import React, { useRef, useState } from "react";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { DatePicker } from "@mui/x-date-pickers";
 import BoxBetween from "../components/BoxBetween";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import avatar from "../assets/images/avatar/05.jpg";
+import { useUpdateProfileMutation } from "../services/UserService";
+import { convertJsonToFormData } from "../utils/ConvertData";
+import { updateAuthProfile } from "../store/authState";
 function Profile() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authentication);
   const [profile, setProfile] = useState({ ...user });
   const handleChange = (e) => {
-    setProfile(profile);
+    setProfile((preState) => ({
+      ...preState,
+      [e.target.name]: e.target.value,
+    }));
   };
   const theme = useTheme();
   const fileRef = useRef();
   const [file, setFile] = useState(null);
 
+  const [updateProfile] = useUpdateProfileMutation();
+  const update = () => {
+    const formData = convertJsonToFormData(profile);
+    if (file) {
+      formData.append("avatarFile", file);
+    }
+    updateProfile(formData).then((response) => {
+      dispatch(updateAuthProfile({ ...response.data, token: profile.token }));
+    });
+  };
   return (
     <Box p={2}>
       <Grid container spacing={2}>
@@ -46,7 +64,11 @@ function Profile() {
               <Box position={"relative"}>
                 <img
                   src={
-                    file === null ? profile.avatar : URL.createObjectURL(file)
+                    file === null
+                      ? profile.avatar
+                        ? profile.avatar
+                        : avatar
+                      : URL.createObjectURL(file)
                   }
                   style={{
                     width: "120px",
@@ -113,11 +135,12 @@ function Profile() {
                   color={theme.palette.text.secondary}
                   mb={"5px"}
                 >
-                  Facebook Url:
+                  Facebook :
                 </Typography>
                 <TextField
                   onChange={handleChange}
                   hiddenLabel
+                  name="facebookUrl"
                   placeholder="Enter user facebook"
                   size="small"
                   sx={{ width: "100%" }}
@@ -130,13 +153,15 @@ function Profile() {
                   color={theme.palette.text.secondary}
                   mb={"5px"}
                 >
-                  Instagram Url:
+                  Instagram :
                 </Typography>
                 <TextField
                   hiddenLabel
+                  onChange={handleChange}
                   placeholder="Enter user instagram"
                   size="small"
                   sx={{ width: "100%" }}
+                  name="instagramUrl"
                   value={profile.instagramUrl}
                 />
               </Box>
@@ -146,13 +171,15 @@ function Profile() {
                   color={theme.palette.text.secondary}
                   mb={"5px"}
                 >
-                  Twitter Url:
+                  Twitter :
                 </Typography>
                 <TextField
                   hiddenLabel
                   placeholder="Enter user twitter"
                   size="small"
                   sx={{ width: "100%" }}
+                  onChange={handleChange}
+                  name="twitterUrl"
                   value={profile.twitterUrl}
                 />
               </Box>
@@ -184,10 +211,12 @@ function Profile() {
                       </Typography>
                       <TextField
                         hiddenLabel
+                        name="lastName"
                         placeholder="Nhập tên người dùng"
                         size="small"
                         sx={{ width: "100%" }}
                         value={profile.lastName}
+                        onChange={handleChange}
                       />
                     </Box>
                   </Grid>
@@ -204,8 +233,10 @@ function Profile() {
                         hiddenLabel
                         placeholder="Nhập họ người dùng"
                         size="small"
+                        name="firstName"
                         sx={{ width: "100%" }}
                         value={profile.firstName}
+                        onChange={handleChange}
                       />
                     </Box>
                   </Grid>
@@ -222,6 +253,7 @@ function Profile() {
                         hiddenLabel
                         placeholder="Nhập địa chỉ người dùng"
                         size="small"
+                        name="address"
                         sx={{ width: "100%" }}
                         value={profile.address}
                       />
@@ -240,8 +272,10 @@ function Profile() {
                         hiddenLabel
                         placeholder="Nhập số điện thoại người dùng"
                         size="small"
+                        name="phoneNumber"
                         sx={{ width: "100%" }}
                         value={profile.phoneNumber}
+                        onChange={handleChange}
                       />
                     </Box>
                   </Grid>
@@ -302,6 +336,7 @@ function Profile() {
                       </Typography>
                       <TextField
                         hiddenLabel
+                        onChange={handleChange}
                         placeholder="Tên đăng nhập"
                         size="small"
                         sx={{ width: "100%" }}
@@ -349,7 +384,7 @@ function Profile() {
                     </Box>
                   </Grid>
                   <Grid item xl={12} textAlign={"center"}>
-                    <Button size="large" variant="contained">
+                    <Button size="large" variant="contained" onClick={update}>
                       Cập nhật
                     </Button>
                   </Grid>

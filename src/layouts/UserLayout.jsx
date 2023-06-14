@@ -1,6 +1,7 @@
 import React from "react";
 import BoxFull from "../components/BoxFull";
 import { Outlet } from "react-router-dom";
+import Modal from "../components/modal";
 function UserLayout() {
   return (
     <BoxFull
@@ -10,6 +11,7 @@ function UserLayout() {
       overflow={"hidden"}
     >
       <Outlet />
+      <Modal />
     </BoxFull>
   );
 }

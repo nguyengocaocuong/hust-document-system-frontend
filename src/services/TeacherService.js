@@ -14,23 +14,10 @@ export const teacherApi = createApi({
   tagTypes: ["teachers"],
   endpoints: (builder) => ({
     getAllTeacher: builder.query({
-        query: () => '',
-        transformResponse: (response) => response?.content
+      query: () => "",
+      transformResponse: (response) => response?.content,
     }),
-    getAllTeacherForFilter: builder.query({
-      query: () => "/allTeacherForFilter",
-      transformResponse: (response) => ({
-        title: "Giảng viên",
-        type:'teacherFilter',
-        item: response?.content.map((i) => {
-          return {
-            label: i.name,
-            value:i.id
-          };
-        }),
-      }),
-    }),
-    createTeacher:  builder.mutation({
+    createTeacher: builder.mutation({
       query: (teacher) => ({
         url: "",
         method: "POST",
@@ -39,8 +26,60 @@ export const teacherApi = createApi({
       transformResponse: (response) => response?.content,
       providesTags: ["teachers"],
     }),
+    getAllReviewTeacher: builder.query({
+      query: () => `/reviewTeacher`,
+      transformResponse: (response) => response?.content,
+    }),
+    getAllReviewTeacherCreatedByUser: builder.query({
+      query: () => `/reviewTeacher/owner`,
+      transformResponse: (response) => response?.content,
+    }),
+    getAllCommentForReviewTeacher: builder.query({
+      query: (id) => `/reviewTeacher/${id}/comment`,
+      transformResponse: (response) => response?.content,
+    }),
+    createCommentReviewTeacher: builder.mutation({
+      query: (data) => ({
+        url: `/reviewTeacher/${data.id}/comment`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
+    deleteCommentReviewTeacher: builder.mutation({
+      query: (id) => ({
+        url: `/reviewTeacher/comment/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    deleteReviewTeacher: builder.mutation({
+      query: (id) => ({
+        url: `/reviewTeacher/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    toggleFavoriteReviewTeacher: builder.mutation({
+      query: (id) => ({
+        url: `/reviewTeacher/${id}/favorite`,
+        method: "POST",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
+    getAllFavoritereviewTeacher: builder.query({
+      query: (id) => `/reviewTeacher/${id}/favorite`,
+      transformResponse: (response) => response?.content,
+    }),
   }),
 });
 
-export const {useGetAllTeacherQuery, useGetAllTeacherForFilterQuery, useCreateTeacherMutation} = teacherApi;
-export const { endpoints, reducerPath, reducer, middleware } = teacherApi;
+export const {
+  useGetAllTeacherQuery,
+  useCreateTeacherMutation,
+  useGetAllReviewTeacherQuery,
+  useCreateCommentReviewTeacherMutation,
+  useGetAllCommentForReviewTeacherQuery,
+  useToggleFavoriteReviewTeacherMutation,
+  useGetAllFavoritereviewTeacherQuery,
+  useDeleteCommentReviewTeacherMutation,
+  useDeleteReviewTeacherMutation,
+  useGetAllReviewTeacherCreatedByUserQuery,
+} = teacherApi;

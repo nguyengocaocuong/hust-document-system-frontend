@@ -1,8 +1,9 @@
 import { Box, Button, Chip, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function ReviewHeader() {
-  const [selected, setSelected] = useState(1);
+function ReviewHeader({ type, setType, total }) {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{ backgroundColor: "#F3F3F3", borderRadius: "8px 8px 25px 25px" }}
@@ -16,7 +17,7 @@ function ReviewHeader() {
         borderBottom={"1px solid #E7E7E7"}
       >
         <Box
-          sx={{ borderBottom: selected === 1 && "2px solid black", mr: 2 }}
+          sx={{ borderBottom: type === "ALL" && "2px solid black", mr: 2 }}
           pb={1}
         >
           <Chip
@@ -27,13 +28,13 @@ function ReviewHeader() {
               "&:hover": { backgroundColor: "#E0E0E0", color: "red" },
               transform: "backgroundColor 0.4s",
               cursor: "pointer",
-              color: selected === 1 ? "red" : "",
+              color: type === "ALL" ? "red" : "",
             }}
-            onClick={() => setSelected(1)}
+            onClick={() => setType('ALL')}
           />
         </Box>
         <Box
-          sx={{ borderBottom: selected === 2 && "2px solid black", mr: 2 }}
+          sx={{ borderBottom: type === "TEACHER" && "2px solid black", mr: 2 }}
           pb={1}
         >
           <Chip
@@ -44,13 +45,13 @@ function ReviewHeader() {
               "&:hover": { backgroundColor: "#E0E0E0", color: "red" },
               transform: "backgroundColor 0.4s",
               cursor: "pointer",
-              color: selected === 2 ? "red" : "",
+              color: type === "TEACHER" ? "red" : "",
             }}
-            onClick={() => setSelected(2)}
+            onClick={() => setType('TEACHER')}
           />
         </Box>
         <Box
-          sx={{ borderBottom: selected === 3 && "2px solid black", mr: 2 }}
+          sx={{ borderBottom: type === "SUBJECT" && "2px solid black", mr: 2 }}
           pb={1}
         >
           <Chip
@@ -61,16 +62,16 @@ function ReviewHeader() {
               "&:hover": { backgroundColor: "#E0E0E0", color: "red" },
               transition: "backgroundColor 0.4s ",
               cursor: "pointer",
-              color: selected === 3 ? "red" : "",
+              color: type === "SUBJECT" ? "red" : "",
             }}
-            onClick={() => setSelected(3)}
+            onClick={() => setType('SUBJECT')}
           />
         </Box>
       </Box>
       <Box px={2} py={3} display={"flex"} justifyContent={"space-between"}>
         <Box>
           <Typography variant="h3">Số bài viết</Typography>
-          <Typography>123 lượt reviews</Typography>
+          <Typography>{total} bài viết</Typography>
         </Box>
         <Button
           sx={{
@@ -86,6 +87,7 @@ function ReviewHeader() {
               color: "white",
             },
           }}
+          onClick={() => navigate("/writing")}
         >
           Viết bài review
         </Button>

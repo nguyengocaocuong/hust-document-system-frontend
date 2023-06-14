@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
   TextField,
   Typography,
   useTheme,
@@ -77,7 +75,7 @@ function Signup() {
                 textAlign={"center"}
               >
                 {isSuccess
-                  ? "Chúng tôi đã gửi đến email kích hoạt tới tài khoản của bạn, kiểm tra email để kích hoạt tài khoản của bạn"
+                  ? "Chúng tôi đã gửi đến email kích hoạt tài khoản tới email của bạn, kiểm tra email để kích hoạt tài khoản của bạn"
                   : "Đăng ký tài khoản mới"}
               </Typography>
             </Box>

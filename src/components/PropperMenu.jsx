@@ -3,17 +3,31 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Typography } from "@mui/material";
 
-const PropperMenu = ({ icon = <MoreVertIcon />, action }) => {
+const renderAction = (items) =>
+  items.map(({ Icon, label, action }) => ({
+    icon: <Icon sx={{ fontSize: "13px", marginRight: "5px" }} />,
+    label: <Typography sx={{ fontSize: "13px" }}>{label}</Typography>,
+    handle: (close) => {
+      action();
+      close();
+    },
+  }));
+const PropperMenu = ({ icon = <MoreVertIcon />, action}) => {
   const [userSettingEl, setUserSettingEl] = React.useState(null);
   const userSettingOpen = Boolean(userSettingEl);
   const handleClickSettingOpen = (event) => {
+    event.stopPropagation();
     setUserSettingEl(event.currentTarget);
   };
-  const handleCloseSettingOpen = () => {
+  const handleCloseSettingOpen = (e) => {
+    e?.stopPropagation()
     setUserSettingEl(null);
   };
-  return (
+  return action.length === 0 ? (
+    <></>
+  ) : (
     <React.Fragment>
       <IconButton
         onClick={handleClickSettingOpen}
@@ -60,8 +74,15 @@ const PropperMenu = ({ icon = <MoreVertIcon />, action }) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {action.map((ac, index) => (
-          <MenuItem key={index} onClick={() => ac.handle(handleCloseSettingOpen)} sx={{'&:hover':{backgroundColor:'#DDE2EE'}}}>
+        {renderAction(action).map((ac, index) => (
+          <MenuItem
+            key={index}
+            onClick={(e) => {
+              e.stopPropagation();
+              ac.handle(handleCloseSettingOpen);
+            }}
+            sx={{ "&:hover": { backgroundColor: "#DDE2EE" } }}
+          >
             {ac.icon} {ac.label}
           </MenuItem>
         ))}

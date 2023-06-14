@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
 import { red } from "@mui/material/colors";
 
-const CommentInput = ({ add, parentCommentId, reply = false }) => {
+const CommentInput = ({ add, parentCommentId, reply = false , mainColor = "#F2F2F2"}) => {
   const { user } = useSelector((state) => state.authentication);
   const [comment, setComment] = useState("");
   return (
     <Box
       p={1.5}
       borderRadius={"30px"}
-      sx={{ backgroundColor: !reply && "#F2F2F2" }}
+      sx={{ backgroundColor: !reply && mainColor }}
       display={"flex"}
       alignItems={"center"}
       height={reply ? "45px" : "50px"}
@@ -35,7 +35,7 @@ const CommentInput = ({ add, parentCommentId, reply = false }) => {
         onChange={(e) => setComment(e.target.value)}
         sx={{
           height: "100%",
-          width: "80%",
+          width: "calc(100% - 50px)",
           px: 1,
           mx: 1,
           fontSize: "14px",

@@ -6,102 +6,102 @@ import Step2 from "../components/stepper/Step2";
 import Step3 from "../components/stepper/Step3";
 import Step4 from "../components/stepper/Step4";
 import Step5 from "../components/stepper/Step5";
-import { convertJsonToFormData } from "../utils/ConvertData";
-import { useCreatePostMutation } from "../services/PostService";
+import { useCreatePostMutation, useGetAllPostsQuery } from "../services/PostService";
 import { useCreateReviewSubjectMutation } from "../services/ReviewSubjectService";
 import { useCreateReviewTeacherMutation } from "../services/ReviewTeacherService";
 
 function Writing() {
-  const [createPost, { isSuccess: isPostSuccess }] = useCreatePostMutation();
-  const [createReviewSubject, { isSuccess: isReviewSubjectSuccess }] =
-    useCreateReviewSubjectMutation();
-  const [createReviewTeacher, { isSuccess: isReviewTeacherSuccess }] =
-    useCreateReviewTeacherMutation();
-  const [data, setData] = useState({
-    activeStep: 0,
-    type: null,
-    content: null,
-  });
+  const { refetch: refetchPost } = useGetAllPostsQuery();
+
+  const [createPost] = useCreatePostMutation();
+  const [createReviewSubject] = useCreateReviewSubjectMutation();
+  const [createReviewTeacher] = useCreateReviewTeacherMutation();
+  const [activeStep, setActiveStep] = useState(0);
+  const [type, setType] = useState("POST");
+  const [body, setBody] = useState(null);
+  const [isDone, setIsDone] = useState(false);
+  const [objectId, setObjectId] = useState(null);
   const selectType = (type) => {
-    setData({ ...data, activeStep: data.activeStep + 1, type });
-  };
-  const selectObject = (object) => {
-    setData({
-      ...data,
-      activeStep: data.activeStep + 1,
-      content: { ...data.content, object },
+    setType(() => {
+      setActiveStep((preState) => preState + 1);
+      return type;
     });
   };
-  const setContent = (html) => {
-    setData({
-      ...data,
-      activeStep: data.activeStep + 1,
-      content: { ...data.content, data: html },
+  const selectObject = (id) => {
+    setObjectId(() => {
+      setActiveStep((preState) => preState + 1);
+      return id;
     });
+  };
+  const changeBody = (body) => {
+    if (type === "POST")
+      setBody(() => {
+        setActiveStep((preState) => preState + 1);
+        return { description: body?.description, documents: body?.documents };
+      });
+    else {
+      setBody(() => {
+        setActiveStep((preState) => preState + 1);
+        return {
+          content: body,
+        };
+      });
+    }
   };
   const reset = () => {
-    setData({
-      activeStep: 0,
-      type: null,
-      content: null,
-    });
+    setActiveStep(0);
+    setObjectId(null);
+    setBody(null);
+    setType("POST");
+    setIsDone(false);
   };
-  const setting = async (setting) => {
-    switch (data.type) {
+  const upload = () => {
+    const formData = new FormData();
+    switch (type) {
       case "POST":
-        await createPost(
-          convertJsonToFormData({
-            subjectId: data.content.object,
-            content: data.content.data,
-            done: setting ? 1 : 0,
-          })
-        );
+        formData.append("subjectId", objectId);
+        formData.append("description", body.description);
+        formData.append("done", isDone ? 1 : 0);
+        body.documents?.forEach((file) => formData.append("documents", file));
+        createPost(formData).then(() => {
+          setActiveStep((preState) => preState + 1);
+          refetchPost()
+        });
         break;
       case "REVIEW_SUBJECT":
-        await createReviewSubject(
-          convertJsonToFormData({
-            subjectId: data.content.object,
-            review: data.content.data,
-            done: setting ? 1 : 0,
-          })
-        );
+        formData.append("subjectId", objectId);
+        formData.append("review", body?.content);
+        formData.append("done", isDone ? 1 : 0);
+        createReviewSubject(formData).then((response) => {
+          setActiveStep((preState) => preState + 1);
+          console.log(response)
+        });
         break;
       case "REVIEW_TEACHER":
-        await createReviewTeacher(
-          convertJsonToFormData({
-            teacherId: data.content.object,
-            review: data.content.data,
-            done: setting ? 1 : 0,
-          })
-        );
+        formData.append("teacherId", objectId);
+        formData.append("review", body?.content);
+        formData.append("done", isDone ? 1 : 0);
+        createReviewTeacher(formData).then(() => {
+          setActiveStep((preState) => preState + 1);
+        });
         break;
       default:
         break;
     }
   };
-  if (
-    data.activeStep === 3 &&
-    ((isPostSuccess && data.type === "POST") ||
-      (isReviewSubjectSuccess && data.type === "REVIEW_SUBJECT") ||
-      (isReviewTeacherSuccess && data.type === "REVIEW_TEACHER"))
-  ) {
-    setData({
-      ...data,
-      activeStep: data.activeStep + 1,
-      content: { ...data.content, setting },
-    });
-  }
   return (
     <Box width={"100%"} height={"100%"} sx={{ backgroundColor: "white" }}>
-      <Stepper activeStep={data.activeStep} />
+      <Stepper activeStep={activeStep} />
       <Box width={"100%"} height={"calc(100% - 120px)"}>
-        {data.activeStep === 0 && <Step1 selectType={selectType} data={data} />}
-        {data.activeStep === 1 && (
-          <Step2 selectObject={selectObject} data={data} />
+        {activeStep === 0 && <Step1 selectType={selectType} />}
+        {activeStep === 1 && (
+          <Step2 selectObject={selectObject} data={{ type }} />
         )}
-        {data.activeStep === 2 && <Step3 setContent={setContent} data={data} />}
-        {data.activeStep === 3 && <Step4 setting={setting} data={data} />}
-        {data.activeStep === 4 && <Step5 reset={reset} data={data} />}
+        {activeStep === 2 && <Step3 setContent={changeBody} data={{ type }} />}
+        {activeStep === 3 && (
+          <Step4 upload={upload} setIsDone={setIsDone} isDone={isDone} />
+        )}
+        {activeStep === 4 && <Step5 reset={reset} />}
       </Box>
     </Box>
   );

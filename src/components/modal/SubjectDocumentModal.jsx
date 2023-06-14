@@ -3,8 +3,17 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import MultipleSelect from "../MultipleSelect";
 import UploadIcon from "@mui/icons-material/Upload";
-import { useUpdloadSubjectDocumentForSubjectMutation } from "../../services/SubjectService";
+import {
+  useGetAllSubjectDocumentCreateByUserQuery,
+  useGetSubjectDetailQuery,
+  useUpdloadSubjectDocumentForSubjectMutation,
+} from "../../services/SubjectService";
 import { documentType } from "../../settings/SubjectSetting";
+import { useDispatch, useSelector } from "react-redux";
+import { closeSubjectDocumentModal } from "../../store/modalState";
+import { addLoadingNotification } from "../../store/notificationState";
+import { v4 as uuid } from "uuid";
+import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
 const style = {
   position: "absolute",
   top: "50%",
@@ -16,35 +25,94 @@ const style = {
   px: 4,
   pb: 3,
 };
-function SubjectDocumentModal({
-  open,
-  closeModal,
-  subjectType,
-  subjectId,
-  refetch,
-  acceptedFiles = [],
-}) {
+function SubjectDocumentModal({ open }) {
+  const {
+    notifications: { LOADING },
+  } = useSelector((state) => state.notificationState);
+  const dispatch = useDispatch();
+  const {
+    subjectDocumentModal: { dataModal },
+  } = useSelector((state) => state.modalState);
+  const { refetch: refetchSubjectDocument } = useGetSubjectDetailQuery(
+    dataModal.subjectId
+  );
+  const { refetch: refetchGetAllSubjectDocumentCreatedByUser } =
+    useGetAllSubjectDocumentCreateByUserQuery();
+
+  const { data: subjects = {} } = useGetAllSubjectForFilterQuery();
+  const closeModal = () => {
+    dispatch(closeSubjectDocumentModal());
+  };
   const [updloadSubjectDocumentForSubject] =
     useUpdloadSubjectDocumentForSubjectMutation();
   const [data, setData] = useState({
     description: "",
-    documents: acceptedFiles,
-    type: subjectType?.type ? subjectType?.type : "EXAM",
-    isPublic: 'Chỉ mình tôi',
+    documents: dataModal.acceptedFiles || [],
+    type: "PDF",
+    subjectDocumentType: dataModal.subjectDocumentType || "EXAM",
+    isPublic: 0,
+    subjectId: dataModal.subjectId || subjects?.item[0]?.value,
+    url: "",
   });
   const uploadAnswer = () => {
+    closeModal();
     const formData = new FormData();
     formData.append("description", data.description);
+    formData.append("subjectDocumentType", data.subjectDocumentType);
     formData.append("type", data.type);
-    formData.append("isPublic", data.isPublic === 'Chỉ mình tôi' ? 0 : 1)
+    formData.append("isPublic", data.isPublic);
     data.documents.forEach((file) => formData.append("documents", file));
+    dispatch(
+      addLoadingNotification([
+        ...LOADING,
+        {
+          id: uuid(),
+          type: "LOADING",
+          status: 0,
+          documents: [data.documents.map((file) => file.name)],
+          subject: { name: dataModal.subjectName },
+          startTime: new Date().toLocaleString(),
+        },
+      ])
+    );
     updloadSubjectDocumentForSubject({
-      subjectId,
+      subjectId: data.subjectId,
       subjectDocument: formData,
-    }).then((response) => {
-      refetch();
-      closeModal();
-    });
+    })
+      .then((response) => {
+        dispatch(
+          addLoadingNotification([
+            ...LOADING,
+            {
+              id: uuid(),
+              type: "LOADING",
+              status: 1,
+              objectType: "SUBJECT_DOCUMENT",
+              documents: data.documents.map((file) => file.name),
+              subject: { name: dataModal.subjectName },
+              startTime: new Date().toLocaleString(),
+              subjectDocument: response.data,
+            },
+          ])
+        );
+        refetchSubjectDocument();
+        refetchGetAllSubjectDocumentCreatedByUser();
+      })
+      .catch(() => {
+        dispatch(
+          addLoadingNotification([
+            ...LOADING,
+            {
+              id: uuid(),
+              type: "LOADING",
+              status: 2,
+              documents: data.documents.map((file) => file.name),
+              subject: { name: dataModal.subjectName },
+              startTime: new Date().toLocaleString(),
+            },
+          ])
+        );
+      });
   };
   const onDrop = useCallback((acceptedFiles) => {
     setData((data) => ({ ...data, documents: acceptedFiles }));
@@ -60,11 +128,7 @@ function SubjectDocumentModal({
     <Modal open={open} onClose={closeModal}>
       <Box sx={{ ...style }}>
         <Box p={2}>
-          <Typography
-            variant="h3"
-            textAlign={"start"}
-            color={"text.secondary"}
-          >
+          <Typography variant="h3" textAlign={"start"} color={"text.secondary"}>
             Thêm tài liệu mới
           </Typography>
           <Box display={"flex"} alignItems={"center"} minWidth={"350px"} pt={2}>
@@ -76,20 +140,53 @@ function SubjectDocumentModal({
               title={"Kiểu tài liệu"}
               all={false}
               style={{ marginRight: 2 }}
-              value={data?.type}
-              handle={(type) => setData({ ...data, type })}
+              value={data?.subjectDocumentType}
+              handle={(subjectDocumentType) =>
+                setData({ ...data, subjectDocumentType })
+              }
             />
             <MultipleSelect
-              items={["Bất kỳ ai", "Chỉ mình tôi"].map((value) => ({
+              items={[0, 1].map((value) => ({
                 value,
-                label: <Typography>{value}</Typography>,
+                label: (
+                  <Typography>
+                    {value === 1 ? "Với mọi người" : "Chỉ mình tôi"}
+                  </Typography>
+                ),
               }))}
               title={"Trạng thái tài liệu"}
               all={false}
-              style={{ marginRight: 0 }}
+              style={{ marginRight: 2 }}
               value={data?.isPublic}
               handle={(isPublic) => setData({ ...data, isPublic })}
             />
+            <MultipleSelect
+              items={subjects?.item?.map((subject) => ({
+                value: subject.value,
+                label: <Typography>{subject.label}</Typography>,
+              }))}
+              title={"Trạng thái tài liệu"}
+              all={false}
+              style={{ marginRight: 2 }}
+              value={data?.subjectId}
+              handle={(subjectId) => setData({ ...data, subjectId })}
+            />
+
+            {/* <MultipleSelect
+              items={["LINK", "PDF"].map((value) => ({
+                value,
+                label: (
+                  <Typography>
+                    {value === "LINK" ? "Chia sẻ liên kết" : "Chia sẻ tài liệu"}
+                  </Typography>
+                ),
+              }))}
+              title={"Loại tài liệu"}
+              all={false}
+              style={{ marginRight: 0 }}
+              value={data?.type}
+              handle={(type) => setData({ ...data, type })}
+            /> */}
           </Box>
           <Box my={2} border={"1px solid gray"} borderRadius={1}>
             <InputBase
@@ -106,47 +203,69 @@ function SubjectDocumentModal({
               }
             />
           </Box>
-          {data.documents.length > 0 && (
-            <Box my={1}>
-              <Typography variant="h5">File đã chọn</Typography>
+          {data.type === "PDF" ? (
+            <Box>
+              {data.documents.length > 0 && (
+                <Box my={1}>
+                  <Typography variant="h5">File đã chọn</Typography>
+                  <Box
+                    maxHeight={"250px"}
+                    maxWidth={"450px"}
+                    overflow={"auto"}
+                    display={"flex"}
+                    flexWrap={"wrap"}
+                  >
+                    {data.documents.map((document, index) => (
+                      <Chip
+                        key={index}
+                        label={document.path}
+                        sx={{ m: 1 }}
+                        onDelete={() => handleDeleteDocument(document)}
+                        color="primary"
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              )}
               <Box
-                maxHeight={"250px"}
-                maxWidth={"400px"}
-                overflow={"auto"}
+                height={"100px"}
                 display={"flex"}
-                flexWrap={"wrap"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                border={`1px dotted ${isDragActive ? "blue" : "gray"}`}
+                {...getRootProps()}
               >
-                {data.documents.map((document, index) => (
-                  <Chip
-                    key={index}
-                    label={document.path}
-                    sx={{ m: 1 }}
-                    onDelete={() => handleDeleteDocument(document)}
-                    color="primary"
-                  />
-                ))}
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Thả tài liệu</p>
+                ) : (
+                  <p>Nhấp chuột hoặc kéo tài liệu vào đây</p>
+                )}
               </Box>
             </Box>
+          ) : (
+            <Box my={2} border={"1px solid gray"} borderRadius={1}>
+              <InputBase
+                required
+                placeholder="Nhập liên kết"
+                sx={{ p: 1, width: "100%" }}
+                width={"100%"}
+                value={data.url}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    url: e.target.value,
+                  })
+                }
+              />
+            </Box>
           )}
-          <Box
-            height={"100px"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            border={`1px dotted ${isDragActive ? "blue" : "gray"}`}
-            {...getRootProps()}
-          >
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Thả tài liệu</p>
-            ) : (
-              <p>Nhấp chuột hoặc kéo tài liệu vào đây</p>
-            )}
-          </Box>
           <Box display={"flex"} justifyContent={"end"} mt={2}>
             <Button
               disabled={
-                data.description.length === 0 || data.documents.length === 0
+                data.description.length === 0 ||
+                (data.type !== "LINK" && data.documents.length === 0) ||
+                (data.type === "LINK" && data.url.length === 0)
               }
               variant="contained"
               color="primary"

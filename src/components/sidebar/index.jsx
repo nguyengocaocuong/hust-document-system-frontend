@@ -10,14 +10,17 @@ import { Box, Divider, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { MenuItem, menuClasses } from "react-pro-sidebar";
 import {signOut} from "../../store/authState"
+import { useNavigate } from "react-router-dom";
 function Sidebar() {
   const {
     user: { roleType },
   } = useSelector((state) => state.authentication);
   const [sidebarItem, sidebarSettingItem] = GetSidebarItem(roleType);
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleSignOut = ()=>{
     dispatch(signOut())
+    navigate('/')
   }
   return (
     <ProSidebar
@@ -45,7 +48,7 @@ function Sidebar() {
           })}
         </Menu>
       </Box>
-      <Box bottom={0} left={0}>
+      <Box bottom={0} left={0} position={'absolute'}>
         <Divider />
         <Menu style={{ marginTop: "15px" }}>
           {sidebarSettingItem.map((item, index) => (

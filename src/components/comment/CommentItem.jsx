@@ -5,40 +5,54 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ReplyIcon from "@mui/icons-material/Reply";
 import CommentInput from "./CommentInput";
 import CreateIcon from "@mui/icons-material/Create";
+import FlagIcon from "@mui/icons-material/Flag";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { red } from "@mui/material/colors";
-const getAction = (comment, user, clear) => {
-  const actions = [
-    {
-      icon: <CreateIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: <Typography sx={{ fontSize: "13px" }}>Chỉnh sửa</Typography>,
-      handle: (close) => {
-        close();
-      },
-    },
-    {
-      icon: <DeleteIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: <Typography sx={{ fontSize: "13px" }}>Xóa bình luận</Typography>,
-      handle: (close) => {
-        clear(comment.id);
-        close();
-      },
-    },
-  ];
-  return user.id === comment.owner.id ? actions : [actions[0]];
-};
-const CommentItem = ({ comment, add, clear, childComment = false }) => {
+import { openReportModal } from "../../store/modalState";
+
+const CommentItem = ({
+  comment,
+  add,
+  clear,
+  childComment = false,
+  mainColor = "#F2F2F2",
+}) => {
   const [isReply, setReply] = useState(false);
   const { user } = useSelector((state) => state.authentication);
+  const dispatch = useDispatch();
+  const report = () => {
+    dispatch(openReportModal({id:1}));
+  };
+  const actions = () =>
+    user.id === comment.owner.id
+      ? [
+          {
+            Icon: CreateIcon,
+            label: "Chỉnh sửa",
+            action: () => {},
+          },
+          {
+            Icon: FlagIcon,
+            label: "Báo cáo",
+            action: report,
+          },
+          {
+            Icon: DeleteIcon,
+            label: "Xóa bình luận",
+            action: () => clear(comment.id),
+          },
+        ]
+      : [];
+
   return (
     <Box>
       <Box
         borderRadius={childComment ? 0 : 1}
         display={"flex"}
         sx={{
-          "&:hover": { backgroundColor: "#F2F2F2" },
-          backgroundColor: isReply && "#F2F2F2",
+          "&:hover": { backgroundColor: mainColor },
+          backgroundColor: isReply && mainColor,
           borderLeft: childComment ? "2px solid gray" : "",
         }}
         p={1}
@@ -47,7 +61,12 @@ const CommentItem = ({ comment, add, clear, childComment = false }) => {
       >
         <Avatar
           src={comment.owner?.avatar}
-          sx={{ width: "35px", height: "35px", mr: 1, bgcolor: red[500]}}
+          sx={{
+            width: childComment ? "30px" : "35px",
+            height: childComment ? "30px" : "35px",
+            mr: 1,
+            bgcolor: red[500],
+          }}
         >
           {comment.owner?.lastName.substring(
             comment.owner?.lastName.lastIndexOf(" ") + 1,
@@ -99,7 +118,7 @@ const CommentItem = ({ comment, add, clear, childComment = false }) => {
               </Box>
             </Box>
             <Box>
-              <PropperMenu action={getAction(comment, user, clear)} />
+              <PropperMenu action={actions()} />
             </Box>
           </Box>
           {isReply && (

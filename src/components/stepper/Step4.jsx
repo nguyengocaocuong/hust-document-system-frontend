@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import BoxBetween from "../../components/BoxBetween";
 import {
   Box,
@@ -11,8 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const Step4 = ({ setting }) => {
-  const [isDone, setIsDone] = useState(false)
+const Step4 = ({ isDone, setIsDone, upload }) => {
   return (
     <BoxBetween>
       <Box border={"1px dotted gray"} textAlign={"center"} p={2}>
@@ -52,7 +51,7 @@ const Step4 = ({ setting }) => {
             </RadioGroup>
           </FormControl>
         </Box>
-        <Button variant="contained" sx={{textTransform:'none'}} onClick={()=> setting(isDone)}>Lưu bài viết</Button>
+        <Button variant="contained" sx={{textTransform:'none'}} onClick={upload}>Lưu bài viết</Button>
       </Box>
     </BoxBetween>
   );

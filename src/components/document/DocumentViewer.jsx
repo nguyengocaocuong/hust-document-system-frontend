@@ -7,7 +7,11 @@ function DocumentViewer({ docs = [] }) {
   const { user } = useSelector((state) => state.authentication);
   const headers = { Authorization: `Bearer ${user.token}` };
   return (
-    <BoxFull maxHeight={"100%"} overflow={"hidden"}>
+    <BoxFull
+      maxHeight={"100%"}
+      overflow={"hidden"}
+      display={"flex"}
+    >
       <DocViewer
         style={{ height: "100%" }}
         documents={docs}
@@ -34,6 +38,9 @@ function DocumentViewer({ docs = [] }) {
             zoomJump: 0.2,
           },
           pdfVerticalScrollByDefault: true,
+          loadingRenderer: {
+            showLoadingTimeout: true,
+          },
         }}
       />
     </BoxFull>

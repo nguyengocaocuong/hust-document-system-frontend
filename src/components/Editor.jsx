@@ -1,13 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Editor as TinyEditor} from '@tinymce/tinymce-react';
 
-function Editor({}) {
-  const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+function Editor({editorRef}) {
   return (
     <TinyEditor
     apiKey='d2juz75n4zh852tseu5bqt1p48krngjmie8n8pv16rzajfbv'

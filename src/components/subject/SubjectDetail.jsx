@@ -1,36 +1,37 @@
 import { Box, Chip, Divider, Grid, Stack, Typography } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetSubjectDetailQuery } from "../../services/SubjectService";
 import SubjectType from "./SubjectType";
 import { documentType as type } from "../../settings/SubjectSetting";
 import SubjectTypeDetail from "./SubjectTypeDetail";
-import SubjectDocumentModal from "../../components/modal/SubjectDocumentModal";
 import DoneIcon from "@mui/icons-material/Done";
 import BoxBetween from "../BoxBetween";
-import { useDropzone } from "react-dropzone";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import { useDispatch } from "react-redux";
+import { openSubjectDocumentModal } from "../../store/modalState";
+import noDocument from "../../assets/images/noDocument.png";
 function SubjectDetail() {
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const {
-    data: subjectDetail,
-    isSuccess,
-    refetch,
-  } = useGetSubjectDetailQuery(id);
+  const { data: subjectDetail, isSuccess } = useGetSubjectDetailQuery(id);
   const [selected, setSelected] = useState([]);
   const handleSelected = (item) => {
-    console.log(item);
     if (selected.find((i) => i.type === item.type))
       setSelected(selected.filter((i) => i.type !== item.type));
     else setSelected([...selected, item]);
   };
-  const [modalData, setModalData] = useState({ open: false, data: null });
-  const openModal = (data) => setModalData({ data, open: true });
-  const closeModal = () => setModalData({ data: null, open: false });
+  const openModal = (subjectDocumentType, acceptedFiles = []) => {
+    dispatch(
+      openSubjectDocumentModal({
+        subjectName: subjectDetail?.name,
+        subjectId: id,
+        acceptedFiles,
+        subjectDocumentType,
+      })
+    );
+  };
 
-  const onDrop = useCallback((acceptedFiles) => {
-      setModalData(() =>({ acceptedFiles, open: true }))
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={"white"}>
       {isSuccess && (
@@ -107,8 +108,14 @@ function SubjectDetail() {
                       }}
                       label={type[document.type].title}
                       icon={
-                        selected?.find((i) => i.type === document.type) !=
-                          undefined && <DoneIcon />
+                        selected?.find((i) => i.type === document.type) !==
+                        undefined ? (
+                          <DoneIcon />
+                        ) : (
+                          <CheckBoxOutlineBlankIcon
+                            sx={{ width: "14px", height: "14px" }}
+                          />
+                        )
                       }
                     />
                   </Box>
@@ -133,36 +140,27 @@ function SubjectDetail() {
                     key={index}
                     data={item}
                     select={() => setSelected([item])}
-                    openModal={() => openModal(item)}
+                    openModal={() => openModal(item.type, undefined)}
                   />
                 ))}
               </Grid>
             )}
             {subjectDetail?.subjectDocuments.length === 0 && (
-              <BoxBetween >
-                <Box {...getRootProps()} p={5} border={isDragActive ? `3px dotted blue` : `1px dotted  gray`}>
-                  <img
-                    src="https://www.printcmr.com/images/414notfound.png"
-                    alt="?"
-                  />
-                  <Typography variant="h4">Môn học này chưa có tài liệu</Typography>
-                  <Typography>{isDragActive ? "Thả tài liệu ra": "Kéo tài liệu vào đây để tải lên"}</Typography>
+              <BoxBetween>
+                <Box
+                  onClick={() => openModal("EXAM", undefined)}
+                  p={5}
+                  border={`1px dotted  gray`}
+                >
+                  <img src={noDocument} alt="?" />
+                  <Typography variant="h4">
+                    Môn học này chưa có tài liệu
+                  </Typography>
                 </Box>
-                <input {...getInputProps()} />
               </BoxBetween>
             )}
           </Box>
         </>
-      )}
-      {(modalData.data || modalData.acceptedFiles ) && (
-        <SubjectDocumentModal
-          subjectId={id}
-          open={modalData.open}
-          closeModal={closeModal}
-          subjectType={modalData.data}
-          acceptedFiles={modalData.acceptedFiles}
-          refetch={refetch}
-        />
       )}
     </Box>
   );

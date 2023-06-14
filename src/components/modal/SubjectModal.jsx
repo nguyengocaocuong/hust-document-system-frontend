@@ -7,12 +7,17 @@ import {
   TextField,
   Button,
   Modal,
-  TextareaAutosize,
 } from "@mui/material";
 import React, { useState } from "react";
-import EmptyTextarea, { StyledTextarea } from "../EmptyTextarea";
-import { useCreateSubjectMutation, useGetAllSubjectForFilterQuery, useGetAllSubjectQuery } from "../../services/SubjectService";
+import { StyledTextarea } from "../EmptyTextarea";
+import {
+  useCreateSubjectMutation,
+  useGetAllSubjectQuery,
+} from "../../services/SubjectService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
+import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
+import { useDispatch } from "react-redux";
+import { closeSubjectModal } from "../../store/modalState";
 const style = {
   position: "absolute",
   top: "50%",
@@ -20,25 +25,30 @@ const style = {
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
 };
-function SubjectModal({ open, closeModal}) {
+function SubjectModal({ open }) {
+  const dispatch = useDispatch();
+  const closeModal = () => {
+    dispatch(closeSubjectModal());
+  };
   const [subject, setSubject] = useState({
     subjectCode: "",
     name: "",
     description: "",
+    avatar: undefined,
   });
   const handleChange = (e) => {
     setSubject({ ...subject, [e.target.name]: e.target.value });
   };
   const theme = useTheme();
-  const {refetch} = useGetAllSubjectForFilterQuery()
-  const {refetch: refetchAll} = useGetAllSubjectQuery()
+  const { refetch } = useGetAllSubjectForFilterQuery();
+  const { refetch: refetchAll } = useGetAllSubjectQuery();
   const [createSubject] = useCreateSubjectMutation();
   const createNewSubject = () => {
     createSubject(convertJsonToFormData(subject)).then((response) => {
       setSubject({ subjectCode: "", name: "", description: "" });
-      closeModal()
-      refetch()
-      refetchAll()
+      closeModal();
+      refetch();
+      refetchAll();
     });
   };
   return (

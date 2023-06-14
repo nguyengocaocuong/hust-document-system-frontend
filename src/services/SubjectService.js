@@ -28,20 +28,6 @@ export const subjectApi = createApi({
       },
       providesTags: ["subject"],
     }),
-    getAllSubjectForFilter: builder.query({
-      query: () => "/allSubjectForFilter",
-      transformResponse: (response) => ({
-        title: "Học phần",
-        type: "documentFilter",
-        item: response?.content.map((i) => {
-          return {
-            label: i.name,
-            value: i.id,
-          };
-        }),
-      }),
-      providesTags: ["subject"],
-    }),
     getSubjectDetail: builder.query({
       query: (id) => `/${id}`,
       transformResponse: (response) => {
@@ -49,12 +35,15 @@ export const subjectApi = createApi({
         if (!content) return {};
         var subjectDocuments = {};
         for (var j = 0; j < content.subjectDocuments.length; j++) {
-          if (!subjectDocuments[content.subjectDocuments[j].type]) {
-            subjectDocuments[content.subjectDocuments[j].type] = [];
+          if (
+            !subjectDocuments[content.subjectDocuments[j].subjectDocumentType]
+          ) {
+            subjectDocuments[content.subjectDocuments[j].subjectDocumentType] =
+              [];
           }
-          subjectDocuments[content.subjectDocuments[j].type].push(
-            content.subjectDocuments[j]
-          );
+          subjectDocuments[
+            content.subjectDocuments[j].subjectDocumentType
+          ].push(content.subjectDocuments[j]);
         }
         var convertToArray = [];
         Object.keys(subjectDocuments).forEach((key) => {
@@ -65,7 +54,7 @@ export const subjectApi = createApi({
       },
       providesTags: ["subject"],
     }),
-    createSubject:  builder.mutation({
+    createSubject: builder.mutation({
       query: (subject) => ({
         url: "",
         method: "POST",
@@ -74,7 +63,7 @@ export const subjectApi = createApi({
       transformResponse: (response) => response?.content,
       providesTags: ["subject"],
     }),
-    favoriteSubject:  builder.mutation({
+    favoriteSubject: builder.mutation({
       query: (data) => ({
         url: `/${data.subjectId}/favorite`,
         method: "POST",
@@ -126,25 +115,11 @@ export const subjectApi = createApi({
       },
       providesTags: ["subjectDocument"],
     }),
-    getAllSubjectDocumentType: builder.query({
-      query: () => "/subjectDocumentTypeForFilter",
-      transformResponse: (response) => ({
-        title: "Loại tài liệu",
-        type: "documentTypeFilter",
-        item: response?.content.map((i) => {
-          return {
-            label: i,
-            value: i,
-          };
-        }),
-      }),
-      providesTags: ["subjectDocument"],
-    }),
     updloadSubjectDocumentForSubject: builder.mutation({
       query: (data) => ({
         url: `/${data.subjectId}/subjectDocument`,
         method: "POST",
-        body: data.subjectDocument
+        body: data.subjectDocument,
       }),
       transformResponse: (response) => response?.content,
       providesTags: ["subjectDocument"],
@@ -155,39 +130,134 @@ export const subjectApi = createApi({
       query: (data) => ({
         url: `/subjectDocument/${data.id}/answerSubjectDocument`,
         method: "POST",
-        body: data.answer
+        body: data.body,
       }),
       transformResponse: (response) => response?.content,
       providesTags: ["favoriteSubjectDocument"],
     }),
 
-    // SEMESTER
-    getAllSemesterForFilter: builder.query({
-      query: () => "/allSemesterForFilter",
-      transformResponse: (response) => ({
-        title: "Học kỳ",
-        type: "semesterFilter",
-        item: response?.content.map((i) => ({
-          label: i,
-          value: i,
-        })),
-      }),
-      providesTags: ["semester"],
-    }),
     // REVIEW SUBJECT
     getAllReviewSubject: builder.query({
-      query: () =>  `/reviewSubject`,
+      query: () => `/reviewSubject`,
       transformResponse: (response) => response?.content,
-      providesTags: ["semester"],
+    }),
+    getAllReviewSubjectCreatedByUser: builder.query({
+      query: () => `/reviewSubject/owner`,
+      transformResponse: (response) => response?.content,
+    }),
+    toggleFavoriteAnswerSubjectDocument: builder.mutation({
+      query: (id) => ({
+        url: `/answerSubjectDocument/${id}/favorite`,
+        method: "POST",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
+    getAllAnswerSubjectDocument: builder.query({
+      query: (id) => `/subjectDocument/${id}/answerSubjectDocument`,
+      transformResponse: (response) => response?.content,
+    }),
+    createCommentReviewSubject: builder.mutation({
+      query: (data) => ({
+        url: `/reviewSubject/${data.id}/comment`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
+    deleteCommentReviewSubject: builder.mutation({
+      query: (id) => ({
+        url: `/reviewSubject/comment/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    toggleFavoriteReviewSubject: builder.mutation({
+      query: (id) => ({
+        url: `/reviewSubject/${id}/favorite`,
+        method: "POST",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
+    getAllFavoritereviewSubject: builder.query({
+      query: (id) => `/reviewSubject/${id}/favorite`,
+      transformResponse: (response) => response?.content,
+    }),
+    getAllCommentForReviewSubject: builder.query({
+      query: (id) => `/reviewSubject/${id}/comment`,
+      transformResponse: (response) => response?.content,
+    }),
+    getAllUserShared: builder.query({
+      query: (id) => `/subjectDocument/${id}/shared`,
+      transformResponse: (response) => response?.content,
+    }),
+    shareSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}/share`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
+    getAllSubjectDocumentCreateByUser: builder.query({
+      query: () => `/subjectDocument/owner`,
+      transformResponse: (response) => response.content,
+    }),
+    getAllSubjectDocumentShared: builder.query({
+      query: () => `/subjectDocument/shared`,
+      transformResponse: (response) => response.content,
+    }),
+    generateUrlForPublicSubjectDocumentOnInternet: builder.query({
+      query: (id) => `/subjectDocument/${id}/generatePublicOnInternetUrl`,
+      transformResponse: (response) => response.content,
+    }),
+    generateUrlForPublicSubjectDocumentOnWebsite: builder.query({
+      query: (id) => `/subjectDocument/${id}/generatePublicOnWebsiteUrl`,
+      transformResponse: (response) => response.content,
+    }),
+    deleteSubjectDocumentForever: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}/forever`,
+        method: "DELETE",
+      }),
+    }),
+    moveSubjectDocumentToTrash: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}`,
+        method: "DELETE",
+      }),
+    }),
+    restoreSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}/restore`,
+        method: "PATCH",
+      }),
+    }),
+    makeSubjectDocumentPublic: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}/public`,
+        method: "PATCH",
+      }),
+    }),
+    makeSubjectDocumentPrivate: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.id}/private`,
+        method: "PATCH",
+      }),
+    }),
+    deleteSharedPrivate: builder.mutation({
+      query: (id) => ({
+        url: `/subjectDocument/shared/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    deleteReviewSubject: builder.mutation({
+      query: (id) => ({
+        url: `/reviewSubject/${id}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
 
 export const {
   useGetAllSubjectQuery,
-  useGetAllSubjectDocumentTypeQuery,
-  useGetAllSemesterForFilterQuery,
-  useGetAllSubjectForFilterQuery,
   useGetSubjectDetailQuery,
   useCommentSubjectDocumentMutation,
   useDeleteCommentSubjectDocumentMutation,
@@ -198,6 +268,26 @@ export const {
   useUpdloadSubjectDocumentForSubjectMutation,
   useCreateSubjectMutation,
   useFavoriteSubjectMutation,
-  useGetAllReviewSubjectQuery
+  useGetAllReviewSubjectQuery,
+  useToggleFavoriteAnswerSubjectDocumentMutation,
+  useGetAllAnswerSubjectDocumentQuery,
+  useCreateCommentReviewSubjectMutation,
+  useDeleteCommentReviewSubjectMutation,
+  useGetAllFavoritereviewSubjectQuery,
+  useToggleFavoriteReviewSubjectMutation,
+  useGetAllCommentForReviewSubjectQuery,
+  useGetAllUserSharedQuery,
+  useShareSubjectDocumentMutation,
+  useGetAllSubjectDocumentCreateByUserQuery,
+  useGenerateUrlForPublicSubjectDocumentOnInternetQuery,
+  useGetAllSubjectDocumentSharedQuery,
+  useGenerateUrlForPublicSubjectDocumentOnWebsiteQuery,
+  useDeleteSubjectDocumentForeverMutation,
+  useMoveSubjectDocumentToTrashMutation,
+  useRestoreSubjectDocumentMutation,
+  useMakeSubjectDocumentPrivateMutation,
+  useMakeSubjectDocumentPublicMutation,
+  useDeleteSharedPrivateMutation,
+  useDeleteReviewSubjectMutation,
+  useGetAllReviewSubjectCreatedByUserQuery
 } = subjectApi;
-export const { endpoints, reducerPath, reducer, middleware } = subjectApi;

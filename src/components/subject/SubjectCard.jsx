@@ -17,9 +17,9 @@ function SubjectCard({ subject }) {
   const toggleFavoriteSubject = () => {
     favoriteSubject({
       subjectId: subject?.id,
-      body: { notifycationType: "ALL" },
+      body: { notificationType: "ALL" },
     }).then(() => {
-      refetch()
+      refetch();
     });
   };
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ function SubjectCard({ subject }) {
     >
       <Box
         onClick={() => navigate(`/education/${subject.id}`)}
-        p={2}
+        p={1}
         borderRadius={"25px"}
         sx={{
           backgroundColor: "#F7F9FC",
@@ -54,7 +54,11 @@ function SubjectCard({ subject }) {
           />
           <Box ml={2}>
             <Stack spacing={0.5}>
-              <Typography variant="h5" color={'text.secondary'} textTransform={'uppercase'}>
+              <Typography
+                variant="h5"
+                color={"text.secondary"}
+                textTransform={"uppercase"}
+              >
                 <strong>{subject.subjectCode}</strong>
               </Typography>
               <Typography variant="h6" noWrap fontWeight={100}>

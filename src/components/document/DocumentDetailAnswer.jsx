@@ -1,22 +1,35 @@
 import { Box, Button, Stack } from "@mui/material";
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import DocumentAnswer from "./DocumentAnswer";
 import AddIcon from "@mui/icons-material/Add";
-import AnswerModal from "../modal/AnswerModal";
-const MemoDocumentAnswer = memo(({ answers }) => (
-  <Stack spacing={1}>
+import { useDispatch } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
+import {
+  openAnswerPostModal,
+  openAnswerSubjectDocumentModal,
+} from "../../store/modalState";
+const MemoDocumentAnswer = memo(({ answers, toggleFavorite }) => (
+  <Stack spacing={1.5}>
     {answers.map((answer, index) => (
-      <DocumentAnswer key={index} answer={answer} />
+      <DocumentAnswer
+        key={index}
+        answer={answer}
+        toggleFavorite={toggleFavorite}
+      />
     ))}
   </Stack>
 ));
 function DocumentDetailtAnswer({ answers }) {
-  const [open, setOpen] = useState(false);
-  const openModal = () => {
-    setOpen(true);
-  };
-  const closeModal = () => {
-    setOpen(false);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { id } = useParams();
+  const openAnswerModal = () => {
+    if (location.pathname.startsWith("/post/")) {
+      dispatch(openAnswerPostModal({ postId: id }));
+    }
+    if (location.pathname.includes("/subject-document/")) {
+      dispatch(openAnswerSubjectDocumentModal({ subjectDocumentId: id }));
+    }
   };
   return (
     <Box
@@ -33,7 +46,7 @@ function DocumentDetailtAnswer({ answers }) {
         size="large"
         variant="outlined"
         color={"error"}
-        onClick={openModal}
+        onClick={openAnswerModal}
       >
         <AddIcon /> Thêm tài liệu mới
       </Button>
@@ -43,13 +56,11 @@ function DocumentDetailtAnswer({ answers }) {
         overflow={"auto"}
         sx={{ "&::-webkit-scrollbar": { display: "none" } }}
       >
-        <MemoDocumentAnswer answers={answers.data} />
+        <MemoDocumentAnswer
+          answers={answers.data}
+          toggleFavorite={answers.toggleFavoriteAnswer}
+        />
       </Box>
-      <AnswerModal
-        open={open}
-        closeModal={closeModal}
-        addAnswer={answers.add}
-      />
     </Box>
   );
 }

@@ -48,4 +48,3 @@ export const authApi = createApi({
 });
 
 export const { useLoginMutation, useRegisterMutation, useGenerateTokenMutation, useResetPasswordMutation } = authApi;
-export const { endpoints, reducerPath, reducer, middleware } = authApi;

@@ -3,18 +3,19 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useLocation } from "react-router-dom";
 import { getBreadcrumbs } from "../settings/SidebarSetting";
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+
 function IconBreadcrumbs() {
   const location = useLocation();
   const [data] = getBreadcrumbs(location.pathname);
   return (
     <Breadcrumbs
       sx={{
-        height: "50px",
-        backgroundColor: "white",
+        height: "60px",
         display: "flex",
         alignItems: "center",
         pl: 2,
+        backgroundColor: "white",
         borderBottom: "1px solid #D8D9D9",
       }}
     >
@@ -28,7 +29,7 @@ function IconBreadcrumbs() {
           }}
           to={to}
         >
-          {<Icon sx={{ fontSize: "25px", color: "text.secondary" }} />}
+          {<Icon sx={{ fontSize: "28px", color: "text.secondary" }} />}
           <Typography
             variant="h3"
             sx={{
@@ -47,11 +48,13 @@ function IconBreadcrumbs() {
 
       <Typography
         variant="h4"
-        sx={{ display: "flex", alignItems: "center" }}
+        sx={{ display: "flex", fontSize: "23px" }}
         color="text.primary"
+        display={"flex"}
+        alignItems={"center"}
       >
-        <AccessAlarmIcon sx={{ fontSize: "20px", mr: 0.5 }} />
-        {'Home'}
+        <HomeOutlinedIcon sx={{ fontSize: "23px", mr: 0.5 }} />
+        Tổng quan
       </Typography>
     </Breadcrumbs>
   );

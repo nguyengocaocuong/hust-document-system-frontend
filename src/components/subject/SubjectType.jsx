@@ -5,29 +5,23 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { documentType as type } from "../../settings/SubjectSetting";
 
-const getAction = (data, select, openModal) => {
-  return [
+const SubjectType = ({ data = {}, select, openModal }) => {
+  const actions = (data) => [
     {
-      icon: <VisibilityIcon sx={{ fontSize: "13px", marginRight: "5px" }} />,
-      label: <Typography sx={{ fontSize: "13px" }}>Xem chi tiết</Typography>,
-      handle: (close) => {
+      Icon: VisibilityIcon,
+      label: "Xem chi tiết",
+      action: () => {
         select(data);
-        close();
       },
     },
     {
-      icon: (
-        <AddCircleOutlineIcon sx={{ fontSize: "13px", marginRight: "5px" }} />
-      ),
-      label: <Typography sx={{ fontSize: "13px" }}>Thêm tài liệu</Typography>,
-      handle: (close) => {
-        openModal()
-        close();
+      Icon: AddCircleOutlineIcon,
+      label: "Thêm tài liệu",
+      action: () => {
+        openModal();
       },
     },
   ];
-};
-const SubjectType = ({ data = {}, select, openModal }) => {
   return (
     <Grid item xl={6}>
       <Box
@@ -37,6 +31,7 @@ const SubjectType = ({ data = {}, select, openModal }) => {
         alignItems={"center"}
         height={"200px"}
         justifyContent={"center"}
+        onClick={() => select(data)}
       >
         <Box
           width={"90%"}
@@ -60,10 +55,7 @@ const SubjectType = ({ data = {}, select, openModal }) => {
             <Typography variant="h5" fontWeight={700}>
               {type[data.type].title}
             </Typography>
-            <PropperMenu
-              icon={<MoreVertIcon />}
-              action={getAction(data, select, openModal)}
-            />
+            <PropperMenu icon={<MoreVertIcon />} action={actions(data)} />
           </Box>
           <Box
             width={"100%"}

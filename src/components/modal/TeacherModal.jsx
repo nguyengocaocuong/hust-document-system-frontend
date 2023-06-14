@@ -15,16 +15,25 @@ import BoxBetween from "../BoxBetween";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { DatePicker } from "@mui/x-date-pickers";
 import { StyledTextarea } from "../EmptyTextarea";
-import { useCreateTeacherMutation, useGetAllTeacherForFilterQuery } from "../../services/TeacherService";
+import { useCreateTeacherMutation } from "../../services/TeacherService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
+import { useGetAllTeacherForFilterQuery } from "../../services/FilterService";
+import { useDispatch } from "react-redux";
+import { closeTeacherModal } from "../../store/modalState";
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   borderRadius: 1,
+  backgroundColor: "white",
+  p: 2,
 };
-function TeacherModal({ open, closeModal }) {
+function TeacherModal({ open }) {
+  const dispatch = useDispatch();
+  const closeModal = () => {
+    dispatch(closeTeacherModal());
+  };
   const theme = useTheme();
   const [teacher, setTeacher] = useState({
     name: "",
@@ -42,11 +51,11 @@ function TeacherModal({ open, closeModal }) {
   const handleChange = (e) => {
     setTeacher({ ...teacher, [e.target.name]: e.target.value });
   };
-  const {refetch} = useGetAllTeacherForFilterQuery()
+  const { refetch } = useGetAllTeacherForFilterQuery();
   const createNewTeacher = () => {
     createTeacher(convertJsonToFormData(teacher)).then((response) => {
-      refetch()
-      closeModal()
+      refetch();
+      closeModal();
     });
   };
   return (
@@ -235,27 +244,7 @@ function TeacherModal({ open, closeModal }) {
                           onChange={handleChange}
                         />
                       </Box>
-                      <Box mb={"15px"}>
-                        <Typography
-                          variant="h5"
-                          color={theme.palette.text.secondary}
-                          mb={"5px"}
-                        >
-                          Môn học giáo viên dạy:
-                        </Typography>
-                        {/* <Select
-                          defaultValue="USER"
-                          value={teacher?.subjects}
-                          sx={{ minWidth: "100%" }}
-                          size="small"
-                          name="subjects"
-                          onChange={handleChange}
-                          disabled
-                        >
-                          <MenuItem value={"USER"}>Người dùng</MenuItem>
-                          <MenuItem value={"STAF"}>Quản trị</MenuItem>
-                        </Select> */}
-                      </Box>
+                    
                     </Grid>
                     <Grid item xl={8}>
                       <Box mb={"15px"}>

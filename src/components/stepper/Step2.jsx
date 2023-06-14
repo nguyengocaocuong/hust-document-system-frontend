@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   CircularProgress,
@@ -6,26 +6,27 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useGetAllTeacherForFilterQuery } from "../../services/TeacherService";
 import MultipleSelect from "../MultipleSelect";
-import { useGetAllSubjectForFilterQuery } from "../../services/SubjectService";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import SubjectModal from "../modal/SubjectModal";
-import TeacherModal from "../modal/TeacherModal";
+import {
+  useGetAllSubjectForFilterQuery,
+  useGetAllTeacherForFilterQuery,
+} from "../../services/FilterService";
+import { useDispatch } from "react-redux";
+import { openSubjectModal, openTeacherModal } from "../../store/modalState";
 
 const Step2 = ({ selectObject, data }) => {
+  const dispatch = useDispatch();
   const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
     useGetAllSubjectForFilterQuery();
   const { data: teacherFilter = { title: "Giảng viên", item: [] } } =
     useGetAllTeacherForFilterQuery();
-  const [open, setOpen] = useState(false);
   const openModal = () => {
-    setOpen(true);
+    if (data?.type === "REVIEW_TEACHER") {
+      dispatch(openTeacherModal());
+    } else dispatch(openSubjectModal());
   };
-  const closeModal = () => {
-    setOpen(false);
-  };
-  console.log(data);
+
   return (
     <Box display={"flex"} justifyContent={"center"} p={2}>
       <Box
@@ -99,12 +100,6 @@ const Step2 = ({ selectObject, data }) => {
           <CircularProgress color="secondary" />
         )}
       </Box>
-      {data?.type === "REVIEW_TEACHER" && (
-        <TeacherModal open={open} closeModal={closeModal} />
-      )}
-      {data?.type !== "REVIEW_TEACHER" && (
-        <SubjectModal open={open} closeModal={closeModal} />
-      )}
     </Box>
   );
 };

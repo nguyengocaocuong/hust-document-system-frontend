@@ -1,55 +1,51 @@
 import React from "react";
 import BoxFull from "../../../components/BoxFull";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useGetPostDetailQuery } from "../../../services/PostService";
 import { useParams } from "react-router-dom";
 import PostInfo from "./PostInfo";
-
+import ImageViewer from "../../ImageViewer";
+import { useState } from "react";
+import ConfirmModal from "../../modal/ComfirmModal";
 function PostDetailt() {
   const { id } = useParams();
   const { data: postDetail, isSuccess } = useGetPostDetailQuery(id);
+  const [language, setLanguage] = useState("ROOT");
+  const [open, setOpen] = useState({ open: false, item: null });
+  const closeModal = () => setOpen({ open: false, item: null });
+  const openModal = (item) => setOpen({ open: true, item });
+  const message =
+    "Hiện tại chức năng dịch hình ảnh đang được phát triển, chúng tôi sẽ sớm cung cấp chức năng này sớm nhất có thể, cảm ơn bạn đã sử dụng.";
+  const handleSelectLanguage = (value) => {
+    openModal();
+    setLanguage(value);
+  };
+  const onSelect = ()=>{
+    setLanguage("ROOT")
+    closeModal()
+  }
   return isSuccess ? (
     <BoxFull sx={{ backgroundColor: "white" }}>
       <Box display={"flex"} height={"100%"}>
-        <Box
-          width={`70%`}
-          borderRight="1px solid #D8D9D9"
-          borderBottom="1px solid #D8D9D9"
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          position={"relative"}
-        >
-          <img
-            src={postDetail.document.path}
-            alt={postDetail.document.name}
-            style={{
-              maxHeight: "100%",
-              maxWidth: "100%",
-              width: "auto",
-              height: "auto",
-            }}
+        <Box width={`70%`}>
+          <ImageViewer
+            url={postDetail.document?.path}
+            description={postDetail.description}
           />
-          <Box
-            position={"absolute"}
-            bottom={0}
-            left={0}
-            width={"100%"}
-            p={2}
-            sx={{
-              backgroundColor: "gray",
-              opacity: "0.1",
-              "&:hover": { color: "white", opacity: 1 },
-              transition: 'opacity 0.4s'
-            }}
-          >
-            <Typography variant="h6" textAlign={"center"}>
-              {postDetail.description}
-            </Typography>
-          </Box>
         </Box>
-        <PostInfo postDetail={postDetail} />
+        <PostInfo
+          postDetail={postDetail}
+          language={{ value: language, select: handleSelectLanguage }}
+        />
       </Box>
+      {open.open && (
+        <ConfirmModal
+          message={message}
+          open={open.open}
+          closeModal={closeModal}
+          action={onSelect}
+        />
+      )}
     </BoxFull>
   ) : (
     <></>

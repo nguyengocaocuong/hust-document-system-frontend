@@ -1,4 +1,5 @@
 export const formatTimeAgo = (timestampString) => {
+  if (timestampString === undefined) return "";
   const timestamp = new Date(timestampString).getTime();
   const currentTime = new Date().getTime();
   const timeDiff = currentTime - timestamp;

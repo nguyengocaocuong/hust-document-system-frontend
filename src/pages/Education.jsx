@@ -4,14 +4,15 @@ import Subject from "../components/subject/Subject";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Filter from "../components/Filter";
-import SubjectModal from "../components/modal/SubjectModal";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import TableDocuments from '../components/document/TableDocument'
+import { useDispatch } from "react-redux";
+import { openSubjectModal } from "../store/modalState";
 function Education() {
   const [type, setType] = useState(false);
-  const [open, setOpen] = useState(false);
-  const openModal = () => setOpen(true);
-  const closeModal = () => setOpen(false);
+  const dispatch = useDispatch();
+  const openModal = () => {
+    dispatch(openSubjectModal());
+  };
   const onSearching = (data) => {
     console.log(data);
   };
@@ -40,8 +41,7 @@ function Education() {
           </Tooltip>
         </Box>
       </Box>
-      {type ? <TableDocuments /> : <Subject />}
-      <SubjectModal open={open} closeModal={closeModal} />
+      <Subject displayType={type} />
     </Box>
   );
 }

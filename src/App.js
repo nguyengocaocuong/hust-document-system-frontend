@@ -19,11 +19,20 @@ import Writing from "./pages/Writing";
 import Profile from "./pages/Profile";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import Favorite from "./pages/Favorite";
 import SubjectDetail from "./components/subject/SubjectDetail";
 import Education from "./pages/Education";
 import SubjectDocumentDetail from "./components/SubjectDocumentDetail";
 import Review from "./pages/Review";
+import Shared from "./pages/Shared";
+import Trash from "./pages/Trash";
+import AdminLayout from "./layouts/AdminLayout";
+import Dashboash from "./pages/Dashboash";
+import User from "./pages/User";
+import ListUser from "./pages/ListUser";
+import AddUser from "./pages/AddUser";
+import Subject from "./pages/Subject";
+import Teacher from "./pages/Teacher";
+import Report from "./pages/Report";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -39,27 +48,32 @@ function App() {
                   <Routes>
                     <Route path="/" element={<WebLayout />}>
                       {isLogin && user?.roleType === "ADMIN" ? (
-                        <Route
-                          path="/"
-                          element={<div>Admin Layout</div>}
-                        ></Route>
+                        <Route path="/" element={<AdminLayout />}>
+                          <Route index element={<Dashboash />} />
+                          <Route path="users" element={<User />}>
+                            <Route
+                              index
+                              path="list-user/:id?"
+                              element={<ListUser />}
+                            />
+                            <Route path="add-user" element={<AddUser />} />
+                          </Route>
+                          <Route path="report" element={<Report />} />
+                          <Route path="subject/:id?" element={<Subject />} />
+                          <Route path="teacher/:id?" element={<Teacher />} />
+                        </Route>
                       ) : (
                         <Route path="/" element={<UserLayout />}>
                           <Route index element={<Home />} />
-                          <Route path="review" element={<Review/>}/>
+                          <Route path="review" element={<Review />} />
                           <Route path="writing" element={<Writing />} />
                           <Route path="post/:id" element={<PostDetailt />} />
                           <Route
                             path="education/subject-document/:id"
                             element={<SubjectDocumentDetail />}
                           />
-                          <Route
-                            index
-                            path="education"
-                            element={<Education />}
-                          >
-                            
-                          </Route>
+                          <Route path="education" element={<Education />} />
+                          <Route path="trash" element={<Trash />} />
                           <Route
                             path="education/:id"
                             element={<SubjectDetail />}
@@ -71,11 +85,7 @@ function App() {
                               element={<Document />}
                             />
                             <Route index path="posted" element={<Posted />} />
-                            <Route
-                              index
-                              path="favorite"
-                              element={<Favorite />}
-                            />
+                            <Route path="shared" element={<Shared />} />
                             <Route index path="profile" element={<Profile />} />
                           </Route>
                         </Route>

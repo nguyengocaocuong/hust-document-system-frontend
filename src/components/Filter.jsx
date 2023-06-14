@@ -4,16 +4,16 @@ import MultipleSelect from "../components/MultipleSelect";
 import { getIconForDocByFileName } from "../utils/DocumentUtils";
 import {
   useGetAllSemesterForFilterQuery,
-  useGetAllSubjectDocumentTypeQuery,
+  useGetAllSubjectDocumentTypeForFilterQuery,
   useGetAllSubjectForFilterQuery,
-} from "../services/SubjectService";
-import { useGetAllTeacherForFilterQuery } from "../services/TeacherService";
+  useGetAllTeacherForFilterQuery,
+} from "../services/FilterService";
 function Filter({
   onSearching = () => console.log("Searching"),
   document = true,
   documentType = true,
   teacher = true,
-  semester = true,
+  semester = false,
 }) {
   const {
     data: subjectDocumentTypeFilter = {
@@ -21,7 +21,7 @@ function Filter({
       item: [],
       type: "documentTypeFilter",
     },
-  } = useGetAllSubjectDocumentTypeQuery();
+  } = useGetAllSubjectDocumentTypeForFilterQuery();
   const {
     data: subjectDocumentFilter = {
       title: "Học phần",
@@ -60,7 +60,7 @@ function Filter({
     setFilterState({ ...filterState, [changeType]: value });
   };
   return (
-    <Box display={"flex"}>
+    <Box display={'flex'}>
       {data.map((item, index) => (
         <MultipleSelect
           key={index}
@@ -83,43 +83,6 @@ function Filter({
           }))}
         />
       ))}
-      {/* <MultipleSelect
-        title={"Chia sẻ bởi"}
-        items={[
-          {
-            icon: <Avatar src={avatar1} alt="" sizes="small" />,
-            label: (
-              <Typography style={{ marginLeft: "5px" }}>
-                Nguyễn Ngô Cao Cường
-              </Typography>
-            ),
-          },
-          {
-            icon: <Avatar src={avatar2} alt="" sizes="small" />,
-            label: (
-              <Typography style={{ marginLeft: "5px" }}>
-                Nguyễn Đình Cảnh
-              </Typography>
-            ),
-          },
-          {
-            icon: <Avatar src={avatar3} alt="" sizes="small" />,
-            label: (
-              <Typography style={{ marginLeft: "5px" }}>
-                Lê Quang Trà
-              </Typography>
-            ),
-          },
-          {
-            icon: <Avatar src={avatar4} alt="" sizes="small" />,
-            label: (
-              <Typography style={{ marginLeft: "5px" }}>
-                Mai Đình Trọng
-              </Typography>
-            ),
-          },
-        ]}
-      /> */}
     </Box>
   );
 }

@@ -3,10 +3,12 @@ import { useProSidebar } from "react-pro-sidebar";
 import React from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function SidebarHomeItem() {
   const { collapsed } = useProSidebar();
   const location = useLocation();
+  const { user } = useSelector((state) => state.authentication);
   return (
     <Box
       width={"100%"}
@@ -29,7 +31,14 @@ function SidebarHomeItem() {
           borderRadius: "25px",
         }}
       >
-        <Link to="/" style={{ textDecoration: "none", alignItems:'center', display:'flex' }}>
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
           <HomeOutlinedIcon
             style={{
               fontSize: "30px",
@@ -43,7 +52,7 @@ function SidebarHomeItem() {
               ml={"10px"}
               sx={{ fontWeight: 700 }}
             >
-              Trang chủ
+              {user.roleType === "ADMIN" ? "Tổng quan" : "Trang chủ"}
             </Typography>
           )}
         </Link>

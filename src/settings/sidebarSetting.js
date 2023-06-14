@@ -7,8 +7,14 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import HistoryIcon from "@mui/icons-material/History";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
-import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import ShareIcon from "@mui/icons-material/Share";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -54,9 +60,9 @@ const userSidebarItem = [
       },
       {
         type: "ITEM",
-        title: "Bị báo cáo",
-        to: "/private/report",
-        Icon: ReportProblemOutlinedIcon,
+        title: "Được chia sẻ",
+        to: "/private/shared",
+        Icon: ShareIcon,
         selectedColor: "red",
       },
       {
@@ -91,11 +97,83 @@ const userSidebarSettingItem = [
     to: "/setting",
     Icon: SettingsOutlinedIcon,
     selectedColor: "red",
-  }
+  },
 ];
+const adminSidebarItem = [
+  {
+    type: "ITEM",
+    title: "Môn học",
+    to: "/subject",
+    Icon: SchoolOutlinedIcon,
+    selectedColor: "red",
+  },
+  {
+    type: "ITEM",
+    title: "Giảng viên",
+    to: "/teacher",
+    Icon: CastForEducationOutlinedIcon,
+    selectedColor: "red",
+  },
+  {
+    type: "SUB_ITEM",
+    title: "Người dùng",
+    to: "/users",
+    Icon: AccountCircleOutlinedIcon,
+    selectedColor: "red",
+    data: [
+      {
+        type: "ITEM",
+        title: "Danh sách",
+        to: "/users/list-user",
+        Icon: PeopleOutlineOutlinedIcon,
+        selectedColor: "red",
+      },
+      {
+        type: "ITEM",
+        title: "Thêm người dùng",
+        to: "/users/add-user",
+        Icon: PersonAddOutlinedIcon,
+        selectedColor: "red",
+      },
+    ],
+  },
+  {
+    type: "ITEM",
+    title: "Báo cáo",
+    to: "/report",
+    Icon: FlagOutlinedIcon,
+    selectedColor: "red",
 
+  },
+  {
+    type: "ITEM",
+    title: "Thông báo",
+    to: "/notifycation",
+    Icon: NotificationsOutlinedIcon,
+    selectedColor: "red",
+
+  },
+  {
+    type: "ITEM",
+    title: "Lịch sử",
+    to: "/history",
+    Icon: HistoryIcon,
+    selectedColor: "white",
+  },
+];
+const adminSidebarSettingItem = [
+  {
+    type: "ITEM",
+    title: "Cài đặt",
+    to: "/setting",
+    Icon: SettingsOutlinedIcon,
+    selectedColor: "red",
+  },
+];
 export const GetSidebarItem = (roleType) =>
-  roleType === "ADMIN" ? [[], []] : [userSidebarItem, userSidebarSettingItem];
+  roleType === "ADMIN"
+    ? [adminSidebarItem, adminSidebarSettingItem]
+    : [userSidebarItem, userSidebarSettingItem];
 export const getBreadcrumbs = (pathName = "") => {
   const breadcrumbs = [];
   for (let i = 0; i < userSidebarItem.length; i++) {

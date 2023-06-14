@@ -13,16 +13,15 @@ export const reviewTeacherApi = createApi({
   }),
   tagTypes: ["reviewTeachers"],
   endpoints: (builder) => ({
-    getAllReviewTeachers: builder.query({ query: () => "" }),
     createReviewTeacher: builder.mutation({
-      query: (formData)=> ({
-        url:'',
-        method: 'POST',
-        body: formData
-      })
-    })
+      query: (formData) => ({
+        url: "",
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllReviewTeachersQuery, useCreateReviewTeacherMutation } = reviewTeacherApi;
-export const { endpoints, reducerPath, reducer, middleware } = reviewTeacherApi;
+export const { useCreateReviewTeacherMutation } =
+  reviewTeacherApi;

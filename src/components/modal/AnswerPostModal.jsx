@@ -3,8 +3,12 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import MultipleSelect from "../MultipleSelect";
 import UploadIcon from "@mui/icons-material/Upload";
-import { useUploadAnswerForSubjectDocumentMutation } from "../../services/SubjectService";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useCreateAnswerForPostMutation,
+  useGetAllAnswerForPostQuery,
+} from "../../services/PostService";
+import { closeAnswerPostModal } from "../../store/modalState";
 const style = {
   position: "absolute",
   top: "50%",
@@ -16,26 +20,39 @@ const style = {
   px: 4,
   pb: 3,
 };
-function AnswerPostModal({ open, closeModal, addAnswer }) {
+function AnswerPostModal({ open }) {
   const [data, setData] = useState({
-    content: "",
+    description: "",
     documents: [],
-    type: "EXAM",
+    url: "",
+    type: "PDF",
   });
-  const { id } = useParams();
-  const [uploadAnswerForSubjectDocument] =
-    useUploadAnswerForSubjectDocumentMutation();
+  const {
+    answerPostModal: { dataModal },
+  } = useSelector((state) => state.modalState);
+  const dispatch = useDispatch();
+  const closeModal = () => {
+    dispatch(closeAnswerPostModal());
+  };
+  const id = dataModal.postId;
+  const { refetch } = useGetAllAnswerForPostQuery(id);
+
+  const [createAnswerForPost] = useCreateAnswerForPostMutation();
   const uploadAnswer = () => {
     const formData = new FormData();
-    formData.append("content", data.content);
+    formData.append("description", data.description);
     formData.append("type", data.type);
-    formData.append("documents", data.documents[0]);
-    uploadAnswerForSubjectDocument({id, answer: formData}).then((response) => {
-      setData({ content: "", documents: [] });
-      addAnswer({...response.data})
+    if (data.documents.length > 0 && data.type !== "LINK") {
+      data.documents.forEach((file) => formData.append("documents", file));
+    } else {
+      formData.append("url", data.url);
+    }
+    createAnswerForPost({ id, body: formData }).then(() => {
       closeModal();
+      refetch();
     });
   };
+
   const onDrop = useCallback((acceptedFiles) => {
     setData((data) => ({ ...data, documents: acceptedFiles }));
   }, []);
@@ -63,11 +80,18 @@ function AnswerPostModal({ open, closeModal, addAnswer }) {
             >
               Thêm tài liệu mới
             </Typography>
+          </Box>
+          <Box mt={2}>
             <MultipleSelect
-              items={[]}
+              items={[
+                { value: "LINK", label: <Typography>Liên kết</Typography> },
+                { value: "PDF", label: <Typography>Tải tệp lên</Typography> },
+              ]}
               title={"Kiểu tài liệu"}
               all={false}
+              value={data.type}
               style={{ marginRight: 0 }}
+              handle={(value) => setData({ ...data, type: value })}
             />
           </Box>
           <Box my={2} border={"1px solid gray"} borderRadius={1}>
@@ -76,56 +100,78 @@ function AnswerPostModal({ open, closeModal, addAnswer }) {
               placeholder="Mô tả tài liệu"
               sx={{ p: 1, width: "100%" }}
               width={"100%"}
-              value={data.content}
+              value={data.description}
               onChange={(e) =>
                 setData({
                   ...data,
-                  content: e.target.value,
+                  description: e.target.value,
                 })
               }
             />
           </Box>
-          {data.documents.length > 0 && (
-            <Box my={1}>
-              <Typography variant="h5">File đã chọn</Typography>
+          {data.type === "PDF" ? (
+            <Box>
+              {data.documents.length > 0 && (
+                <Box my={1}>
+                  <Typography variant="h5">File đã chọn</Typography>
+                  <Box
+                    maxHeight={"250px"}
+                    maxWidth={"400px"}
+                    overflow={"auto"}
+                    display={"flex"}
+                    flexWrap={"wrap"}
+                  >
+                    {data.documents.map((document, index) => (
+                      <Chip
+                        key={index}
+                        label={document.path}
+                        sx={{ m: 1 }}
+                        onDelete={() => handleDeleteDocument(document)}
+                        color="primary"
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              )}
               <Box
-                maxHeight={"250px"}
-                maxWidth={"400px"}
-                overflow={"auto"}
+                height={"100px"}
                 display={"flex"}
-                flexWrap={"wrap"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                border={`1px dotted ${isDragActive ? "blue" : "gray"}`}
+                {...getRootProps()}
               >
-                {data.documents.map((document, index) => (
-                  <Chip
-                    key={index}
-                    label={document.path}
-                    sx={{ m: 1 }}
-                    onDelete={() => handleDeleteDocument(document)}
-                    color="primary"
-                  />
-                ))}
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Thả tài liệu</p>
+                ) : (
+                  <p>Nhấp chuột hoặc kéo tài liệu vào đây</p>
+                )}
               </Box>
             </Box>
+          ) : (
+            <Box my={2} border={"1px solid gray"} borderRadius={1}>
+              <InputBase
+                required
+                placeholder="Nhập liên kết"
+                sx={{ p: 1, width: "100%" }}
+                width={"100%"}
+                value={data.url}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    url: e.target.value,
+                  })
+                }
+              />
+            </Box>
           )}
-          <Box
-            height={"100px"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            border={`1px dotted ${isDragActive ? "blue" : "gray"}`}
-            {...getRootProps()}
-          >
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Thả tài liệu</p>
-            ) : (
-              <p>Nhấp chuột hoặc kéo tài liệu vào đây</p>
-            )}
-          </Box>
           <Box display={"flex"} justifyContent={"end"} mt={2}>
             <Button
               disabled={
-                data.content.length === 0 || data.documents.length === 0
+                data.description.length === 0 ||
+                (data.type !== "LINK" && data.documents.length === 0) ||
+                (data.type === "LINK" && data.url.length === 0)
               }
               variant="contained"
               color="primary"

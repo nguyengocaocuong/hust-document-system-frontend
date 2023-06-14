@@ -7,18 +7,19 @@ import {
   useFavoritePostMutation,
   useGetAllAnswerForPostQuery,
   useGetAllCommentForPostQuery,
+  useToggleFavoriteAnswerPostMutation,
 } from "../../../services/PostService";
 import { convertJsonToFormData } from "../../../utils/ConvertData";
 import DocumentDetailInfo from "../../document/DocumentDetailInfo";
 import { useParams } from "react-router-dom";
 
-function PostInfo({ postDetail }) {
+function PostInfo({ postDetail, language }) {
   const {id} = useParams()
   const { user } = useSelector((state) => state.authentication);
   const [favorites, setFavorite] = useState(postDetail.favoritePostList);
   const {data: answerPost = [], refetch} = useGetAllAnswerForPostQuery(id)
-  console.log(answerPost)
   const [createAnswerForPost] = useCreateAnswerForPostMutation();
+  const [toggleFavoriteAnswerPost] = useToggleFavoriteAnswerPostMutation()
   const addAnswerPost = (data, closeModal) => {
     createAnswerForPost(data).then((response) => {
       refetch()
@@ -51,9 +52,14 @@ function PostInfo({ postDetail }) {
       reset();
     });
   };
+
   const clearComment = (commentId) => {
     deleteCommentPost(commentId).then((response) => refetchComment());
   };
+
+  const toggleFavoriteAnswer = (id) =>{
+    toggleFavoriteAnswerPost(id).then(()=> refetch())
+  }
   return (
     <DocumentDetailInfo
       owner={postDetail.owner}
@@ -63,8 +69,10 @@ function PostInfo({ postDetail }) {
         add: addComment,
         clear: clearComment,
       }}
-      answers={{ data: answerPost, add: addAnswerPost }}
+      answers={{ data: answerPost, add: addAnswerPost, toggleFavoriteAnswer }}
       favorites={{ data: favorites, toggleFavorite }}
+      createdAt={postDetail?.createdAt}
+      language={language}
     />
   );
 }

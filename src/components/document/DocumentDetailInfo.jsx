@@ -1,23 +1,75 @@
-import { Box } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import React, { useState } from "react";
-import DocumentDetailHeader from "./DocumentDetailHeader";
 import DocumentDetailAction from "./DocumentDetailAction";
-import Comment from '../comment'
+import Comment from "../comment";
 import DocumentDetailtAnswer from "./DocumentDetailAnswer";
+import Owner from "../Owner";
+import TranslateLanguage from "../TranslateLanguage";
+import PropperMenu from "../PropperMenu";
+import FlagIcon from "@mui/icons-material/Flag";
+import { useDispatch } from "react-redux";
+import { openReportModal } from "../../store/modalState";
+import { useParams } from "react-router-dom";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
+
 function DocumentDetailInfo({
   owner = {},
   objectName,
   comments = {},
-  answers = [],
-  favorites = {}
+  answers = {},
+  favorites = {},
+  createdAt,
+  language = {},
 }) {
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const [selectedId, setSelectedId] = useState(1);
   const handleSelectedId = (id) => {
     setSelectedId(id === selectedId ? null : id);
   };
+  const copyUrl = () => {
+    const url = `http://localhost:3000/education/subject-document/${id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert("Đã copy vào clipboard");
+      })
+      .catch((error) => {
+        console.error("Lỗi khi sao chép vào clipboard:", error);
+      });
+  };
+
+  const reportSubjectDocument = () => {
+    dispatch(
+      openReportModal({
+        subjectId: id,
+      })
+    );
+  };
+  const actions = () => [
+    {
+      Icon: FlagIcon,
+      label: "Báo cáo tài liệu",
+      action: reportSubjectDocument,
+    },
+    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
+  ];
   return (
     <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
-      <DocumentDetailHeader owner={owner} objectName={objectName} />
+      <Owner
+        owner={owner}
+        createdAt={createdAt}
+        listItem={[
+          <Chip
+            key={1}
+            label={objectName}
+            size="small"
+            sx={{ maxWidth: "100px" }}
+            color="info"
+          />,
+          <PropperMenu key={2} action={actions()} />,
+        ]}
+      />
       <DocumentDetailAction
         handleSelectedId={handleSelectedId}
         selectedId={selectedId}
@@ -32,12 +84,16 @@ function DocumentDetailInfo({
         overflow={"hidden"}
         mt={1}
       >
-        {selectedId === null ? (
-          <></>
+        {selectedId === 3 ? (
+          <TranslateLanguage
+            value={language.value}
+            onClick={language.select}
+            reset={language.reset}
+          />
         ) : selectedId === 2 ? (
           <Comment comments={comments} />
         ) : (
-          <DocumentDetailtAnswer answers={answers}/>
+          <DocumentDetailtAnswer answers={answers} />
         )}
       </Box>
     </Box>
