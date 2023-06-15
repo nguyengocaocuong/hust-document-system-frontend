@@ -10,14 +10,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { StyledTextarea } from "../EmptyTextarea";
-import {
-  useCreateSubjectMutation,
-  useGetAllSubjectQuery,
-} from "../../services/SubjectService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
-import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
-import { useDispatch } from "react-redux";
-import { closeSubjectModal } from "../../store/modalState";
+import { useDispatch, useSelector } from "react-redux";
+import { closeUpdateSubjectModal } from "../../store/modalState";
+import {
+  useGetAllSubjectQuery,
+  useUpdateSubjectMutation,
+} from "../../services/AdminSubjectService";
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,29 +24,36 @@ const style = {
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
 };
-function SubjectModal({ open }) {
+function UpdateSubjectModal({ open }) {
   const dispatch = useDispatch();
   const closeModal = () => {
-    dispatch(closeSubjectModal());
+    dispatch(closeUpdateSubjectModal());
   };
+  const {
+    updateSubjectModal: { dataModal },
+  } = useSelector((state) => state.modalState);
   const [subject, setSubject] = useState({
-    subjectCode: "",
-    name: "",
-    description: "",
+    id: dataModal.id,
+    subjectCode: dataModal?.subjectCode || "",
+    name: dataModal?.subjectCode || "",
+    description: dataModal?.subjectCode || "",
   });
   const handleChange = (e) => {
     setSubject({ ...subject, [e.target.name]: e.target.value });
   };
   const theme = useTheme();
-  const { refetch } = useGetAllSubjectForFilterQuery();
-  const { refetch: refetchAll } = useGetAllSubjectQuery();
-  const [createSubject] = useCreateSubjectMutation();
+  const { refetch: refetchSubject } = useGetAllSubjectQuery();
+  const [updateSubject] = useUpdateSubjectMutation();
   const createNewSubject = () => {
-    createSubject(convertJsonToFormData(subject)).then((response) => {
-      setSubject({ subjectCode: "", name: "", description: "" });
+    updateSubject(convertJsonToFormData(subject)).then((response) => {
+      refetchSubject();
+      setSubject({
+        id: dataModal.id,
+        subjectCode: dataModal?.subjectCode || "",
+        name: dataModal?.subjectCode || "",
+        description: dataModal?.subjectCode || "",
+      });
       closeModal();
-      refetch();
-      refetchAll();
     });
   };
   return (
@@ -148,5 +154,4 @@ function SubjectModal({ open }) {
     </Modal>
   );
 }
-
-export default SubjectModal;
+export default UpdateSubjectModal;

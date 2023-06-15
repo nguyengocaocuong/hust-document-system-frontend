@@ -219,7 +219,7 @@ function Dashboash() {
       </Typography>
       <Box p={2}>
         <Grid container spacing={2}>
-          <Grid item xs={7}>
+          <Grid item md={12} lg={7} xs={7}>
             <Paper elevation={3}>
               <Box
                 p={2}
@@ -269,7 +269,7 @@ function Dashboash() {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item md={12} lg={5} xs={5}>
             <Paper elevation={3}>
               <Box
                 p={2}
@@ -336,11 +336,11 @@ function Dashboash() {
         </Grid>
       </Box>
       <Box p={2}>
-        <Grid container spacing={2}>
-          <Grid item xl={7}>
+        <Grid container spacing={2} columns={12}>
+          <Grid item md={12} lg={7} xl={7}>
             <Grid container spacing={2}>
               {cardConfig.map(({ icon, title, data, color }, index) => (
-                <Grid item xl={6} key={index}>
+                <Grid item md={6} xl={6} key={index}>
                   <Paper elevation={3}>
                     <Box
                       p={2}
@@ -395,7 +395,7 @@ function Dashboash() {
               ))}
             </Grid>
           </Grid>
-          <Grid item xl={5}>
+          <Grid item md={12} lg={5} xl={5}>
             <Paper elevation={3}>
               <Box
                 p={2}
@@ -427,8 +427,8 @@ function Dashboash() {
         </Grid>
       </Box>
       <Box p={2}>
-        <Grid container spacing={2}>
-          <Grid item xl={4}>
+        <Grid container spacing={2} >
+          <Grid item md={12} lg={4} xl={4}>
             <Paper elevation={3} sx={{ width: "100%" }}>
               <Box
                 p={2}
@@ -492,7 +492,7 @@ function Dashboash() {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xl={8}>
+          <Grid item md={12} lg={8} xl={8}>
             <Paper elevation={3}>
               <Box p={2} height={"431px"}>
                 <Typography variant="h4" color={"text.secondary"}>

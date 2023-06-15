@@ -9,19 +9,21 @@ import SidebarSubItem from "./SidebarSubItem";
 import { Box, Divider, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { MenuItem, menuClasses } from "react-pro-sidebar";
-import {signOut} from "../../store/authState"
+import { signOut } from "../../store/authState";
 import { useNavigate } from "react-router-dom";
+import { useProSidebar } from "react-pro-sidebar";
 function Sidebar() {
+  const { collapsed } = useProSidebar();
   const {
     user: { roleType },
   } = useSelector((state) => state.authentication);
   const [sidebarItem, sidebarSettingItem] = GetSidebarItem(roleType);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const handleSignOut = ()=>{
-    dispatch(signOut())
-    navigate('/')
-  }
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleSignOut = () => {
+    dispatch(signOut());
+    navigate("/");
+  };
   return (
     <ProSidebar
       rootStyles={{
@@ -48,7 +50,7 @@ function Sidebar() {
           })}
         </Menu>
       </Box>
-      <Box bottom={0} left={0} position={'absolute'}>
+      <Box bottom={0} left={0} position={"absolute"}>
         <Divider />
         <Menu style={{ marginTop: "15px" }}>
           {sidebarSettingItem.map((item, index) => (
@@ -74,10 +76,10 @@ function Sidebar() {
                 }}
               />
             }
-            component={<Box  onClick={handleSignOut} />}
+            component={<Box onClick={handleSignOut} />}
           >
             <Typography
-              style={{ fontSize: "15px"}}
+              style={{ fontSize: "15px", display: collapsed ? "none" : "block" }}
             >
               Thoát
             </Typography>

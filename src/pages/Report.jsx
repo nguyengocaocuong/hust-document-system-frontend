@@ -11,7 +11,6 @@ import {
 import React from "react";
 import BoxFull from "../components/BoxFull";
 import MultipleSelect from "../components/MultipleSelect";
-import { DatePicker } from "@mui/x-date-pickers";
 import Owner from "../components/Owner";
 import { Flag } from "@mui/icons-material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
@@ -115,17 +114,13 @@ function Report() {
           Chọn đối tượng bị báo cáo
         </Typography>
         <MultipleSelect items={[]} />
-        <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
-          Chọn thời gian
-        </Typography>
-        <DatePicker value={null} />
       </Box>
       <Box height={"calc(100% - 120px)"} width={"100%"} overflow={"auto"} p={2}>
         <BoxBetween>
           <Box height={"550px"} width="100%">
             <Grid container spacing={2} width={"100%"}>
               {currentData.map((report, index) => (
-                <Grid item xl={4} key={index}>
+                <Grid item xl={4} md={6} sm={12} key={index}>
                   <Box
                     width={"100%"}
                     height={"260px"}

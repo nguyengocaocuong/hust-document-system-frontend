@@ -3,10 +3,17 @@ import React from "react";
 import Table from "../components/Table";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditOffIcon from "@mui/icons-material/EditOff";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useGetAllTeacherQuery } from "../services/AdminTeacherService";
+import {
+  useDeleteTeacherMutation,
+  useGetAllTeacherQuery,
+} from "../services/AdminTeacherService";
 import TeacherDetail from "./TeacherDetail";
+import { useDispatch } from "react-redux";
+import { openUpdateTeacherModal } from "../store/modalState";
+import { useState } from "react";
+import ConfirmModal from "../components/modal/ComfirmModal";
 const headers = [
   { title: "", width: "55px" },
   { title: "Tên giảng viên", width: "13%" },
@@ -18,8 +25,27 @@ const headers = [
 ];
 
 function Teacher() {
+  const message = `Bạn có chắc chắn muốn xóa giảng viên này không, nếu bạn xóa mọi bài viết liên quan giảng viên học sẽ bị xóa theo`;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
-  const { data: teachers = [] } = useGetAllTeacherQuery();
+  const { data: teachers = [], refetch } = useGetAllTeacherQuery();
+  const editTeacher = (item) => {
+    dispatch(openUpdateTeacherModal(item.teacher));
+  };
+  const [open, setOpen] = useState({ open: false, item: null });
+  const closeModal = () => setOpen({ open: false, item: null });
+  const openModal = (item) => setOpen({ open: true, item: item.teacher });
+
+  const [deleteSubject] = useDeleteTeacherMutation();
+  const onDelete = (type) => {
+    if (type) deleteSubject(open.item.id).then(() => refetch());
+    closeModal();
+  };
+
+  const view = (item) => {
+    navigate(`/teacher/${item.teacher.id}`);
+  };
   const renderItem = (item, key) => (
     <Box
       key={key}
@@ -97,7 +123,7 @@ function Teacher() {
           }}
         >
           <Tooltip title={"Chỉnh sửa tài liệu"}>
-            <IconButton>
+            <IconButton onClick={() => editTeacher(item)}>
               <EditOffIcon
                 color={"warning"}
                 sx={{ width: "18px", height: "18px" }}
@@ -105,14 +131,14 @@ function Teacher() {
             </IconButton>
           </Tooltip>
           <Tooltip title={"Xem chi tiết"}>
-            <IconButton>
+            <IconButton onClick={() => view(item)}>
               <RemoveRedEyeIcon
                 color={"success"}
                 sx={{ width: "18px", height: "18px" }}
               />
             </IconButton>
           </Tooltip>
-          <Tooltip title={"Xóa môn học"}>
+          <Tooltip title={"Xóa môn học"} onClick={() => openModal(item)}>
             <IconButton>
               <DeleteOutlineOutlinedIcon
                 color={"error"}
@@ -142,6 +168,14 @@ function Teacher() {
           />
         </Paper>
       </Box>
+      {open.open && (
+        <ConfirmModal
+          message={message}
+          open={open.open}
+          closeModal={closeModal}
+          action={onDelete}
+        />
+      )}
     </Box>
   );
 }

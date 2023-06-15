@@ -11,11 +11,11 @@ import {
 import Table from "../components/Table";
 import { useGetAllUserQuery } from "../services/AdminUserService";
 import { formatTimeAgo } from "../utils/ConvertDate";
-import ShareIcon from "@mui/icons-material/Share";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import { useNavigate, useParams } from "react-router-dom";
 import UserInfo from "./UserInfo";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 
 const headers = [
   { title: "", width: "30px" },
@@ -102,7 +102,17 @@ function ListUser() {
             px: 1.5,
           }}
         >
-          <Tooltip title={"Chỉnh sửa tài liệu"}>
+          {!item.enable && (
+            <Tooltip title={"Kích hoạt"}>
+              <IconButton>
+                <ToggleOffIcon
+                  color={"primary"}
+                  sx={{ width: "18px", height: "18px" }}
+                />
+              </IconButton>
+            </Tooltip>
+          )}
+          <Tooltip title={"Chỉnh sửa thông tin"}>
             <IconButton>
               <EditOffIcon
                 color={"warning"}
@@ -114,14 +124,6 @@ function ListUser() {
             <IconButton>
               <RemoveRedEyeIcon
                 color={"success"}
-                sx={{ width: "18px", height: "18px" }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={"Chia sẻ tài liệu"}>
-            <IconButton>
-              <ShareIcon
-                color={"info"}
                 sx={{ width: "18px", height: "18px" }}
               />
             </IconButton>

@@ -3,10 +3,17 @@ import React from "react";
 import Table from "../components/Table";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditOffIcon from "@mui/icons-material/EditOff";
-import { useGetAllSubjectQuery } from "../services/AdminSubjectService";
-import { useParams } from "react-router-dom";
+import {
+  useDeleteSubjectMutation,
+  useGetAllSubjectQuery,
+} from "../services/AdminSubjectService";
+import { useNavigate, useParams } from "react-router-dom";
 import SubjectDetail from "./SubjectDetail";
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import ConfirmModal from "../components/modal/ComfirmModal";
+import { openUpdateSubjectModal } from "../store/modalState";
 const headers = [
   { title: "", width: "30px" },
   { title: "Tên môn học", width: "15%" },
@@ -19,8 +26,27 @@ const headers = [
 ];
 
 function Subject() {
+  const message = `Bạn có chắc chắn muốn xóa môn học này không, nếu bạn xóa mọi tài liệu liên quan đến môn học sẽ bị xóa theo`;
   const { id } = useParams();
-  const { data: subjects = [] } = useGetAllSubjectQuery();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { data: subjects = [], refetch } = useGetAllSubjectQuery();
+  const editSubject = (item) => {
+    dispatch(openUpdateSubjectModal(item.subject));
+  };
+  const view = (item) => {
+    navigate(`/subject/${item.subject.id}`);
+  };
+
+  const [open, setOpen] = useState({ open: false, item: null });
+  const closeModal = () => setOpen({ open: false, item: null });
+  const openModal = (item) => setOpen({ open: true, item: item.subject });
+
+  const [deleteSubject] = useDeleteSubjectMutation();
+  const onDelete = (type) => {
+    if (type) deleteSubject(open.item.id).then(() => refetch());
+    closeModal();
+  };
   const renderItem = (item, key) => (
     <Box
       key={key}
@@ -80,8 +106,8 @@ function Subject() {
             px: 1.5,
           }}
         >
-          <Tooltip title={"Chỉnh sửa tài liệu"}>
-            <IconButton>
+          <Tooltip title={"Chỉnh sửa môn học"}>
+            <IconButton onClick={() => editSubject(item)}>
               <EditOffIcon
                 color={"warning"}
                 sx={{ width: "18px", height: "18px" }}
@@ -89,7 +115,7 @@ function Subject() {
             </IconButton>
           </Tooltip>
           <Tooltip title={"Xem chi tiết"}>
-            <IconButton>
+            <IconButton onClick={() => view(item)}>
               <RemoveRedEyeIcon
                 color={"success"}
                 sx={{ width: "18px", height: "18px" }}
@@ -97,7 +123,7 @@ function Subject() {
             </IconButton>
           </Tooltip>
           <Tooltip title={"Xóa môn học"}>
-            <IconButton>
+            <IconButton onClick={() => openModal(item)}>
               <DeleteOutlineOutlinedIcon
                 color={"error"}
                 sx={{ width: "18px", height: "18px" }}
@@ -128,6 +154,14 @@ function Subject() {
           </Paper>
         )}
       </Box>
+      {open.open && (
+        <ConfirmModal
+          message={message}
+          open={open.open}
+          closeModal={closeModal}
+          action={onDelete}
+        />
+      )}
     </Box>
   );
 }

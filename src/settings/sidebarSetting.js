@@ -12,9 +12,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import CastForEducationOutlinedIcon from '@mui/icons-material/CastForEducationOutlined';
-import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
+import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -143,7 +143,6 @@ const adminSidebarItem = [
     to: "/report",
     Icon: FlagOutlinedIcon,
     selectedColor: "red",
-
   },
   {
     type: "ITEM",
@@ -151,7 +150,6 @@ const adminSidebarItem = [
     to: "/notifycation",
     Icon: NotificationsOutlinedIcon,
     selectedColor: "red",
-
   },
   {
     type: "ITEM",
@@ -162,6 +160,13 @@ const adminSidebarItem = [
   },
 ];
 const adminSidebarSettingItem = [
+  {
+    type: "ITEM",
+    title: "Thùng rác",
+    to: "/trash",
+    Icon: DeleteOutlineOutlinedIcon,
+    selectedColor: "red",
+  },
   {
     type: "ITEM",
     title: "Cài đặt",

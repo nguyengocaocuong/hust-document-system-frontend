@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import React from "react";
 import { MenuItem, menuClasses } from "react-pro-sidebar";
 import { Link, useLocation } from "react-router-dom";
+import { useProSidebar } from "react-pro-sidebar";
 function SidebarItem({
   title,
   to,
@@ -10,6 +11,7 @@ function SidebarItem({
   subItem = false,
   setting = false,
 }) {
+  const { collapsed } = useProSidebar();
   const location = useLocation();
   const isSelected = location.pathname.startsWith(to);
   return (
@@ -45,9 +47,14 @@ function SidebarItem({
       }
       component={<Link to={to} />}
     >
-        <Typography style={{ fontSize: subItem || setting ? "15px" : "16px" }}>
-          {title}
-        </Typography>
+      <Typography
+        style={{
+          fontSize: subItem || setting ? "15px" : "16px",
+          display: collapsed && setting ? "none" : "block",
+        }}
+      >
+        {title}
+      </Typography>
     </MenuItem>
   );
 }

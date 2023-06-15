@@ -53,7 +53,12 @@ function Owner({ owner, createdAt, listItem = [], sx }) {
           src={owner?.avatar}
           sx={{
             backgroundColor:
-              owner && color[owner?.firstName.charCodeAt(0) % 12][500],
+              owner &&
+              color[
+                owner.lastName
+                  .split(" ")
+                  [owner.lastName.split(" ").length - 1].charCodeAt(0) % 12
+              ][500],
           }}
         >
           {owner.lastName.substring(

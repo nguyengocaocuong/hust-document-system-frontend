@@ -17,8 +17,24 @@ export const adminTeacherApi = createApi({
       query: () => "",
       transformResponse: (response) => response.content,
     }),
+    updateTeacher: builder.mutation({
+      query: (formData) => ({
+        url: "",
+        method: "PATCH",
+        body: formData,
+      }),
+    }),
+    deleteTeacher: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllTeacherQuery  } =
-  adminTeacherApi;
+export const {
+  useGetAllTeacherQuery,
+  useDeleteTeacherMutation,
+  useUpdateTeacherMutation,
+} = adminTeacherApi;

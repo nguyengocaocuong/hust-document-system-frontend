@@ -41,6 +41,30 @@ const initialState = {
     open: false,
     dataModal: null,
   },
+  updateSubjectModal: {
+    open: false,
+    dataModal: null,
+  },
+  updateTeacherModal: {
+    open: false,
+    dataModal: null,
+  },
+  reportContentReviewSubjectModal: {
+    open: true,
+    dataModal: null,
+  },
+  reportContentSubjectDocumentModal: {
+    open: false,
+    dataModal: null,
+  },
+  reportDuplicateSubjectDocumentModal: {
+    open: false,
+    dataModal: null,
+  },
+  reportContentReviewTeacherModal: {
+    open: false,
+    dataModal: null,
+  },
 };
 
 export const modalState = createSlice({
@@ -86,6 +110,14 @@ export const modalState = createSlice({
     closeTeacherModal: (state) => {
       state.teacherModal.open = false;
       state.teacherModal.dataModal = null;
+    },
+    closeUpdateSubjectModal: (state) => {
+      state.updateSubjectModal.open = false;
+      state.updateSubjectModal.dataModal = null;
+    },
+    closeUpdateTeacherModal: (state) => {
+      state.updateTeacherModal.open = false;
+      state.updateTeacherModal.dataModal = null;
     },
     openAnswerPostModal: (state, action) => {
       if (action.payload === undefined) return;
@@ -135,6 +167,50 @@ export const modalState = createSlice({
       state.subjectModal.dataModal = action.payload;
       state.subjectModal.open = true;
     },
+    openUpdateSubjectModal: (state, action) => {
+      state.updateSubjectModal.dataModal = action.payload;
+      state.updateSubjectModal.open = true;
+    },
+    openUpdateTeacherModal: (state, action) => {
+      state.updateTeacherModal.dataModal = action.payload;
+      state.updateTeacherModal.open = true;
+    },
+    closeReportContentReviewSubjectModal: (state) => {
+      state.reportContentReviewSubjectModal.open = false;
+      state.reportContentReviewSubjectModal.dataModal = null;
+    },
+    openReportContentReviewSubjectModal: (state, action) => {
+      if (action.payload === undefined) return;
+      state.reportContentReviewSubjectModal.dataModal = action.payload;
+      state.reportContentReviewSubjectModal.open = true;
+    },
+    closeReportContentSubjectDocumentModal: (state) => {
+      state.reportContentSubjectDocumentModal.open = false;
+      state.reportContentSubjectDocumentModal.dataModal = null;
+    },
+    openReportContentSubjectDocumentModal: (state, action) => {
+      if (action.payload === undefined) return;
+      state.reportContentSubjectDocumentModal.dataModal = action.payload;
+      state.reportContentSubjectDocumentModal.open = true;
+    },
+    closeReportDuplicateSubjectDocumentModal: (state) => {
+      state.reportDuplicateSubjectDocumentModal.open = false;
+      state.reportDuplicateSubjectDocumentModal.dataModal = null;
+    },
+    openReportDuplicateSubjectDocumentModal: (state, action) => {
+      if (action.payload === undefined) return;
+      state.reportDuplicateSubjectDocumentModal.dataModal = action.payload;
+      state.reportDuplicateSubjectDocumentModal.open = true;
+    },
+    closeReportContentReviewTeacherModal: (state) => {
+      state.reportContentReviewTeacherModal.open = false;
+      state.reportContentReviewTeacherModal.dataModal = null;
+    },
+    openReportContentReviewTeacherModal: (state, action) => {
+      if (action.payload === undefined) return;
+      state.reportContentReviewTeacherModal.dataModal = action.payload;
+      state.reportContentReviewTeacherModal.open = true;
+    },
   },
 });
 export const {
@@ -149,6 +225,8 @@ export const {
   closeSubjectDocumentModal,
   closeSubjectModal,
   closeTeacherModal,
+  closeUpdateSubjectModal,
+  closeUpdateTeacherModal,
   openAnswerPostModal,
   openAnswerSubjectDocumentModal,
   openDocumentViewerModal,
@@ -159,5 +237,15 @@ export const {
   openSubjectDocumentModal,
   openSubjectModal,
   openTeacherModal,
+  openUpdateSubjectModal,
+  openUpdateTeacherModal,
+  closeReportContentReviewSubjectModal,
+  closeReportContentReviewTeacherModal,
+  closeReportContentSubjectDocumentModal,
+  closeReportDuplicateSubjectDocumentModal,
+  openReportContentReviewSubjectModal,
+  openReportContentReviewTeacherModal,
+  openReportContentSubjectDocumentModal,
+  openReportDuplicateSubjectDocumentModal,
 } = modalState.actions;
 export default modalState.reducer;

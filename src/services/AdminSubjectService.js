@@ -17,8 +17,21 @@ export const adminSubjectApi = createApi({
       query: () => "",
       transformResponse: (response) => response.content,
     }),
+    updateSubject: builder.mutation({
+      query: (formData) => ({
+        url: "",
+        method: "PATCH",
+        body: formData,
+      }),
+    }),
+    deleteSubject: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllSubjectQuery  } =
+export const { useGetAllSubjectQuery, useUpdateSubjectMutation, useDeleteSubjectMutation } =
   adminSubjectApi;
