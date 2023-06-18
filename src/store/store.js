@@ -28,6 +28,10 @@ import { adminUserServiceApi } from "../services/AdminUserService";
 import { adminApi } from "../services/AdminService";
 import { adminSubjectApi } from "../services/AdminSubjectService";
 import { adminTeacherApi } from "../services/AdminTeacherService";
+import { adminReportContentReviewSubjectApi } from "../services/AdminReportContentReviewSubjectService";
+import { adminReportDuplicateSubjectDocumentApi } from "../services/AdminReportDuplicateSubjectDocumentService";
+import { adminReportContentSubjectDocumentApi } from "../services/AdminReportContentSubjectDocumentService";
+import { adminReportContentTeacherSubjectApi } from "../services/AdminReportContentReviewTeacherService";
 const rootReducer = combineReducers({
   authentication: authReducer,
   modalState: modalState,
@@ -47,6 +51,14 @@ const rootReducer = combineReducers({
   [adminApi.reducerPath]: adminApi.reducer,
   [adminSubjectApi.reducerPath]: adminSubjectApi.reducer,
   [adminTeacherApi.reducerPath]: adminTeacherApi.reducer,
+  [adminReportContentReviewSubjectApi.reducerPath]:
+    adminReportContentReviewSubjectApi.reducer,
+  [adminReportDuplicateSubjectDocumentApi.reducerPath]:
+    adminReportDuplicateSubjectDocumentApi.reducer,
+  [adminReportContentSubjectDocumentApi.reducerPath]:
+    adminReportContentSubjectDocumentApi.reducer,
+  [adminReportContentTeacherSubjectApi.reducerPath]:
+    adminReportContentTeacherSubjectApi.reducer,
 });
 const persistConig = {
   key: "root",
@@ -77,6 +89,10 @@ export const store = configureStore({
       adminUserServiceApi.middleware,
       adminApi.middleware,
       adminSubjectApi.middleware,
-      adminTeacherApi.middleware
+      adminTeacherApi.middleware,
+      adminReportContentReviewSubjectApi.middleware,
+      adminReportDuplicateSubjectDocumentApi.middleware,
+      adminReportContentSubjectDocumentApi.middleware,
+      adminReportContentTeacherSubjectApi.middleware
     ),
 });

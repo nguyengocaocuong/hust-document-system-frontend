@@ -38,7 +38,7 @@ export const adminApi = createApi({
         let reviewTotal = 0;
         let subjectDocumentTotal = 0;
 
-        for (let i = 0; i < ChartLabels.length; i++) {
+        for (let i = 6; i >= 0 ; i--) {
           const key = ChartLabels[i];
           if (user[key]) {
             userData.push(user[key]);
@@ -55,7 +55,7 @@ export const adminApi = createApi({
           subjectDocumentData.push(0);
         }
         const AdminDashboashData = {
-          labels: ChartLabels,
+          labels: ChartLabels.reverse(),
           datasets: [
             {
               label: "Người dùng",
