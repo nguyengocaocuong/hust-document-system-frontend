@@ -4,7 +4,7 @@ import {
   FileTypeFilter,
   DocumentTypeFilter,
   SubjectCodeFilter,
-} from "../settings/sharedSetting";
+} from "../settings/SharedSetting";
 import {
   useDeleteSharedPrivateMutation,
   useGetAllSubjectDocumentSharedQuery,

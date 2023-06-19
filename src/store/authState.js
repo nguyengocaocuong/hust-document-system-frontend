@@ -3,13 +3,7 @@ import { authApi } from "../services/AuthService";
 
 const initialState = {
   isLogin: true,
-  user: {
-    firstName: "Nguyễn Ngô",
-    lastName: "Cao Cường",
-    avatar:
-      "https://2.bp.blogspot.com/-JuxYdCgsA-s/ZIpKgZPfGII/AAAAAAAAp2k/zT2VtLVYYIohrilHIwwalgNu9PkHAco1gCNcBGAsYHQ/s360/unnamed.png",
-    roleType: "ADMIN",
-  },
+  user: null,
 };
 
 export const authState = createSlice({
