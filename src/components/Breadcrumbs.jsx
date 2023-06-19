@@ -2,7 +2,7 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useLocation } from "react-router-dom";
-import { getBreadcrumbs } from "../settings/SidebarSetting";
+import { getBreadcrumbs } from "../settings/sidebarSetting";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 function IconBreadcrumbs() {

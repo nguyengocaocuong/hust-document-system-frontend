@@ -2,7 +2,6 @@ import React from "react";
 import BoxFull from "../components/BoxFull";
 import { Outlet } from "react-router-dom";
 import Modal from "../components/modal";
-import { Typography } from "@mui/material";
 function AdminLayout() {
   return (
     <BoxFull

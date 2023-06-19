@@ -11,6 +11,7 @@ function DocumentViewer({ docs = [] }) {
       maxHeight={"100%"}
       overflow={"hidden"}
       display={"flex"}
+      bgcolor={"black"}
     >
       <DocViewer
         style={{ height: "100%" }}

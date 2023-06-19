@@ -50,7 +50,7 @@ const initialState = {
     dataModal: null,
   },
   reportContentReviewSubjectModal: {
-    open: true,
+    open: false,
     dataModal: null,
   },
   reportContentSubjectDocumentModal: {
@@ -58,7 +58,7 @@ const initialState = {
     dataModal: null,
   },
   reportDuplicateSubjectDocumentModal: {
-    open: false,
+    open: true,
     dataModal: null,
   },
   reportContentReviewTeacherModal: {
