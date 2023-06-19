@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeReportContentReviewSubjectModal } from "../../store/modalState";
 import {
   Box,
@@ -36,49 +36,10 @@ function ReportContentReviewSubjectModal({ open }) {
   const closeModal = () => {
     dispatch(closeReportContentReviewSubjectModal());
   };
-  // const {
-  //   reportContentReviewSubjectModal: {
-  //     dataModal = {
-  //       message:
-  //         "Bài viết này có nội dung không lành mạnh, ad hãy gỡ bài này đi nhé",
-  //       reviewSubject: { review: "faf faf f à safdf sà" },
-  //       createdAt: new Date(),
-  //       owner: { firstName: "Nguyễn Đức", lastName: "Hiếu", avatar: "" },
-  //     },
-  //   },
-  // } = useSelector((state) => state.modalState);
-  const dataModal = {
-    message:
-      "Bài viết này có nội dung không lành mạnh, ad hãy gỡ bài này đi nhé",
-    reviewSubject: {
-      review: `<div class="container section-title-container">
-    <h3 class="section-title section-title-normal"><span class="section-title-main">GIỚI THIỆU</span></h3>
-    </div>
-    <p>Đỗ Quốc Huy tốt nghiệp đại học v&agrave; thạc sĩ ng&agrave;nh C&ocirc;ng nghệ th&ocirc;ng tin tại Đại học B&aacute;ch khoa H&agrave; Nội năm 2006 v&agrave; 2008. Trong khoảng thời gian từ 2006-2009 &ocirc;ng l&agrave; giảng vi&ecirc;n Khoa C&ocirc;ng nghệ th&ocirc;ng tin trường Đại học B&aacute;ch khoa H&agrave; Nội. &Ocirc;ng nhận bằng tiến sĩ ng&agrave;nh Th&ocirc;ng tin tại Học viện Kỹ thuật Toyota (TTI) v&agrave;o năm 2013. Từ năm 2014 đến 2017, &ocirc;ng l&agrave; nghi&ecirc;n cứu sinh sau Tiến sĩ tại trung t&acirc;m nghi&ecirc;n cứu cho xe th&ocirc;ng minh tại TTI. Hiện nay, &ocirc;ng đang l&agrave; giảng vi&ecirc;n tại bộ m&ocirc;n Khoa học M&aacute;y t&iacute;nh thuộc trường Đại học B&aacute;ch khoa H&agrave; Nội Lĩnh vực nghi&ecirc;n cứu bao gồm c&aacute;c vấn đề li&ecirc;n quan đến b&agrave;i to&aacute;n t&igrave;m đường cho xe tự h&agrave;nh, an to&agrave;n th&ocirc;ng tin v&agrave; hệ điều h&agrave;nh.</p>
-    <div class="container section-title-container">
-    <h3 class="section-title section-title-normal"><span class="section-title-main">C&Aacute;C C&Ocirc;NG TR&Igrave;NH KHOA HỌC TI&Ecirc;U BIỂU</span></h3>
-    </div>
-    <ul>
-    <li>Human Drivers Based Active-Passive Model for Automated Lane Change. Quoc Huy Do, Hossein Tehrani Niknejad, Seiichi Mita, Masumi Egawa, Kenji Muto, Keisuke Yoneda, IEEE Intell. Transport. Syst. Mag. 9(1): 42-56 (2017)</li>
-    <li>General behavior and motion model for automated lane change. Hossein Tehrani Niknejad, Quoc Huy Do, Masumi Egawa, Kenji Muto, Keisuke Yoneda, Seiichi Mita Intelligent Vehicles Symposium 2015: 1154-1159</li>
-    <li>Narrow passage path planning using fast marching method and support vector machine, Quoc Huy Do, Seiichi Mita, Keisuke Yoneda, Intelligent Vehicles Symposium 2014: 630-635</li>
-    <li>Dynamic and Safe Path Planning Based on Support Vector Machine among Multi Moving Obstacles for Autonomous Vehicles. Quoc Huy Do, Seiichi Mita, Hossein Tehrani Niknejad, Long Han, IEICE Transactions 96-D(2): 314-328 (2013)</li>
-    <li>A Practical and Optimal Path Planning for Autonomous Parking Using Fast Marching Algorithm and Support Vector Machine. Quoc Huy Do, Seiichi Mita, Keisuke Yoneda, IEICE Transactions 96-D(12): 2795-2804 (2013)</li>
-    <li>Vehicle path planning with maximizing safe margin for driving using Lagrange multipliers. Quoc Huy Do, Hossein Tehrani Niknejad, Keisuke Yoneda, Ryohei Sakai, Seiichi Mita, Intelligent Vehicles Symposium 2013: 171-176</li>
-    </ul>
-    <div class="container section-title-container">
-    <h3 class="section-title section-title-normal"><span class="section-title-main">GIẢNG DẠY (2018/2019)</span></h3>
-    </div>
-    <ul>
-    <li>IT3070: Hệ Điều H&agrave;nh</li>
-    <li>IT4778: Lập tr&igrave;nh hệ thống</li>
-    <li>IT3220: Lập tr&igrave;nh C (Intro)</li>
-    <li>IT3230: Lập tr&igrave;nh C (Basic)</li>
-    </ul> `,
-    },
-    createdAt: new Date(),
-    owner: { firstName: "Nguyễn Đức", lastName: "Hiếu", avatar: "" },
-  };
+  const {
+    reportContentReviewSubjectModal: {
+      dataModal
+  }} = useSelector((state) => state.modalState)
 
   const [openConfirm, setOpen] = useState({ open: false, item: null });
   const closeConfirmModal = () => setOpen({ open: false, item: null });
@@ -106,7 +67,7 @@ function ReportContentReviewSubjectModal({ open }) {
         </Box>
       <Divider />
         <Box
-          maxHeight={"580px"}
+          maxHeight={"500px"}
           overflow={"auto"}
           sx={{
             "&::-webkit-scrollbar": { display: "none" },

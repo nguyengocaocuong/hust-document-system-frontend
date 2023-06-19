@@ -5,7 +5,13 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import OfflinePinIcon from "@mui/icons-material/OfflinePin";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import Owner from "../Owner";
+import { openReportDuplicateSubjectDocumentModal } from "../../store/modalState";
+import { useDispatch } from "react-redux";
 function ReportDuplicateSubjectDocument({ report }) {
+  const dispatch = useDispatch();
+  const check = () => {
+    dispatch(openReportDuplicateSubjectDocumentModal(report));
+  };
   return (
     <Box
       width={"100%"}
@@ -216,6 +222,7 @@ function ReportDuplicateSubjectDocument({ report }) {
                 borderRadius: 1,
                 boxShadow: 1,
               }}
+              onClick={check}
             >
               <RemoveRedEyeOutlinedIcon color="warning" />
             </Box>

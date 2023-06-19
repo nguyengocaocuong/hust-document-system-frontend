@@ -1,17 +1,17 @@
-import {
-  Box,
-  Chip,
-  Divider,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Chip, Divider, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { Flag } from "@mui/icons-material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import OfflinePinIcon from "@mui/icons-material/OfflinePin";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import Owner from "../Owner";
+import { openReportContentReviewTeacherModal } from "../../store/modalState";
+import { useDispatch } from "react-redux";
 function ReportContentReviewTeacher({ report }) {
+  const dispatch = useDispatch();
+  const check = () => {
+    dispatch(openReportContentReviewTeacherModal(report));
+  };
   return (
     <Box
       width={"100%"}
@@ -85,6 +85,7 @@ function ReportContentReviewTeacher({ report }) {
                 borderRadius: 1,
                 boxShadow: 1,
               }}
+              onClick={check}
             >
               <RemoveRedEyeOutlinedIcon color="warning" />
             </Box>
