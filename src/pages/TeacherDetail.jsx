@@ -142,9 +142,9 @@ function TeacherDetail() {
               t&igrave;m đường cho xe tự h&agrave;nh, an to&agrave;n th&ocirc;ng
               tin v&agrave; hệ điều h&agrave;nh.
             </p>
-            <div class="container section-title-container">
-              <h3 class="section-title section-title-normal">
-                <span class="section-title-main">
+            <div className="container section-title-container">
+              <h3 className="section-title section-title-normal">
+                <span className="section-title-main">
                   C&Aacute;C C&Ocirc;NG TR&Igrave;NH KHOA HỌC TI&Ecirc;U BIỂU
                 </span>
               </h3>

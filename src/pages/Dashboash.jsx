@@ -43,6 +43,7 @@ import Owner from "../components/Owner";
 import { useGetAllNewReviewSubjectQuery } from "../services/AdminReviewSubjectService";
 import { useGetAllNewUserQuery } from "../services/AdminUserService";
 import { useGetDataForDashboardQuery } from "../services/AdminService";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -74,6 +75,7 @@ const headers = [
   { title: "", width: "20%" },
 ];
 function Dashboash() {
+  const navigate = useNavigate();
   const { data: reviewTeacher = [] } = useGetAllNewReviewTeacherQuery();
   const { data: reviewSubject = [] } = useGetAllNewReviewSubjectQuery();
   const { data: dashboash, isSuccess } = useGetDataForDashboardQuery();
@@ -427,7 +429,7 @@ function Dashboash() {
         </Grid>
       </Box>
       <Box p={2}>
-        <Grid container spacing={2} >
+        <Grid container spacing={2}>
           <Grid item md={12} lg={4} xl={4}>
             <Paper elevation={3} sx={{ width: "100%" }}>
               <Box
@@ -482,6 +484,8 @@ function Dashboash() {
                   justifyContent={"center"}
                   display={"flex"}
                   alignItems={"center"}
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => navigate("users/list-user")}
                 >
                   Xem tất cả{" "}
                   <ArrowForwardOutlinedIcon

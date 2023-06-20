@@ -46,7 +46,6 @@ function ReportContentReviewSubjectModal({ open }) {
   const openConfirmModal = (item) => setOpen({ open: true, item });
 
   const onHidden = () => {
-    alert('hidden')
     closeConfirmModal()
   };
 

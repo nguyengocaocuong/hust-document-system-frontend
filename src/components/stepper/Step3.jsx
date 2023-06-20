@@ -44,11 +44,11 @@ const Step3 = ({ setContent, data }) => {
   return (
     <BoxBetween>
       <Box
-        width={"85%"}
+        width={data.type !== "POST" ? "85%" : "40%"}
         border={"1px dotted gray"}
         textAlign={"center"}
         p={2}
-        height={"500px"}
+        height={data.type !== "POST" ? "500px" : 'auto'}
       >
         {data.type !== "POST" ? (
           <>
@@ -129,7 +129,14 @@ const Step3 = ({ setContent, data }) => {
                 <p>Nhấp chuột hoặc kéo tài liệu vào đây</p>
               )}
             </Box>
-            <Button color="primary" variant="contained" sx={{textTransform:'capitalize'}} onClick={handleNextStep}>Đăng bài viết</Button>
+            <Button
+              color="primary"
+              variant="contained"
+              sx={{ textTransform: "capitalize" }}
+              onClick={handleNextStep}
+            >
+              Đăng bài viết
+            </Button>
           </Box>
         )}
       </Box>

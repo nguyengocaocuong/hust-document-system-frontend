@@ -165,7 +165,7 @@ function SubjectDocumentModal({ open }) {
                 value: subject.value,
                 label: <Typography>{subject.label}</Typography>,
               }))}
-              title={"Trạng thái tài liệu"}
+              title={"Môn học"}
               all={false}
               style={{ marginRight: 2 }}
               value={data?.subjectId}

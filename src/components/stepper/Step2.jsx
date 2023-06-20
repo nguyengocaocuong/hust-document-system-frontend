@@ -74,6 +74,7 @@ const Step2 = ({ selectObject, data }) => {
                 ),
                 value: teacher.value,
               }))}
+              value=""
               handle={selectObject}
               hiddenTitle
               all={false}
@@ -92,6 +93,7 @@ const Step2 = ({ selectObject, data }) => {
               ),
               value: subject.value,
             }))}
+            value=""
             handle={selectObject}
             hiddenTitle
             all={false}
