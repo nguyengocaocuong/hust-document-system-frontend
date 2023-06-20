@@ -60,6 +60,7 @@ function Header() {
   return (
     <Box
       width={"100%"}
+      maxWidth={"calc(100vw - 250px)"}
       height={"72px"}
       display={"flex"}
       justifyContent={"space-between"}

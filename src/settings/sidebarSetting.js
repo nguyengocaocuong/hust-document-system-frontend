@@ -15,6 +15,7 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import BeenhereOutlinedIcon from '@mui/icons-material/BeenhereOutlined';
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -146,17 +147,10 @@ const adminSidebarItem = [
   },
   {
     type: "ITEM",
-    title: "Thông báo",
-    to: "/notifycation",
-    Icon: NotificationsOutlinedIcon,
+    title: "Phê duyệt",
+    to: "/approve",
+    Icon: BeenhereOutlinedIcon,
     selectedColor: "red",
-  },
-  {
-    type: "ITEM",
-    title: "Lịch sử",
-    to: "/history",
-    Icon: HistoryIcon,
-    selectedColor: "white",
   },
 ];
 const adminSidebarSettingItem = [

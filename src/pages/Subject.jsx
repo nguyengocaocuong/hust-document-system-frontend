@@ -136,24 +136,26 @@ function Subject() {
   );
   return (
     <Box height={"100%"} overflow={"auto"}>
-      <Typography variant="h3" color={"text.primary"} height={"60px"} p={2}>
-        Danh sách môn học trong hệ thống
-      </Typography>
-      <Box p={2} height={"calc(100% - 60px)"}>
-        {id ? (
-          <SubjectDetail />
-        ) : (
-          <Paper elevation={3} sx={{ height: "100%" }}>
-            <Table
-              headers={headers}
-              items={subjects}
-              renderItem={renderItem}
-              pageSize={10}
-              itemHeight={55}
-            />
-          </Paper>
-        )}
-      </Box>
+      {id ? (
+        <SubjectDetail />
+      ) : (
+        <>
+          <Typography variant="h3" color={"text.primary"} height={"60px"} p={2}>
+            Danh sách môn học trong hệ thống
+          </Typography>
+          <Box p={2} height={"calc(100% - 60px)"}>
+            <Paper elevation={3} sx={{ height: "100%" }}>
+              <Table
+                headers={headers}
+                items={subjects}
+                renderItem={renderItem}
+                pageSize={10}
+                itemHeight={55}
+              />
+            </Paper>
+          </Box>
+        </>
+      )}
       {open.open && (
         <ConfirmModal
           message={message}

@@ -33,6 +33,7 @@ import AddUser from "./pages/AddUser";
 import Subject from "./pages/Subject";
 import Teacher from "./pages/Teacher";
 import Report from "./pages/Report";
+import Approve from "./pages/Approve";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -61,6 +62,7 @@ function App() {
                           <Route path="report" element={<Report />} />
                           <Route path="subject/:id?" element={<Subject />} />
                           <Route path="teacher/:id?" element={<Teacher />} />
+                          <Route path="approve" element={<Approve />} />
                         </Route>
                       ) : (
                         <Route path="/" element={<UserLayout />}>
