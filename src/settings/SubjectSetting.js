@@ -51,7 +51,7 @@ export const documentType  = {
       title: "Bài tập về nhà",
       subTitle: "Homework",
       img: homeworkImg,
-      color: "#CDEF12",
+      color: "#D4525D",
     },
     TEXTBOOK: {
       title: "Sách giáo trình",

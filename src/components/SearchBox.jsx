@@ -1,69 +1,235 @@
-import { InputBase, alpha, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Divider,
+  IconButton,
+  InputBase,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  boxShadow:
-    "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-  marginLeft: 0,
-  width: "auto",
-  height: "40px",
-  maxWidth: "350px",
-  display: "flex",
-  alignItems: "center",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    maxWidth: "290px",
-    fontSize: "17px",
-    [theme.breakpoints.up("sm")]: {
-      width: "120px",
-      "&:focus": {
-        width: "290px",
-        maxWidth: "290px",
-      },
-    },
-  },
-}));
+import searchMenuIcon from "../assets/images/search.svg";
+import { documentType } from "../settings/SubjectSetting";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import MultipleSelect from "./MultipleSelect";
 function SearchBox({ handle, placeHolde }) {
-  const [value, setValue] = useState("");
+  const [isSearch, setIsSearch] = useState({ basic: false, advane: false });
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    nextArrow: <></>,
+    prevArrow: <></>,
+  };
   return (
-    <Search>
-      <SearchIconWrapper onClick={()=> handle(value)}>
-        <SearchIcon style={{ fontSize: "25px", color: "gray" }} />
-      </SearchIconWrapper>
-      <StyledInputBase
-        value={value}
-        onChange={(e)=> setValue(e.target.value)}
-        placeholder={placeHolde}
-        inputProps={{ "aria-label": "search" }}
-      />
-    </Search>
+    <Box
+      width={"440px"}
+      zIndex={10}
+      position={"absolute"}
+      top={16}
+      left={50}
+      borderRadius={2}
+      bgcolor={"#D3E3FD"}
+      overflow={"hidden"}
+    >
+      <Box height={"40px"} width={"100%"} display={"flex"}>
+        <IconButton
+          onClick={() => setIsSearch({ basic: !isSearch.basic, advane: false })}
+        >
+          <SearchIcon sx={{ width: "25px", height: "25px" }} />
+        </IconButton>
+        <InputBase
+          sx={{
+            width: "100%",
+            height: "100%",
+
+            fontSize: "17px",
+          }}
+        />
+        <IconButton
+          sx={{
+            right: 0,
+            top: 0,
+            color: "red",
+            zIndex: 10,
+          }}
+          onClick={() =>
+            setIsSearch({ basic: false, advane: !isSearch.advane })
+          }
+        >
+          <img
+            src={searchMenuIcon}
+            style={{ width: "22px", height: "22px" }}
+            alt=""
+          />
+        </IconButton>
+      </Box>
+      {isSearch.basic && (
+        <Box width={"100%"} height={"150px"} bgcolor={"transparent"}>
+          <Divider />
+          <Box width={"100%"} overflow={"hidden"} height={"100px"} p={0.5}>
+            <Slider {...settings}>
+              {Object.keys(documentType).map((item, index) => (
+                <Box
+                  key={index}
+                  width={"100px"}
+                  height={"92px"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  textAlign={"center"}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      backgroundColor: "#ECECEC",
+                    },
+                  }}
+                  p={1.5}
+                >
+                  <Box display={"flex"} justifyContent={"center"}>
+                    <img
+                      src={documentType[item].img}
+                      alt=""
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        display: "block",
+                      }}
+                    />
+                  </Box>
+                  <Typography
+                    width={"100%"}
+                    fontSize={"13px"}
+                    py={1}
+                    fontWeight={"bold"}
+                    color={documentType[item].color}
+                  >
+                    {documentType[item].subTitle}
+                  </Typography>
+                </Box>
+              ))}
+            </Slider>
+          </Box>
+          <Divider />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: "50px",
+              width: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <Box width={"100%"}>
+              <Slider {...settings} variableWidth={true}>
+                {Object.keys(documentType).map((item, index) => (
+                  <Box
+                    key={index}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    textAlign={"center"}
+                    width={"auto"}
+                    px={0.5}
+                  >
+                    <Chip label={item} />
+                  </Box>
+                ))}
+              </Slider>
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {isSearch.advane && (
+        <Box width={"100%"} bgcolor={"transparent"}>
+          <Divider />
+          <Box
+            width={"100%"}
+            py={0.5}
+            px={2}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontWeight={"bold"} width={"30%"}>
+              Đối tượng
+            </Typography>
+            <MultipleSelect width="66%" />
+          </Box>
+          <Box
+            width={"100%"}
+            py={0.5}
+            px={2}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontWeight={"bold"} width={"30%"}>
+              Chủ sở hữu
+            </Typography>
+            <MultipleSelect width="66%" />
+          </Box>
+          <Box
+            width={"100%"}
+            py={0.5}
+            px={2}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontWeight={"bold"} width={"30%"}>
+              Môn học
+            </Typography>
+            <MultipleSelect width="66%" />
+          </Box>
+          <Box
+            width={"100%"}
+            py={0.5}
+            px={2}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontWeight={"bold"} width={"30%"}>
+              Giảng viên
+            </Typography>
+            <MultipleSelect width="66%" />
+          </Box>
+          <Box
+            width={"100%"}
+            py={0.5}
+            px={2}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontWeight={"bold"} width={"30%"}>
+              Loại tài liệu
+            </Typography>
+            <MultipleSelect width="66%" />
+          </Box>
+          <Box
+            width={"100%"}
+            py={0.5}
+            px={2}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontWeight={"bold"} width={"30%"}></Typography>
+            <Checkbox />
+            <Typography>Đa ngôn ngữ</Typography>
+          </Box>
+          <Divider />
+          <Box px={2} py={1} justifyContent={"end"} display={"flex"}>
+            <Stack spacing={1} direction={"row"}>
+              {" "}
+              <Button variant="outlined">Đặt lại</Button>
+              <Button variant="contained">Tìm kiếm</Button>
+            </Stack>
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 }
 

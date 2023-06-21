@@ -1,8 +1,14 @@
-import { Box, Chip, Divider, Stack, Typography } from "@mui/material";
+import { Box, Chip, Divider, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { documentType as type } from "../settings/SubjectSetting";
 import DoneIcon from "@mui/icons-material/Done";
 import Table from "../components/Table";
+import subjectIcon from "../assets/images/document/homework.png";
+import { formatTimeAgo } from "../utils/ConvertDate";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
+import EditOffIcon from "@mui/icons-material/EditOff";
 const headers = [
   { title: "", width: "119.25px" },
   { title: "Người viết", width: "20%" },
@@ -13,6 +19,142 @@ const headers = [
 ];
 
 function SubjectDetail() {
+ 
+  const renderItem = (item, key) => (
+    <Box
+      key={key}
+      pl={1}
+      pr={1}
+      width={"100%"}
+      display={"flex"}
+      alignItems={"center"}
+      sx={{
+        borderBottom: "1px solid #D9DFED",
+        transition: "backgroundColor 0.4s",
+        "&:hover": { backgroundColor: "#D9DFED" },
+        cursor: "pointer",
+      }}
+      height={"110px"}
+      maxHeight={"110px"}
+      justifyContent={"space-between"}
+    >
+      <Box
+        width={"110px"}
+        overflow={"hidden"}
+        display={"flex"}
+        alignItems={"center"}
+      >
+        <Box
+          width={"105px"}
+          height={"105px"}
+          overflow={"hidden"}
+          sx={{ borderRadius: 1, boxShadow: 2 }}
+        >
+          <img
+            src={subjectIcon}
+            width={"100%"}
+            height={"auto"}
+            style={{
+              maxHeight: "110px",
+            }}
+            alt=""
+          />
+        </Box>
+      </Box>
+      <Typography
+        sx={{ fontWeight: "bold", width: "17%" }}
+        color={"primary.main"}
+      >
+        {item.subject.name}
+      </Typography>
+      <Box width={"12%"}>
+        <Typography fontWeight={700}>Review môn học</Typography>
+      </Box>
+      <Box width={"20%"}>
+        {
+          <Box
+            sx={{
+              width: "100%",
+              height: "105px",
+              overflow: "hidden",
+              background: "white",
+              padding: "0 3px",
+              borderRadius: "8px",
+              "&:hover": {
+                boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+              },
+            }}
+            dangerouslySetInnerHTML={{ __html: item?.review }}
+            id="review-content"
+          />
+        }
+      </Box>
+      <Box width={"8%"}>
+        <Chip
+          label={item.done ? "Hoàn thành" : "Đang viết"}
+          color={item.done ? "success" : "warning"}
+        />
+      </Box>
+      <Typography sx={{ fontSize: "13px" }} width={"10%"}>
+        {formatTimeAgo(item?.createdAt)}
+      </Typography>
+      <Box
+        width={"15%"}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"end"}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Box
+          sx={{
+            opacity: "0.3",
+            transition: "opacity 0.4s",
+            "&:hover": {
+              opacity: 1,
+              backgroundColor: "white",
+            },
+            borderRadius: "25px",
+            px: 1.5,
+          }}
+        >
+          <Tooltip title={"Chỉnh sửa bài viết"}>
+            <IconButton>
+              <EditOffIcon
+                color={"warning"}
+                sx={{ width: "18px", height: "18px" }}
+              />
+            </IconButton>
+          </Tooltip>
+          {item.done && (
+            <Tooltip title={"Xem bài viết"}>
+              <IconButton >
+                <RemoveRedEyeIcon
+                  color={"success"}
+                  sx={{ width: "18px", height: "18px" }}
+                />
+              </IconButton>
+            </Tooltip>
+          )}
+          <Tooltip title={"Copy link truy cập"}>
+            <IconButton>
+              <CopyAllIcon
+                color={"info"}
+                sx={{ width: "18px", height: "18px" }}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={"Xóa bài viết"}>
+            <IconButton>
+              <DeleteIcon
+                color={"error"}
+                sx={{ width: "18px", height: "18px" }}
+              />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
+    </Box>
+  );
   return (
     <Box
       height={"100%"}
@@ -153,11 +295,10 @@ function SubjectDetail() {
           </Box>
         </Box>
         <Box p={2} width={"100%"} overflow={"hidden"}>
-          <Typography variant="h4">Bài review môn học</Typography>
           <Table
             headers={headers}
             items={[]}
-            renderItem={()=><Box height={'110px'}></Box>}
+            renderItem={renderItem}
             pageSize={5}
             itemHeight={110}
           />

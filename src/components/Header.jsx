@@ -68,6 +68,7 @@ function Header() {
       borderBottom="1px solid #D8D9D9"
       sx={{ backgroundColor: "white" }}
       p={[0, 1]}
+      position={'relative'}
     >
       <Box
         display={"flex"}
