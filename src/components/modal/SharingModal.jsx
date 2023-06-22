@@ -48,7 +48,6 @@ function SharingModal({ open }) {
   const closeModal = () => {
     dispatch(closeSharingModal());
   };
-
   const [isShowDropdown, setShowDropdown] = useState(false);
   const { data: user = { item: [] } } = useGetUserForFilterQuery();
   const [key, setKey] = useState("");
@@ -202,12 +201,14 @@ function SharingModal({ open }) {
               {user.item
                 .filter(
                   (u) =>
-                    key === undefined ||
-                    key === "" ||
-                    `${u.data?.firstName} ${u.data?.lastName}`
-                      .toUpperCase()
-                      .includes(key.toUpperCase()) ||
-                    u.data?.email.toUpperCase().includes(key.toUpperCase())
+                    selectedUser.find(user => user.id === u.id) ===
+                      undefined &&
+                    (key === undefined ||
+                      key === "" ||
+                      `${u.data?.firstName} ${u.data?.lastName}`
+                        .toUpperCase()
+                        .includes(key.toUpperCase()) ||
+                      u.data?.email.toUpperCase().includes(key.toUpperCase()))
                 )
                 .map((u, i) => (
                   <Box

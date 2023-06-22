@@ -41,7 +41,7 @@ function Table({ headers, renderItem, items, pageSize = 4, itemHeight }) {
         overflow={"hidden"}
         height={`${itemHeight * pageSize}px`}
       >
-        {currentData.map((item, key) => renderItem(item, key))}
+        {currentData.map((item, index) => renderItem(item, index))}
       </Box>
       <Box display={"flex"} justifyContent={"end"} mt={1} pr={2}>
         <Pagination

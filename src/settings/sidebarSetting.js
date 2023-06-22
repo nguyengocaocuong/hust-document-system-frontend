@@ -14,7 +14,6 @@ import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import BeenhereOutlinedIcon from '@mui/icons-material/BeenhereOutlined';
 const userSidebarItem = [
   {

@@ -22,7 +22,7 @@ function SubjectTypeDetail({ subjectType = {}, subjectDetail = {} }) {
     );
   };
   const sharingDocument = (subjectDocument) => {
-    dispatch(openSharingModal({ subjectDocumentId: subjectDocument.id }));
+    dispatch(openSharingModal({ subjectDocumentId: subjectDocument.id}));
   };
   return (
     <Box p={2} width={"100%"}>

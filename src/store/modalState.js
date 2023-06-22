@@ -65,6 +65,14 @@ const initialState = {
     open: false,
     dataModal: null,
   },
+  newReviewSubjectModal: {
+    open: false,
+    dataModal: null,
+  },
+  newReviewTeacherModal: {
+    open: false,
+    dataModal: null,
+  },
 };
 
 export const modalState = createSlice({
@@ -211,6 +219,24 @@ export const modalState = createSlice({
       state.reportContentReviewTeacherModal.dataModal = action.payload;
       state.reportContentReviewTeacherModal.open = true;
     },
+    closeNewReviewSubjectModal: (state) => {
+      state.newReviewSubjectModal.open = false;
+      state.newReviewSubjectModal.dataModal = null;
+    },
+    openNewReviewSubjectModal: (state, action) => {
+      if (action.payload === undefined) return;
+      state.newReviewSubjectModal.dataModal = action.payload;
+      state.newReviewSubjectModal.open = true;
+    },
+    closeNewReviewTeacherModal: (state) => {
+      state.newReviewTeacherModal.open = false;
+      state.newReviewTeacherModal.dataModal = null;
+    },
+    openNewReviewTeacherModal: (state, action) => {
+      if (action.payload === undefined) return;
+      state.newReviewTeacherModal.dataModal = action.payload;
+      state.newReviewTeacherModal.open = true;
+    },
   },
 });
 export const {
@@ -243,9 +269,13 @@ export const {
   closeReportContentReviewTeacherModal,
   closeReportContentSubjectDocumentModal,
   closeReportDuplicateSubjectDocumentModal,
+  closeNewReviewSubjectModal,
+  closeNewReviewTeacherModal,
   openReportContentReviewSubjectModal,
   openReportContentReviewTeacherModal,
   openReportContentSubjectDocumentModal,
   openReportDuplicateSubjectDocumentModal,
+  openNewReviewSubjectModal,
+  openNewReviewTeacherModal,
 } = modalState.actions;
 export default modalState.reducer;

@@ -151,14 +151,14 @@ function ReportDuplicateSubjectDocumentModal({ open }) {
                 color="warning"
                 onClick={openConfirmModal}
               >
-                Chia sẻ tài liệu 1
+                Loại bỏ tài liệu 1
               </Button>
               <Button
                 variant="contained"
                 color="warning"
                 onClick={openConfirmModal}
               >
-                Chia sẻ tài liệu 2
+                Loại bỏ tài liệu 2
               </Button>
               <Button variant="outlined">Từ chối</Button>
             </Stack>

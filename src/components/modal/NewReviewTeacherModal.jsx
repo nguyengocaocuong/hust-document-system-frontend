@@ -1,3 +1,6 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeNewReviewTeacherModal } from "../../store/modalState";
 import {
   Box,
   Button,
@@ -8,34 +11,33 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { closeReportContentSubjectDocumentModal } from "../../store/modalState";
 import CloseIcon from "@mui/icons-material/Close";
-import ConfirmModal from "./ComfirmModal";
+import Owner from "../Owner";
 import { useState } from "react";
-import DocumentViewer from "../document/DocumentViewer";
+import ConfirmModal from "./ComfirmModal";
+
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  maxHeight: "97%",
+  maxHeight: "90%",
   overflow: "hidden",
   width: "45%",
-  minWidth: "600px",
-  maxWidth: "700px",
+  minWidth: "650px",
+  maxWidth: "800px",
   backgroundColor: "#f7f7f2",
   borderRadius: 1,
   boxShadow: 24,
 };
-function ReportContentSubjectDocumentModal({ open }) {
+
+function NewReviewTeacherModal({ open }) {
   const dispatch = useDispatch();
   const closeModal = () => {
-    dispatch(closeReportContentSubjectDocumentModal());
+    dispatch(closeNewReviewTeacherModal());
   };
   const {
-    reportContentSubjectDocumentModal: { dataModal },
+    newReviewTeacherModal: { dataModal },
   } = useSelector((state) => state.modalState);
 
   const [openConfirm, setOpen] = useState({ open: false, item: null });
@@ -43,9 +45,9 @@ function ReportContentSubjectDocumentModal({ open }) {
   const openConfirmModal = (item) => setOpen({ open: true, item });
 
   const onHidden = () => {
-    alert("hidden");
     closeConfirmModal();
   };
+
   return (
     <Modal open={open} onClose={closeModal} sx={{ border: "none" }}>
       <Box sx={{ ...style }}>
@@ -55,7 +57,8 @@ function ReportContentSubjectDocumentModal({ open }) {
             textAlign={"center"}
             width={"calc(100% - 30px)"}
           >
-            Báo cáo nội dung tài liệu môn <strong>Giải tích 2</strong>
+            Phê duyệt review giảng viên{" "}
+            <strong>{dataModal.teacher?.name}</strong>
           </Typography>
           <IconButton onClick={closeModal}>
             <CloseIcon />
@@ -63,36 +66,25 @@ function ReportContentSubjectDocumentModal({ open }) {
         </Box>
         <Divider />
         <Box
-          maxHeight={"500px"}
-          height={"500px"}
+          maxHeight={"580px"}
+          minHeight={"300px"}
           overflow={"auto"}
           sx={{
             "&::-webkit-scrollbar": { display: "none" },
           }}
-          display={"flex"}
-          justifyContent={"center"}
-          bgcolor={"black"}
         >
-          <DocumentViewer
-            docs={[
-              {
-                uri: `${process.env.REACT_APP_BASE_URL}/api/v1/admins/subjects/subjectDocuments/${dataModal.subjectDocument.id}/readFile`,
-                fileName: dataModal.subjectDocument.document.name,
-              },
-            ]}
-          />
+          <Owner owner={dataModal.owner} createdAt={dataModal.createdAt} />
+          <Box p={2} pt={1} sx={{ backgroundColor: "white", borderRadius: 1 }}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: dataModal.review,
+              }}
+              id="review-content"
+            />
+          </Box>
         </Box>
         <Divider />
-        <Box height={"150px"} p={1} boxShadow={24}>
-          <Typography
-            p={1}
-            fontSize={"17px"}
-            color={"white"}
-            height={"80px"}
-            sx={{ backgroundColor: "#707070", borderRadius: 2 }}
-          >
-            {dataModal.message}
-          </Typography>
+        <Box height={"81px"} p={1} boxShadow={24}>
           <Box
             display={"flex"}
             alignItems={"center"}
@@ -140,4 +132,4 @@ function ReportContentSubjectDocumentModal({ open }) {
   );
 }
 
-export default ReportContentSubjectDocumentModal;
+export default NewReviewTeacherModal;

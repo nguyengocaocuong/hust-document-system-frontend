@@ -71,164 +71,169 @@ function SearchBox({ handle, placeHolde }) {
           />
         </IconButton>
       </Box>
-      {isSearch.basic && (
-        <Box width={"100%"} height={"150px"} bgcolor={"transparent"}>
-          <Divider />
-          <Box width={"100%"} overflow={"hidden"} height={"100px"} p={0.5}>
-            <Slider {...settings}>
+      <Box
+        width={"100%"}
+        height={"150px"}
+        bgcolor={"transparent"}
+        display={isSearch.basic ? "block" : "none"}
+      >
+        <Divider />
+        <Box width={"100%"} overflow={"hidden"} height={"100px"} p={0.5}>
+          <Slider {...settings}>
+            {Object.keys(documentType).map((item, index) => (
+              <Box
+                key={index}
+                width={"100px"}
+                height={"92px"}
+                display={"flex"}
+                justifyContent={"center"}
+                textAlign={"center"}
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "#ECECEC",
+                  },
+                }}
+                p={1.5}
+              >
+                <Box display={"flex"} justifyContent={"center"}>
+                  <img
+                    src={documentType[item].img}
+                    alt=""
+                    style={{
+                      width: "35px",
+                      height: "35px",
+                      display: "block",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  width={"100%"}
+                  fontSize={"13px"}
+                  py={1}
+                  fontWeight={"bold"}
+                  color={documentType[item].color}
+                >
+                  {documentType[item].subTitle}
+                </Typography>
+              </Box>
+            ))}
+          </Slider>
+        </Box>
+        <Divider />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "50px",
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <Box width={"100%"}>
+            <Slider {...settings} variableWidth={true}>
               {Object.keys(documentType).map((item, index) => (
                 <Box
                   key={index}
-                  width={"100px"}
-                  height={"92px"}
                   display={"flex"}
                   justifyContent={"center"}
                   textAlign={"center"}
-                  sx={{
-                    cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "#ECECEC",
-                    },
-                  }}
-                  p={1.5}
+                  width={"auto"}
+                  px={0.5}
                 >
-                  <Box display={"flex"} justifyContent={"center"}>
-                    <img
-                      src={documentType[item].img}
-                      alt=""
-                      style={{
-                        width: "35px",
-                        height: "35px",
-                        display: "block",
-                      }}
-                    />
-                  </Box>
-                  <Typography
-                    width={"100%"}
-                    fontSize={"13px"}
-                    py={1}
-                    fontWeight={"bold"}
-                    color={documentType[item].color}
-                  >
-                    {documentType[item].subTitle}
-                  </Typography>
+                  <Chip label={item} />
                 </Box>
               ))}
             </Slider>
           </Box>
-          <Divider />
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              height: "50px",
-              width: "100%",
-              overflow: "hidden",
-            }}
-          >
-            <Box width={"100%"}>
-              <Slider {...settings} variableWidth={true}>
-                {Object.keys(documentType).map((item, index) => (
-                  <Box
-                    key={index}
-                    display={"flex"}
-                    justifyContent={"center"}
-                    textAlign={"center"}
-                    width={"auto"}
-                    px={0.5}
-                  >
-                    <Chip label={item} />
-                  </Box>
-                ))}
-              </Slider>
-            </Box>
-          </Box>
         </Box>
-      )}
-      {isSearch.advane && (
-        <Box width={"100%"} bgcolor={"transparent"}>
-          <Divider />
-          <Box
-            width={"100%"}
-            py={0.5}
-            px={2}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Typography fontWeight={"bold"} width={"30%"}>
-              Đối tượng
-            </Typography>
-            <MultipleSelect width="66%" />
-          </Box>
-          <Box
-            width={"100%"}
-            py={0.5}
-            px={2}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Typography fontWeight={"bold"} width={"30%"}>
-              Chủ sở hữu
-            </Typography>
-            <MultipleSelect width="66%" />
-          </Box>
-          <Box
-            width={"100%"}
-            py={0.5}
-            px={2}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Typography fontWeight={"bold"} width={"30%"}>
-              Môn học
-            </Typography>
-            <MultipleSelect width="66%" />
-          </Box>
-          <Box
-            width={"100%"}
-            py={0.5}
-            px={2}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Typography fontWeight={"bold"} width={"30%"}>
-              Giảng viên
-            </Typography>
-            <MultipleSelect width="66%" />
-          </Box>
-          <Box
-            width={"100%"}
-            py={0.5}
-            px={2}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Typography fontWeight={"bold"} width={"30%"}>
-              Loại tài liệu
-            </Typography>
-            <MultipleSelect width="66%" />
-          </Box>
-          <Box
-            width={"100%"}
-            py={0.5}
-            px={2}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Typography fontWeight={"bold"} width={"30%"}></Typography>
-            <Checkbox />
-            <Typography>Đa ngôn ngữ</Typography>
-          </Box>
-          <Divider />
-          <Box px={2} py={1} justifyContent={"end"} display={"flex"}>
-            <Stack spacing={1} direction={"row"}>
-              {" "}
-              <Button variant="outlined">Đặt lại</Button>
-              <Button variant="contained">Tìm kiếm</Button>
-            </Stack>
-          </Box>
+      </Box>
+      <Box
+        width={"100%"}
+        bgcolor={"transparent"}
+        display={isSearch.advane ? "block" : "none"}
+      >
+        <Divider />
+        <Box
+          width={"100%"}
+          py={0.5}
+          px={2}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={"bold"} width={"30%"}>
+            Đối tượng
+          </Typography>
+          <MultipleSelect width="66%" />
         </Box>
-      )}
+        <Box
+          width={"100%"}
+          py={0.5}
+          px={2}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={"bold"} width={"30%"}>
+            Chủ sở hữu
+          </Typography>
+          <MultipleSelect width="66%" />
+        </Box>
+        <Box
+          width={"100%"}
+          py={0.5}
+          px={2}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={"bold"} width={"30%"}>
+            Môn học
+          </Typography>
+          <MultipleSelect width="66%" />
+        </Box>
+        <Box
+          width={"100%"}
+          py={0.5}
+          px={2}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={"bold"} width={"30%"}>
+            Giảng viên
+          </Typography>
+          <MultipleSelect width="66%" />
+        </Box>
+        <Box
+          width={"100%"}
+          py={0.5}
+          px={2}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={"bold"} width={"30%"}>
+            Loại tài liệu
+          </Typography>
+          <MultipleSelect width="66%" />
+        </Box>
+        <Box
+          width={"100%"}
+          py={0.5}
+          px={2}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={"bold"} width={"30%"}></Typography>
+          <Checkbox />
+          <Typography>Đa ngôn ngữ</Typography>
+        </Box>
+        <Divider />
+        <Box px={2} py={1} justifyContent={"end"} display={"flex"}>
+          <Stack spacing={1} direction={"row"}>
+            {" "}
+            <Button variant="outlined">Đặt lại</Button>
+            <Button variant="contained">Tìm kiếm</Button>
+          </Stack>
+        </Box>
+      </Box>
     </Box>
   );
 }

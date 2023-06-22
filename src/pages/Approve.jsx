@@ -1,45 +1,36 @@
-import { Box, Divider, Grid, Pagination, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  Pagination,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import BoxFull from "../components/BoxFull";
 import MultipleSelect from "../components/MultipleSelect";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import BoxBetween from "../components/BoxBetween";
 import { useState } from "react";
-import { useGetAllReportContentReviewSubjectQuery } from "../services/AdminReportContentReviewSubjectService";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import { useGetAllReportDuplicateSubjectDocumentQuery } from "../services/AdminReportDuplicateSubjectDocumentService";
-import { useGetAllReportContentSubjectDocumentQuery } from "../services/AdminReportContentSubjectDocumentService";
-import { useGetAllReportContentReviewTeacherQuery } from "../services/AdminReportContentReviewTeacherService";
 import Owner from "../components/Owner";
 import OfflinePinIcon from "@mui/icons-material/OfflinePin";
+import { useGetAllNewReviewTeacherQuery } from "../services/AdminReviewTeacherService";
+import { useGetAllNewReviewSubjectQuery } from "../services/AdminReviewSubjectService";
+import { useDispatch } from "react-redux";
+import {
+  openNewReviewSubjectModal,
+  openNewReviewTeacherModal,
+} from "../store/modalState";
 function Approve() {
+  const dispatch = useDispatch();
   const pageSize = 6;
-  const { data: reportContentReviewSubject = [] } =
-    useGetAllReportContentReviewSubjectQuery();
-  const { data: reportDuplicateSubjectDocument = [] } =
-    useGetAllReportDuplicateSubjectDocumentQuery();
-  const { data: reportContentSubjectDocument = [] } =
-    useGetAllReportContentSubjectDocumentQuery();
-  const { data: reportContentReviewTeacher = [] } =
-    useGetAllReportContentReviewTeacherQuery();
+  const { data: reviewTeacher = [] } = useGetAllNewReviewTeacherQuery();
+  const { data: reviewSubject = [] } = useGetAllNewReviewSubjectQuery();
 
   const reports = [
-    ...reportContentReviewSubject?.map((report) => ({
-      type: "REVIEW_SUBJECT",
-      ...report,
-    })),
-    ...reportDuplicateSubjectDocument?.map((report) => ({
-      type: "DUPLICATE_SUBJECT_DOCUMENT",
-      ...report,
-    })),
-    ...reportContentSubjectDocument?.map((report) => ({
-      type: "CONTENT_SUBJECT_DOCUMENT",
-      ...report,
-    })),
-    ...reportContentReviewTeacher?.map((report) => ({
-      type: "REVIEW_TEACHER",
-      ...report,
-    })),
+    ...reviewTeacher.map((review) => ({ ...review, type: "REVIEW_TEACHER" })),
+    ...reviewSubject.map((review) => ({ ...review, type: "REVIEW_SUBJECT" })),
   ];
   const [page, setPage] = useState(1);
   const currentData = [];
@@ -50,6 +41,13 @@ function Approve() {
   ) {
     currentData.push(reports[i]);
   }
+  const openCheckReview = (review) => {
+    if (review.type === "REVIEW_SUBJECT") {
+      dispatch(openNewReviewSubjectModal(review));
+    } else {
+      dispatch(openNewReviewTeacherModal(review));
+    }
+  };
 
   return (
     <BoxFull sx={{ backgroundColor: "white" }}>
@@ -73,7 +71,7 @@ function Approve() {
         <BoxBetween>
           <Box height={"550px"} width="100%">
             <Grid container spacing={2} width={"100%"}>
-              {currentData.map((report, index) => (
+              {currentData.map((review, index) => (
                 <Grid item xl={4} md={6} sm={12} key={index}>
                   <Box
                     width={"100%"}
@@ -88,8 +86,8 @@ function Approve() {
                     overflow={"hidden"}
                   >
                     <Owner
-                      owner={report.owner}
-                      createdAt={report.createdAt}
+                      owner={review.owner}
+                      createdAt={review.createdAt}
                       listItem={[]}
                     />
                     <Box
@@ -105,7 +103,7 @@ function Approve() {
                         width={"100%"}
                         height={"100%"}
                         dangerouslySetInnerHTML={{
-                          __html: report?.reviewSubject.review,
+                          __html: review?.review,
                         }}
                         sx={{ backgroundColor: "white", borderRadius: 2, p: 1 }}
                       ></Box>
@@ -125,7 +123,14 @@ function Approve() {
                           width={"100%"}
                           noWrap
                         >
-                          {report.message}
+                          {review.type === "REVIEW_SUBJECT"
+                            ? `Môn học `
+                            : `Giảng viên `}
+                          <strong>
+                            {review.type === "REVIEW_SUBJECT"
+                              ? review.subject?.name
+                              : review.teacher?.name}
+                          </strong>
                         </Typography>
                       </Box>
                       <Box display={"flex"} alignItems={"center"}>
@@ -142,6 +147,7 @@ function Approve() {
                               borderRadius: 1,
                               boxShadow: 1,
                             }}
+                            onClick={() => openCheckReview(review)}
                           >
                             <RemoveRedEyeOutlinedIcon color="warning" />
                           </Box>

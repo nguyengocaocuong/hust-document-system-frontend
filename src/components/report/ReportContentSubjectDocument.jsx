@@ -7,8 +7,14 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import Owner from "../Owner";
 import { checkURLType } from "../../utils/URLCheck";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import { useDispatch } from "react-redux";
+import { openReportContentSubjectDocumentModal } from "../../store/modalState";
 
 function ReportContentSubjectDocument({ report }) {
+  const dispatch = useDispatch();
+  const check = () => {
+    dispatch(openReportContentSubjectDocumentModal(report));
+  };
   return (
     <Box
       width={"100%"}
@@ -199,6 +205,7 @@ function ReportContentSubjectDocument({ report }) {
                 borderRadius: 1,
                 boxShadow: 1,
               }}
+              onClick={check}
             >
               <RemoveRedEyeOutlinedIcon color="warning" />
             </Box>

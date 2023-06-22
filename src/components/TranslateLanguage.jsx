@@ -11,7 +11,7 @@ function TranslateLanguage({ value, onClick, reset }) {
         width={"100%"}
         height={"60px"}
         display={"flex"}
-        alignItemx={"center"}
+        alignItems={"center"}
       >
         <InputBase
           sx={{

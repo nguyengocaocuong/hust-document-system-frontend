@@ -12,7 +12,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openAnswerSubjectDocumentModal,
   openReportModal,
@@ -27,6 +27,8 @@ function DocumentCard({
   preview = () => {},
   share = () => {},
 }) {
+  const { user: authUser } = useSelector((state) => state.authentication);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -62,27 +64,34 @@ function DocumentCard({
         console.error("Lỗi khi sao chép vào clipboard:", error);
       });
   };
-  const actions = () => [
-    { Icon: PreviewIcon, label: "Xem trước", action: preview },
-    { Icon: VisibilityIcon, label: "Xem chi tiết", action: previewDetail },
-    {
-      Icon: AddCircleOutlineIcon,
-      label: "Thêm đáp án",
-      action: addNewAnswer,
-    },
-    {
-      Icon: DownloadIcon,
-      label: "Tải tài liệu",
-      action: downloadSubjectDocument,
-    },
-    {
-      Icon: FlagIcon,
-      label: "Báo cáo tài liệu",
-      action: reportSubjectDocument,
-    },
-    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
-    { Icon: ShareIcon, label: "Chia sẻ", action: share },
-  ];
+  const isOwner = document?.owner.id === authUser.id;
+  console.log(document?.owner, authUser);
+  const actions = () => {
+    let arrAction = [
+      { Icon: PreviewIcon, label: "Xem trước", action: preview },
+      { Icon: VisibilityIcon, label: "Xem chi tiết", action: previewDetail },
+      {
+        Icon: AddCircleOutlineIcon,
+        label: "Thêm đáp án",
+        action: addNewAnswer,
+      },
+      {
+        Icon: DownloadIcon,
+        label: "Tải tài liệu",
+        action: downloadSubjectDocument,
+      },
+      {
+        Icon: FlagIcon,
+        label: "Báo cáo tài liệu",
+        action: reportSubjectDocument,
+      },
+      { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
+    ];
+    if (isOwner) {
+      arrAction.push({ Icon: ShareIcon, label: "Chia sẻ", action: share });
+    }
+    return arrAction;
+  };
   return (
     <Grid item xl={4}>
       <Box

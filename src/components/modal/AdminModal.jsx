@@ -7,6 +7,8 @@ import ReportContentReviewSubjectModal from "./ReportContentReviewSubjectModal";
 import ReportContentSubjectDocumentModal from "./ReportContentSubjectDocumentModal";
 import ReportDuplicateSubjectDocumentModal from "./ReportDuplicateSubjectDocumentModal";
 import ReportContentReviewTeacherModal from "./ReportContentReviewTeacherModal";
+import NewReviewSubjectModal from "./NewReviewSubjectModal";
+import NewReviewTeacherModal from "./NewReviewTeacherModal";
 function AdminModal() {
   const {
     updateSubjectModal,
@@ -15,6 +17,8 @@ function AdminModal() {
     reportContentSubjectDocumentModal,
     reportDuplicateSubjectDocumentModal,
     reportContentReviewTeacherModal,
+    newReviewSubjectModal,
+    newReviewTeacherModal,
   } = useSelector((state) => state.modalState);
   return (
     <Box>
@@ -42,6 +46,16 @@ function AdminModal() {
       {reportContentReviewTeacherModal.open && (
         <ReportContentReviewTeacherModal
           open={reportContentReviewTeacherModal.open}
+        />
+      )}
+      {newReviewSubjectModal.open && (
+        <NewReviewSubjectModal
+          open={newReviewSubjectModal.open}
+        />
+      )}
+      {newReviewTeacherModal.open && (
+        <NewReviewTeacherModal
+          open={newReviewTeacherModal.open}
         />
       )}
     </Box>
