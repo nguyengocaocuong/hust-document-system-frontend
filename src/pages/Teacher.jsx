@@ -1,21 +1,19 @@
-import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import Table from "../components/Table";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditOffIcon from "@mui/icons-material/EditOff";
-import { useNavigate, useParams } from "react-router-dom";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import {
   useDeleteTeacherMutation,
   useGetAllTeacherQuery,
 } from "../services/AdminTeacherService";
-import TeacherDetail from "./TeacherDetail";
 import { useDispatch } from "react-redux";
 import { openUpdateTeacherModal } from "../store/modalState";
 import { useState } from "react";
 import ConfirmModal from "../components/modal/ComfirmModal";
 const headers = [
-  { title: "", width: "55px" },
+  { title: "", width: "60px" },
   { title: "Tên giảng viên", width: "13%" },
   { title: "Email trường", width: "17%" },
   { title: "Email cá nhân", width: "17%" },
@@ -27,8 +25,6 @@ const headers = [
 function Teacher() {
   const message = `Bạn có chắc chắn muốn xóa giảng viên này không, nếu bạn xóa mọi bài viết liên quan giảng viên học sẽ bị xóa theo`;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { id } = useParams();
   const { data: teachers = [], refetch } = useGetAllTeacherQuery();
   const editTeacher = (item) => {
     dispatch(openUpdateTeacherModal(item.teacher));
@@ -44,7 +40,7 @@ function Teacher() {
   };
 
   const view = (item) => {
-    navigate(`/teacher/${item.teacher.id}`);
+    alert("view teacher");
   };
   const renderItem = (item, key) => (
     <Box
@@ -60,10 +56,10 @@ function Teacher() {
         "&:hover": { backgroundColor: "#D9DFED" },
         cursor: "pointer",
       }}
-      height={"55px"}
+      height={"60px"}
       justifyContent={"space-between"}
     >
-      <Box width={"55px"} p={1} height={"100%"}>
+      <Box width={"60px"} p={1} height={"100%"}>
         <img
           src={item.teacher.avatar}
           alt=""
@@ -150,23 +146,19 @@ function Teacher() {
       </Box>
     </Box>
   );
-  return id ? (
-    <TeacherDetail />
-  ) : (
-    <Box height={"100%"} overflow={"auto"}>
-      <Typography variant="h3" color={"text.primary"} height={"60px"} p={2}>
+  return (
+    <Box height={"100%"} overflow={"hidden"} bgcolor={"white"}>
+      <Typography variant="h3" color={"text.primary"} height={"50px"} p={2}>
         Danh sách giảng viên
       </Typography>
-      <Box p={2} height={"calc(100% - 60px)"}>
-        <Paper elevation={3} sx={{ height: "100%" }}>
-          <Table
-            headers={headers}
-            items={teachers}
-            renderItem={renderItem}
-            pageSize={10}
-            itemHeight={55}
-          />
-        </Paper>
+      <Box height={"calc(100% - 50px)"}>
+        <Table
+          headers={headers}
+          items={teachers}
+          renderItem={renderItem}
+          pageSize={10}
+          itemHeight={60.5}
+        />
       </Box>
       {open.open && (
         <ConfirmModal

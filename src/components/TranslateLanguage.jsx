@@ -9,9 +9,11 @@ function TranslateLanguage({ value, onClick, reset }) {
       <Box
         p={1}
         width={"100%"}
-        height={"60px"}
+        height={"120px"}
         display={"flex"}
         alignItems={"center"}
+        flexDirection={'column'}
+        justifyContent={'space-between'}
       >
         <InputBase
           sx={{
@@ -19,27 +21,13 @@ function TranslateLanguage({ value, onClick, reset }) {
             width: "100%",
             borderRadius: "20px",
             px: 2,
+            height:'40px'
           }}
           value={key}
           onChange={(e) => setKey(e.target.value)}
           placeholder="Nhập ngôn ngữ muốn dịch"
         />
-      </Box>
-      <Box
-        display={"flex"}
-        flexWrap={"wrap"}
-        width={"100%"}
-        maxHeight={"calc(100% - 60px)"}
-        overflow={"auto"}
-      >
-        <Box
-          display={"flex"}
-          alignContent={"center"}
-          justifyContent={"center"}
-          p={1}
-          width={"100%"}
-        >
-          <Typography
+         <Typography
             onClick={reset}
             width={"100%"}
             textAlign={"center"}
@@ -60,7 +48,15 @@ function TranslateLanguage({ value, onClick, reset }) {
           >
             Hiển thị văn bản gốc
           </Typography>
-        </Box>
+      </Box>
+      <Box
+        display={"flex"}
+        flexWrap={"wrap"}
+        width={"100%"}
+        maxHeight={"calc(100% - 120px)"}
+        overflow={"auto"}
+      >
+       
         {LanguageData.filter(
           (item) =>
             key === undefined ||

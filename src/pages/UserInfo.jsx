@@ -30,7 +30,7 @@ function UserInfo() {
   const theme = useTheme();
   const { data, isSuccess } = useGetUserProfileQuery(id);
   return isSuccess ? (
-    <Box>
+    <Box width={"100%"} height={"100%"} overflow={"auto"} p={2}>
       <Box
         sx={{ backgroundImage: `url(${data.user.avatar || profile})` }}
         width={"100%"}
@@ -52,7 +52,7 @@ function UserInfo() {
         </Box>
       </Box>
       <Grid container spacing={2} mt={"20px"}>
-        <Grid item xl={3}>
+        <Grid item lg={6} xl={3}>
           <Paper elevation={1}>
             <Box p="20px" height={"180px"}>
               <Typography
@@ -62,14 +62,13 @@ function UserInfo() {
               >
                 Tổng quan người dùng{" "}
               </Typography>
-              <Typography variant="h5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Scelerisque.
+              <Typography variant="h2">
+                {`${data.user.firstName} ${data.user.lastName}`}
               </Typography>
             </Box>
           </Paper>
         </Grid>
-        <Grid item xl={3}>
+        <Grid item lg={6} xl={3}>
           <Paper elevation={1}>
             <Box
               p="20px"
@@ -99,7 +98,7 @@ function UserInfo() {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xl={3}>
+        <Grid item lg={6} xl={3}>
           <Paper elevation={1}>
             <Box
               p="20px"
@@ -129,7 +128,7 @@ function UserInfo() {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xl={3}>
+        <Grid item lg={6} xl={3}>
           <Paper elevation={1}>
             <Box
               p="20px"
@@ -159,9 +158,9 @@ function UserInfo() {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xl={8}>
+        <Grid item lg={12} xl={8}>
           <Grid container spacing={2}>
-            <Grid item xl={6}>
+            <Grid item lg={6} xl={6}>
               <Paper elevation={1}>
                 <Box p="20px" height={"220px"}>
                   <Typography
@@ -267,7 +266,7 @@ function UserInfo() {
                 </Box>
               </Paper>
             </Grid>
-            <Grid item xl={6}>
+            <Grid item lg={6} xl={6}>
               <Paper elevation={1}>
                 <Box p="20px" height={"220px"}>
                   <Typography
@@ -334,7 +333,7 @@ function UserInfo() {
                 </Box>
               </Paper>
             </Grid>
-            <Grid item xl={12}>
+            <Grid item lg={12} xl={12}>
               <Paper elevation={1}>
                 <Box p="20px" height={"180px"}>
                   <Typography
@@ -413,7 +412,7 @@ function UserInfo() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xl={4}>
+        <Grid item lg={12} xl={4}>
           <Paper elevation={1}>
             <Box p="20px" height={"416px"}>
               <Typography

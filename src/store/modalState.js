@@ -81,7 +81,7 @@ export const modalState = createSlice({
   reducers: {
     closeAnswerPostModal: (state) => {
       state.answerPostModal.open = false;
-      state.answerPostModal.dataModal = null;
+      // state.answerPostModal.dataModal = null;
     },
     closeAnswerSubjectDocumentModal: (state) => {
       state.answerSubjectDocumentModal.open = false;

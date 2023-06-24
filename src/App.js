@@ -28,12 +28,12 @@ import Trash from "./pages/Trash";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboash from "./pages/Dashboash";
 import User from "./pages/User";
-import ListUser from "./pages/ListUser";
-import AddUser from "./pages/AddUser";
 import Subject from "./pages/Subject";
 import Teacher from "./pages/Teacher";
 import Report from "./pages/Report";
 import Approve from "./pages/Approve";
+import PageNotFound from "./pages/PageNotFound";
+import UserInfo from "./pages/UserInfo";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -51,18 +51,12 @@ function App() {
                       {isLogin && user?.roleType === "ADMIN" ? (
                         <Route path="/" element={<AdminLayout />}>
                           <Route index element={<Dashboash />} />
-                          <Route path="users" element={<User />}>
-                            <Route
-                              index
-                              path="list-user/:id?"
-                              element={<ListUser />}
-                            />
-                            <Route path="add-user" element={<AddUser />} />
-                          </Route>
-                          <Route path="report" element={<Report />} />
-                          <Route path="subject/:id?" element={<Subject />} />
-                          <Route path="teacher/:id?" element={<Teacher />} />
-                          <Route path="approve" element={<Approve />} />
+                          <Route path="users" element={<User />} />
+                          <Route path="users/:id" element={<UserInfo />} />
+                          <Route path="reports" element={<Report />} />
+                          <Route path="subjects" element={<Subject />} />
+                          <Route path="teachers" element={<Teacher />} />
+                          <Route path="approves" element={<Approve />} />
                         </Route>
                       ) : (
                         <Route path="/" element={<UserLayout />}>
@@ -100,6 +94,7 @@ function App() {
                       path="forgot-password"
                       element={<ForgotPassword />}
                     />
+                    <Route path="*" element={<PageNotFound />} />
                   </Routes>
                 </BoxFull>
               </BoxFull>

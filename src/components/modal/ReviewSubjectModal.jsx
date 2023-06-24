@@ -68,7 +68,7 @@ function ReviewSubjectModal({ open, modalData }) {
       formData.append("parentCommentId", data.parentCommentId);
     }
     createCommentReviewSubject({
-      id: modalData.data.id,
+      id: modalData.data?.id,
       body: formData,
     }).then((response) => refeatchCommentReviewSubject());
   };

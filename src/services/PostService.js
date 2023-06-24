@@ -56,8 +56,8 @@ export const postApi = createApi({
       providesTags: ["post"],
     }),
     deleteCommentPost: builder.mutation({
-      query: (id) => ({
-        url: `/comment/${id}`,
+      query: (data) => ({
+        url: `${data.postId}/comment/${data.commentId}`,
         method: "DELETE",
       }),
       transformResponse: (response) => response?.content,
@@ -72,7 +72,7 @@ export const postApi = createApi({
     }),
     updateCommentPost: builder.mutation({
       query: (data) => ({
-        url: `/comment/${data.id}`,
+        url: `${data.postId}/comment/${data.commentId}`,
         method: "PATCH",
         body: data.body,
       }),
@@ -89,11 +89,18 @@ export const postApi = createApi({
         method: "POST",
         body: data.body,
       }),
+      transformErrorResponse: (response) => response.content,
     }),
     toggleFavoriteAnswerPost: builder.mutation({
       query: (answerId) => ({
         url: `/answer/${answerId}/favorite`,
         method: "POST",
+      }),
+    }),
+    hiddenCommentPost: builder.mutation({
+      query: (data) => ({
+        url: `${data.postId}/comment/${data.commentId}/hidden`,
+        method: "PATCH",
       }),
     }),
   }),
@@ -112,5 +119,6 @@ export const {
   useGetAllAnswerForPostQuery,
   useToggleFavoriteAnswerPostMutation,
   useUpdateCommentPostMutation,
-  useDeletePostMutation
+  useDeletePostMutation,
+  useHiddenCommentPostMutation,
 } = postApi;

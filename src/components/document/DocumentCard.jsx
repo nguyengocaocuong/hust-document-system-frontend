@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/system";
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import PropperMenu from "../PropperMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -8,10 +8,8 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import ShareIcon from "@mui/icons-material/Share";
 import { useNavigate } from "react-router-dom";
 import Owner from "../Owner";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openAnswerSubjectDocumentModal,
@@ -20,6 +18,7 @@ import {
 import FlagIcon from "@mui/icons-material/Flag";
 import DownloadIcon from "@mui/icons-material/Download";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 
 function DocumentCard({
   document,
@@ -28,7 +27,11 @@ function DocumentCard({
   share = () => {},
 }) {
   const { user: authUser } = useSelector((state) => state.authentication);
-
+  const isFavorited = document?.favorites?.find(
+    (f) => f.user.id === authUser.id
+  )
+    ? true
+    : false;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -65,7 +68,6 @@ function DocumentCard({
       });
   };
   const isOwner = document?.owner.id === authUser.id;
-  console.log(document?.owner, authUser);
   const actions = () => {
     let arrAction = [
       { Icon: PreviewIcon, label: "Xem trước", action: preview },
@@ -94,103 +96,90 @@ function DocumentCard({
   };
   return (
     <Grid item xl={4}>
-      <Box
-        width={"100%"}
-        display={"flex"}
-        p={2}
-        pb={0}
-        justifyContent={"center"}
-        onClick={previewDetail}
-      >
+      <Box width={"100%"} display={"flex"} pb={0} justifyContent={"center"}>
         <Box
-          width={"280px"}
-          height={"295px"}
-          maxHeight={"295px"}
           sx={{
-            backgroundColor: "white",
+            "&:hover": { boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" },
             cursor: "pointer",
-            "&:hover": {
-              boxShadow: 7,
-            },
+            borderRadius: 3,
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
           }}
-          borderRadius={1}
-          textAlign={"center"}
-          boxShadow={3}
+          onClick={previewDetail}
         >
           <Owner
             owner={document?.owner}
             createdAt={document?.document?.createdAt}
             listItem={[<PropperMenu key={1} action={actions()} />]}
-            sx={{ p: 1 }}
           />
-          <Box
-            width={"100%"}
-            height={"140px"}
-            overflow={"hidden"}
-            p={0.5}
-            bgcolor={"#F3F3F3"}
-            borderRadius={1}
-          >
-            <Box
-              width={"100%"}
-              height={"100%"}
-              overflow={"hidden"}
-              borderRadius={1}
-            >
-              <img
-                src={document?.document.thumbnail}
-                alt="???"
-                width={"100%"}
-              />
-            </Box>
-          </Box>
-          <Box width={"100%"} height={"84px"} textAlign={"start"} p={1} pt={2}>
+          <Box px={2}>
             <Stack spacing={1}>
-              <Typography display={"flex"} alignItems={"center"}>
-                <LocalOfferIcon
-                  sx={{
-                    width: "15px",
-                    height: "15px",
-                    marginRight: 0.5,
-                    fontSize: "15px",
-                    fontWeight: "bold",
-                  }}
-                />{" "}
-                {subjectDetail.name}
-              </Typography>
               <Typography
-                sx={{
-                  fontSize: 15,
-                  color: "gray",
-                  lineHeight: "17px",
-                }}
-                noWrap
+                variant="h6"
+                color="text.secondary"
+                sx={{ lineHeight: "18px" }}
+                width={"100%"}
+                height={"44px"}
+                py={0.5}
+                overflow={"hidden"}
               >
-                {document.description}
+                {document?.description?.substring(0, 85)}
               </Typography>
               <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                px={3}
+                width={"100%"}
+                maxHeight={"150px"}
+                maxWidth={"100%"}
+                overflow={"hidden"}
+                borderRadius={1}
               >
-                <Box display={"flex"} alignItems={"center"} mr={2}>
-                  <FavoriteIcon />
-                  <Typography ml={1}>
-                    {document?.favoriteSubjectDocumentList?.length}
-                  </Typography>
-                </Box>
-                <Box display={"flex"} alignItems={"center"} mr={2}>
-                  <QuestionAnswerIcon />
-                  <Typography ml={1}>
-                    {document?.answerSubjectDocumentList?.length}
-                  </Typography>
-                </Box>
-                <Box display={"flex"} alignItems={"center"}>
-                  <ChatBubbleIcon />
-                  <Typography ml={1}>
-                    {document?.commentSubjectDocumentList?.length}
-                  </Typography>
+                <img
+                  src={document?.document.thumbnail}
+                  style={{ width: "100%" }}
+                  alt="?"
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  pb: 1,
+                }}
+              >
+                <Box
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  width={"100%"}
+                >
+                  <Box display={"flex"} alignItems={"center"}>
+                    <IconButton>
+                      <FavoriteOutlinedIcon
+                        style={{ color: isFavorited ? "red" : "inherit" }}
+                      />{" "}
+                    </IconButton>
+                    <Typography style={{ fontSize: "15px" }}>
+                      {document?.favorites?.length}{" "}
+                      <span style={{ fontSize: "13px" }}>lượt thích</span>
+                    </Typography>
+                  </Box>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <IconButton color="success">
+                      <QuestionAnswerIcon />{" "}
+                    </IconButton>
+                    <Typography style={{ fontSize: "15px" }}>
+                      {document?.answers?.length}{" "}
+                      <span style={{ fontSize: "13px" }}>đáp án</span>
+                    </Typography>
+                  </Box>
+                  <Box display={"flex"} alignItems={"center"}>
+                    <IconButton color={"primary"}>
+                      <ChatBubbleIcon />{" "}
+                    </IconButton>
+                    <Typography style={{ fontSize: "15px" }}>
+                      {document?.comments?.length}{" "}
+                      <span style={{ fontSize: "13px" }}>bình luận</span>
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Stack>

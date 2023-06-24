@@ -72,6 +72,7 @@ function Owner({ owner, createdAt, listItem = [], sx }) {
             textTransform={"capitalize"}
             sx={{ maxWidth: "100%" }}
             noWrap={true}
+            color={"text.secondary"}
           >
             {`${owner?.firstName} ${owner?.lastName}`.toLocaleLowerCase()}
           </Typography>

@@ -14,6 +14,8 @@ function PostCardActions({
   totalFavorite = 0,
   totalAnswer = 0,
   totalComment = 0,
+  isFavorited = false,
+  toggleFavorite = () => {},
 }) {
   return (
     <CardActions
@@ -29,7 +31,9 @@ function PostCardActions({
         pb={"5px"}
       >
         <Box display={"flex"} alignItems={"center"}>
-          <FavoriteOutlinedIcon sx={{ fontSize: "18px", color: "red" }} />
+          <FavoriteOutlinedIcon
+            sx={{ fontSize: "18px", color: isFavorited ? "red" : "inherit" }}
+          />
           <Typography fontSize={"12px"} ml={"5px"}>
             {totalFavorite} người
           </Typography>
@@ -49,6 +53,10 @@ function PostCardActions({
             textAlign: "center",
             borderRadius: "5px",
             "&:hover": { backgroundColor: "#ECDCDC" },
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite();
           }}
         >
           <FavoriteBorderOutlinedIcon sx={{ fontSize: "20px" }} />

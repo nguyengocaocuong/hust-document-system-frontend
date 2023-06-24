@@ -37,7 +37,7 @@ function SubjectDetail() {
       {isSuccess && (
         <>
           <Box
-            width={"30%"}
+            width={"27%"}
             height={"100%"}
             overflow={"auto"}
             borderRight={"1px solid #D8D9D9"}
@@ -124,7 +124,7 @@ function SubjectDetail() {
             </Box>
             <Divider />
           </Box>
-          <Box width={"70%"} overflow={"auto"}>
+          <Box width={"73%"} overflow={"auto"}>
             {selected.length > 0 &&
               selected.map((s, index) => (
                 <SubjectTypeDetail

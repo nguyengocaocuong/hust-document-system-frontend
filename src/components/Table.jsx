@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Chip, Pagination, Typography } from "@mui/material";
 import { useState } from "react";
 function Table({ headers, renderItem, items, pageSize = 4, itemHeight }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +28,7 @@ function Table({ headers, renderItem, items, pageSize = 4, itemHeight }) {
         {headers.map((title, index) => (
           <Typography
             key={index}
-            sx={{ fontSize: "14px", fontWeight: 700 }}
+            sx={{ fontSize: "16px", fontWeight: 700 }}
             width={title.width}
             textAlign={"left"}
           >
@@ -43,7 +43,18 @@ function Table({ headers, renderItem, items, pageSize = 4, itemHeight }) {
       >
         {currentData.map((item, index) => renderItem(item, index))}
       </Box>
-      <Box display={"flex"} justifyContent={"end"} mt={1} pr={2}>
+      <Box display={"flex"} justifyContent={"space-between"} mt={1} pr={2}>
+        <Box px={2}>
+          <Chip
+            color="primary"
+            label={
+              <Typography>
+                Hiển thị <strong>{currentData.length}</strong> trên tổng{" "}
+                <strong>{items.length}</strong>
+              </Typography>
+            }
+          ></Chip>
+        </Box>
         <Pagination
           page={currentPage}
           count={Math.ceil(items.length / pageSize)}

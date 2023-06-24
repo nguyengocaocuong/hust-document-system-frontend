@@ -6,11 +6,11 @@ import DocumentDetailtAnswer from "./DocumentDetailAnswer";
 import Owner from "../Owner";
 import TranslateLanguage from "../TranslateLanguage";
 import PropperMenu from "../PropperMenu";
-import FlagIcon from "@mui/icons-material/Flag";
 import { useDispatch } from "react-redux";
 import { openReportModal } from "../../store/modalState";
 import { useParams } from "react-router-dom";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
+import FlagIcon from "@mui/icons-material/Flag";
 
 function DocumentDetailInfo({
   owner = {},
@@ -20,23 +20,13 @@ function DocumentDetailInfo({
   favorites = {},
   createdAt,
   language = {},
+  copyUrl = () => {},
 }) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [selectedId, setSelectedId] = useState(1);
   const handleSelectedId = (id) => {
     setSelectedId(id === selectedId ? null : id);
-  };
-  const copyUrl = () => {
-    const url = `http://localhost:3000/education/subject-document/${id}`;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        alert("Đã copy vào clipboard");
-      })
-      .catch((error) => {
-        console.error("Lỗi khi sao chép vào clipboard:", error);
-      });
   };
 
   const reportSubjectDocument = () => {

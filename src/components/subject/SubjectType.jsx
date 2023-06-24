@@ -38,7 +38,7 @@ const SubjectType = ({ data = {}, select, openModal }) => {
           height={"100%"}
           borderRadius={2}
           sx={{
-            backgroundColor: "#c2e7ff",
+            backgroundColor: "#F0F0F0",
             transition: "box-shadow 0.4s",
             "&:hover": { boxShadow: 4 },
             cursor: "pointer",

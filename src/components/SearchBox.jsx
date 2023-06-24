@@ -36,7 +36,7 @@ function SearchBox({ handle, placeHolde }) {
       top={16}
       left={50}
       borderRadius={2}
-      bgcolor={"#D3E3FD"}
+      bgcolor={"#F0F0F0"}
       overflow={"hidden"}
     >
       <Box height={"40px"} width={"100%"} display={"flex"}>

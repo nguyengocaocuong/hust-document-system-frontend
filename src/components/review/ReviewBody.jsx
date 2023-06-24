@@ -25,7 +25,13 @@ function ReviewBody({ reviews = [] }) {
     colLength[i % 4].push(reviews[i]);
   }
   return (
-    <Box pt={2} width={"100%"}>
+    <Box
+      width={"100%"}
+      height={"calc(100% - 166px)"}
+      pb={2}
+      overflow={"auto"}
+      sx={{ "&::-webkit-scrollbar": { display: "none" } }}
+    >
       <Grid container spacing={3}>
         {colLength.map((colval, index) => (
           <Grid item md={3} key={index}>

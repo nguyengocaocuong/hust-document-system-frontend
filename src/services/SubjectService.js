@@ -82,18 +82,35 @@ export const subjectApi = createApi({
       providesTags: ["commentSubjectDocument"],
     }),
     commentSubjectDocument: builder.mutation({
-      query: (comment) => ({
-        url: "/subjectDocument/comment",
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}/comment`,
         method: "POST",
-        body: comment,
+        body: data.body,
       }),
       transformResponse: (response) => response?.content,
       providesTags: ["commentSubjectDocument"],
     }),
     deleteCommentSubjectDocument: builder.mutation({
-      query: (id) => ({
-        url: `/subjectDocument/comment/${id}`,
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}/comment/${data.commentId}`,
         method: "DELETE",
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["subjectDocument"],
+    }),
+    updateCommentSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}/comment/${data.commentId}`,
+        method: "PATCH",
+        body: data.body,
+      }),
+      transformResponse: (response) => response?.content,
+      providesTags: ["subjectDocument"],
+    }),
+    hiddenCommentSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}comment/${data.commentId}/hidden`,
+        method: "PATCH",
       }),
       transformResponse: (response) => response?.content,
       providesTags: ["subjectDocument"],
@@ -261,6 +278,7 @@ export const {
   useGetSubjectDetailQuery,
   useCommentSubjectDocumentMutation,
   useDeleteCommentSubjectDocumentMutation,
+  useUpdateCommentSubjectDocumentMutation,
   useGetSubjectDocumentDetailQuery,
   useGetAllCommentSubjectDocumentQuery,
   useFavoriteSubjectDocumentMutation,
@@ -289,5 +307,6 @@ export const {
   useMakeSubjectDocumentPublicMutation,
   useDeleteSharedPrivateMutation,
   useDeleteReviewSubjectMutation,
-  useGetAllReviewSubjectCreatedByUserQuery
+  useGetAllReviewSubjectCreatedByUserQuery,
+  useHiddenCommentSubjectDocumentMutation,
 } = subjectApi;

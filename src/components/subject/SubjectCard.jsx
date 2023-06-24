@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Tooltip from "@mui/material/Tooltip";
@@ -11,6 +11,9 @@ import {
   useFavoriteSubjectMutation,
   useGetAllSubjectQuery,
 } from "../../services/SubjectService";
+import PropperMenu from "../PropperMenu";
+import AddIcon from "@mui/icons-material/Add";
+import CreateIcon from "@mui/icons-material/Create";
 function SubjectCard({ subject }) {
   const [favoriteSubject] = useFavoriteSubjectMutation();
   const { refetch } = useGetAllSubjectQuery();
@@ -23,14 +26,25 @@ function SubjectCard({ subject }) {
     });
   };
   const navigate = useNavigate();
+  const onAddSubjectDocument = () => {};
+  const onAddReviewSubject = () => {};
+  const actions = () => {
+    let action = [
+      {
+        Icon: AddIcon,
+        label: "Thêm tài liệu",
+        action: onAddSubjectDocument,
+      },
+      {
+        Icon: CreateIcon,
+        label: "Viết bài",
+        action: onAddReviewSubject,
+      },
+    ];
+    return action;
+  };
   return (
-    <Box
-      width={"25%"}
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      mb={3}
-    >
+    <Grid item xs={12} md={6} lg={4} xl={3}>
       <Box
         onClick={() => navigate(`/education/${subject.id}`)}
         p={1}
@@ -42,9 +56,15 @@ function SubjectCard({ subject }) {
           transition: "box-shadow 0.4s ease-in-out",
           "&:hover": { boxShadow: 5 },
         }}
-        width={"90%"}
+        width={"100%"}
+        height={"120px"}
       >
-        <Box width={"100%"} display={"flex"} alignItems={"center"}>
+        <Box
+          width={"100%"}
+          display={"flex"}
+          alignItems={"center"}
+          height={"100%"}
+        >
           <MenuBookIcon
             sx={{
               width: "80px",
@@ -52,7 +72,7 @@ function SubjectCard({ subject }) {
               color: `${colorRanger(subject.id)}`,
             }}
           />
-          <Box ml={2}>
+          <Box pl={2} width={"calc(100% - 120px)"}>
             <Stack spacing={0.5}>
               <Typography
                 variant="h5"
@@ -115,9 +135,12 @@ function SubjectCard({ subject }) {
               </Box>
             </Stack>
           </Box>
+          <Box width={"40px"} height={"100%"}>
+            <PropperMenu action={actions()} />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Grid>
   );
 }
 

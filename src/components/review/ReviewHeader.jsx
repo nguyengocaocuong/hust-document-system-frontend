@@ -10,6 +10,8 @@ function ReviewHeader({ type, setType, total }) {
       width={"100%"}
       px={2}
       py={1}
+      height={'166px'}
+      mb={2}
     >
       <Box
         display={"flex"}

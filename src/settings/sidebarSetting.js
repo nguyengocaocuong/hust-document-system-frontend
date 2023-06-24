@@ -10,11 +10,9 @@ import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
-import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
-import BeenhereOutlinedIcon from '@mui/icons-material/BeenhereOutlined';
+import BeenhereOutlinedIcon from "@mui/icons-material/BeenhereOutlined";
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -103,51 +101,35 @@ const adminSidebarItem = [
   {
     type: "ITEM",
     title: "Môn học",
-    to: "/subject",
+    to: "/subjects",
     Icon: SchoolOutlinedIcon,
     selectedColor: "red",
   },
   {
     type: "ITEM",
     title: "Giảng viên",
-    to: "/teacher",
+    to: "/teachers",
     Icon: CastForEducationOutlinedIcon,
     selectedColor: "red",
   },
   {
-    type: "SUB_ITEM",
+    type: "ITEM",
     title: "Người dùng",
     to: "/users",
     Icon: AccountCircleOutlinedIcon,
     selectedColor: "red",
-    data: [
-      {
-        type: "ITEM",
-        title: "Danh sách",
-        to: "/users/list-user",
-        Icon: PeopleOutlineOutlinedIcon,
-        selectedColor: "red",
-      },
-      {
-        type: "ITEM",
-        title: "Thêm người dùng",
-        to: "/users/add-user",
-        Icon: PersonAddOutlinedIcon,
-        selectedColor: "red",
-      },
-    ],
   },
   {
     type: "ITEM",
     title: "Báo cáo",
-    to: "/report",
+    to: "/reports",
     Icon: FlagOutlinedIcon,
     selectedColor: "red",
   },
   {
     type: "ITEM",
     title: "Phê duyệt",
-    to: "/approve",
+    to: "/approves",
     Icon: BeenhereOutlinedIcon,
     selectedColor: "red",
   },

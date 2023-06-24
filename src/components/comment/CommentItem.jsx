@@ -1,50 +1,69 @@
-import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  InputBase,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import PropperMenu from "../PropperMenu";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ReplyIcon from "@mui/icons-material/Reply";
 import CommentInput from "./CommentInput";
 import CreateIcon from "@mui/icons-material/Create";
-import FlagIcon from "@mui/icons-material/Flag";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { red } from "@mui/material/colors";
-import { openReportModal } from "../../store/modalState";
-
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { formatTimeAgo } from "../../utils/ConvertDate";
 const CommentItem = ({
   comment,
   add,
+  edit,
   clear,
+  isOwner = false,
+  hidden,
   childComment = false,
   mainColor = "#F2F2F2",
 }) => {
   const [isReply, setReply] = useState(false);
   const { user } = useSelector((state) => state.authentication);
-  const dispatch = useDispatch();
-  const report = () => {
-    dispatch(openReportModal({id:1}));
+  const [value, setValue] = useState({
+    isShow: false,
+    comment: comment.comment || "",
+  });
+  const onEdit = () => {
+    setValue({ comment: comment.comment, isShow: true });
   };
-  const actions = () =>
-    user.id === comment.owner.id
-      ? [
-          {
-            Icon: CreateIcon,
-            label: "Chỉnh sửa",
-            action: () => {},
-          },
-          {
-            Icon: FlagIcon,
-            label: "Báo cáo",
-            action: report,
-          },
-          {
-            Icon: DeleteIcon,
-            label: "Xóa bình luận",
-            action: () => clear(comment.id),
-          },
-        ]
-      : [];
-
+  const onChangeComment = (e) => {
+    setValue({ isShow: true, comment: e.target.value });
+  };
+  const closeEdit = () => {
+    setValue({ comment: comment.comment, isShow: false });
+  };
+  const actions = () => {
+    let action = [];
+    if (isOwner)
+      action.push({
+        Icon: VisibilityOffIcon,
+        label: "Ẩn bình luận",
+        action: () => hidden(comment.id),
+      });
+    if (user.id === comment.owner.id) {
+      action.push({
+        Icon: CreateIcon,
+        label: "Chỉnh sửa",
+        action: onEdit,
+      });
+      action.push({
+        Icon: DeleteIcon,
+        label: "Xóa bình luận",
+        action: () => clear(comment.id),
+      });
+      return action;
+    }
+  };
   return (
     <Box>
       <Box
@@ -52,7 +71,7 @@ const CommentItem = ({
         display={"flex"}
         sx={{
           "&:hover": { backgroundColor: mainColor },
-          backgroundColor: isReply && mainColor,
+          backgroundColor: isReply || (value.isShow && mainColor),
           borderLeft: childComment ? "2px solid gray" : "",
         }}
         p={1}
@@ -79,7 +98,54 @@ const CommentItem = ({
               <Typography fontWeight={700} fontSize={"13px"}>
                 {`${comment.owner?.firstName} ${comment.owner?.lastName}`}
               </Typography>
-              <Typography>{comment.comment}</Typography>
+              {value.isShow ? (
+                <Box width={"100%"}>
+                  <InputBase
+                    value={value.comment}
+                    sx={{
+                      backgroundColor: "white",
+                      px: 1,
+                      py: 0.5,
+                      width: "100%",
+                      borderRadius: 1,
+                      boxShadow: 2,
+                    }}
+                    onChange={onChangeComment}
+                  />
+                  <Box display={"flex"} justifyContent={"end"}>
+                    <Stack spacing={1} direction={"row"} py={0.5}>
+                      <Button
+                        color="primary"
+                        sx={{ textTransform: "none" }}
+                        variant="outlined"
+                        onClick={() =>
+                          edit(
+                            { id: comment.id, comment: value.comment },
+                            closeEdit
+                          )
+                        }
+                      >
+                        Cập nhật
+                      </Button>
+                      <Button
+                        color="error"
+                        sx={{ textTransform: "none" }}
+                        variant="contained"
+                        onClick={() => setValue({ comment: "", isShow: false })}
+                      >
+                        Hủy bỏ
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Box>
+              ) : (
+                <Typography fontSize={childComment ? "13.5px" : "15px"}>
+                  {comment.comment}
+                </Typography>
+              )}
+              <Typography fontSize={childComment ? "11px" : "12px"}>
+                {formatTimeAgo(comment.createdAt)}
+              </Typography>
               <Box display={"flex"} alignItems={"center"}>
                 <Button
                   sx={{ textTransform: "none", mr: 1.5, color: "inherit" }}
@@ -122,7 +188,16 @@ const CommentItem = ({
             </Box>
           </Box>
           {isReply && (
-            <CommentInput add={add} parentCommentId={comment.id} reply={true} />
+            <CommentInput
+              add={(data, close) =>
+                add(data, () => {
+                  close();
+                  setReply(false);
+                })
+              }
+              parentCommentId={comment.id}
+              reply={true}
+            />
           )}
         </Box>
       </Box>
@@ -135,6 +210,9 @@ const CommentItem = ({
               childComment
               clear={clear}
               add={add}
+              hidden={hidden}
+              isOwner={isOwner}
+              edit={edit}
             />
           ))}
         </Stack>

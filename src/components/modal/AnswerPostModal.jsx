@@ -9,6 +9,8 @@ import {
   useGetAllAnswerForPostQuery,
 } from "../../services/PostService";
 import { closeAnswerPostModal } from "../../store/modalState";
+import { v4 as uuid } from "uuid";
+import { addLoadingNotification } from "../../store/notificationState";
 const style = {
   position: "absolute",
   top: "50%",
@@ -19,6 +21,7 @@ const style = {
   pt: 2,
   px: 4,
   pb: 3,
+  borderRadius: 2,
 };
 function AnswerPostModal({ open }) {
   const [data, setData] = useState({
@@ -30,6 +33,9 @@ function AnswerPostModal({ open }) {
   const {
     answerPostModal: { dataModal },
   } = useSelector((state) => state.modalState);
+  const {
+    notifications: { LOADING },
+  } = useSelector((state) => state.notificationState);
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(closeAnswerPostModal());
@@ -43,14 +49,63 @@ function AnswerPostModal({ open }) {
     formData.append("description", data.description);
     formData.append("type", data.type);
     if (data.documents.length > 0 && data.type !== "LINK") {
+      closeModal();
       data.documents.forEach((file) => formData.append("documents", file));
+      dispatch(
+        addLoadingNotification([
+          ...LOADING,
+          {
+            id: uuid(),
+            type: "LOADING",
+            objectType: "ANSWER_POST",
+            status: 0,
+            documents: [data.documents.map((file) => file.name)],
+            subject: { name: "???????" },
+            startTime: new Date().toLocaleString(),
+          },
+        ])
+      );
+      createAnswerForPost({ id, body: formData })
+        .then((response) => {
+          dispatch(
+            addLoadingNotification([
+              ...LOADING,
+              {
+                id: uuid(),
+                type: "LOADING",
+                status: 1,
+                objectType: "ANSWER_POST",
+                documents: data.documents.map((file) => file.name),
+                subject: { name: "???????" },
+                startTime: new Date().toLocaleString(),
+                answerPost: response.data?.content,
+              },
+            ])
+          );
+          refetch();
+        })
+        .catch(() => {
+          dispatch(
+            addLoadingNotification([
+              ...LOADING,
+              {
+                id: uuid(),
+                type: "LOADING",
+                objectType: "ANSWER_POST",
+                status: 2,
+                documents: data.documents.map((file) => file.name),
+                subject: { name: "???????" },
+                startTime: new Date().toLocaleString(),
+              },
+            ])
+          );
+        });
     } else {
       formData.append("url", data.url);
+      createAnswerForPost({ id, body: formData }).then(() => {
+        refetch();
+      });
     }
-    createAnswerForPost({ id, body: formData }).then(() => {
-      closeModal();
-      refetch();
-    });
   };
 
   const onDrop = useCallback((acceptedFiles) => {

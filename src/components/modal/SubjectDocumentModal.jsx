@@ -68,6 +68,7 @@ function SubjectDocumentModal({ open }) {
         {
           id: uuid(),
           type: "LOADING",
+          objectType: "SUBJECT_DOCUMENT",
           status: 0,
           documents: [data.documents.map((file) => file.name)],
           subject: { name: dataModal.subjectName },
@@ -105,6 +106,7 @@ function SubjectDocumentModal({ open }) {
             {
               id: uuid(),
               type: "LOADING",
+              objectType: "SUBJECT_DOCUMENT",
               status: 2,
               documents: data.documents.map((file) => file.name),
               subject: { name: dataModal.subjectName },

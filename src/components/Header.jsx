@@ -60,7 +60,7 @@ function Header() {
   return (
     <Box
       width={"100%"}
-      maxWidth={"calc(100vw - 250px)"}
+      maxWidth={`calc(100vw - ${collapsed ? 50 : 250}px)`}
       height={"72px"}
       display={"flex"}
       justifyContent={"space-between"}
@@ -68,7 +68,7 @@ function Header() {
       borderBottom="1px solid #D8D9D9"
       sx={{ backgroundColor: "white" }}
       p={[0, 1]}
-      position={'relative'}
+      position={"relative"}
     >
       <Box
         display={"flex"}

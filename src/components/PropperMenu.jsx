@@ -14,7 +14,7 @@ const renderAction = (items) =>
       close();
     },
   }));
-const PropperMenu = ({ icon = <MoreVertIcon />, action}) => {
+const PropperMenu = ({ icon = <MoreVertIcon />, action }) => {
   const [userSettingEl, setUserSettingEl] = React.useState(null);
   const userSettingOpen = Boolean(userSettingEl);
   const handleClickSettingOpen = (event) => {
@@ -22,17 +22,15 @@ const PropperMenu = ({ icon = <MoreVertIcon />, action}) => {
     setUserSettingEl(event.currentTarget);
   };
   const handleCloseSettingOpen = (e) => {
-    e?.stopPropagation()
+    e?.stopPropagation();
     setUserSettingEl(null);
   };
-  return action.length === 0 ? (
+  return action === undefined || action.length === 0 ? (
     <></>
   ) : (
     <React.Fragment>
       <IconButton
         onClick={handleClickSettingOpen}
-        size="small"
-        sx={{ ml: 2 }}
         aria-controls={userSettingOpen ? "account-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={userSettingOpen ? "true" : undefined}

@@ -42,7 +42,7 @@ function Review() {
       ? [...reviewSubject.map((review) => ({ ...review, type: "SUBJECT" }))]
       : [...reviewTeacher.map((review) => ({ ...review, type: "TEACHER" }))];
   return (
-    <BoxFull sx={{ backgroundColor: "white" }} p={2} overflow={"auto"}>
+    <BoxFull sx={{ backgroundColor: "white" }} p={2} overflow={"hidden"}>
       <ReviewHeader type={type} setType={setType} total={reviews.length} />
       <ReviewBody reviews={reviews} />
     </BoxFull>

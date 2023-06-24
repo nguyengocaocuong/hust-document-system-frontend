@@ -26,8 +26,11 @@ function UserModal() {
   } = useSelector((state) => state.modalState);
   return (
     <Box>
-      {answerPostModal.open && <AnswerPostModal open={answerPostModal.open} />}
-      {(answerSubjectDocumentModal.open || answerSubjectDocumentModal.dataModal) && (
+      {(answerPostModal.open || answerPostModal.dataModal) && (
+        <AnswerPostModal open={answerPostModal.open} />
+      )}
+      {(answerSubjectDocumentModal.open ||
+        answerSubjectDocumentModal.dataModal) && (
         <AnswerSubjectDocumentModal open={answerSubjectDocumentModal.open} />
       )}
       {documentViewerModal.open && (

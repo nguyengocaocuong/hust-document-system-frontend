@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DocumentDetailInfo from "./document/DocumentDetailInfo";
 import { convertJsonToFormData } from "../utils/ConvertData";
 import {
   useCommentSubjectDocumentMutation,
@@ -7,40 +6,55 @@ import {
   useFavoriteSubjectDocumentMutation,
   useGetAllAnswerSubjectDocumentQuery,
   useGetAllCommentSubjectDocumentQuery,
+  useHiddenCommentSubjectDocumentMutation,
   useToggleFavoriteAnswerSubjectDocumentMutation,
+  useUpdateCommentSubjectDocumentMutation,
   useUploadAnswerForSubjectDocumentMutation,
 } from "../services/SubjectService";
 import { useSelector } from "react-redux";
+import { Box, Chip } from "@mui/material";
+import Owner from "./Owner";
+import PropperMenu from "./PropperMenu";
+import DetailActions from "./DetailActions";
+import DetailtAnswers from "./DetailAnswers";
+import Comment from "./comment";
+import TranslateLanguage from "./TranslateLanguage";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
+import FlagIcon from "@mui/icons-material/Flag";
 function SubjectDocumentInfo({
   subjectDocumentDetail = {},
   language,
   setLanguage,
-  resetLanguage
+  resetLanguage,
 }) {
   const { user } = useSelector((state) => state.authentication);
-  const [favorites, setFavorite] = useState(
-    subjectDocumentDetail.favoriteSubjectDocumentList
-  );
+  const isOwnerSubjectDocument = subjectDocumentDetail.owner.id === user.id;
+  const [favorites, setFavorite] = useState(subjectDocumentDetail.favorites);
+  const [selectedId, setSelectedId] = useState(1);
+  const handleSelectedId = (id) => {
+    setSelectedId(id === selectedId ? null : id);
+  };
   const [toggleFavoriteAnswerSubjectDocument] =
     useToggleFavoriteAnswerSubjectDocumentMutation();
   const [uploadAnswerForSubjectDocument] =
     useUploadAnswerForSubjectDocumentMutation();
-  const { data: answerSubjectDocument = [], refetch } =
-    useGetAllAnswerSubjectDocumentQuery(subjectDocumentDetail.id);
+  const { data: answers = [], refetch } = useGetAllAnswerSubjectDocumentQuery(
+    subjectDocumentDetail.id
+  );
   const addAnswerSubjectDocument = (newAnswer, closeModal) => {
-    uploadAnswerForSubjectDocument(newAnswer).then((response) => {
+    uploadAnswerForSubjectDocument(newAnswer).then(() => {
       closeModal();
       refetch();
     });
   };
   const [favoriteSubjectDocument] = useFavoriteSubjectDocumentMutation();
   const toggleFavoriteAnswer = (id) => {
-    toggleFavoriteAnswerSubjectDocument(id).then((response) => {
+    toggleFavoriteAnswerSubjectDocument(id).then(() => {
       refetch();
     });
   };
   const toggleFavorite = () => {
-    favoriteSubjectDocument(subjectDocumentDetail.id).then((response) => {
+    favoriteSubjectDocument(subjectDocumentDetail.id).then(() => {
       const favorited =
         favorites.find((favorite) => favorite.user.id === user.id) !==
         undefined;
@@ -51,47 +65,128 @@ function SubjectDocumentInfo({
       else setFavorite([...favorites, { user }]);
     });
   };
+
+  const { data: comments = [], refetch: refetchComment } =
+    useGetAllCommentSubjectDocumentQuery(subjectDocumentDetail.id);
   const [commentSubjectDocument] = useCommentSubjectDocumentMutation();
   const [deleteCommentSubjectDocument] =
     useDeleteCommentSubjectDocumentMutation();
+  const [updateCommentSubjectDocument] =
+    useUpdateCommentSubjectDocumentMutation();
+  const [hiddenCommentSubjectDocument] =
+    useHiddenCommentSubjectDocumentMutation();
 
-  const { data: commentData = [], refetch: refetchComment } =
-    useGetAllCommentSubjectDocumentQuery(subjectDocumentDetail.id);
   const addComment = (data, reset) => {
-    commentSubjectDocument(
-      convertJsonToFormData({
-        subjectDocumentId: subjectDocumentDetail.id,
-        ...data,
-      })
-    ).then((response) => {
+    const body = convertJsonToFormData(data);
+    commentSubjectDocument({
+      subjectDocumentId: subjectDocumentDetail.id,
+      body,
+    }).then(() => {
       refetchComment();
       reset();
     });
   };
-
-  const clearComment = (commentId) => {
-    deleteCommentSubjectDocument(commentId).then((response) =>
-      refetchComment()
-    );
+  const editComment = (comment) => {
+    console.log('edit')
+    const body = convertJsonToFormData(comment);
+    updateCommentSubjectDocument({
+      subjectDocumentId: subjectDocumentDetail.id,
+      commentId: comment.id,
+      body,
+    }).then(() => refetchComment());
   };
+  const hiddenComment = (commentId) => {
+    hiddenCommentSubjectDocument({
+      subjectDocumentId: subjectDocumentDetail.id,
+      commentId,
+    }).then(() => refetchComment());
+  };
+  const deleteComment = (commentId) => {
+    deleteCommentSubjectDocument({
+      commentId,
+      subjectDocumentId: subjectDocumentDetail.id,
+    }).then(() => refetchComment());
+  };
+  const copyUrl = () => {
+    const url = `http://localhost:3000/education/subject-document/${subjectDocumentDetail.id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert("Đã copy vào clipboard");
+      })
+      .catch((error) => {
+        console.error("Lỗi khi sao chép vào clipboard:", error);
+      });
+  };
+  const reportSubjectDocument = () => {};
+  const actions = () => [
+    {
+      Icon: FlagIcon,
+      label: "Báo cáo tài liệu",
+      action: reportSubjectDocument,
+    },
+    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
+  ];
   return (
-    <DocumentDetailInfo
-      owner={subjectDocumentDetail.owner}
-      objectName={subjectDocumentDetail.subject?.name}
-      comments={{
-        data: commentData,
-        add: addComment,
-        clear: clearComment,
-      }}
-      answers={{
-        data: answerSubjectDocument,
-        add: addAnswerSubjectDocument,
-        toggleFavoriteAnswer,
-      }}
-      createdAt={subjectDocumentDetail.createdAt}
-      favorites={{ data: favorites, toggleFavorite }}
-      language={{ value: language, select: setLanguage, reset: resetLanguage }}
-    />
+    <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
+      <Owner
+        owner={subjectDocumentDetail.owner}
+        createdAt={subjectDocumentDetail.createdAt}
+        listItem={[
+          <Chip
+            key={1}
+            label={subjectDocumentDetail.subject?.name}
+            size="small"
+            sx={{ maxWidth: "100px" }}
+            color="info"
+          />,
+          <PropperMenu key={2} action={actions()} />,
+        ]}
+        sx={{ height: "70px" }}
+      />
+      <DetailActions
+        handleSelectedId={handleSelectedId}
+        selectedId={selectedId}
+        comments={comments}
+        answers={answers}
+        favorites={{ data: favorites, toggleFavorite }}
+      />
+      <Box
+        width="100%"
+        height={"calc(100% - 150px)"}
+        overflow={"hidden"}
+        mt={1}
+      >
+        {selectedId === 1 && (
+          <DetailtAnswers
+            answers={{
+              data: answers,
+              add: addAnswerSubjectDocument,
+              toggleFavoriteAnswer,
+            }}
+          />
+        )}
+        {selectedId === 2 && (
+          <Comment
+            comments={{
+              data: comments,
+              isOwner: isOwnerSubjectDocument,
+              add: addComment,
+              clear: deleteComment,
+              edit: editComment,
+              hidden: hiddenComment,
+            }}
+          />
+        )}
+        {selectedId === 3 && (
+          <TranslateLanguage
+            value={language.value}
+            onClick={setLanguage}
+            reset={resetLanguage}
+          />
+        )}
+      </Box>
+    </Box>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import Table from "../components/Table";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -7,8 +7,6 @@ import {
   useDeleteSubjectMutation,
   useGetAllSubjectQuery,
 } from "../services/AdminSubjectService";
-import { useNavigate, useParams } from "react-router-dom";
-import SubjectDetail from "./SubjectDetail";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -27,15 +25,13 @@ const headers = [
 
 function Subject() {
   const message = `Bạn có chắc chắn muốn xóa môn học này không, nếu bạn xóa mọi tài liệu liên quan đến môn học sẽ bị xóa theo`;
-  const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { data: subjects = [], refetch } = useGetAllSubjectQuery();
   const editSubject = (item) => {
     dispatch(openUpdateSubjectModal(item.subject));
   };
   const view = (item) => {
-    navigate(`/subject/${item.subject.id}`);
+    alert("view subject");
   };
 
   const [open, setOpen] = useState({ open: false, item: null });
@@ -61,7 +57,7 @@ function Subject() {
         "&:hover": { backgroundColor: "#D9DFED" },
         cursor: "pointer",
       }}
-      height={"55px"}
+      height={"60px"}
       justifyContent={"space-between"}
     >
       <Box width={"30px"}>
@@ -135,27 +131,19 @@ function Subject() {
     </Box>
   );
   return (
-    <Box height={"100%"} overflow={"auto"}>
-      {id ? (
-        <SubjectDetail />
-      ) : (
-        <>
-          <Typography variant="h3" color={"text.primary"} height={"60px"} p={2}>
-            Danh sách môn học trong hệ thống
-          </Typography>
-          <Box p={2} height={"calc(100% - 60px)"}>
-            <Paper elevation={3} sx={{ height: "100%" }}>
-              <Table
-                headers={headers}
-                items={subjects}
-                renderItem={renderItem}
-                pageSize={10}
-                itemHeight={55}
-              />
-            </Paper>
-          </Box>
-        </>
-      )}
+    <Box height={"100%"} overflow={"auto"} bgcolor={"white"}>
+      <Typography variant="h3" color={"text.secondary"} height={"50px"} p={2}>
+        Danh sách môn học trong hệ thống
+      </Typography>
+      <Box height={"calc(100% - 50px)"}>
+        <Table
+          headers={headers}
+          items={[...subjects, ...subjects, ...subjects, ...subjects]}
+          renderItem={renderItem}
+          pageSize={10}
+          itemHeight={60.5}
+        />
+      </Box>
       {open.open && (
         <ConfirmModal
           message={message}
