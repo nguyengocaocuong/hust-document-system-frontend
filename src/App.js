@@ -34,6 +34,7 @@ import Report from "./pages/Report";
 import Approve from "./pages/Approve";
 import PageNotFound from "./pages/PageNotFound";
 import UserInfo from "./pages/UserInfo";
+import InfiniteScroll from "./components/InfiniteScroll";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -94,7 +95,8 @@ function App() {
                       path="forgot-password"
                       element={<ForgotPassword />}
                     />
-                    <Route path="*" element={<PageNotFound />} />
+                    <Route path="*" element={<InfiniteScroll />} />
+
                   </Routes>
                 </BoxFull>
               </BoxFull>
