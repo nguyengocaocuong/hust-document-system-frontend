@@ -68,6 +68,13 @@ export const teacherApi = createApi({
       query: (id) => `/reviewTeacher/${id}/favorite`,
       transformResponse: (response) => response?.content,
     }),
+    createReviewTeacher: builder.mutation({
+      query: (data) => ({
+        url: `/${data.teacherId}/reviewTeacher`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
   }),
 });
 
@@ -81,5 +88,6 @@ export const {
   useGetAllFavoritereviewTeacherQuery,
   useDeleteCommentReviewTeacherMutation,
   useDeleteReviewTeacherMutation,
+  useCreateReviewTeacherMutation,
   useGetAllReviewTeacherCreatedByUserQuery,
 } = teacherApi;

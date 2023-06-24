@@ -15,8 +15,6 @@ import { authApi } from "../services/AuthService";
 import { postApi } from "../services/PostService";
 import { teacherApi } from "../services/TeacherService";
 import { subjectApi } from "../services/SubjectService";
-import { reviewTeacherApi } from "../services/ReviewTeacherService";
-import { reviewSubjectApi } from "../services/ReviewSubjectService";
 import { filterApi } from "../services/FilterService";
 import modalState from "./modalState";
 import { userApi } from "../services/UserService";
@@ -40,8 +38,6 @@ const rootReducer = combineReducers({
   [postApi.reducerPath]: postApi.reducer,
   [teacherApi.reducerPath]: teacherApi.reducer,
   [subjectApi.reducerPath]: subjectApi.reducer,
-  [reviewTeacherApi.reducerPath]: reviewTeacherApi.reducer,
-  [reviewSubjectApi.reducerPath]: reviewSubjectApi.reducer,
   [filterApi.reducerPath]: filterApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [reportApi.reducerPath]: reportApi.reducer,
@@ -79,8 +75,6 @@ export const store = configureStore({
       postApi.middleware,
       teacherApi.middleware,
       subjectApi.middleware,
-      reviewTeacherApi.middleware,
-      reviewSubjectApi.middleware,
       filterApi.middleware,
       userApi.middleware,
       reportApi.middleware,

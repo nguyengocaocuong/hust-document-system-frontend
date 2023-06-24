@@ -21,11 +21,12 @@ export default function MultipleSelect({
   all = true,
   handle = (e) => console.log(e),
   style,
+  size="small"
 }) {
   return (
     <FormControl
       sx={{ minWidth: width, mr: 2, ...style}}
-      size="small"
+      size={size}
     >
       <InputLabel>{title}</InputLabel>
       <Select

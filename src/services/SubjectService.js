@@ -270,6 +270,13 @@ export const subjectApi = createApi({
         method: "DELETE",
       }),
     }),
+    createReviewSubject: builder.mutation({
+      query: (data) => ({
+        url: `/${data.subjectId}/reviewSubject`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
   }),
 });
 
@@ -309,4 +316,5 @@ export const {
   useDeleteReviewSubjectMutation,
   useGetAllReviewSubjectCreatedByUserQuery,
   useHiddenCommentSubjectDocumentMutation,
+  useCreateReviewSubjectMutation
 } = subjectApi;

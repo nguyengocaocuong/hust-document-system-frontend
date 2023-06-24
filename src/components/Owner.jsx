@@ -55,15 +55,15 @@ function Owner({ owner, createdAt, listItem = [], sx }) {
             backgroundColor:
               owner &&
               color[
-                owner.lastName
+                owner?.lastName
                   .split(" ")
-                  [owner.lastName.split(" ").length - 1].charCodeAt(0) % 12
+                  [owner?.lastName.split(" ").length - 1].charCodeAt(0) % 12
               ][500],
           }}
         >
-          {owner.lastName.substring(
-            owner.lastName.lastIndexOf(" ") + 1,
-            owner.lastName.lastIndexOf(" ") + 2
+          {owner?.lastName.substring(
+            owner?.lastName.lastIndexOf(" ") + 1,
+            owner?.lastName.lastIndexOf(" ") + 2
           )}
         </Avatar>
         <Box ml={1} width="100%">
