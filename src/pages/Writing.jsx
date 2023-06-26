@@ -11,22 +11,23 @@ function Writing() {
     <Box width={"100%"} height={"100%"} sx={{ backgroundColor: "white" }}>
       {type === null && (
         <BoxBetween>
-          <Box
-            width={"350px"}
-            border={"1px dotted gray"}
-            textAlign={"center"}
-            p={2}
-          >
-            <Typography variant="h3" color={"text.secondary"} sx={{ mb: 2 }}>
+          <Box width={"480px"} border={"1px dotted gray"} textAlign={"center"} sx={{'&:hover':{border: '2px dotted blue'}}}>
+            <Typography
+              variant="h2"
+              color={"text.secondary"}
+              fontWeight={'bold'}
+              sx={{ mb: 2, bgcolor: "#F0F0F0" }}
+              p={2}
+            >
               Bạn muốn viết gì?
             </Typography>
-            <Stack spacing={1}>
+            <Stack spacing={2} p={2}>
               <Typography
                 onClick={() => setType("POST")}
-                variant="h5"
+                variant="h3"
                 sx={{
                   fontWeight: "bold",
-                  p: 0.5,
+                  p: 1,
                   backgroundColor: "success.main",
                   color: "white",
                   width: "auto",
@@ -40,11 +41,11 @@ function Writing() {
                 Đăng hỏi bài tập
               </Typography>
               <Typography
-                variant="h5"
+                variant="h3"
                 onClick={() => setType("REVIEW_TEACHER")}
                 sx={{
                   fontWeight: "bold",
-                  p: 0.5,
+                  p: 1,
                   backgroundColor: "warning.main",
                   color: "white",
                   width: "auto",
@@ -58,11 +59,11 @@ function Writing() {
                 Review giảng viên
               </Typography>
               <Typography
-                variant="h5"
+                variant="h3"
                 onClick={() => setType("REVIEW_SUBJECT")}
                 sx={{
                   fontWeight: "bold",
-                  p: 0.5,
+                  p: 1,
                   backgroundColor: "info.main",
                   color: "white",
                   width: "auto",

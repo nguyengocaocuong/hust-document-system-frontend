@@ -1,6 +1,7 @@
 import React from "react";
 import BoxFull from "../BoxFull";
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
@@ -34,8 +35,9 @@ function ReviewSubject() {
   const { user } = useSelector((state) => state.authentication);
   const [subject, setSubject] = useState("");
   const [liveView, setLiveView] = useState(false);
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState("");
   const [done, setDone] = useState(false);
+  const [isNotify, setNotify] = useState(0);
   const actions = () => [
     {
       Icon: FlagIcon,
@@ -49,9 +51,23 @@ function ReviewSubject() {
     let body = new FormData();
     body.append("review", content);
     body.append("done", done ? 1 : 0);
-    createReviewSubject({ body, subjectId: subject }).then((response) =>
-      console.log(response)
-    );
+    createReviewSubject({ body, subjectId: subject })
+      .then(() => {
+        setSubject("");
+        setLiveView(false);
+        setContent("");
+        setDone(false);
+        setNotify(1);
+        setInterval(() => {
+          setNotify(0);
+        }, 4000);
+      })
+      .catch(() => {
+        setNotify(2);
+        setInterval(() => {
+          setNotify(0);
+        }, 4000);
+      });
   };
   return (
     <BoxFull p={2}>
@@ -74,7 +90,7 @@ function ReviewSubject() {
           >
             <MultipleSelect
               title={"Chọn môn học"}
-              width="50%"
+              width="40%"
               items={subjectDocumentFilter.item.map((subject) => ({
                 label: (
                   <Typography style={{ marginLeft: "5px" }}>
@@ -104,9 +120,39 @@ function ReviewSubject() {
                 </Tooltip>
                 <Typography>Xem bài viết</Typography>
               </Box>
+              {isNotify === 1 && (
+                <Alert
+                  severity="success"
+                  sx={{
+                    width: "250px",
+                    height: "40px",
+                    px: 1,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  Đăng tải bài viết thành công
+                </Alert>
+              )}
+              {isNotify === 2 && (
+                <Alert severity="error" sx={{
+                  width: "250px",
+                  height: "40px",
+                  px: 1,
+                  display: "flex",
+                  alignItems: "center",
+                }}>
+                  Lỗi khi đăng tải bài viết
+                </Alert>
+              )}
             </Stack>
           </Box>
-          <Editor editorRef={editorRef} height={550} setContent={setContent} />
+          <Editor
+            editorRef={editorRef}
+            height={550}
+            setContent={setContent}
+            content={content}
+          />
           <Box
             py={1}
             display={"flex"}

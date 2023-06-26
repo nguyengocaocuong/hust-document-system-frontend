@@ -66,13 +66,14 @@ function Post() {
       refetch();
       setSubject("");
       setTitle("");
+      setLiveView(false);
       setDoc(null);
     });
   };
   return (
     <BoxFull>
       <BoxBetween>
-        <Box width={"400px"} height={"80%"} border={"1px solid gray"}>
+        <Box width={"480px"} height={"80%"} border={"1px solid gray"}>
           <Box
             width={"100%"}
             display={"flex"}
@@ -174,7 +175,7 @@ function Post() {
           </Box>
         </Box>
         {liveView && (
-          <Box width={"550px"} ml={7}>
+          <Box width={"550px"} ml={7} boxShadow={10} borderRadius={1}>
             <Card
               sx={{ width: "100%", "&:hover": { cursor: "pointer" } }}
               onClick={() => {}}

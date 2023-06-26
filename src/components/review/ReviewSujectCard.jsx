@@ -40,7 +40,6 @@ function ReviewSujectCard({ review, openModal }) {
   ];
   return (
     <Box
-      width={"100%"}
       sx={{
         boxShadow: 2,
         borderRadius: "25px",
@@ -50,6 +49,7 @@ function ReviewSujectCard({ review, openModal }) {
         overflow: "hidden",
         cursor: "pointer",
         backgroundColor: "#F3F3F3",
+        width: "100%",
       }}
       onClick={() => openModal(review)}
     >
@@ -67,8 +67,7 @@ function ReviewSujectCard({ review, openModal }) {
       <div
         style={{
           width: "calc(100% - 16px)",
-          height: "150px",
-          maxHeight: "150px",
+          height: "235px",
           overflow: "hidden",
           background: "white",
           padding: "0 10px",

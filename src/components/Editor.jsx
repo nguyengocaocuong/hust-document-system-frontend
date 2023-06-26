@@ -1,20 +1,44 @@
 import React from "react";
 import { Editor as TinyEditor } from "@tinymce/tinymce-react";
 
-function Editor({ editorRef, height = 400, setContent = () => {} }) {
+function Editor({ editorRef, height = 400, setContent = () => {}, content = "" }) {
   return (
     <TinyEditor
       apiKey="d2juz75n4zh852tseu5bqt1p48krngjmie8n8pv16rzajfbv"
       onInit={(evt, editor) => (editorRef.current = editor)}
-      initialValue=""
+      initialValue={content}
       init={{
         branding: false,
         height: height,
+        width: "100%",
         menubar: true,
-        plugins:
-          "print preview paste searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern",
+        plugins: [
+          "advlist",
+          "autolink",
+          "lists",
+          "link",
+          "image",
+          "charmap",
+          "preview",
+          "anchor",
+          "searchreplace",
+          "visualblocks",
+          "code",
+          "fullscreen",
+          "insertdatetime",
+          "media",
+          "table",
+          "code",
+          "help",
+          "wordcount",
+          "emoticons",
+        ],
+
         toolbar:
-          "formatselect | bold italic underline strikethrough | forecolor backcolor blockquote | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat",
+          "undo redo | blocks | " +
+          "bold italic forecolor | alignleft aligncenter " +
+          "alignright alignjustify | bullist numlist outdent indent | " +
+          "removeformat | emoticons ",
         image_advtab: true,
       }}
       onChange={() => {

@@ -55,6 +55,7 @@ import {
 import { useState } from "react";
 import ConfirmModal from "../components/modal/ComfirmModal";
 import noDocument from "../assets/images/noDocument.png";
+import { useGetAllSubjectDocumentDeletedQuery } from "../services/UserService";
 const color = [
   deepOrange,
   deepPurple,
@@ -90,6 +91,7 @@ function Document() {
     refetch,
     isSuccess,
   } = useGetAllSubjectDocumentCreateByUserQuery();
+  const { refetch: refetchTrash } = useGetAllSubjectDocumentDeletedQuery();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -110,7 +112,10 @@ function Document() {
 
   const onDelete = (type) => {
     if (type)
-      moveSubjectDocumentToTrash({ id: open.item.id }).then(() => refetch());
+      moveSubjectDocumentToTrash({ id: open.item.id }).then(() => {
+        refetch();
+        refetchTrash();
+      });
     closeModal();
   };
   const updateSubjectDocumentPublic = (item) => {

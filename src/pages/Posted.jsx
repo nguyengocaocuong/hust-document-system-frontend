@@ -297,7 +297,7 @@ function Posted() {
         items={items}
         renderItem={renderItem}
         pageSize={5}
-        itemHeight={110}
+        itemHeight={112}
       />
       {open.open && (
         <ConfirmModal

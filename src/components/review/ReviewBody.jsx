@@ -15,15 +15,11 @@ function ReviewBody({ reviews = [] }) {
   const openReviewSubject = (reviewSubject) => {
     dispatch(openReviewSubjectModal(reviewSubject));
   };
-  const colLength = [[], [], [], []];
   reviews.sort((a, b) => {
     const timeA = new Date(a.createdAt).getTime();
     const timeB = new Date(b.createdAt).getTime();
     return timeB - timeA;
   });
-  for (var i = 0; i < reviews.length; i++) {
-    colLength[i % 4].push(reviews[i]);
-  }
   return (
     <Box
       width={"100%"}
@@ -33,27 +29,16 @@ function ReviewBody({ reviews = [] }) {
       sx={{ "&::-webkit-scrollbar": { display: "none" } }}
     >
       <Grid container spacing={3}>
-        {colLength.map((colval, index) => (
-          <Grid item md={3} key={index}>
-            <Box flexDirection={"column"} mt={-3}>
-              <Box flexDirection={"column"} mt={-3}>
-                {colval.map((review, i) =>
-                  review.type === "TEACHER" ? (
-                    <ReviewTeacherCard
-                      key={`${index}-${i}`}
-                      openModal={openReviewTeacher}
-                      review={review}
-                    />
-                  ) : (
-                    <ReviewSujectCard
-                      key={`${index}-${i}`}
-                      openModal={openReviewSubject}
-                      review={review}
-                    />
-                  )
-                )}
-              </Box>
-            </Box>
+        {reviews.map((review, index) => (
+          <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
+            {review.type === "TEACHER" ? (
+              <ReviewTeacherCard
+                openModal={openReviewTeacher}
+                review={review}
+              />
+            ) : (
+              <ReviewSujectCard openModal={openReviewSubject} review={review} />
+            )}
           </Grid>
         ))}
       </Grid>

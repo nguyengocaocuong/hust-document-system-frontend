@@ -9,6 +9,7 @@ import { formatTimeAgo } from "../utils/ConvertDate";
 import { useGetAllSubjectDocumentDeletedQuery } from "../services/UserService";
 import {
   useDeleteSubjectDocumentForeverMutation,
+  useGetAllSubjectDocumentCreateByUserQuery,
   useRestoreSubjectDocumentMutation,
 } from "../services/SubjectService";
 import { useState } from "react";
@@ -31,6 +32,8 @@ function Trash() {
     isSuccess,
     refetch,
   } = useGetAllSubjectDocumentDeletedQuery();
+  const { refetch: refetchDocumentCreatedByUser } =
+    useGetAllSubjectDocumentCreateByUserQuery();
   const [deleteSubjectDocumentForever] =
     useDeleteSubjectDocumentForeverMutation();
   const [restoreSubjectDocument] = useRestoreSubjectDocumentMutation();
@@ -42,6 +45,7 @@ function Trash() {
     if (type) {
       deleteSubjectDocumentForever({ id: open.item.id }).then((response) => {
         refetch();
+        refetchDocumentCreatedByUser();
       });
     }
     closeModal();
@@ -182,7 +186,8 @@ function Trash() {
           headers={headers}
           items={data}
           renderItem={renderItem}
-          pageSize={9}
+          pageSize={10}
+          itemHeight={56}
         />
       )}
       {open.open && (

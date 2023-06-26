@@ -29,6 +29,7 @@ const style = {
   maxHeight: "90%",
   overflow: "hidden",
   width: "45%",
+  minWidth: "600px",
   backgroundColor: "#f7f7f2",
   borderRadius: 1,
   boxShadow: 24,
