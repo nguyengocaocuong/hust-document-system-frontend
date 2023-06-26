@@ -14,9 +14,13 @@ import {
 import PropperMenu from "../PropperMenu";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
+import { useDispatch } from "react-redux";
+import { openSubjectDocumentModal } from "../../store/modalState";
 function SubjectCard({ subject }) {
+  const dispatch = useDispatch()
   const [favoriteSubject] = useFavoriteSubjectMutation();
   const { refetch } = useGetAllSubjectQuery();
+  const navigate = useNavigate();
   const toggleFavoriteSubject = () => {
     favoriteSubject({
       subjectId: subject?.id,
@@ -25,9 +29,21 @@ function SubjectCard({ subject }) {
       refetch();
     });
   };
-  const navigate = useNavigate();
-  const onAddSubjectDocument = () => {};
-  const onAddReviewSubject = () => {};
+  const onAddSubjectDocument = () => {
+    dispatch(
+      openSubjectDocumentModal({
+        subjectName: subject?.name,
+        subjectId: subject.id,
+        acceptedFiles: [],
+        subjectDocumentType: "EXAM",
+      })
+    );
+  };
+  const onAddReviewSubject = () => {
+    navigate("/writing", {
+      state: { type: "REVIEW_SUBJECT", subjectId: subject.id },
+    });
+  };
   const actions = () => {
     let action = [
       {

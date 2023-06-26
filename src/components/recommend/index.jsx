@@ -31,14 +31,12 @@ function Recommend() {
     <Box
       height={"100%"}
       maxHeight={"100%"}
-      width={'30%'}
-      minWidth={toogleRightContainer ? '30%' : 0}
+      width={"100%"}
       p={toogleRightContainer ? 2 : 0}
       sx={{
         transition: "width 0.04s",
-        transitionTimingFunction: 'linear',
-        width: toogleRightContainer ? "100%" : 0,
-        backgroundColor:'white'
+        transitionTimingFunction: "linear",
+        backgroundColor: "white",
       }}
     >
       <Box width={"100%"}>

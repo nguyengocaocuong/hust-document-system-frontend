@@ -1,7 +1,6 @@
 import React from "react";
 import Infinite from "react-infinite-scroll-component";
 import { useState } from "react";
-import { Box } from "@mui/material";
 
 const style = {
   height: 30,
@@ -10,7 +9,7 @@ const style = {
   padding: 8,
 };
 
-function InfiniteScroll() {
+function InfiniteScroll({items}) {
   const [scrollState, setScrollState] = useState({
     total: 100,
     items: Array.from({ length: 50 }),
@@ -31,22 +30,20 @@ function InfiniteScroll() {
     }, 500);
   };
   return (
-    <Box overflow={"auto"} height={"70vh"} width={"100vw"}>
-      <Infinite
-        dataLength={scrollState.items.length}
-        hasMore={scrollState.hasMore}
-        next={featchMoreData}
-        loader={<h1>Loadding...</h1>}
-        endMessage={<p>Hết rồi</p>}
-        style={{ height: "70vh" }}
-      >
-        {scrollState.items.map((i, index) => (
-          <div style={style} key={index}>
-            div - #{index}
-          </div>
-        ))}
-      </Infinite>
-    </Box>
+    <Infinite
+      dataLength={scrollState.items.length}
+      hasMore={scrollState.hasMore}
+      next={featchMoreData}
+      loader={<h1>Loadding...</h1>}
+      endMessage={<p>Hết rồi</p>}
+      style={{ height: "70vh" }}
+    >
+      {scrollState.items.map((i, index) => (
+        <div style={style} key={index}>
+          div - #{index}
+        </div>
+      ))}
+    </Infinite>
   );
 }
 

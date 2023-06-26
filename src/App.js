@@ -34,6 +34,7 @@ import Report from "./pages/Report";
 import Approve from "./pages/Approve";
 import PageNotFound from "./pages/PageNotFound";
 import UserInfo from "./pages/UserInfo";
+import Search from "./pages/Search";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -74,6 +75,7 @@ function App() {
                             path="education/:id"
                             element={<SubjectDetail />}
                           />
+                          <Route path="search" element={<Search />} />
                           <Route path="private" element={<Private />}>
                             <Route
                               index
@@ -95,7 +97,6 @@ function App() {
                       element={<ForgotPassword />}
                     />
                     <Route path="*" element={<PageNotFound />} />
-
                   </Routes>
                 </BoxFull>
               </BoxFull>

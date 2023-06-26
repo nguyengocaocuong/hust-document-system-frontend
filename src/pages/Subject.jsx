@@ -138,7 +138,7 @@ function Subject() {
       <Box height={"calc(100% - 50px)"}>
         <Table
           headers={headers}
-          items={[...subjects, ...subjects, ...subjects, ...subjects]}
+          items={subjects}
           renderItem={renderItem}
           pageSize={10}
           itemHeight={60.5}

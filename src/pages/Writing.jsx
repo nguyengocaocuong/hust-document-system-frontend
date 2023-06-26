@@ -4,18 +4,25 @@ import Post from "../components/writing/Post";
 import ReviewSubject from "../components/writing/ReviewSubject";
 import ReviewTeacher from "../components/writing/ReviewTeacher";
 import BoxBetween from "../components/BoxBetween";
+import { useLocation } from "react-router-dom";
 
 function Writing() {
-  const [type, setType] = useState(null);
+  const location = useLocation();
+  const [type, setType] = useState(location.state?.type || null);
   return (
     <Box width={"100%"} height={"100%"} sx={{ backgroundColor: "white" }}>
       {type === null && (
         <BoxBetween>
-          <Box width={"480px"} border={"1px dotted gray"} textAlign={"center"} sx={{'&:hover':{border: '2px dotted blue'}}}>
+          <Box
+            width={"480px"}
+            border={"1px dotted gray"}
+            textAlign={"center"}
+            sx={{ "&:hover": { border: "2px dotted blue" } }}
+          >
             <Typography
               variant="h2"
               color={"text.secondary"}
-              fontWeight={'bold'}
+              fontWeight={"bold"}
               sx={{ mb: 2, bgcolor: "#F0F0F0" }}
               p={2}
             >
@@ -81,7 +88,7 @@ function Writing() {
         </BoxBetween>
       )}
       {type === "POST" && <Post />}
-      {type === "REVIEW_SUBJECT" && <ReviewSubject />}
+      {type === "REVIEW_SUBJECT" && <ReviewSubject subjectId={location.state?.subjectId || ""}/>}
       {type === "REVIEW_TEACHER" && <ReviewTeacher />}
     </Box>
   );

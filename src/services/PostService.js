@@ -13,9 +13,12 @@ export const postApi = createApi({
   }),
   tagTypes: ["posts"],
   endpoints: (builder) => ({
-    getAllPosts: builder.query({
-      query: () => "",
-      transformResponse: (response) => response?.content,
+    getAllPosts: builder.mutation({
+      query: (data) => ({
+        url: `?page=${data.page}&size=${data.size}`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response.content,
     }),
     getAllPostCreatedByUser: builder.query({
       query: () => "/owner",
@@ -107,7 +110,6 @@ export const postApi = createApi({
 });
 
 export const {
-  useGetAllPostsQuery,
   useGetAllPostCreatedByUserQuery,
   useCreatePostMutation,
   useGetPostDetailQuery,
@@ -121,4 +123,5 @@ export const {
   useUpdateCommentPostMutation,
   useDeletePostMutation,
   useHiddenCommentPostMutation,
+  useGetAllPostsMutation
 } = postApi;

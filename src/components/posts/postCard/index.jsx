@@ -7,16 +7,12 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
-import {
-  useFavoritePostMutation,
-  useGetAllPostsQuery,
-} from "../../../services/PostService";
+import { useFavoritePostMutation } from "../../../services/PostService";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import FlagIcon from "@mui/icons-material/Flag";
 import PropperMenu from "../../PropperMenu";
 function PostCard({ data, close }) {
   const navigate = useNavigate();
-  const { refetch: refetchAllPostForHomePage } = useGetAllPostsQuery();
   const [post, setPost] = useState({ ...data });
   const { user } = useSelector((state) => state.authentication);
   const isFavorited =
@@ -37,7 +33,6 @@ function PostCard({ data, close }) {
           ...post,
           favorites: [...post.favorites, { user }],
         });
-      refetchAllPostForHomePage();
     });
   };
   const copyUrl = () => {

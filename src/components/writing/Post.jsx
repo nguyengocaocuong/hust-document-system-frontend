@@ -26,12 +26,9 @@ import PropperMenu from "../PropperMenu";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import FlagIcon from "@mui/icons-material/Flag";
 import Owner from "../Owner";
-import {
-  useCreatePostMutation,
-  useGetAllPostsQuery,
-} from "../../services/PostService";
+import { useCreatePostMutation } from "../../services/PostService";
 function Post() {
-  const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
+  const { data: subjectDocumentFilter = { title: "Môn học", item: [] } } =
     useGetAllSubjectForFilterQuery();
   const { user } = useSelector((state) => state.authentication);
   const [subject, setSubject] = useState("");
@@ -55,7 +52,6 @@ function Post() {
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: () => {} },
   ];
   const [createPost] = useCreatePostMutation();
-  const { refetch } = useGetAllPostsQuery();
   const onCreatePost = () => {
     let formData = new FormData();
     formData.append("description", title);
@@ -63,7 +59,6 @@ function Post() {
     formData.append("done", 1);
     formData.append("documents", doc);
     createPost(formData).then(() => {
-      refetch();
       setSubject("");
       setTitle("");
       setLiveView(false);
@@ -132,7 +127,7 @@ function Post() {
           <Box px={2} py={1}>
             <Box
               width={"100%"}
-              height={"250px"}
+              height={"220px"}
               display={"flex"}
               alignItems={"center"}
               justifyContent={"center"}

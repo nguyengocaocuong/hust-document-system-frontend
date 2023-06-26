@@ -28,12 +28,12 @@ import Editor from "../Editor";
 import { useRef } from "react";
 import Actions from "../Actions";
 import { useCreateReviewSubjectMutation } from "../../services/SubjectService";
-function ReviewSubject() {
+function ReviewSubject({subjectId}) {
   const editorRef = useRef(null);
   const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
     useGetAllSubjectForFilterQuery();
   const { user } = useSelector((state) => state.authentication);
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState(subjectId);
   const [liveView, setLiveView] = useState(false);
   const [content, setContent] = useState("");
   const [done, setDone] = useState(false);
