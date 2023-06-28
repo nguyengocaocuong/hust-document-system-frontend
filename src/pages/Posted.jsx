@@ -141,7 +141,11 @@ function Posted() {
           width={"105px"}
           height={"105px"}
           overflow={"hidden"}
-          sx={{ borderRadius: 1, boxShadow: 2 }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <img
             src={
@@ -151,10 +155,10 @@ function Posted() {
                 ? subjectIcon
                 : questionIcon
             }
-            width={"100%"}
+            width={"80%"}
             height={"auto"}
             style={{
-              maxHeight: "110px",
+              maxHeight: "80%",
             }}
             alt=""
           />
@@ -180,7 +184,7 @@ function Posted() {
           <Box
             sx={{
               width: "100%",
-              height: "105px",
+              height: "100px",
               overflow: "hidden",
               background: "white",
               padding: "0 3px",
@@ -207,7 +211,7 @@ function Posted() {
           >
             <img
               src={item?.document.path}
-              style={{ width: "100%" }}
+              style={{ width: "100%", maxHeight:'98%' }}
               alt={item?.document.name}
             />
           </Box>

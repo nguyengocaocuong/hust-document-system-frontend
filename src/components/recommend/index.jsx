@@ -1,97 +1,146 @@
 import {
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
-  IconButton,
+  CircularProgress,
   InputBase,
+  Stack,
   Typography,
-  styled,
 } from "@mui/material";
 import React, { useState } from "react";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import RestoreIcon from "@mui/icons-material/Restore";
+import { useGetRecommendMutation } from "../../services/UserService";
+import { useEffect } from "react";
+import RecommendCard from "./RecommendCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const CustomBottomNavigationAction = styled(BottomNavigationAction)(
-  `
-    &.Mui-selected {
-      color: red;
-    }
-    &:hover{
-      color:red;
-    }
-  `
-);
 function Recommend() {
-  const [toogleRightContainer, setToggleRightContainer] = useState(true);
-
+  const [getRecommend] = useGetRecommendMutation();
+  const [key, setKey] = useState("");
+  const [recommends, setRecommends] = useState({
+    items: [],
+    hasMore: true,
+    currentPage: 0,
+    size: 5,
+  });
+  const closeRecommend = (recommend) => {
+    setRecommends({
+      ...recommends,
+      items: recommends.items.filter(
+        (item) =>
+          item.typeRecommend !== recommend.typeRecommend ||
+          item.id !== recommend.id
+      ),
+    });
+  };
+  useEffect(() => {
+    featchMoreData();
+    // eslint-disable-next-line
+  }, []);
+  const featchMoreData = async () => {
+    if (!recommends.hasMore) return;
+    const response = await getRecommend({
+      page: recommends.currentPage,
+      size: recommends.size,
+    });
+    if (
+      response.data?.subjectDocuments?.length > 0 ||
+      response.data?.answerSubjectDocuments?.length > 0
+    ) {
+      setRecommends((recommends) => ({
+        ...recommends,
+        items: [
+          ...recommends.items,
+          ...response.data?.subjectDocuments.map((subjectDocument) => ({
+            ...subjectDocument,
+            typeRecommend: "SUBJECT_DOCUMENT",
+          })),
+          ...response.data?.answerSubjectDocuments.map(
+            (answerSubjectDocument) => ({
+              ...answerSubjectDocument,
+              typeRecommend: "ANSWER_SUBJECT_DOCUMENT",
+            })
+          ),
+        ],
+        currentPage: recommends.currentPage + 1,
+      }));
+    } else {
+      setRecommends({ ...recommends, hasMore: false });
+    }
+  };
   return (
     <Box
       height={"100%"}
       maxHeight={"100%"}
-      width={"100%"}
-      p={toogleRightContainer ? 2 : 0}
+      width={"30%"}
       sx={{
         transition: "width 0.04s",
         transitionTimingFunction: "linear",
         backgroundColor: "white",
       }}
     >
-      <Box width={"100%"}>
-        <IconButton onClick={() => setToggleRightContainer(false)}>
-          <ClearOutlinedIcon />
-        </IconButton>
-      </Box>
-      <Box pl="10px">
-        <Typography variant="h4" style={{ fontWeight: "bold" }}>
-          Có thể bạn quan tâm
-        </Typography>
-      </Box>
-      <Box
-        width={"100%"}
-        sx={{ height: "40px" }}
-        display={"flex"}
-        justifyContent={"start"}
-        alignItems={"center"}
-        p={"10px"}
-        pt={"30px"}
-      >
-        <SearchOutlinedIcon sx={{ fontSize: "30px" }} />
-        <InputBase
-          sx={{ ml: 1, fontSize: "16px", width: "95%" }}
-          placeholder="Bạn muốn tìm gì kiếm..."
-        />
-      </Box>
-      <Box
-        height={"calc(100% - 150px)"}
-        width={"100%"}
-        sx={{ backgroundColor: "transparent" }}
-        overflow={"hidden"}
-        p="15px"
-      ></Box>
-      <BottomNavigation
-        showLabels
-        value={1}
-        onChange={(event, newValue) => {
-          // setValue(newValue);
-        }}
-        sx={{
-          borderRadius: "25px",
-          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-        }}
-      >
-        <CustomBottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-        <CustomBottomNavigationAction
-          label="Favorites"
-          icon={<FavoriteIcon />}
-        />
-        <CustomBottomNavigationAction
-          label="Nearby"
-          icon={<LocationOnIcon />}
-        />
-      </BottomNavigation>
+      <Stack spacing={2} height={"100%"} width={"100%"}>
+        <Box pl="10px" p={2} pb={0}>
+          <Typography variant="h4" style={{ fontWeight: "bold" }}>
+            Có thể bạn quan tâm
+          </Typography>
+        </Box>
+        <Box
+          width={"100%"}
+          sx={{ height: "40px" }}
+          display={"flex"}
+          justifyContent={"start"}
+          alignItems={"center"}
+          p={2}
+          pb={0}
+        >
+          <SearchOutlinedIcon sx={{ fontSize: "30px" }} />
+          <InputBase
+            sx={{ ml: 1, fontSize: "16px", width: "95%" }}
+            placeholder="Bạn muốn tìm gì ..."
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+          />
+        </Box>
+        <Box height={"calc(100% - 100px)"} width={"100%"} overflow={"auto"}>
+          <InfiniteScroll
+            dataLength={recommends.items.length}
+            hasMore={recommends.hasMore}
+            next={featchMoreData}
+            loader={
+              <Box p={2} display={"flex"} justifyContent={"center"}>
+                <CircularProgress sx={{ width: "25px", height: "25px" }} />
+              </Box>
+            }
+            endMessage={<></>}
+            height={643}
+            width={"100%"}
+          >
+            {recommends.items
+              .filter((item) => {
+                if (key === "") return true;
+                let tmp = `${item.owner.firstName} ${item.owner.lastName} ${item.description} `;
+                if (
+                  item.typeRecommend === "SUBJECT_DOCUMENT" ||
+                  item.type !== "LINK"
+                )
+                  tmp += item.document.name;
+                else tmp += item.document.url;
+                return tmp.includes(key);
+              })
+              .sort((a, b) => {
+                let dateA = new Date(a.createdAt).getMilliseconds();
+                let dateB = new Date(b.createdAt).getMilliseconds();
+                return dateB - dateA;
+              })
+              .map((recommend, index) => (
+                <RecommendCard
+                  recommend={recommend}
+                  key={index}
+                  closeRecommend={() => closeRecommend(recommend)}
+                />
+              ))}
+          </InfiniteScroll>
+        </Box>
+      </Stack>
     </Box>
   );
 }

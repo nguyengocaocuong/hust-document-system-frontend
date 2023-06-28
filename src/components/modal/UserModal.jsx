@@ -36,7 +36,6 @@ function UserModal() {
       {documentViewerModal.open && (
         <DocumentViewerModal open={documentViewerModal.open} />
       )}
-      {reportModal.open && <ReportModal open={reportModal.open} />}
       {reviewTeacherModal.open && (
         <ReviewTeacherModal open={reviewTeacherModal.open} />
       )}
@@ -49,6 +48,7 @@ function UserModal() {
       )}
       {teacherModal.open && <TeacherModal open={teacherModal.open} />}
       {subjectModal.open && <SubjectModal open={subjectModal.open} />}
+      {reportModal.open && <ReportModal open={reportModal.open} />}
     </Box>
   );
 }

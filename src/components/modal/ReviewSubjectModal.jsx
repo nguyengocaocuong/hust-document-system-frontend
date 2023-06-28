@@ -20,6 +20,7 @@ import {
 } from "../../store/modalState";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import PropperMenu from "../PropperMenu";
+import { convertJsonToFormData } from "../../utils/ConvertData";
 
 const style = {
   position: "absolute",
@@ -62,16 +63,14 @@ function ReviewSubjectModal({ open, modalData }) {
     refetch: refeatchCommentReviewSubject,
   } = useGetAllCommentForReviewSubjectQuery(dataModal.id);
 
-  const addComment = (data) => {
-    const formData = new FormData();
-    formData.append("comment", data.comment);
-    if (data.parentCommentId) {
-      formData.append("parentCommentId", data.parentCommentId);
-    }
+  const addComment = (data, reset) => {
     createCommentReviewSubject({
-      id: modalData.data?.id,
-      body: formData,
-    }).then((response) => refeatchCommentReviewSubject());
+      id: dataModal.id,
+      body: convertJsonToFormData(data),
+    }).then(() => {
+      refeatchCommentReviewSubject();
+      reset();
+    });
   };
   const handleClickCommentButton = () => setShowComment(!isShowComment);
   const handleClickFavoriteButton = () => {

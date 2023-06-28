@@ -13,7 +13,9 @@ import FlagIcon from "@mui/icons-material/Flag";
 function ReviewSujectCard({ review, openModal }) {
   const dispatch = useDispatch();
   const report = () => {
-    dispatch(openReportModal({}));
+    dispatch(
+      openReportModal({ object: review, type: "CONTENT_REVIEW_SUBJECT" })
+    );
   };
   const copyUrl = () => {
     const url = `http://localhost:3000/review?id=${review.id}&type=REVIEW_SUBJECT`;

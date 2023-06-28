@@ -19,7 +19,7 @@ function ReviewTeacherCard({ openModal, review }) {
     ? review?.teacher.avatar
     : avatars[Math.round((Math.random() * 10) % 3)];
   const handleClickReportIcon = () => {
-    dispatch(openReportModal(review));
+    dispatch(openReportModal({object: review, type:'CONTENT_REVIEW_TEACHER'}));
   };
   const dispatch = useDispatch();
 

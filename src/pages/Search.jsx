@@ -3,9 +3,18 @@ import React from "react";
 import BoxFull from "../components/BoxFull";
 import logo from "../assets/images/logo/logo_notext.png";
 import { useState } from "react";
+import { useSearchAllInWebsiteMutation } from "../services/SearchService";
 function Search() {
   const [key, setKey] = useState("");
-  const onSearch = () => {};
+  const [data, setData] = useState([]);
+  const [searchAllInWebsite] = useSearchAllInWebsiteMutation();
+  const onSearch = () => {
+    if (key.length <= 0) return;
+    searchAllInWebsite({ q: key, sum: 40, startIndex: 1 }).then((response) => {
+      setData(response.data?.items || []);
+    });
+  };
+
   return (
     <BoxFull bgcolor={"white"}>
       <Stack
@@ -34,9 +43,17 @@ function Search() {
         >
           Tìm kiếm
         </Button>
-        <a href="https://cse.google.com/cse?cx=c4a54c280d6484f27">Go to search</a>
       </Stack>
-     
+      <Box width={"100%"} height={"calc(100% - 50px)"} overflow={"auto"}>
+        <ul>
+          {data.map((result) => (
+            <li key={result.cacheId}>
+              <a href={result.link}>{result.title}</a>
+              <p>{result.snippet}</p>
+            </li>
+          ))}
+        </ul>
+      </Box>
     </BoxFull>
   );
 }

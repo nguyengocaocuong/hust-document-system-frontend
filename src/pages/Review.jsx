@@ -23,28 +23,34 @@ function Review() {
     const type = searchParams.get("type");
     if (id !== undefined && type !== undefined) {
       if (type === "TEACHER") {
-        const review = reviewTeacher?.find((review) => review.id.toString() === id.toString());
+        const review = reviewTeacher?.find(
+          (review) => review.id.toString() === id.toString()
+        );
         if (review) dispatch(openReviewTeacherModal(review));
       } else {
-        const review = reviewSubject?.find((review) => review.id.toString() === id.toString());
-         if (review) dispatch(openReviewSubjectModal(review));
+        const review = reviewSubject?.find(
+          (review) => review.id.toString() === id.toString()
+        );
+        if (review) dispatch(openReviewSubjectModal(review));
       }
     }
   }
   const [type, setType] = useState("ALL");
-  const reviews =
-    type === "ALL"
-      ? [
-          ...reviewSubject.map((review) => ({ ...review, type: "SUBJECT" })),
-          ...reviewTeacher.map((review) => ({ ...review, type: "TEACHER" })),
-        ]
-      : type === "SUBJECT"
-      ? [...reviewSubject.map((review) => ({ ...review, type: "SUBJECT" }))]
-      : [...reviewTeacher.map((review) => ({ ...review, type: "TEACHER" }))];
+  const reviews = () => {
+    let results = [];
+    if (type === "ALL" || type === "SUBJECT")
+      results = reviewSubject.map((review) => ({ ...review, type: "SUBJECT" }));
+    if (type === "ALL" || type === "TEACHER")
+      results = [
+        ...results,
+        ...reviewTeacher.map((review) => ({ ...review, type: "TEACHER" })),
+      ];
+    return results;
+  };
   return (
     <BoxFull sx={{ backgroundColor: "white" }} p={2} overflow={"hidden"}>
-      <ReviewHeader type={type} setType={setType} total={reviews.length} />
-      <ReviewBody reviews={reviews} />
+      <ReviewHeader type={type} setType={setType} total={reviews().length} />
+      <ReviewBody reviews={reviews()} />
     </BoxFull>
   );
 }

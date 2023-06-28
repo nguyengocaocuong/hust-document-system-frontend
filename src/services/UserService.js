@@ -26,7 +26,21 @@ export const userApi = createApi({
       query: () => `/trash`,
       transformResponse: (response) => response?.content,
     }),
+    getRecommend: builder.mutation({
+      query: (data) => ({
+        url: "/recommend",
+        params: {
+          page: data.page || 0,
+          size: data.size || 5,
+        },
+      }),
+      transformResponse: (response) => response.content,
+    }),
   }),
 });
 
-export const { useUpdateProfileMutation, useGetAllSubjectDocumentDeletedQuery } = userApi;
+export const {
+  useUpdateProfileMutation,
+  useGetAllSubjectDocumentDeletedQuery,
+  useGetRecommendMutation
+} = userApi;

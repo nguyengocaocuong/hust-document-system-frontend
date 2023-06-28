@@ -30,6 +30,7 @@ import { adminReportContentReviewSubjectApi } from "../services/AdminReportConte
 import { adminReportDuplicateSubjectDocumentApi } from "../services/AdminReportDuplicateSubjectDocumentService";
 import { adminReportContentSubjectDocumentApi } from "../services/AdminReportContentSubjectDocumentService";
 import { adminReportContentTeacherSubjectApi } from "../services/AdminReportContentReviewTeacherService";
+import { searchApi } from "../services/SearchService";
 const rootReducer = combineReducers({
   authentication: authReducer,
   modalState: modalState,
@@ -55,6 +56,8 @@ const rootReducer = combineReducers({
     adminReportContentSubjectDocumentApi.reducer,
   [adminReportContentTeacherSubjectApi.reducerPath]:
     adminReportContentTeacherSubjectApi.reducer,
+  [searchApi.reducerPath]:
+    searchApi.reducer,
 });
 const persistConig = {
   key: "root",
@@ -87,6 +90,7 @@ export const store = configureStore({
       adminReportContentReviewSubjectApi.middleware,
       adminReportDuplicateSubjectDocumentApi.middleware,
       adminReportContentSubjectDocumentApi.middleware,
-      adminReportContentTeacherSubjectApi.middleware
+      adminReportContentTeacherSubjectApi.middleware,
+      searchApi.middleware
     ),
 });

@@ -19,6 +19,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import DownloadIcon from "@mui/icons-material/Download";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import { useProSidebar } from "react-pro-sidebar";
 
 function DocumentCard({
   document,
@@ -26,6 +27,8 @@ function DocumentCard({
   preview = () => {},
   share = () => {},
 }) {
+  const { collapsed } = useProSidebar();
+
   const { user: authUser } = useSelector((state) => state.authentication);
   const isFavorited = document?.favorites?.find(
     (f) => f.user.id === authUser.id
@@ -48,7 +51,8 @@ function DocumentCard({
   const reportSubjectDocument = () => {
     dispatch(
       openReportModal({
-        subjectId: subjectDetail.id,
+        object: subjectDetail,
+        type: "SUBJECT_DOCUMENT",
       })
     );
   };
@@ -95,7 +99,7 @@ function DocumentCard({
     return arrAction;
   };
   return (
-    <Grid item xl={4}>
+    <Grid item md={collapsed ? 6 : 12} lg={6} xl={4}>
       <Box width={"100%"} display={"flex"} pb={0} justifyContent={"center"}>
         <Box
           sx={{

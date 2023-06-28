@@ -277,6 +277,27 @@ export const subjectApi = createApi({
         body: data.body,
       }),
     }),
+    reportContentReviewSubject: builder.mutation({
+      query: (data) => ({
+        url: `/reviewSubject/${data.reviewSubjectId}/reportContent`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
+    reportContentSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}/reportContent`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
+    reportDuplicateSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}/reportDuplicate`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
   }),
 });
 
@@ -316,5 +337,8 @@ export const {
   useDeleteReviewSubjectMutation,
   useGetAllReviewSubjectCreatedByUserQuery,
   useHiddenCommentSubjectDocumentMutation,
-  useCreateReviewSubjectMutation
+  useCreateReviewSubjectMutation,
+  useReportContentReviewSubjectMutation,
+  useReportContentSubjectDocumentMutation,
+  useReportDuplicateSubjectDocumentMutation,
 } = subjectApi;
