@@ -2,13 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { authApi } from "../services/AuthService";
 
 const initialState = {
-  isLogin: true,
-  user: {
-    firstName:'Nguyen Ngo',
-    lastName:'Cao Cuong',
-    avatar:'',
-    roleType: 'USER'
-  }
+  isLogin: false,
+  user: null,
 };
 
 export const authState = createSlice({

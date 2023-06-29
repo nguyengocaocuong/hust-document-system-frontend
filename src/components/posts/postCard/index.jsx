@@ -8,9 +8,6 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
 import { useFavoritePostMutation } from "../../../services/PostService";
-import CopyAllIcon from "@mui/icons-material/CopyAll";
-import FlagIcon from "@mui/icons-material/Flag";
-import PropperMenu from "../../PropperMenu";
 function PostCard({ data, close }) {
   const navigate = useNavigate();
   const [post, setPost] = useState({ ...data });
@@ -35,26 +32,7 @@ function PostCard({ data, close }) {
         });
     });
   };
-  const copyUrl = () => {
-    const url = `http://localhost:3000/post/${post.id}`;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        alert("Đã copy vào clipboard");
-      })
-      .catch((error) => {
-        console.error("Lỗi khi sao chép vào clipboard:", error);
-      });
-  };
-  const reportSubjectDocument = () => {};
-  const actions = () => [
-    {
-      Icon: FlagIcon,
-      label: "Báo cáo",
-      action: reportSubjectDocument,
-    },
-    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
-  ];
+
   return (
     <Card
       sx={{ width: "100%", "&:hover": { cursor: "pointer" } }}
@@ -65,7 +43,6 @@ function PostCard({ data, close }) {
         createdAt={post?.createdAt}
         listItem={[
           <Chip key={1} icon={<LocalOfferIcon />} label={post?.subject.name} />,
-          <PropperMenu key={2} action={actions()} />,
           <IconButton
             key={3}
             onClick={(e) => {
