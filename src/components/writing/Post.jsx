@@ -26,13 +26,18 @@ import PropperMenu from "../PropperMenu";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import FlagIcon from "@mui/icons-material/Flag";
 import Owner from "../Owner";
-import { useCreatePostMutation } from "../../services/PostService";
+import {
+  useCreatePostMutation,
+  useUpdatePostMutation,
+} from "../../services/PostService";
+import { useLocation } from "react-router-dom";
 function Post() {
+  const location = useLocation();
   const { data: subjectDocumentFilter = { title: "Môn học", item: [] } } =
     useGetAllSubjectForFilterQuery();
   const { user } = useSelector((state) => state.authentication);
-  const [subject, setSubject] = useState("");
-  const [title, setTitle] = useState("");
+  const [subject, setSubject] = useState(location.state?.post.subject.id || "");
+  const [title, setTitle] = useState(location.state?.post.description || "");
   const [doc, setDoc] = useState(null);
   const [liveView, setLiveView] = useState(false);
   const onDrop = useCallback((acceptedFiles = []) => {
@@ -52,18 +57,31 @@ function Post() {
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: () => {} },
   ];
   const [createPost] = useCreatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
   const onCreatePost = () => {
     let formData = new FormData();
     formData.append("description", title);
     formData.append("subjectId", subject);
     formData.append("done", 1);
-    formData.append("documents", doc);
-    createPost(formData).then(() => {
-      setSubject("");
-      setTitle("");
-      setLiveView(false);
-      setDoc(null);
-    });
+    if (doc) formData.append("documents", doc);
+    if (location.state?.update) {
+      updatePost({ postId: location.state?.post.id, body: formData }).then(
+        () => {
+          location.state = null;
+          setSubject("");
+          setTitle("");
+          setLiveView(false);
+          setDoc(null);
+        }
+      );
+    } else {
+      createPost(formData).then(() => {
+        setSubject("");
+        setTitle("");
+        setLiveView(false);
+        setDoc(null);
+      });
+    }
   };
   return (
     <BoxFull>
@@ -127,7 +145,7 @@ function Post() {
           <Box px={2} py={1}>
             <Box
               width={"100%"}
-              height={"220px"}
+              height={"240px"}
               display={"flex"}
               alignItems={"center"}
               justifyContent={"center"}
@@ -141,7 +159,7 @@ function Post() {
               {...getRootProps()}
             >
               <input {...getInputProps()} />
-              {doc === null ? (
+              {doc === null && location.state?.post === undefined ? (
                 isDragActive ? (
                   <p>Thả tài liệu</p>
                 ) : (
@@ -150,7 +168,13 @@ function Post() {
               ) : (
                 <Box width={"100%"} height={"100%"} overflow={"hidden"}>
                   <img
-                    src={URL.createObjectURL(doc)}
+                    src={
+                      doc
+                        ? URL.createObjectURL(doc)
+                        : location.state?.post
+                        ? location.state?.post.document.path
+                        : ""
+                    }
                     alt=""
                     style={{ width: "100%" }}
                   />
@@ -162,10 +186,14 @@ function Post() {
             <Button
               variant="contained"
               color={"primary"}
-              disabled={doc === null || subject === "" || title.length === 0}
+              disabled={
+                (doc === null && location.state?.post === undefined) ||
+                subject === "" ||
+                title.length === 0
+              }
               onClick={onCreatePost}
             >
-              Đăng bài
+              {location.state?.update ? "Cập nhật" : "Đăng bài"}
             </Button>
           </Box>
         </Box>
@@ -210,7 +238,13 @@ function Post() {
                 borderRadius={1}
               >
                 <img
-                  src={doc ? URL.createObjectURL(doc) : ""}
+                  src={
+                    doc
+                      ? URL.createObjectURL(doc)
+                      : location.state?.post
+                      ? location.state?.post.document.path
+                      : ""
+                  }
                   alt="bạn chưa chọn tài liệu"
                   width={"100%"}
                 />

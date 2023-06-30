@@ -88,7 +88,7 @@ function Writing() {
         </BoxBetween>
       )}
       {type === "POST" && <Post />}
-      {type === "REVIEW_SUBJECT" && <ReviewSubject subjectId={location.state?.subjectId || ""}/>}
+      {type === "REVIEW_SUBJECT" && <ReviewSubject />}
       {type === "REVIEW_TEACHER" && <ReviewTeacher />}
     </Box>
   );

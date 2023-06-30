@@ -48,8 +48,8 @@ function AnswerPostModal({ open }) {
     const formData = new FormData();
     formData.append("description", data.description);
     formData.append("type", data.type);
+    closeModal();
     if (data.documents.length > 0 && data.type !== "LINK") {
-      closeModal();
       data.documents.forEach((file) => formData.append("documents", file));
       dispatch(
         addLoadingNotification([

@@ -46,14 +46,8 @@ export const teacherApi = createApi({
       }),
     }),
     deleteCommentReviewTeacher: builder.mutation({
-      query: (id) => ({
-        url: `/reviewTeacher/comment/${id}`,
-        method: "DELETE",
-      }),
-    }),
-    deleteReviewTeacher: builder.mutation({
-      query: (id) => ({
-        url: `/reviewTeacher/${id}`,
+      query: (data) => ({
+        url: `/reviewTeacher/${data.reviewTeacherId}/comment/${data.commentId}`,
         method: "DELETE",
       }),
     }),
@@ -82,6 +76,19 @@ export const teacherApi = createApi({
         body: data.body,
       }),
     }),
+    updateReviewTeacher: builder.mutation({
+      query: (data) => ({
+        url: `${data.teacherId}/reviewTeacher/${data.reviewTeacherId}`,
+        method: "PATCH",
+        body: data.body,
+      }),
+    }),
+    deleteReviewTeacher: builder.mutation({
+      query: (data) => ({
+        url: `${data.teacherId}/reviewTeacher/${data.reviewTeacherId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -98,4 +105,5 @@ export const {
   useCreateReviewTeacherMutation,
   useGetAllReviewTeacherCreatedByUserQuery,
   useReportContentReviewTeacherMutation,
+  useUpdateReviewTeacherMutation,
 } = teacherApi;

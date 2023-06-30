@@ -10,7 +10,7 @@ function ReviewHeader({ type, setType, total }) {
       width={"100%"}
       px={2}
       py={1}
-      height={'166px'}
+      height={"166px"}
       mb={2}
     >
       <Box
@@ -23,7 +23,11 @@ function ReviewHeader({ type, setType, total }) {
           pb={1}
         >
           <Chip
-            label={"Tất cả reviews"}
+            label={
+              <Typography variant="h5" fontWeight={"bold"}>
+                Tất cả bài viết
+              </Typography>
+            }
             sx={{
               fontSize: "15px",
               backgroundColor: "transparent",
@@ -32,7 +36,7 @@ function ReviewHeader({ type, setType, total }) {
               cursor: "pointer",
               color: type === "ALL" ? "red" : "",
             }}
-            onClick={() => setType('ALL')}
+            onClick={() => setType("ALL")}
           />
         </Box>
         <Box
@@ -40,7 +44,11 @@ function ReviewHeader({ type, setType, total }) {
           pb={1}
         >
           <Chip
-            label={"Reivew giảng viên"}
+            label={
+              <Typography variant="h5" fontWeight={"bold"}>
+                Reivew giảng viên
+              </Typography>
+            }
             sx={{
               fontSize: "15px",
               backgroundColor: "transparent",
@@ -49,7 +57,7 @@ function ReviewHeader({ type, setType, total }) {
               cursor: "pointer",
               color: type === "TEACHER" ? "red" : "",
             }}
-            onClick={() => setType('TEACHER')}
+            onClick={() => setType("TEACHER")}
           />
         </Box>
         <Box
@@ -57,7 +65,11 @@ function ReviewHeader({ type, setType, total }) {
           pb={1}
         >
           <Chip
-            label={"Reivew môn học"}
+            label={
+              <Typography variant="h5" fontWeight={"bold"}>
+                Reivew môn học
+              </Typography>
+            }
             sx={{
               fontSize: "15px",
               backgroundColor: "transparent",
@@ -66,7 +78,7 @@ function ReviewHeader({ type, setType, total }) {
               cursor: "pointer",
               color: type === "SUBJECT" ? "red" : "",
             }}
-            onClick={() => setType('SUBJECT')}
+            onClick={() => setType("SUBJECT")}
           />
         </Box>
       </Box>

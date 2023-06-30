@@ -36,7 +36,7 @@ const style = {
   boxShadow: 24,
 };
 
-function ReviewSubjectModal({ open, modalData }) {
+function ReviewSubjectModal({ open }) {
   const dispatch = useDispatch();
   const {
     reviewSubjectModal: { dataModal },
@@ -79,7 +79,7 @@ function ReviewSubjectModal({ open, modalData }) {
     });
   };
   const deleteComment = (id) => {
-    deleteCommentReviewSubject(id).then(() => refeatchCommentReviewSubject());
+    deleteCommentReviewSubject({reviewSubjectId: dataModal.id, commentId: id}).then(() => refeatchCommentReviewSubject());
   };
 
   const report = () => {

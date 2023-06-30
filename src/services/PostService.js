@@ -106,6 +106,13 @@ export const postApi = createApi({
         method: "PATCH",
       }),
     }),
+    updatePost: builder.mutation({
+      query: (data) => ({
+        url: `/${data.postId}`,
+        method: "PATCH",
+        body: data.body,
+      }),
+    }),
   }),
 });
 
@@ -123,5 +130,6 @@ export const {
   useUpdateCommentPostMutation,
   useDeletePostMutation,
   useHiddenCommentPostMutation,
-  useGetAllPostsMutation
+  useGetAllPostsMutation,
+  useUpdatePostMutation,
 } = postApi;

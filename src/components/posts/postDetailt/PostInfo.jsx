@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   useCommentPostMutation,
-  useCreateAnswerForPostMutation,
   useDeleteCommentPostMutation,
   useFavoritePostMutation,
   useGetAllAnswerForPostQuery,
@@ -22,9 +21,11 @@ import FlagIcon from "@mui/icons-material/Flag";
 import Comment from "../../comment";
 import DetailtAnswers from "../../DetailAnswers";
 import TranslateLanguage from "../../TranslateLanguage";
+import Pusher from "pusher-js";
 
 function PostInfo({ postDetail, language }) {
   const { id } = useParams();
+  const channelName = `comment-post-${id}`;
   const { user } = useSelector((state) => state.authentication);
   const isOwnerPost = postDetail.owner.id === user.id;
   const [selectedId, setSelectedId] = useState(1);
@@ -33,14 +34,7 @@ function PostInfo({ postDetail, language }) {
   };
   const [favorites, setFavorite] = useState(postDetail.favorites);
   const { data: answers = [], refetch } = useGetAllAnswerForPostQuery(id);
-  const [createAnswerForPost] = useCreateAnswerForPostMutation();
   const [toggleFavoriteAnswerPost] = useToggleFavoriteAnswerPostMutation();
-  const addAnswerPost = (data, closeModal) => {
-    createAnswerForPost(data).then((response) => {
-      refetch();
-      closeModal();
-    });
-  };
   const [favoritePost] = useFavoritePostMutation();
   const toggleFavorite = () => {
     favoritePost(postDetail.id).then((response) => {
@@ -59,7 +53,7 @@ function PostInfo({ postDetail, language }) {
   const [updateCommentPost] = useUpdateCommentPostMutation();
   const [hiddenCommentPost] = useHiddenCommentPostMutation();
 
-  const { data: comments = [], refetch: refetchComment } =
+  const { data: commentData = [], refetch: refetchComment } =
     useGetAllCommentForPostQuery(id);
   const addComment = (data, reset) => {
     commentPost({
@@ -113,6 +107,36 @@ function PostInfo({ postDetail, language }) {
     },
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
   ];
+
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    setComments(commentData);
+  }, [commentData]);
+
+  useEffect(() => {
+    const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
+      cluster: "ap1",
+    });
+    const channel = pusherService.subscribe(channelName);
+    channel.bind("new-comment", (newComment) => {
+      setComments((preComments) => [...preComments, newComment]);
+    });
+    channel.bind("edit-comment", (editedComment) => {
+      setComments((preComments) =>
+        preComments.map((comment) =>
+          comment.id == editedComment.id ? editedComment : comment
+        )
+      );
+    });
+    channel.bind("delete-comment", (deletedCommentId) => {
+      setComments((preComments) => preComments.filter(comment => comment.id !== deletedCommentId))
+    })
+    return () => {
+      channel.unbind();
+      pusherService.unsubscribe(channelName);
+      pusherService.disconnect();
+    };
+  }, []);
   return (
     <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
       <Owner
@@ -147,7 +171,6 @@ function PostInfo({ postDetail, language }) {
           <DetailtAnswers
             answers={{
               data: answers,
-              add: addAnswerPost,
               toggleFavoriteAnswer,
             }}
           />

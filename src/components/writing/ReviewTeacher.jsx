@@ -27,17 +27,23 @@ import Editor from "../Editor";
 
 import { useRef } from "react";
 import Actions from "../Actions";
-import { useCreateReviewTeacherMutation } from "../../services/TeacherService";
+import { useCreateReviewTeacherMutation, useUpdateReviewTeacherMutation } from "../../services/TeacherService";
+import { useLocation } from "react-router-dom";
 function ReviewTeacher() {
+  const location = useLocation();
   const editorRef = useRef(null);
   const { data: teacherFilter = { title: "Giảng viên", item: [] } } =
     useGetAllTeacherForFilterQuery();
   const { user } = useSelector((state) => state.authentication);
-  const [teacher, setTeacher] = useState("");
+  const [teacher, setTeacher] = useState(
+    location.state?.reviewTeacher?.teacher.id || ""
+  );
   const [liveView, setLiveView] = useState(false);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(
+    location.state?.reviewTeacher?.review || ""
+  );
   const [isNotify, setNotify] = useState(0);
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(location.state?.reviewTeacher.done || false);
   const actions = () => [
     {
       Icon: FlagIcon,
@@ -47,11 +53,13 @@ function ReviewTeacher() {
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: () => {} },
   ];
   const [createReviewTeacher] = useCreateReviewTeacherMutation();
+  const [updateReviewTeacher] = useUpdateReviewTeacherMutation()
   const onCreateReviewTeacher = () => {
     let formData = new FormData();
     formData.append("review", content);
     formData.append("done", done ? 1 : 0);
-    createReviewTeacher({ body: formData, teacherId: teacher })
+    if (location.state?.update) {
+      updateReviewTeacher({ body: formData, teacherId: teacher, reviewTeacherId: location.state?.reviewTeacherId })
       .then(() => {
         setTeacher("");
         setLiveView(false);
@@ -68,6 +76,25 @@ function ReviewTeacher() {
           setNotify(0);
         }, 4000);
       });
+    } else {
+      createReviewTeacher({ body: formData, teacherId: teacher })
+        .then(() => {
+          setTeacher("");
+          setLiveView(false);
+          setContent("");
+          setDone(false);
+          setNotify(1);
+          setInterval(() => {
+            setNotify(0);
+          }, 4000);
+        })
+        .catch(() => {
+          setNotify(2);
+          setInterval(() => {
+            setNotify(0);
+          }, 4000);
+        });
+    }
   };
   return (
     <BoxFull p={2}>
@@ -123,7 +150,7 @@ function ReviewTeacher() {
                   <Alert
                     severity="success"
                     sx={{
-                      width: "250px",
+                      width: "300px",
                       height: "40px",
                       px: 1,
                       display: "flex",
@@ -137,7 +164,7 @@ function ReviewTeacher() {
                   <Alert
                     severity="error"
                     sx={{
-                      width: "250px",
+                      width: "300px",
                       height: "40px",
                       px: 1,
                       display: "flex",
@@ -168,7 +195,7 @@ function ReviewTeacher() {
               color="primary"
               onClick={onCreateReviewTeacher}
             >
-              Đăng tải bài viết
+              {location.state?.update ? "Cập nhật" : "Đăng tải bài viết"}
             </Button>
           </Box>
         </Box>

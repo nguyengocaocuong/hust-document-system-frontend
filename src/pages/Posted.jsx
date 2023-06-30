@@ -28,6 +28,7 @@ import {
   useDeletePostMutation,
   useGetAllPostCreatedByUserQuery,
 } from "../services/PostService";
+import { useNavigate } from "react-router-dom";
 const headers = [
   { title: "", width: "119.25px" },
   { title: "Đối tượng", width: "17%" },
@@ -42,6 +43,7 @@ function Posted() {
   const message =
     "Bài viết sau khi xóa không thể khôi phục lại, bạn có chắc chắn muốn xóa bài viết này không?";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const viewReview = (item) => {
     if (item.type === "TEACHER") {
       dispatch(openReviewTeacherModal(item));
@@ -96,7 +98,10 @@ function Posted() {
   const openModal = (item) => setOpen({ open: true, item });
   const onDelete = () => {
     if (open.item.type === "SUBJECT") {
-      deleteReviewSubject(open.item.id).then(() => {
+      deleteReviewSubject({
+        reviewSubjectId: open.item.id,
+        subjectId: open.item.subject.id,
+      }).then(() => {
         closeModal();
         refetchAllReviewSubject();
       });
@@ -106,10 +111,47 @@ function Posted() {
         refetchAllPost();
       });
     } else {
-      deleteReviewTeacher(open.item.id).then(() => {
+      deleteReviewTeacher({
+        reviewTeacherId: open.item.id,
+        teacherId: open.item.teacher.id,
+      }).then(() => {
         closeModal();
         refetchAllReviewTeacher();
       });
+    }
+  };
+
+  const edit = (item) => {
+    switch (item.type) {
+      case "TEACHER":
+        navigate("/writing", {
+          state: {
+            type: "REVIEW_TEACHER",
+            reviewTeacher: item,
+            update: true,
+          },
+        });
+        break;
+      case "SUBJECT":
+        navigate("/writing", {
+          state: {
+            type: "REVIEW_SUBJECT",
+            reviewSubject: item,
+            update: true,
+          },
+        });
+        break;
+      case "POST":
+        navigate("/writing", {
+          state: {
+            type: "POST",
+            post: item,
+            update: true,
+          },
+        });
+        break;
+      default:
+        console.log("default");
     }
   };
   const renderItem = (item, key) => (
@@ -211,7 +253,7 @@ function Posted() {
           >
             <img
               src={item?.document.path}
-              style={{ width: "100%", maxHeight:'98%' }}
+              style={{ width: "100%", maxHeight: "98%" }}
               alt={item?.document.name}
             />
           </Box>
@@ -246,7 +288,7 @@ function Posted() {
           }}
         >
           <Tooltip title={"Chỉnh sửa bài viết"}>
-            <IconButton>
+            <IconButton onClick={() => edit(item)}>
               <EditOffIcon
                 color={"warning"}
                 sx={{ width: "18px", height: "18px" }}

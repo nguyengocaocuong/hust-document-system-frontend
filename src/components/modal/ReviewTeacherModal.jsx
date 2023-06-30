@@ -57,7 +57,7 @@ function ReviewTeacherModal({ open }) {
     data: commentsReviewTeacher = [],
     refetch: refeatchCommentReviewTeacher,
   } = useGetAllCommentForReviewTeacherQuery(dataModal.id);
-  const addComment = (data) => {
+  const addComment = (data, reset) => {
     const formData = new FormData();
     formData.append("comment", data.comment);
     if (data.parentCommentId) {
@@ -66,7 +66,10 @@ function ReviewTeacherModal({ open }) {
     createCommentReviewTeacher({
       id: dataModal.id,
       body: formData,
-    }).then((response) => refeatchCommentReviewTeacher());
+    }).then(() => {
+      reset();
+      refeatchCommentReviewTeacher();
+    });
   };
   const handleClickCommentButton = () => setShowComment(!isShowComment);
   const handleClickFavoriteButton = () => {
@@ -75,7 +78,7 @@ function ReviewTeacherModal({ open }) {
     });
   };
   const deleteComment = (id) => {
-    deleteCommentReviewTeacher(id).then(() => refeatchCommentReviewTeacher());
+    deleteCommentReviewTeacher({reviewTeacherId: dataModal.id, commentId: id}).then(() => refeatchCommentReviewTeacher());
   };
   const handleClickReportIcon = () => {
     dispatch(openReportModal({ data: "1" }));

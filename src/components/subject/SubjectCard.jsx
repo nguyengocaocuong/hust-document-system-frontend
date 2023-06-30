@@ -17,7 +17,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useDispatch } from "react-redux";
 import { openSubjectDocumentModal } from "../../store/modalState";
 function SubjectCard({ subject }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [favoriteSubject] = useFavoriteSubjectMutation();
   const { refetch } = useGetAllSubjectQuery();
   const navigate = useNavigate();
@@ -41,7 +41,10 @@ function SubjectCard({ subject }) {
   };
   const onAddReviewSubject = () => {
     navigate("/writing", {
-      state: { type: "REVIEW_SUBJECT", subjectId: subject.id },
+      state: {
+        type: "REVIEW_SUBJECT",
+        reviewSubject: { subject: { id: subject.id } },
+      },
     });
   };
   const actions = () => {

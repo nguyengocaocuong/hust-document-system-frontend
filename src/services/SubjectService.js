@@ -181,8 +181,8 @@ export const subjectApi = createApi({
       }),
     }),
     deleteCommentReviewSubject: builder.mutation({
-      query: (id) => ({
-        url: `/reviewSubject/comment/${id}`,
+      query: (data) => ({
+        url: `/reviewSubject/${data.reviewSubjectId}/comment/${data.commentId}`,
         method: "DELETE",
       }),
     }),
@@ -265,8 +265,8 @@ export const subjectApi = createApi({
       }),
     }),
     deleteReviewSubject: builder.mutation({
-      query: (id) => ({
-        url: `/reviewSubject/${id}`,
+      query: (data) => ({
+        url: `/${data.subjectId}/reviewSubject/${data.reviewSubjectId}`,
         method: "DELETE",
       }),
     }),
@@ -295,6 +295,13 @@ export const subjectApi = createApi({
       query: (data) => ({
         url: `/subjectDocument/${data.subjectDocumentId}/reportDuplicate`,
         method: "POST",
+        body: data.body,
+      }),
+    }),
+    updateReviewSubject: builder.mutation({
+      query: (data) => ({
+        url: `${data.subjectId}/reviewSubject/${data.reviewSubjectId}`,
+        method: "PATCH",
         body: data.body,
       }),
     }),
@@ -341,4 +348,5 @@ export const {
   useReportContentReviewSubjectMutation,
   useReportContentSubjectDocumentMutation,
   useReportDuplicateSubjectDocumentMutation,
+  useUpdateReviewSubjectMutation,
 } = subjectApi;

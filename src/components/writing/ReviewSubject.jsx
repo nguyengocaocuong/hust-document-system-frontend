@@ -27,16 +27,22 @@ import Editor from "../Editor";
 
 import { useRef } from "react";
 import Actions from "../Actions";
-import { useCreateReviewSubjectMutation } from "../../services/SubjectService";
-function ReviewSubject({subjectId}) {
+import { useCreateReviewSubjectMutation, useUpdateReviewSubjectMutation } from "../../services/SubjectService";
+import { useLocation } from "react-router-dom";
+function ReviewSubject() {
+  const location = useLocation();
   const editorRef = useRef(null);
   const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
     useGetAllSubjectForFilterQuery();
   const { user } = useSelector((state) => state.authentication);
-  const [subject, setSubject] = useState(subjectId);
+  const [subject, setSubject] = useState(
+    location.state?.reviewSubject.subject.id || ""
+  );
   const [liveView, setLiveView] = useState(false);
-  const [content, setContent] = useState("");
-  const [done, setDone] = useState(false);
+  const [content, setContent] = useState(
+    location.state?.reviewSubject.review || ""
+  );
+  const [done, setDone] = useState(location.state?.reviewSubject.done || false);
   const [isNotify, setNotify] = useState(0);
   const actions = () => [
     {
@@ -47,10 +53,34 @@ function ReviewSubject({subjectId}) {
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: () => {} },
   ];
   const [createReviewSubject] = useCreateReviewSubjectMutation();
+  const [updateReviewSubject] = useUpdateReviewSubjectMutation();
   const onCreateReviewTeacher = () => {
     let body = new FormData();
     body.append("review", content);
     body.append("done", done ? 1 : 0);
+    if (location.state?.update) {
+      updateReviewSubject({
+        body,
+        subjectId: subject,
+        reviewSubjectId: location.state?.reviewSubject.id,
+      })
+        .then(() => {
+          setSubject("");
+          setLiveView(false);
+          setContent("");
+          setDone(false);
+          setNotify(1);
+          setInterval(() => {
+            setNotify(0);
+          }, 4000);
+        })
+        .catch(() => {
+          setNotify(2);
+          setInterval(() => {
+            setNotify(0);
+          }, 4000);
+        });
+    }
     createReviewSubject({ body, subjectId: subject })
       .then(() => {
         setSubject("");
@@ -124,7 +154,7 @@ function ReviewSubject({subjectId}) {
                 <Alert
                   severity="success"
                   sx={{
-                    width: "250px",
+                    width: "300px",
                     height: "40px",
                     px: 1,
                     display: "flex",
@@ -135,13 +165,16 @@ function ReviewSubject({subjectId}) {
                 </Alert>
               )}
               {isNotify === 2 && (
-                <Alert severity="error" sx={{
-                  width: "250px",
-                  height: "40px",
-                  px: 1,
-                  display: "flex",
-                  alignItems: "center",
-                }}>
+                <Alert
+                  severity="error"
+                  sx={{
+                    width: "300px",
+                    height: "40px",
+                    px: 1,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   Lỗi khi đăng tải bài viết
                 </Alert>
               )}
@@ -165,7 +198,7 @@ function ReviewSubject({subjectId}) {
               color="primary"
               onClick={onCreateReviewTeacher}
             >
-              Đăng tải bài viết
+              {location.state?.update ? "Cập nhật" : "Đăng tải bài viết"}
             </Button>
           </Box>
         </Box>
