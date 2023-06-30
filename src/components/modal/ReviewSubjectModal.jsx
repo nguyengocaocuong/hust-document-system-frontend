@@ -21,6 +21,8 @@ import {
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import PropperMenu from "../PropperMenu";
 import { convertJsonToFormData } from "../../utils/ConvertData";
+import { useEffect } from "react";
+import Pusher from "pusher-js";
 
 const style = {
   position: "absolute",
@@ -37,6 +39,7 @@ const style = {
 };
 
 function ReviewSubjectModal({ open }) {
+  const { user } = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
   const {
     reviewSubjectModal: { dataModal },
@@ -79,7 +82,10 @@ function ReviewSubjectModal({ open }) {
     });
   };
   const deleteComment = (id) => {
-    deleteCommentReviewSubject({reviewSubjectId: dataModal.id, commentId: id}).then(() => refeatchCommentReviewSubject());
+    deleteCommentReviewSubject({
+      reviewSubjectId: dataModal.id,
+      commentId: id,
+    }).then(() => refeatchCommentReviewSubject());
   };
 
   const report = () => {
@@ -108,6 +114,47 @@ function ReviewSubjectModal({ open }) {
       action: report,
     },
   ];
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    setComments(commentsReviewSubject);
+  }, [commentsReviewSubject]);
+
+  const channelName = `comment-review-subject-${dataModal.id}`;
+  useEffect(() => {
+    const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
+      cluster: "ap1",
+    });
+    const channel = pusherService.subscribe(channelName);
+    channel.bind("new-comment", (newComment) => {
+      setComments((preComments) => [...preComments, newComment]);
+    });
+    channel.bind("edit-comment", (editedComment) => {
+      setComments((preComments) =>
+        preComments.map((comment) =>
+          comment.id === editedComment.id ? editedComment : comment
+        )
+      );
+    });
+    channel.bind("delete-comment", (deletedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter((comment) => comment.id !== deletedCommentId)
+      );
+    });
+    channel.bind("hidden-comment", (hiddenedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter(
+          (comment) =>
+            comment.id !== hiddenedCommentId || (comment.owner.id = user.id)
+        )
+      );
+    });
+    return () => {
+      channel.unbind();
+      pusherService.unsubscribe(channelName);
+      pusherService.disconnect();
+    };
+  }, [channelName, user]);
   return (
     <Modal open={open} onClose={closeModal} sx={{ border: "none" }}>
       <Box sx={{ ...style }}>
@@ -148,7 +195,7 @@ function ReviewSubjectModal({ open }) {
               onClick: handleClickFavoriteButton,
             }}
             comment={{
-              data: commentsReviewSubject || [],
+              data: comments || [],
               onClick: handleClickCommentButton,
             }}
           />

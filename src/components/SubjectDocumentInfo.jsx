@@ -21,6 +21,8 @@ import Comment from "./comment";
 import TranslateLanguage from "./TranslateLanguage";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import FlagIcon from "@mui/icons-material/Flag";
+import { useEffect } from "react";
+import Pusher from "pusher-js";
 function SubjectDocumentInfo({
   subjectDocumentDetail = {},
   language,
@@ -66,7 +68,7 @@ function SubjectDocumentInfo({
     });
   };
 
-  const { data: comments = [], refetch: refetchComment } =
+  const { data: commentSubjectDocuments = [], refetch: refetchComment } =
     useGetAllCommentSubjectDocumentQuery(subjectDocumentDetail.id);
   const [commentSubjectDocument] = useCommentSubjectDocumentMutation();
   const [deleteCommentSubjectDocument] =
@@ -87,7 +89,7 @@ function SubjectDocumentInfo({
     });
   };
   const editComment = (comment) => {
-    console.log('edit')
+    console.log("edit");
     const body = convertJsonToFormData(comment);
     updateCommentSubjectDocument({
       subjectDocumentId: subjectDocumentDetail.id,
@@ -127,6 +129,47 @@ function SubjectDocumentInfo({
     },
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
   ];
+
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    setComments(commentSubjectDocuments);
+  }, [commentSubjectDocuments]);
+
+  const channelName = `comment-subject-document-${subjectDocumentDetail.id}`;
+  useEffect(()=>{
+    const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
+      cluster: "ap1",
+    });
+    const channel = pusherService.subscribe(channelName);
+    channel.bind("new-comment", (newComment) => {
+      setComments((preComments) => [...preComments, newComment]);
+    });
+    channel.bind("edit-comment", (editedComment) => {
+      setComments((preComments) =>
+        preComments.map((comment) =>
+          comment.id === editedComment.id ? editedComment : comment
+        )
+      );
+    });
+    channel.bind("delete-comment", (deletedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter((comment) => comment.id !== deletedCommentId)
+      );
+    });
+    channel.bind("hidden-comment", (hiddenedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter(
+          (comment) =>
+            comment.id !== hiddenedCommentId || (comment.owner.id = user.id)
+        )
+      );
+    });
+    return () => {
+      channel.unbind();
+      pusherService.unsubscribe(channelName);
+      pusherService.disconnect();
+    };
+  },[channelName, user])
   return (
     <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
       <Owner

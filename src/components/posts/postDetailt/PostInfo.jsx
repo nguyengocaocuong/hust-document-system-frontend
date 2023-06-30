@@ -124,19 +124,29 @@ function PostInfo({ postDetail, language }) {
     channel.bind("edit-comment", (editedComment) => {
       setComments((preComments) =>
         preComments.map((comment) =>
-          comment.id == editedComment.id ? editedComment : comment
+          comment.id === editedComment.id ? editedComment : comment
         )
       );
     });
     channel.bind("delete-comment", (deletedCommentId) => {
-      setComments((preComments) => preComments.filter(comment => comment.id !== deletedCommentId))
-    })
+      setComments((preComments) =>
+        preComments.filter((comment) => comment.id !== deletedCommentId)
+      );
+    });
+    channel.bind("hidden-comment", (hiddenedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter(
+          (comment) =>
+            comment.id !== hiddenedCommentId || (comment.owner.id = user.id)
+        )
+      );
+    });
     return () => {
       channel.unbind();
       pusherService.unsubscribe(channelName);
       pusherService.disconnect();
     };
-  }, []);
+  }, [channelName, user]);
   return (
     <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
       <Owner

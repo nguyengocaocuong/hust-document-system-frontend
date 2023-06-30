@@ -20,6 +20,9 @@ import {
 import PropperMenu from "../PropperMenu";
 import FlagIcon from "@mui/icons-material/Flag";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
+import { useEffect } from "react";
+import Pusher from "pusher-js";
+import { useSelect } from "@mui/base";
 
 const style = {
   position: "absolute",
@@ -37,6 +40,7 @@ const style = {
 
 function ReviewTeacherModal({ open }) {
   const dispatch = useDispatch();
+  const { user } = useSelect((state) => state.authentication);
   const {
     reviewTeacherModal: { dataModal },
   } = useSelector((state) => state.modalState);
@@ -78,7 +82,10 @@ function ReviewTeacherModal({ open }) {
     });
   };
   const deleteComment = (id) => {
-    deleteCommentReviewTeacher({reviewTeacherId: dataModal.id, commentId: id}).then(() => refeatchCommentReviewTeacher());
+    deleteCommentReviewTeacher({
+      reviewTeacherId: dataModal.id,
+      commentId: id,
+    }).then(() => refeatchCommentReviewTeacher());
   };
   const handleClickReportIcon = () => {
     dispatch(openReportModal({ data: "1" }));
@@ -106,6 +113,47 @@ function ReviewTeacherModal({ open }) {
       action: handleClickReportIcon,
     },
   ];
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    setComments(commentsReviewTeacher);
+  }, [commentsReviewTeacher]);
+
+  const channelName = `comment-review-teacher-${dataModal.id}`;
+  useEffect(() => {
+    const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
+      cluster: "ap1",
+    });
+    const channel = pusherService.subscribe(channelName);
+    channel.bind("new-comment", (newComment) => {
+      setComments((preComments) => [...preComments, newComment]);
+    });
+    channel.bind("edit-comment", (editedComment) => {
+      setComments((preComments) =>
+        preComments.map((comment) =>
+          comment.id === editedComment.id ? editedComment : comment
+        )
+      );
+    });
+    channel.bind("delete-comment", (deletedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter((comment) => comment.id !== deletedCommentId)
+      );
+    });
+    channel.bind("hidden-comment", (hiddenedCommentId) => {
+      setComments((preComments) =>
+        preComments.filter(
+          (comment) =>
+            comment.id !== hiddenedCommentId || (comment.owner.id = user.id)
+        )
+      );
+    });
+    return () => {
+      channel.unbind();
+      pusherService.unsubscribe(channelName);
+      pusherService.disconnect();
+    };
+  }, [channelName, user]);
   return (
     <Modal open={open} onClose={closeModal} sx={{ border: "none" }}>
       <Box sx={{ ...style }}>
@@ -156,7 +204,7 @@ function ReviewTeacherModal({ open }) {
               mainColor="white"
               comments={{
                 add: addComment,
-                data: commentsReviewTeacher || [],
+                data: comments || [],
                 clear: deleteComment,
               }}
             />
