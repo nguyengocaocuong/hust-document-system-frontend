@@ -30,8 +30,26 @@ export const adminSubjectApi = createApi({
         method: "DELETE",
       }),
     }),
+    approveReviewSubject: builder.mutation({
+      query: (id) => ({
+        url: `/reviewSubject/${id}/approve`,
+        method: "PATCH",
+      }),
+    }),
+    rejectReviewSubject: builder.mutation({
+      query: (id) => ({
+        url: `/reviewSubject/${id}/reject`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllSubjectQuery, useUpdateSubjectMutation, useDeleteSubjectMutation } =
+export const {
+  useGetAllSubjectQuery,
+  useUpdateSubjectMutation,
+  useDeleteSubjectMutation,
+  useApproveReviewSubjectMutation,
+  useRejectReviewSubjectMutation
+} =
   adminSubjectApi;

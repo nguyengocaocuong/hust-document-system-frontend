@@ -305,6 +305,16 @@ export const subjectApi = createApi({
         body: data.body,
       }),
     }),
+    sendAnnotationSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `/subjectDocument/${data.subjectDocumentId}/annotation`,
+        params: {
+          action: data.action
+        },
+        method: "POST",
+        body: data.body,
+      }),
+    }),
   }),
 });
 
@@ -349,4 +359,5 @@ export const {
   useReportContentSubjectDocumentMutation,
   useReportDuplicateSubjectDocumentMutation,
   useUpdateReviewSubjectMutation,
+  useSendAnnotationSubjectDocumentMutation
 } = subjectApi;

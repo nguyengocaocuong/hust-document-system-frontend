@@ -17,7 +17,6 @@ import ConfirmModal from "./ComfirmModal";
 import {
   useReportContentReviewSubjectMutation,
   useReportContentSubjectDocumentMutation,
-  useReportDuplicateSubjectDocumentMutation,
 } from "../../services/SubjectService";
 import { useReportContentReviewTeacherMutation } from "../../services/TeacherService";
 
@@ -67,8 +66,6 @@ function ReportModal({ open }) {
   const [reportContentReviewTeacher] = useReportContentReviewTeacherMutation();
   const [reportContentSubjectDocument] =
     useReportContentSubjectDocumentMutation();
-  const [reportDuplicateSubjectDocument] =
-    useReportDuplicateSubjectDocumentMutation();
 
   const onReport = () => {
     let body = new FormData();

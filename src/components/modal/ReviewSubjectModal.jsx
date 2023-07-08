@@ -204,7 +204,7 @@ function ReviewSubjectModal({ open }) {
               mainColor="white"
               comments={{
                 add: addComment,
-                data: commentsReviewSubject || [],
+                data: comments || [],
                 clear: deleteComment,
               }}
             />

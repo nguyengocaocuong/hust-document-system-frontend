@@ -25,7 +25,7 @@ export const authApi = createApi({
       transformResponse: (response) => response?.content,
     }),
     generateToken: builder.mutation({
-      query: (credentials)=>({
+      query: (credentials) => ({
         url: '/authenticate',
         method: 'POST',
         body: credentials
@@ -34,7 +34,7 @@ export const authApi = createApi({
       transformResponse: (response) => response?.content,
     }),
     resetPassword: builder.mutation({
-      query: (email)=>({
+      query: (email) => ({
         url: '/resetPassword',
         method: 'GET',
         params: {
@@ -44,7 +44,21 @@ export const authApi = createApi({
       invalidatesTags: ["auth"],
       transformResponse: (response) => response?.content,
     }),
+    resendJwtToken: builder.mutation({
+      query: (token) => ({
+        url: '/resendJwtToken',
+        method: 'POST',
+        params: { oldToken: token }
+      }),
+      transformResponse: response => response.content
+    })
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGenerateTokenMutation, useResetPasswordMutation } = authApi;
+export const { 
+  useLoginMutation, 
+  useRegisterMutation, 
+  useGenerateTokenMutation, 
+  useResetPasswordMutation, 
+  useResendJwtTokenMutation
+} = authApi;

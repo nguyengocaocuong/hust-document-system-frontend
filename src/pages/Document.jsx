@@ -85,7 +85,7 @@ const headers = [
 function Document() {
   const message =
     "Tài liệu của bạn sẽ được chuyển vào thùng rác, và sẽ bị xóa vĩnh viễn sau 30 ngày, bạn có chắc chắn muốn xóa không?";
-
+  
   const {
     data = [],
     refetch,

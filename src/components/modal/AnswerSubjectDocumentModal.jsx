@@ -21,6 +21,7 @@ const style = {
   pt: 2,
   px: 4,
   pb: 3,
+  borderRadius:1
 };
 function AnswerSubjectDocumentModal({ open }) {
   const [data, setData] = useState({
@@ -137,7 +138,7 @@ function AnswerSubjectDocumentModal({ open }) {
               textAlign={"center"}
               color={"text.secondary"}
             >
-              Thêm tài liệu mới
+              Thêm đáp án
             </Typography>
           </Box>
           <Box mt={2}>

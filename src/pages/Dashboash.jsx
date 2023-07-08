@@ -44,7 +44,37 @@ import { useGetAllNewReviewSubjectQuery } from "../services/AdminReviewSubjectSe
 import { useGetAllNewUserQuery } from "../services/AdminUserService";
 import { useGetDataForDashboardQuery } from "../services/AdminService";
 import { useNavigate } from "react-router-dom";
+import {
+  green,
+  red,
+  blue,
+  orange,
+  amber,
+  blueGrey,
+  brown,
+  common,
+  cyan,
+  deepOrange,
+  deepPurple,
+  grey,
+  indigo,
+} from "@mui/material/colors";
 
+const color = [
+  deepOrange,
+  deepPurple,
+  grey,
+  indigo,
+  green,
+  red,
+  orange,
+  amber,
+  blue,
+  blueGrey,
+  brown,
+  common,
+  cyan,
+];
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -432,17 +462,11 @@ function Dashboash() {
         <Grid container spacing={2}>
           <Grid item md={12} lg={4} xl={4}>
             <Paper elevation={3} sx={{ width: "100%" }}>
-              <Box
-                p={2}
-                height={"431px"}
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"space-between"}
-              >
+              <Box p={2} height={"390px"}>
                 <Typography variant="h4" color={"text.secondary"}>
                   Danh sách người dùng mới{" "}
                 </Typography>
-                <Box width={"100%"}>
+                <Box width={"100%"} pt={2}>
                   {newUser.slice(0, 6).map((user, index) => (
                     <Box
                       key={index}
@@ -457,9 +481,26 @@ function Dashboash() {
                     >
                       <Box display={"flex"} alignItems={"center"}>
                         <Avatar
-                          sx={{ width: "45px", height: "45px" }}
+                          alt={user?.lastName}
+                          sx={{
+                            backgroundColor:
+                              color[
+                                user?.lastName
+                                  .split(" ")
+                                  [
+                                    user?.lastName.split(" ").length - 1
+                                  ].charCodeAt(0) % 12
+                              ][500],
+                            width: "45px",
+                            height: "45px",
+                          }}
                           src={user.avatar}
-                        />
+                        >
+                          {user?.lastName.substring(
+                            user?.lastName.lastIndexOf(" ") + 1,
+                            user?.lastName.lastIndexOf(" ") + 2
+                          )}
+                        </Avatar>
                         <Box px={1}>
                           <Typography fontSize={"15px"} fontWeight={"bold"}>
                             {`${user.firstName} ${user.lastName}`}
@@ -479,13 +520,14 @@ function Dashboash() {
                   ))}
                 </Box>
                 <Typography
+                  pt={2}
                   variant="h5"
                   color={"primary"}
                   justifyContent={"center"}
                   display={"flex"}
                   alignItems={"center"}
                   sx={{ cursor: "pointer" }}
-                  onClick={() => navigate("users/list-user")}
+                  onClick={() => navigate("users")}
                 >
                   Xem tất cả{" "}
                   <ArrowForwardOutlinedIcon
@@ -498,7 +540,7 @@ function Dashboash() {
           </Grid>
           <Grid item md={12} lg={8} xl={8}>
             <Paper elevation={3}>
-              <Box p={2} height={"431px"}>
+              <Box p={2} height={"390px"}>
                 <Typography variant="h4" color={"text.secondary"}>
                   Các bài viết cần phê duyệt{" "}
                 </Typography>
@@ -519,7 +561,25 @@ function Dashboash() {
                   }
                   renderItem={renderItem}
                   itemHeight={55}
+                  showHeader={false}
+                  showPagination={false}
                 />
+                <Typography
+                  pt={2}
+                  variant="h5"
+                  color={"primary"}
+                  justifyContent={"center"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => navigate("approves")}
+                >
+                  Xem tất cả{" "}
+                  <ArrowForwardOutlinedIcon
+                    color={theme.palette.background.main}
+                    style={{ fontSize: "18px", marginLeft: "8px" }}
+                  />
+                </Typography>
               </Box>
             </Paper>
           </Grid>

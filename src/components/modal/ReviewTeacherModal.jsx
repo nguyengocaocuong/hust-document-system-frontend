@@ -195,7 +195,7 @@ function ReviewTeacherModal({ open }) {
               onClick: handleClickFavoriteButton,
             }}
             comment={{
-              data: commentsReviewTeacher || [],
+              data: comments || [],
               onClick: handleClickCommentButton,
             }}
           />

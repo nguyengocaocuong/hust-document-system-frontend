@@ -25,7 +25,7 @@ function SharedNofifycation({ notification }) {
     dispatch(toggleNotification(true));
   };
   const openSubjectDocument = () => {
-    navigate(`/education/subject-document/${notification.id}`);
+    navigate(`/education/subject-document/${notification.subjectDocument.id}`);
     close();
   };
   return (
@@ -42,7 +42,7 @@ function SharedNofifycation({ notification }) {
         <Typography>
           <strong>{`${owner.firstName} ${owner.lastName}`}</strong>
         </Typography>
-        <Typography>vừa chia sẻ cho bạn tài liệu cho bạn</Typography>
+        <Typography>vừa chia sẻ tài liệu cho bạn</Typography>
         <Box display={"flex"} py={1.5}>
           <Box
             display={"flex"}

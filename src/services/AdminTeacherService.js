@@ -30,6 +30,18 @@ export const adminTeacherApi = createApi({
         method: "DELETE",
       }),
     }),
+    approveReviewTeacher: builder.mutation({
+      query: (id) => ({
+        url: `/reviewTeacher/${id}/approve`,
+        method: "PATCH",
+      }),
+    }),
+    rejectReviewTeacher: builder.mutation({
+      query: (id) => ({
+        url: `/reviewTeacher/${id}/reject`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -37,4 +49,6 @@ export const {
   useGetAllTeacherQuery,
   useDeleteTeacherMutation,
   useUpdateTeacherMutation,
+  useApproveReviewTeacherMutation,
+  useRejectReviewTeacherMutation
 } = adminTeacherApi;

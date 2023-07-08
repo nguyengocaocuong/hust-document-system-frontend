@@ -1,7 +1,6 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import Table from "../components/Table";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import {
   useDeleteSubjectMutation,
@@ -29,9 +28,6 @@ function Subject() {
   const { data: subjects = [], refetch } = useGetAllSubjectQuery();
   const editSubject = (item) => {
     dispatch(openUpdateSubjectModal(item.subject));
-  };
-  const view = (item) => {
-    alert("view subject");
   };
 
   const [open, setOpen] = useState({ open: false, item: null });
@@ -106,14 +102,6 @@ function Subject() {
             <IconButton onClick={() => editSubject(item)}>
               <EditOffIcon
                 color={"warning"}
-                sx={{ width: "18px", height: "18px" }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={"Xem chi tiết"}>
-            <IconButton onClick={() => view(item)}>
-              <RemoveRedEyeIcon
-                color={"success"}
                 sx={{ width: "18px", height: "18px" }}
               />
             </IconButton>

@@ -13,6 +13,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import BeenhereOutlinedIcon from "@mui/icons-material/BeenhereOutlined";
+import QuickreplyOutlinedIcon from '@mui/icons-material/QuickreplyOutlined';
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -131,6 +132,13 @@ const adminSidebarItem = [
     title: "Phê duyệt",
     to: "/approves",
     Icon: BeenhereOutlinedIcon,
+    selectedColor: "red",
+  },
+  {
+    type: "ITEM",
+    title: "Bình luận xấu",
+    to: "/bab-comments",
+    Icon: QuickreplyOutlinedIcon,
     selectedColor: "red",
   },
 ];

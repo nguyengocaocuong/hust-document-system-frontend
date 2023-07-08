@@ -25,7 +25,6 @@ import Pusher from "pusher-js";
 
 function PostInfo({ postDetail, language }) {
   const { id } = useParams();
-  const channelName = `comment-post-${id}`;
   const { user } = useSelector((state) => state.authentication);
   const isOwnerPost = postDetail.owner.id === user.id;
   const [selectedId, setSelectedId] = useState(1);
@@ -33,7 +32,7 @@ function PostInfo({ postDetail, language }) {
     setSelectedId(id === selectedId ? null : id);
   };
   const [favorites, setFavorite] = useState(postDetail.favorites);
-  const { data: answers = [], refetch } = useGetAllAnswerForPostQuery(id);
+  const { data: answerData = [], refetch } = useGetAllAnswerForPostQuery(id);
   const [toggleFavoriteAnswerPost] = useToggleFavoriteAnswerPostMutation();
   const [favoritePost] = useFavoritePostMutation();
   const toggleFavorite = () => {
@@ -109,31 +108,35 @@ function PostInfo({ postDetail, language }) {
   ];
 
   const [comments, setComments] = useState([]);
+  const [answers, setAnswers] = useState([]);
   useEffect(() => {
     setComments(commentData);
   }, [commentData]);
+  useEffect(() => {
+    setAnswers(answerData);
+  }, [answerData]);
 
   useEffect(() => {
     const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
       cluster: "ap1",
     });
-    const channel = pusherService.subscribe(channelName);
-    channel.bind("new-comment", (newComment) => {
+    const channelComment = pusherService.subscribe(`comment-post-${id}`);
+    channelComment.bind("new-comment", (newComment) => {
       setComments((preComments) => [...preComments, newComment]);
     });
-    channel.bind("edit-comment", (editedComment) => {
+    channelComment.bind("edit-comment", (editedComment) => {
       setComments((preComments) =>
         preComments.map((comment) =>
           comment.id === editedComment.id ? editedComment : comment
         )
       );
     });
-    channel.bind("delete-comment", (deletedCommentId) => {
+    channelComment.bind("delete-comment", (deletedCommentId) => {
       setComments((preComments) =>
         preComments.filter((comment) => comment.id !== deletedCommentId)
       );
     });
-    channel.bind("hidden-comment", (hiddenedCommentId) => {
+    channelComment.bind("hidden-comment", (hiddenedCommentId) => {
       setComments((preComments) =>
         preComments.filter(
           (comment) =>
@@ -141,12 +144,19 @@ function PostInfo({ postDetail, language }) {
         )
       );
     });
+
+    const channelAnswer = pusherService.subscribe(`answer-post-${id}`);
+    channelAnswer.bind("new-answer", (newAnswer) => {
+      setAnswers(preAnswers => [...preAnswers, newAnswer])
+    });
     return () => {
-      channel.unbind();
-      pusherService.unsubscribe(channelName);
+      channelAnswer.unbind();
+      channelComment.unbind();
+      pusherService.unsubscribe(`comment-post-${id}`);
+      pusherService.unsubscribe(`answer-post-${id}`);
       pusherService.disconnect();
     };
-  }, [channelName, user]);
+  }, [id, user]);
   return (
     <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
       <Owner

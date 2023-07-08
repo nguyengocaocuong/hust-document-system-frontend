@@ -35,6 +35,7 @@ import Approve from "./pages/Approve";
 import PageNotFound from "./pages/PageNotFound";
 import UserInfo from "./pages/UserInfo";
 import Search from "./pages/Search";
+import BabComment from "./pages/BabComment";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -58,6 +59,7 @@ function App() {
                           <Route path="subjects" element={<Subject />} />
                           <Route path="teachers" element={<Teacher />} />
                           <Route path="approves" element={<Approve />} />
+                          <Route path="bab-comments" element={<BabComment />} />
                         </Route>
                       ) : (
                         <Route path="/" element={<UserLayout />}>

@@ -2,6 +2,7 @@ import {
   Box,
   Divider,
   Grid,
+  IconButton,
   Pagination,
   Tooltip,
   Typography,
@@ -22,24 +23,38 @@ import {
   openNewReviewSubjectModal,
   openNewReviewTeacherModal,
 } from "../store/modalState";
+import ConfirmModal from "../components/modal/ComfirmModal";
+import {
+  useApproveReviewSubjectMutation,
+  useRejectReviewSubjectMutation,
+} from "../services/AdminSubjectService";
+import {
+  useApproveReviewTeacherMutation,
+  useRejectReviewTeacherMutation,
+} from "../services/AdminTeacherService";
+import { useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 function Approve() {
+  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const pageSize = 6;
   const { data: reviewTeacher = [] } = useGetAllNewReviewTeacherQuery();
   const { data: reviewSubject = [] } = useGetAllNewReviewSubjectQuery();
-
-  const reports = [
-    ...reviewTeacher.map((review) => ({ ...review, type: "REVIEW_TEACHER" })),
-    ...reviewSubject.map((review) => ({ ...review, type: "REVIEW_SUBJECT" })),
-  ];
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    setReviews([
+      ...reviewTeacher.map((review) => ({ ...review, type: "REVIEW_TEACHER" })),
+      ...reviewSubject.map((review) => ({ ...review, type: "REVIEW_SUBJECT" })),
+    ]);
+  }, [reviewSubject, reviewTeacher]);
   const [page, setPage] = useState(1);
   const currentData = [];
   for (
     let i = pageSize * (page - 1);
-    i < page * pageSize && i < reports.length;
+    i < page * pageSize && i < reviews.length;
     i++
   ) {
-    currentData.push(reports[i]);
+    currentData.push(reviews[i]);
   }
   const openCheckReview = (review) => {
     if (review.type === "REVIEW_SUBJECT") {
@@ -48,7 +63,61 @@ function Approve() {
       dispatch(openNewReviewTeacherModal(review));
     }
   };
+  const [open, setOpen] = useState({ open: false, item: null });
+  const closeModal = () => setOpen({ open: false, item: null, type: null });
 
+  const approveHandleClick = (item) => {
+    setMessage(
+      "Nếu bạn đồng ý, bài viết này sẽ hiển thị với mọi người. Bạn có chắc chắn đồng ý hiển thị bài viết này không?"
+    );
+    setOpen({ open: true, item: item, type: "APPROVE" });
+  };
+  const rejectHandleClick = (item) => {
+    setMessage(
+      "Bạn đang từ chối xác nhận bài viết này, bài viết này bị ẩn với mọi người. Bạn có chắc chắn từ chối bài viết này không?"
+    );
+    setOpen({ open: true, item: item, type: "REJECT" });
+  };
+  const removeItem = (item, type) => {
+    setReviews((preReviews) =>
+      preReviews.filter(
+        (review) => !(review.type === type && review.id === item.id)
+      )
+    );
+  };
+  const [approveReviewSubject] = useApproveReviewSubjectMutation();
+  const [rejectReviewSubject] = useRejectReviewSubjectMutation();
+  const [approveReviewTeacher] = useApproveReviewTeacherMutation();
+  const [rejectReviewTeacher] = useRejectReviewTeacherMutation();
+  const onConfirm = () => {
+    if (open.item === undefined) return;
+    if (open.type === "REJECT") {
+      if (open.item.type === "REVIEW_SUBJECT") {
+        rejectReviewSubject(open.item.id).then((response) => {
+          removeItem(response.data.content, "REVIEW_SUBJECT");
+          closeModal();
+        });
+      } else {
+        rejectReviewTeacher(open.item.id).then((response) => {
+          removeItem(response.data.content, "REVIEW_Teacher");
+          closeModal();
+        });
+      }
+    }
+    if (open.type === "APPROVE") {
+      if (open.item.type === "REVIEW_SUBJECT") {
+        approveReviewSubject(open.item.id).then((response) => {
+          removeItem(response.data.content, "REVIEW_SUBJECT");
+          closeModal();
+        });
+      } else {
+        approveReviewTeacher(open.item.id).then((response) => {
+          removeItem(response.data.content, "REVIEW_Teacher");
+          closeModal();
+        });
+      }
+    }
+  };
   return (
     <BoxFull sx={{ backgroundColor: "white" }}>
       <Box
@@ -88,7 +157,16 @@ function Approve() {
                     <Owner
                       owner={review.owner}
                       createdAt={review.createdAt}
-                      listItem={[]}
+                      listItem={[
+                        <IconButton
+                          key={1}
+                          onClick={() => {
+                            removeItem(review, review.type);
+                          }}
+                        >
+                          <CloseIcon />
+                        </IconButton>,
+                      ]}
                     />
                     <Box
                       p={1}
@@ -166,6 +244,7 @@ function Approve() {
                               boxShadow: 1,
                             }}
                             mx={1}
+                            onClick={() => approveHandleClick(review)}
                           >
                             <OfflinePinIcon color="success" />
                           </Box>
@@ -183,6 +262,7 @@ function Approve() {
                               borderRadius: 1,
                               boxShadow: 1,
                             }}
+                            onClick={() => rejectHandleClick(review)}
                           >
                             <RemoveCircleOutlineIcon color="error" />
                           </Box>
@@ -206,11 +286,19 @@ function Approve() {
         <Pagination
           page={page}
           onChange={(e, value) => setPage(value)}
-          count={Math.ceil(reports.length / pageSize)}
+          count={Math.ceil(reviews.length / pageSize)}
           color="primary"
           shape="rounded"
         />
       </Box>
+      {open.open && (
+        <ConfirmModal
+          message={message}
+          open={open.open}
+          closeModal={closeModal}
+          action={onConfirm}
+        />
+      )}
     </BoxFull>
   );
 }

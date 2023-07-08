@@ -15,7 +15,6 @@ function ApproveNofifycation({ notifycation }) {
       clearApproveNotification({ id: notifycation.id, preState: APPROVE })
     );
   };
-  const object = review.subject || review.teacher;
   return (
     <Box width={"100%"} p={2} sx={{ borderBottom: 1, borderColor: "divider" }}>
       <Box display={"flex"} justifyContent={"space-between"} width={"100%"}>
@@ -23,18 +22,15 @@ function ApproveNofifycation({ notifycation }) {
           <Typography fontSize={"16px"}>
             Bài reiview{" "}
             {approveType === "REVIEW_TEACHER" ? "giảng viên " : "môn "}{" "}
-            <strong>{object.name}</strong>
+            <strong>{notifycation.name}</strong>
             <span
-              style={{ color: review.approved === "REJECT" ? "red" : "green" }}
+              style={{ color: notifycation.approved === "REJECT" ? "red" : "green" }}
             >
-              {review.approved === "REJECT"
+              {notifycation.approved === "REJECT"
                 ? " đã bị từ chối"
                 : " đã được phê duyệt"}
             </span>
           </Typography>
-          {review.approved === "REJECT" && (
-            <Typography>{review.message}</Typography>
-          )}
         </Box>
         <Box>
           <IconButton onClick={close}>

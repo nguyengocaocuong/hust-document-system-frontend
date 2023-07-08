@@ -17,6 +17,9 @@ export const authState = createSlice({
     updateAuthProfile: (state, action) => {
       state.user = action.payload;
     },
+    updateJwtToken: (state, action) => {
+      state.user.token = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -29,5 +32,5 @@ export const authState = createSlice({
   },
 });
 
-export const { signOut, updateAuthProfile } = authState.actions;
+export const { signOut, updateAuthProfile, updateJwtToken } = authState.actions;
 export default authState.reducer;

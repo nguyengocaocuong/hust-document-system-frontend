@@ -7,15 +7,21 @@ import {
   styled,
 } from "@mui/material";
 import { useProSidebar } from "react-pro-sidebar";
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBox from "../components/SearchBox";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import Notification from "./notifycation";
 import { deepOrange } from "@mui/material/colors";
-import { toggleNotification } from "../store/notificationState";
+import {
+  addApproveNotification,
+  addSharedNotification,
+  toggleNotification,
+} from "../store/notificationState";
 import UploadAnimation from "./UploadAnimation";
+import Pusher from "pusher-js";
+import { v4 as uuid } from "uuid";
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
@@ -57,6 +63,42 @@ function Header() {
   };
   const isLoading = LOADING.find((item) => item.status === 0) ? true : false;
 
+  useEffect(() => {
+    if (user.roleType === "ADMIN") return;
+    const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
+      cluster: "ap1",
+    });
+    const channelNotification = pusherService.subscribe(`notification`);
+    channelNotification.bind(
+      `share-subject-document-to-${user.id}`,
+      (subjectDocument) => {
+        dispatch(addSharedNotification([subjectDocument, ...SHARED]));
+      }
+    );
+    channelNotification.bind(`review-subject-${user.id}`, (approve) => {
+      console.log(approve)
+      dispatch(
+        addApproveNotification([
+         approve,
+          ...APPROVE,
+        ])
+      );
+    });
+    channelNotification.bind(`review-teacher-${user.id}`, (approve) => {
+      dispatch(
+        addApproveNotification([
+          approve,
+          ...APPROVE,
+        ])
+      );
+    });
+
+    return () => {
+      channelNotification.unbind();
+      pusherService.unsubscribe("notification");
+      pusherService.disconnect();
+    };
+  }, [user, dispatch, SHARED, APPROVE]);
   return (
     <Box
       width={"100%"}

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useGetSubjectDocumentDetailQuery } from "../services/SubjectService";
 import { Box } from "@mui/material";
-import DocumentViewer from "./document/DocumentViewer";
 
 import BoxFull from "./BoxFull";
 import SubjectDocumentInfo from "./SubjectDocumentInfo";
+import WebViewer from "./WebViewer";
 function SubjectDocumentDetail() {
   const location = useLocation();
   const token = location.search?.length > 7 ? location.search.substring(7) : "";
@@ -15,8 +15,8 @@ function SubjectDocumentDetail() {
   const [uri, setUri] = useState(
     `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/readFile?token=${token}`
   );
-  
-  const [language, setLanguage] = useState('ROOT');
+
+  const [language, setLanguage] = useState("ROOT");
 
   const handleSelectLanguage = (value) => {
     setLanguage(() => {
@@ -29,7 +29,7 @@ function SubjectDocumentDetail() {
   };
   const resetLanguage = () => {
     setUri(() => {
-      setLanguage('ROOT');
+      setLanguage("ROOT");
       return `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/readFile?token=${token}`;
     });
   };
@@ -42,13 +42,10 @@ function SubjectDocumentDetail() {
             borderRight="1px solid #D8D9D9"
             borderBottom="1px solid #D8D9D9"
           >
-            <DocumentViewer
-              docs={[
-                {
-                  uri,
-                  fileName: subjectDocumentDetail.document.name,
-                },
-              ]}
+            <WebViewer
+              url={uri}
+              filename={subjectDocumentDetail.document.name}
+              owner={subjectDocumentDetail.owner}
             />
           </Box>
           <SubjectDocumentInfo

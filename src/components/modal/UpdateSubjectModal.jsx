@@ -44,7 +44,7 @@ function UpdateSubjectModal({ open }) {
   const theme = useTheme();
   const { refetch: refetchSubject } = useGetAllSubjectQuery();
   const [updateSubject] = useUpdateSubjectMutation();
-  const createNewSubject = () => {
+  const editSubject = () => {
     updateSubject(convertJsonToFormData(subject)).then((response) => {
       refetchSubject();
       setSubject({
@@ -60,7 +60,7 @@ function UpdateSubjectModal({ open }) {
     <Modal open={open} onClose={closeModal}>
       <Box sx={{ ...style }}>
         <Paper elevation={1}>
-          <Box p={2} width={"350px"}>
+          <Box p={2} width={"450px"}>
             <Typography
               variant="h3"
               color={theme.palette.text.secondary}
@@ -141,9 +141,9 @@ function UpdateSubjectModal({ open }) {
                     }
                     size="large"
                     variant="contained"
-                    onClick={createNewSubject}
+                    onClick={editSubject}
                   >
-                    Thêm môn học
+                    Cập nhật
                   </Button>
                 </Grid>
               </Grid>

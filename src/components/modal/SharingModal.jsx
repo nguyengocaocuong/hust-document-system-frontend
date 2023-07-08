@@ -38,9 +38,8 @@ const style = {
   boxShadow: 24,
 };
 function SharingModal({ open }) {
-  const { user: authUser } = useSelector((state) => state.authentication);
   const { refetch: refetchSubjectDocumentCreateByUser } =
-    useGetAllSubjectDocumentCreateByUserQuery(authUser?.id);
+    useGetAllSubjectDocumentCreateByUserQuery();
   const dispatch = useDispatch();
   const {
     sharingModal: { dataModal },
@@ -75,16 +74,23 @@ function SharingModal({ open }) {
     ]);
   };
 
-  const handleShare = (shareType) => {
+  const handleShare = () => {
     if (selectedUser.length === 0) return;
     var body = new FormData();
     body.append(
-      "userIds",
+      "shareUserId",
       selectedUser.map((u) => u.data?.id)
     );
-    body.append("shareType", shareType);
+    body.append(
+      "deleteUserId",
+      shared
+        .filter(
+          (u) => selectedUser.find((s) => s.data?.id === u.id) === undefined
+        )
+        .map((u) => u.id)
+    );
     shareSubjectDocument({ id: dataModal.subjectDocumentId, body }).then(
-      (response) => {
+      () => {
         refetchSubjectDocumentCreateByUser();
         closeModal();
       }
@@ -201,14 +207,12 @@ function SharingModal({ open }) {
               {user.item
                 .filter(
                   (u) =>
-                    selectedUser.find(user => user.id === u.id) ===
-                      undefined &&
-                    (key === undefined ||
-                      key === "" ||
-                      `${u.data?.firstName} ${u.data?.lastName}`
-                        .toUpperCase()
-                        .includes(key.toUpperCase()) ||
-                      u.data?.email.toUpperCase().includes(key.toUpperCase()))
+                    key === undefined ||
+                    key === "" ||
+                    `${u.data?.firstName} ${u.data?.lastName}`
+                      .toUpperCase()
+                      .includes(key.toUpperCase()) ||
+                    u.data?.email.toUpperCase().includes(key.toUpperCase())
                 )
                 .map((u, i) => (
                   <Box
@@ -309,7 +313,7 @@ function SharingModal({ open }) {
                 sx={{ borderRadius: "25px", textTransform: "capitalize" }}
                 variant="contained"
                 color={"success"}
-                onClick={() => handleShare("PRIVATE")}
+                onClick={handleShare}
               >
                 Chia sẻ
               </Button>
