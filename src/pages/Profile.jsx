@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import { DatePicker } from "@mui/x-date-pickers";
 import BoxBetween from "../components/BoxBetween";
 import { useDispatch, useSelector } from "react-redux";
 import avatar from "../assets/images/avatar/05.jpg";
@@ -120,7 +119,7 @@ function Profile() {
                 <Select
                   defaultValue="USER"
                   value={profile.role}
-                  hiddenLabel
+                  
                   sx={{ minWidth: "100%" }}
                   size="small"
                   disabled
@@ -139,7 +138,7 @@ function Profile() {
                 </Typography>
                 <TextField
                   onChange={handleChange}
-                  hiddenLabel
+                  
                   name="facebookUrl"
                   placeholder="Enter user facebook"
                   size="small"
@@ -156,7 +155,7 @@ function Profile() {
                   Instagram :
                 </Typography>
                 <TextField
-                  hiddenLabel
+                  
                   onChange={handleChange}
                   placeholder="Enter user instagram"
                   size="small"
@@ -174,7 +173,7 @@ function Profile() {
                   Twitter :
                 </Typography>
                 <TextField
-                  hiddenLabel
+                  
                   placeholder="Enter user twitter"
                   size="small"
                   sx={{ width: "100%" }}
@@ -210,7 +209,7 @@ function Profile() {
                         Tên:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         name="lastName"
                         placeholder="Nhập tên người dùng"
                         size="small"
@@ -230,7 +229,7 @@ function Profile() {
                         Họ:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         placeholder="Nhập họ người dùng"
                         size="small"
                         name="firstName"
@@ -250,7 +249,7 @@ function Profile() {
                         Địa chỉ:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         placeholder="Nhập địa chỉ người dùng"
                         size="small"
                         name="address"
@@ -269,7 +268,7 @@ function Profile() {
                         Số điện thoại:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         placeholder="Nhập số điện thoại người dùng"
                         size="small"
                         name="phoneNumber"
@@ -286,24 +285,10 @@ function Profile() {
                         color={theme.palette.text.secondary}
                         mb={"5px"}
                       >
-                        Ngày tháng năm sinh:
-                      </Typography>
-                      <DatePicker
-                        slotProps={{ textField: { size: "small" } }}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xl={4}>
-                    <Box mb={"15px"}>
-                      <Typography
-                        variant="h5"
-                        color={theme.palette.text.secondary}
-                        mb={"5px"}
-                      >
                         Thời gian nhập học:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         placeholder="Thời gian nhập học"
                         size="small"
                         sx={{ width: "100%" }}
@@ -335,7 +320,7 @@ function Profile() {
                         Tên đăng nhập:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         onChange={handleChange}
                         placeholder="Tên đăng nhập"
                         size="small"
@@ -355,7 +340,7 @@ function Profile() {
                         Email người dùng:
                       </Typography>
                       <TextField
-                        hiddenLabel
+                        
                         placeholder="Email người dùng"
                         size="small"
                         sx={{ width: "100%" }}
@@ -374,7 +359,7 @@ function Profile() {
                         Mật khẩu người dùng:
                       </Typography>
                       <OutlinedInput
-                        hiddenLabel
+                        
                         type="password"
                         placeholder="Mật khẩu người dùng"
                         size="small"

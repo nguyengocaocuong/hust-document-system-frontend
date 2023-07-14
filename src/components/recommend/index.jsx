@@ -41,25 +41,10 @@ function Recommend() {
       page: recommends.currentPage,
       size: recommends.size,
     });
-    if (
-      response.data?.subjectDocuments?.length > 0 ||
-      response.data?.answerSubjectDocuments?.length > 0
-    ) {
+    if (response.data?.length > 0) {
       setRecommends((recommends) => ({
         ...recommends,
-        items: [
-          ...recommends.items,
-          ...response.data?.subjectDocuments.map((subjectDocument) => ({
-            ...subjectDocument,
-            typeRecommend: "SUBJECT_DOCUMENT",
-          })),
-          ...response.data?.answerSubjectDocuments.map(
-            (answerSubjectDocument) => ({
-              ...answerSubjectDocument,
-              typeRecommend: "ANSWER_SUBJECT_DOCUMENT",
-            })
-          ),
-        ],
+        items: [...recommends.items, ...(response.data || [])],
         currentPage: recommends.currentPage + 1,
       }));
     } else {

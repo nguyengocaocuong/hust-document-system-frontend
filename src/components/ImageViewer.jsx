@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 
 function ImageViewer({ url, description }) {
-  // const [currUrl, setCurrUrl] = useState(url);
   return (
     <Box
       width={"100%"}

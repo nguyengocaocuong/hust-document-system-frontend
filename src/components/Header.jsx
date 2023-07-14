@@ -21,7 +21,6 @@ import {
 } from "../store/notificationState";
 import UploadAnimation from "./UploadAnimation";
 import Pusher from "pusher-js";
-import { v4 as uuid } from "uuid";
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
@@ -76,7 +75,6 @@ function Header() {
       }
     );
     channelNotification.bind(`review-subject-${user.id}`, (approve) => {
-      console.log(approve)
       dispatch(
         addApproveNotification([
          approve,

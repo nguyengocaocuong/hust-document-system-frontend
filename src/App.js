@@ -17,8 +17,6 @@ import Posted from "./pages/Posted";
 import Document from "./pages/Document";
 import Writing from "./pages/Writing";
 import Profile from "./pages/Profile";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SubjectDetail from "./components/subject/SubjectDetail";
 import Education from "./pages/Education";
 import SubjectDocumentDetail from "./components/SubjectDocumentDetail";
@@ -36,75 +34,68 @@ import PageNotFound from "./pages/PageNotFound";
 import UserInfo from "./pages/UserInfo";
 import Search from "./pages/Search";
 import BabComment from "./pages/BabComment";
+import Annotation from "./pages/Annotation";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <BrowserRouter>
-            <ProSidebarProvider>
-              <CssBaseline />
-              <BoxFull>
-                <BoxFull maxHeight={"100vh"}>
-                  <Routes>
-                    <Route path="/" element={<WebLayout />}>
-                      {isLogin && user?.roleType === "ADMIN" ? (
-                        <Route path="/" element={<AdminLayout />}>
-                          <Route index element={<Dashboash />} />
-                          <Route path="users" element={<User />} />
-                          <Route path="users/:id" element={<UserInfo />} />
-                          <Route path="reports" element={<Report />} />
-                          <Route path="subjects" element={<Subject />} />
-                          <Route path="teachers" element={<Teacher />} />
-                          <Route path="approves" element={<Approve />} />
-                          <Route path="bab-comments" element={<BabComment />} />
+        <BrowserRouter>
+          <ProSidebarProvider>
+            <CssBaseline />
+            <BoxFull>
+              <BoxFull maxHeight={"100vh"}>
+                <Routes>
+                  <Route path="/" element={<WebLayout />}>
+                    {isLogin && user?.roleType === "ADMIN" ? (
+                      <Route path="/" element={<AdminLayout />}>
+                        <Route index element={<Dashboash />} />
+                        <Route path="users" element={<User />} />
+                        <Route path="users/:id" element={<UserInfo />} />
+                        <Route path="reports" element={<Report />} />
+                        <Route path="subjects" element={<Subject />} />
+                        <Route path="teachers" element={<Teacher />} />
+                        <Route path="approves" element={<Approve />} />
+                        <Route path="bab-comments" element={<BabComment />} />
+                      </Route>
+                    ) : (
+                      <Route path="/" element={<UserLayout />}>
+                        <Route index element={<Home />} />
+                        <Route path="review" element={<Review />} />
+                        <Route path="writing" element={<Writing />} />
+                        <Route path="post/:id" element={<PostDetailt />} />
+                        <Route
+                          path="education/subject-document/:id"
+                          element={<SubjectDocumentDetail />}
+                        />
+                        <Route path="education" element={<Education />} />
+                        <Route path="trash" element={<Trash />} />
+                        <Route
+                          path="education/:id"
+                          element={<SubjectDetail />}
+                        />
+                        <Route path="search" element={<Search />} />
+                        <Route path="private" element={<Private />}>
+                          <Route index path="document" element={<Document />} />
+                          <Route index path="posted" element={<Posted />} />
+                          <Route path="shared" element={<Shared />} />
+                          <Route index path="profile" element={<Profile />} />
                         </Route>
-                      ) : (
-                        <Route path="/" element={<UserLayout />}>
-                          <Route index element={<Home />} />
-                          <Route path="review" element={<Review />} />
-                          <Route path="writing" element={<Writing />} />
-                          <Route path="post/:id" element={<PostDetailt />} />
-                          <Route
-                            path="education/subject-document/:id"
-                            element={<SubjectDocumentDetail />}
-                          />
-                          <Route path="education" element={<Education />} />
-                          <Route path="trash" element={<Trash />} />
-                          <Route
-                            path="education/:id"
-                            element={<SubjectDetail />}
-                          />
-                          <Route path="search" element={<Search />} />
-                          <Route path="private" element={<Private />}>
-                            <Route
-                              index
-                              path="document"
-                              element={<Document />}
-                            />
-                            <Route index path="posted" element={<Posted />} />
-                            <Route path="shared" element={<Shared />} />
-                            <Route index path="profile" element={<Profile />} />
-                          </Route>
-                        </Route>
-                      )}
-                    </Route>
-                    <Route path="sign-in" element={<Signin />} />
-                    <Route path="sign-in" element={<Signin />} />
-                    <Route path="sign-up" element={<Signup />} />
-                    <Route
-                      path="forgot-password"
-                      element={<ForgotPassword />}
-                    />
-                    <Route path="*" element={<PageNotFound />} />
-                  </Routes>
-                </BoxFull>
+                      </Route>
+                    )}
+                  </Route>
+                  <Route path="annotation" element={<Annotation />} />
+                  <Route path="sign-in" element={<Signin />} />
+                  <Route path="sign-in" element={<Signin />} />
+                  <Route path="sign-up" element={<Signup />} />
+                  <Route path="forgot-password" element={<ForgotPassword />} />
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
               </BoxFull>
-            </ProSidebarProvider>
-          </BrowserRouter>
-        </LocalizationProvider>
+            </BoxFull>
+          </ProSidebarProvider>
+        </BrowserRouter>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

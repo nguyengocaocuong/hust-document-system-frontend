@@ -21,7 +21,14 @@ export const checkURLType = (url) => {
     const bitbucketRegex = new RegExp(
       '^https?:\\/\\/(?:www\\.)?bitbucket\\.org\\/[a-zA-Z0-9_-]+\\/[a-zA-Z0-9_-]+'
     );
-  
+    const facebookRegex = new RegExp(
+      '^https?:\\/\\/(?:www\\.)?facebook\\.com\\/[a-zA-Z0-9_-]+'
+    );
+    
+    if (facebookRegex.test(url)) {
+      return 'Facebook';
+    }
+    
     if (googleDriveRegex.test(url)) {
       return 'Google Drive';
     } else if (officeRegex.test(url)) {

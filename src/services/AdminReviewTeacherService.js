@@ -17,7 +17,21 @@ export const adminReviewTeacherApi = createApi({
       query: () => "/new",
       transformResponse: (response) => response.content,
     }),
+    approveReviewTeacher: builder.mutation({
+      query: (reviewTeacherId) => ({
+        url: `/${reviewTeacherId}/approve`,
+        method: "PATCH",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
+    rejectReviewTeacher: builder.mutation({
+      query: (reviewTeacherId) => ({
+        url: `/${reviewTeacherId}/approve`,
+        method: "PATCH",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
   }),
 });
 
-export const { useGetAllNewReviewTeacherQuery } = adminReviewTeacherApi;
+export const { useGetAllNewReviewTeacherQuery, useApproveReviewTeacherMutation, useRejectReviewTeacherMutation } = adminReviewTeacherApi;

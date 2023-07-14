@@ -1,10 +1,12 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { documentType } from "../../settings/SubjectSetting";
 import Owner from "../Owner";
 import { CloseOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
+  const navigate = useNavigate()
   return (
     <Box
       width={"100%"}
@@ -14,13 +16,19 @@ function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
         cursor: "pointer",
       }}
       p={2}
+      onClick={()=> navigate(`/education/subject-document/${recommend.id}`)}
     >
       <Owner
         owner={recommend.owner}
         createdAt={recommend.createdAt}
         sx={{ p: -2 }}
         listItem={[
-          <IconButton key={1} onClick={closeRecommend}>
+          <Chip
+            key={1}
+            color={"primary"}
+            label={<strong>{"Hóa học"}</strong>}
+          />,
+          <IconButton key={2} onClick={closeRecommend}>
             <CloseOutlined />
           </IconButton>,
         ]}
@@ -38,16 +46,8 @@ function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
           alt=""
         />
         <Box width={"calc(100% - 90px)"}>
-          <Typography width={"100%"}>
-            <strong>
-              {`${recommend.owner.firstName} ${recommend.owner.lastName}`}
-            </strong>{" "}
-            đã chia sẻ{" "}
-            <strong>{documentType[recommend.subjectDocumentType].title}</strong>{" "}
-            cho môn học <strong>{"Hóa học"}</strong>
-          </Typography>
-          <Typography fontWeight={"bold"} width={"100%"} noWrap>
-            {recommend.document.name}
+          <Typography width={"100%"} textTransform={"uppercase"}>
+            <strong>#{documentType[recommend.subjectDocumentType].title}</strong>{" "}
           </Typography>
           <Typography>{recommend.description}</Typography>
         </Box>

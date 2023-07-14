@@ -31,6 +31,8 @@ import { adminReportDuplicateSubjectDocumentApi } from "../services/AdminReportD
 import { adminReportContentSubjectDocumentApi } from "../services/AdminReportContentSubjectDocumentService";
 import { adminReportContentTeacherSubjectApi } from "../services/AdminReportContentReviewTeacherService";
 import { searchApi } from "../services/SearchService";
+import { adminCommentReviewSubjectApi } from "../services/AdminCommentReviewSubjectService";
+import { adminCommentReviewTeacherApi } from "../services/AdminCommentReviewTeacherService";
 const rootReducer = combineReducers({
   authentication: authReducer,
   modalState: modalState,
@@ -56,6 +58,10 @@ const rootReducer = combineReducers({
     adminReportContentSubjectDocumentApi.reducer,
   [adminReportContentTeacherSubjectApi.reducerPath]:
     adminReportContentTeacherSubjectApi.reducer,
+  [adminCommentReviewSubjectApi.reducerPath]:
+    adminCommentReviewSubjectApi.reducer,
+  [adminCommentReviewTeacherApi.reducerPath]:
+    adminCommentReviewTeacherApi.reducer,
   [searchApi.reducerPath]:
     searchApi.reducer,
 });
@@ -91,6 +97,8 @@ export const store = configureStore({
       adminReportDuplicateSubjectDocumentApi.middleware,
       adminReportContentSubjectDocumentApi.middleware,
       adminReportContentTeacherSubjectApi.middleware,
+      adminCommentReviewTeacherApi.middleware,
+      adminCommentReviewSubjectApi.middleware,
       searchApi.middleware
     ),
 });

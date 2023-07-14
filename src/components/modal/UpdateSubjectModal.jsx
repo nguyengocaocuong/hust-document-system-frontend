@@ -36,7 +36,9 @@ function UpdateSubjectModal({ open }) {
     id: dataModal.id,
     subjectCode: dataModal?.subjectCode || "",
     name: dataModal?.subjectCode || "",
-    description: dataModal?.subjectCode || "",
+    description: dataModal?.description || "",
+    enName: dataModal?.enName || "",
+    institute: dataModal?.institute || "",
   });
   const handleChange = (e) => {
     setSubject({ ...subject, [e.target.name]: e.target.value });
@@ -70,7 +72,7 @@ function UpdateSubjectModal({ open }) {
             </Typography>
             <Box pl={1}>
               <Grid container spacing={2}>
-                <Grid item xl={12}>
+                <Grid item xl={6}>
                   <Box>
                     <Typography
                       variant="h5"
@@ -82,16 +84,33 @@ function UpdateSubjectModal({ open }) {
                     <TextField
                       name="name"
                       width={"350px"}
-                      hiddenLabel
                       placeholder="Nhập tên môn học"
-                      size="small"
                       sx={{ width: "100%" }}
                       value={subject?.name}
                       onChange={handleChange}
                     />
                   </Box>
                 </Grid>
-                <Grid item xl={12}>
+                <Grid item xl={6}>
+                  <Box>
+                    <Typography
+                      variant="h5"
+                      color={theme.palette.text.secondary}
+                      mb={"5px"}
+                    >
+                      Tên tiếng anh:
+                    </Typography>
+                    <TextField
+                      name="enName"
+                      width={"350px"}
+                      placeholder="Nhập tên tiếng anh"
+                      sx={{ width: "100%" }}
+                      value={subject?.enName}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xl={6}>
                   <Box>
                     <Typography
                       variant="h5"
@@ -103,11 +122,28 @@ function UpdateSubjectModal({ open }) {
                     <TextField
                       name="subjectCode"
                       width={"350px"}
-                      hiddenLabel
                       placeholder="Nhập mã môn học"
-                      size="small"
                       sx={{ width: "100%" }}
                       value={subject?.subjectCode}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xl={6}>
+                  <Box>
+                    <Typography
+                      variant="h5"
+                      color={theme.palette.text.secondary}
+                      mb={"5px"}
+                    >
+                      Viện quản lý:
+                    </Typography>
+                    <TextField
+                      name="institute"
+                      width={"350px"}
+                      placeholder="Nhập tên viện quản lý"
+                      sx={{ width: "100%" }}
+                      value={subject?.institute}
                       onChange={handleChange}
                     />
                   </Box>
@@ -122,10 +158,10 @@ function UpdateSubjectModal({ open }) {
                       Mô tả môn học:
                     </Typography>
                     <StyledTextarea
-                      maxRows={5}
-                      minRows={5}
-                      placeholder="Nhập thông tin môn học"
-                      value={subject.description}
+                      maxRows={10}
+                      minRows={10}
+                      placeholder="Nhập mô tả môn học"
+                      value={subject?.description}
                       name="description"
                       sx={{ resize: "none" }}
                       onChange={handleChange}

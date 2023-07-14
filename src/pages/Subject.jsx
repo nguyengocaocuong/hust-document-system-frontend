@@ -1,4 +1,11 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import Table from "../components/Table";
 import EditOffIcon from "@mui/icons-material/EditOff";
@@ -10,12 +17,13 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import ConfirmModal from "../components/modal/ComfirmModal";
-import { openUpdateSubjectModal } from "../store/modalState";
+import { openSubjectModal, openUpdateSubjectModal } from "../store/modalState";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 const headers = [
   { title: "", width: "30px" },
-  { title: "Tên môn học", width: "15%" },
   { title: "Mã học phần", width: "15%" },
-  { title: "Mô tả", width: "25%" },
+  { title: "Tên môn học", width: "30%" },
+  { title: "Tên tiếng anh", width: "30%" },
   { title: "Review", width: "10%" },
   { title: "Tài liệu", width: "10%" },
   { title: "Yêu thích", width: "10%" },
@@ -59,17 +67,20 @@ function Subject() {
       <Box width={"30px"}>
         <Typography fontWeight={"bold"}>#{item.subject.id}</Typography>
       </Box>
+      <Typography sx={{ fontWeight: "bold", width: "15%" }}>
+        {item.subject.subjectCode}
+      </Typography>
       <Typography
-        sx={{ fontWeight: "bold", width: "15%" }}
+        sx={{ fontWeight: "bold", width: "30%" }}
         color={"primary.main"}
       >
         {item.subject.name}
       </Typography>
-      <Typography sx={{ fontWeight: "bold", width: "15%" }}>
-        {item.subject.subjectCode}
-      </Typography>
-      <Typography sx={{ fontWeight: "bold", width: "25%" }}>
-        {item.subject.description}
+      <Typography
+        sx={{ fontWeight: "bold", width: "30%" }}
+        color={"primary.main"}
+      >
+        {item.subject.enName}
       </Typography>
       <Typography width={"10%"} noWrap>
         {item.reviewSubjectTotal} bài viết
@@ -118,11 +129,30 @@ function Subject() {
       </Box>
     </Box>
   );
+
+  const addSubject = () => {
+    dispatch(openSubjectModal());
+  };
   return (
     <Box height={"100%"} overflow={"auto"} bgcolor={"white"}>
-      <Typography variant="h3" color={"text.secondary"} height={"50px"} p={2}>
-        Danh sách môn học trong hệ thống
-      </Typography>
+      <Stack
+        direction={"row"}
+        spacing={2}
+        display={"flex"}
+        alignItems={"center"}
+        px={2}
+        height={"50px"}
+      >
+        <Typography variant="h3" color={"text.secondary"}>
+          Danh sách môn học trong hệ thống
+        </Typography>
+        <Button onClick={addSubject} variant="outlined" color="warning">
+          <Stack spacing={0.5} direction={"row"}>
+            <Typography>Thêm môn học</Typography>
+            <AddBoxIcon />
+          </Stack>
+        </Button>
+      </Stack>
       <Box height={"calc(100% - 50px)"}>
         <Table
           headers={headers}

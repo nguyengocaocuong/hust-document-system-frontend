@@ -12,7 +12,7 @@ import {
   useUploadAnswerForSubjectDocumentMutation,
 } from "../services/SubjectService";
 import { useSelector } from "react-redux";
-import { Box, Chip } from "@mui/material";
+import { Box } from "@mui/material";
 import Owner from "./Owner";
 import PropperMenu from "./PropperMenu";
 import DetailActions from "./DetailActions";
@@ -176,13 +176,6 @@ function SubjectDocumentInfo({
         owner={subjectDocumentDetail.owner}
         createdAt={subjectDocumentDetail.createdAt}
         listItem={[
-          <Chip
-            key={1}
-            label={subjectDocumentDetail.subject?.name}
-            size="small"
-            sx={{ maxWidth: "100px" }}
-            color="info"
-          />,
           <PropperMenu key={2} action={actions()} />,
         ]}
         sx={{ height: "70px" }}
@@ -223,7 +216,7 @@ function SubjectDocumentInfo({
         )}
         {selectedId === 3 && (
           <TranslateLanguage
-            value={language.value}
+            value={language}
             onClick={setLanguage}
             reset={resetLanguage}
           />

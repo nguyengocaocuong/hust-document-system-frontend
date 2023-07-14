@@ -246,7 +246,7 @@ function UpdateTeacherModal({ open }) {
                       sx={{ textTransform: "capitalize" }}
                       onClick={createNewTeacher}
                     >
-                      Thêm giảng viên
+                      Cập nhật
                     </Button>
                   </Grid>
                 </Grid>

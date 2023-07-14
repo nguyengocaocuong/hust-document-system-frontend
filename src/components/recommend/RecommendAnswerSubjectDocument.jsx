@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
 import Owner from "../Owner";
 import { CloseOutlined } from "@mui/icons-material";
@@ -20,6 +20,11 @@ function RecommendAnswerSubjectDocument({ recommend, closeRecommend }) {
         createdAt={recommend.createdAt}
         sx={{ p: -2 }}
         listItem={[
+          <Chip
+            color="primary"
+            key={2}
+            label={<strong>Pháp luật đại cương</strong>}
+          />,
           <IconButton key={1} onClick={closeRecommend}>
             <CloseOutlined />
           </IconButton>,
@@ -27,9 +32,8 @@ function RecommendAnswerSubjectDocument({ recommend, closeRecommend }) {
       />
       {recommend?.type === "LINK" && (
         <Stack spacing={1} py={1}>
-          <Typography>
-            Đã chia sẻ đáp án cho tài liệu môn học{" "}
-            <strong>Pháp luật đại cương</strong>
+          <Typography textTransform={"uppercase"}>
+            <strong>#Đáp án tài liệu môn học</strong>
           </Typography>
           <Box
             position="relative"
@@ -76,11 +80,7 @@ function RecommendAnswerSubjectDocument({ recommend, closeRecommend }) {
               <InsertLinkIcon />
             </Box>
           </Box>
-          <Typography>
-            {"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates eveniet veritatis minus totam. Enim facere deserunt officia? Earum aspernatur perferendis repellendus quasi libero corrupti, quod praesentium repellat cupiditate, eaque voluptate".substring(
-              90
-            )}
-          </Typography>
+          <Typography>{recommend.description?.substring(90)}</Typography>
         </Stack>
       )}
       {recommend?.type !== "LINK" && (
@@ -100,7 +100,8 @@ function RecommendAnswerSubjectDocument({ recommend, closeRecommend }) {
               <strong>
                 {`${recommend.owner.firstName} ${recommend.owner.lastName}`}
               </strong>{" "}
-              đã chia sẻ đáp án cho tài liệu môn học <strong>{"Hóa học"}</strong>
+              đã chia sẻ đáp án cho tài liệu môn học{" "}
+              <strong>{"Hóa học"}</strong>
             </Typography>
             <Typography fontWeight={"bold"} width={"100%"} noWrap>
               {recommend.document.name}

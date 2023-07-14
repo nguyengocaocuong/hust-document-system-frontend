@@ -16,9 +16,9 @@ import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { StyledTextarea } from "../EmptyTextarea";
 import { useCreateTeacherMutation } from "../../services/TeacherService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
-import { useGetAllTeacherForFilterQuery } from "../../services/FilterService";
 import { useDispatch } from "react-redux";
 import { closeTeacherModal } from "../../store/modalState";
+import { useGetAllTeacherQuery } from "../../services/AdminTeacherService";
 const style = {
   position: "absolute",
   top: "50%",
@@ -26,9 +26,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   borderRadius: 1,
   backgroundColor: "white",
-  p: 2,
+  p: 4,
 };
-function TeacherModal({ open }) {
+function AdminTeacherModal({ open }) {
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(closeTeacherModal());
@@ -50,7 +50,7 @@ function TeacherModal({ open }) {
   const handleChange = (e) => {
     setTeacher({ ...teacher, [e.target.name]: e.target.value });
   };
-  const { refetch } = useGetAllTeacherForFilterQuery();
+  const { refetch } = useGetAllTeacherQuery();
   const createNewTeacher = () => {
     createTeacher(convertJsonToFormData(teacher)).then((response) => {
       refetch();
@@ -271,4 +271,4 @@ function TeacherModal({ open }) {
   );
 }
 
-export default TeacherModal;
+export default AdminTeacherModal;

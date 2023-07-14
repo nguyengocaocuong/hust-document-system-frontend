@@ -17,7 +17,25 @@ export const adminReviewSubjectApi = createApi({
       query: () => "/new",
       transformResponse: (response) => response.content,
     }),
+    approveReviewSubject: builder.mutation({
+      query: (reviewSubjectId) => ({
+        url: `/${reviewSubjectId}/approve`,
+        method: "PATCH",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
+    rejectReviewSubject: builder.mutation({
+      query: (reviewSubjectId) => ({
+        url: `/${reviewSubjectId}/approve`,
+        method: "PATCH",
+      }),
+      transformResponse: (response) => response?.content,
+    }),
   }),
 });
 
-export const { useGetAllNewReviewSubjectQuery } = adminReviewSubjectApi;
+export const {
+  useGetAllNewReviewSubjectQuery,
+  useApproveReviewSubjectMutation,
+  useRejectReviewSubjectMutation,
+} = adminReviewSubjectApi;

@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Owner from "../Owner";
 import { useState } from "react";
 import ConfirmModal from "./ComfirmModal";
+import { useRejectReviewTeacherMutation } from "../../services/AdminReviewTeacherService";
 
 const style = {
   position: "absolute",
@@ -44,8 +45,14 @@ function NewReviewTeacherModal({ open }) {
   const closeConfirmModal = () => setOpen({ open: false, item: null });
   const openConfirmModal = (item) => setOpen({ open: true, item });
 
-  const onHidden = () => {
-    closeConfirmModal();
+  const [rejectReviewTeacher] = useRejectReviewTeacherMutation();
+  const onHidden = (status) => {
+    if (status) {
+      rejectReviewTeacher(dataModal.id).then((response) => {
+        console.log(response);
+        closeModal();
+      });
+    }
   };
 
   return (
@@ -115,7 +122,7 @@ function NewReviewTeacherModal({ open }) {
               >
                 Ẩn bài viết
               </Button>
-              <Button variant="outlined">Từ chối</Button>
+              <Button variant="outlined">Duyệt bài</Button>
             </Stack>
           </Box>
         </Box>

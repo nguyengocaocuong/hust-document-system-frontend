@@ -13,7 +13,10 @@ import FlagIcon from "@mui/icons-material/Flag";
 import { openDocumentViewerModal, openReportModal } from "../store/modalState";
 import PropperMenu from "./PropperMenu";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useLocation, useParams } from "react-router-dom";
 function AnswerCard({ answer, toggleFavorite }) {
+  const { id } = useParams();
+  const location = useLocation();
   const [isShowAll, setShowAll] = React.useState(false);
   const { user } = useSelector((state) => state.authentication);
   const isFavorited = answer?.favorites?.find((f) => f.user.id === user.id)
@@ -29,7 +32,9 @@ function AnswerCard({ answer, toggleFavorite }) {
         openDocumentViewerModal({
           docs: [
             {
-              uri: `${process.env.REACT_APP_BASE_URL}/api/v1/users/posts/answer/${answer?.id}/readFile`,
+              uri: location.pathname.startsWith("/post/")
+                ? `${process.env.REACT_APP_BASE_URL}/api/v1/users/posts/${id}/answer/${answer?.id}/readFile`
+                : `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/answerSubjectDocument/${answer.id}/readFile`,
               fileName: answer.document.name,
             },
           ],
@@ -45,7 +50,9 @@ function AnswerCard({ answer, toggleFavorite }) {
       })
     );
   };
-  const deleteAnswerSubjectDocument = () => {};
+  const deleteAnswerSubjectDocument = () => {
+    alert("delete");
+  };
   const actions = () => {
     let action = [
       { Icon: PreviewIcon, label: "Xem tài liệu", action: preview },

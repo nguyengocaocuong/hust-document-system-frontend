@@ -44,7 +44,7 @@ const CommentItem = ({
   };
   const actions = () => {
     let action = [];
-    if (isOwner)
+    if (isOwner && user.id !== comment.owner.id)
       action.push({
         Icon: VisibilityOffIcon,
         label: "Ẩn bình luận",
@@ -61,8 +61,8 @@ const CommentItem = ({
         label: "Xóa bình luận",
         action: () => clear(comment.id),
       });
-      return action;
     }
+    return action;
   };
   return (
     <Box>

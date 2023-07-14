@@ -16,7 +16,6 @@ import {
 import React, { useRef, useState } from "react";
 import avatar from "../assets/images/avatar/05.jpg";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import { DatePicker } from "@mui/x-date-pickers";
 import BoxBetween from "../components/BoxBetween";
 import { convertJsonToFormData } from "../utils/ConvertData";
 import { useCreateUserMutation } from "../services/AdminUserService";
@@ -284,20 +283,6 @@ function AddUser() {
                         onChange={handleChange}
                         value={profile.phoneNumber}
                         name="phoneNumber"
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item xl={4}>
-                    <Box mb={"15px"}>
-                      <Typography
-                        variant="h5"
-                        color={theme.palette.text.secondary}
-                        mb={"5px"}
-                      >
-                        Ngày tháng năm sinh:
-                      </Typography>
-                      <DatePicker
-                        slotProps={{ textField: { size: "small" } }}
                       />
                     </Box>
                   </Grid>

@@ -10,14 +10,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { StyledTextarea } from "../EmptyTextarea";
-import {
-  useCreateSubjectMutation,
-  useGetAllSubjectQuery,
-} from "../../services/SubjectService";
+import { useCreateSubjectMutation } from "../../services/SubjectService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
-import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
 import { useDispatch } from "react-redux";
 import { closeSubjectModal } from "../../store/modalState";
+import { useGetAllSubjectQuery } from "../../services/AdminSubjectService";
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,7 +22,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
 };
-function SubjectModal({ open }) {
+function AdminSubjectModal({ open }) {
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(closeSubjectModal());
@@ -33,20 +30,26 @@ function SubjectModal({ open }) {
   const [subject, setSubject] = useState({
     subjectCode: "",
     name: "",
+    enName: "",
+    institute: "",
     description: "",
   });
   const handleChange = (e) => {
     setSubject({ ...subject, [e.target.name]: e.target.value });
   };
   const theme = useTheme();
-  const { refetch } = useGetAllSubjectForFilterQuery();
   const { refetch: refetchAll } = useGetAllSubjectQuery();
   const [createSubject] = useCreateSubjectMutation();
   const createNewSubject = () => {
-    createSubject(convertJsonToFormData(subject)).then((response) => {
-      setSubject({ subjectCode: "", name: "", description: "" });
+    createSubject(convertJsonToFormData(subject)).then(() => {
+      setSubject({
+        subjectCode: "",
+        name: "",
+        description: "",
+        enName: "",
+        institute: "",
+      });
       closeModal();
-      refetch();
       refetchAll();
     });
   };
@@ -54,7 +57,7 @@ function SubjectModal({ open }) {
     <Modal open={open} onClose={closeModal}>
       <Box sx={{ ...style }}>
         <Paper elevation={1}>
-          <Box p={2} width={"450px"}>
+          <Box p={2} width={"500px"}>
             <Typography
               variant="h3"
               color={theme.palette.text.secondary}
@@ -64,7 +67,7 @@ function SubjectModal({ open }) {
             </Typography>
             <Box pl={1}>
               <Grid container spacing={2}>
-                <Grid item xl={12}>
+                <Grid item xl={6}>
                   <Box>
                     <Typography
                       variant="h5"
@@ -77,14 +80,32 @@ function SubjectModal({ open }) {
                       name="name"
                       width={"350px"}
                       placeholder="Nhập tên môn học"
-                      size="small"
                       sx={{ width: "100%" }}
                       value={subject?.name}
                       onChange={handleChange}
                     />
                   </Box>
                 </Grid>
-                <Grid item xl={12}>
+                <Grid item xl={6}>
+                  <Box>
+                    <Typography
+                      variant="h5"
+                      color={theme.palette.text.secondary}
+                      mb={"5px"}
+                    >
+                      Tên tiếng anh:
+                    </Typography>
+                    <TextField
+                      name="enName"
+                      width={"350px"}
+                      placeholder="Nhập tên tiếng anh"
+                      sx={{ width: "100%" }}
+                      value={subject?.enName}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xl={6}>
                   <Box>
                     <Typography
                       variant="h5"
@@ -96,11 +117,28 @@ function SubjectModal({ open }) {
                     <TextField
                       name="subjectCode"
                       width={"350px"}
-                      
                       placeholder="Nhập mã môn học"
-                      size="small"
                       sx={{ width: "100%" }}
                       value={subject?.subjectCode}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xl={6}>
+                  <Box>
+                    <Typography
+                      variant="h5"
+                      color={theme.palette.text.secondary}
+                      mb={"5px"}
+                    >
+                      Viện quản lý:
+                    </Typography>
+                    <TextField
+                      name="institute"
+                      width={"350px"}
+                      placeholder="Nhập tên viện quản lý"
+                      sx={{ width: "100%" }}
+                      value={subject?.institute}
                       onChange={handleChange}
                     />
                   </Box>
@@ -115,10 +153,10 @@ function SubjectModal({ open }) {
                       Mô tả môn học:
                     </Typography>
                     <StyledTextarea
-                      maxRows={5}
-                      minRows={5}
-                      placeholder="Nhập thông tin môn học"
-                      value={subject.description}
+                      maxRows={10}
+                      minRows={10}
+                      placeholder="Nhập mô tả môn học"
+                      value={subject?.description}
                       name="description"
                       sx={{ resize: "none" }}
                       onChange={handleChange}
@@ -148,4 +186,4 @@ function SubjectModal({ open }) {
   );
 }
 
-export default SubjectModal;
+export default AdminSubjectModal;

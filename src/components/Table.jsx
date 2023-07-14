@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Chip, Pagination, Typography } from "@mui/material";
 import { useState } from "react";
+
 function Table({
   headers,
   renderItem,
@@ -52,8 +53,8 @@ function Table({
         overflow={"hidden"}
         height={`${itemHeight * pageSize}px`}
       >
-        {currentData.map((item, index) =>
-          renderItem(item, `${item.type}-${index}`)
+        {currentData.map((item) =>
+          renderItem(item, `${item.type}-${item.id}`)
         )}
       </Box>
       {showPagination && (

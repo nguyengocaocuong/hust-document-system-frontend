@@ -119,7 +119,7 @@ function NewReviewSubjectModal({ open }) {
               >
                 Ẩn bài viết
               </Button>
-              <Button variant="outlined">Từ chối</Button>
+              <Button variant="outlined">Duyệt bài</Button>
             </Stack>
           </Box>
         </Box>

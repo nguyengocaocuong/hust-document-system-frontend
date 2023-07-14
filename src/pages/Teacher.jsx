@@ -1,4 +1,11 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import Table from "../components/Table";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -9,9 +16,11 @@ import {
   useGetAllTeacherQuery,
 } from "../services/AdminTeacherService";
 import { useDispatch } from "react-redux";
-import { openUpdateTeacherModal } from "../store/modalState";
+import { openTeacherModal, openUpdateTeacherModal } from "../store/modalState";
 import { useState } from "react";
 import ConfirmModal from "../components/modal/ComfirmModal";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+
 const headers = [
   { title: "", width: "60px" },
   { title: "Tên giảng viên", width: "13%" },
@@ -146,11 +155,30 @@ function Teacher() {
       </Box>
     </Box>
   );
+  const addTeacher = () => {
+    dispatch(openTeacherModal());
+  };
   return (
     <Box height={"100%"} overflow={"hidden"} bgcolor={"white"}>
-      <Typography variant="h3" color={"text.primary"} height={"50px"} p={2}>
-        Danh sách giảng viên
-      </Typography>
+      <Stack
+        direction={"row"}
+        spacing={2}
+        display={"flex"}
+        alignItems={"center"}
+        px={2}
+        height={"50px"}
+      >
+        <Typography variant="h3" color={"text.primary"}>
+          Danh sách giảng viên
+        </Typography>
+        <Button onClick={addTeacher} variant="outlined" >
+          <Stack spacing={0.5} direction={"row"}>
+            <Typography>Thêm giảng viên</Typography>
+            <AddBoxIcon />
+          </Stack>
+        </Button>
+      </Stack>
+
       <Box height={"calc(100% - 50px)"}>
         <Table
           headers={headers}

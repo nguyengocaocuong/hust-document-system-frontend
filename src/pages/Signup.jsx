@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   TextField,
   Typography,
   useTheme,
@@ -15,6 +16,7 @@ import { useSelector } from "react-redux";
 import BoxBetween from "../components/BoxBetween";
 
 function Signup() {
+  const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
   const { isLogin } = useSelector((state) => state.authentication);
@@ -29,9 +31,10 @@ function Signup() {
   const handleOnChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const handleRegister = async () => {
+  const handleRegister = () => {
+    setLoading(true);
     const formData = convertJsonToFormData(user);
-    await register(formData);
+    register(formData).then((response) => setLoading(false));
   };
   return isLogin ? (
     <Navigate to={"/"} replace />
@@ -226,7 +229,12 @@ function Signup() {
                     onClick={handleRegister}
                     sx={{ textTransform: "capitalize", fontSize: "18px" }}
                   >
-                    Đăng ký
+                    <Typography mx={1} fontSize={'17px'}> Đăng ký</Typography>
+                    {isLoading && (
+                      <CircularProgress
+                        sx={{ width: "15px", height: "15px", color: "white" }}
+                      />
+                    )}
                   </Button>
                 </BoxBetween>
                 <BoxBetween>

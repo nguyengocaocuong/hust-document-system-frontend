@@ -9,7 +9,7 @@ function ApproveNofifycation({ notifycation }) {
     notifications: { APPROVE },
   } = useSelector((state) => state.notificationState);
   const dispatch = useDispatch();
-  const { approveType, review } = notifycation;
+  const { approveType } = notifycation;
   const close = () => {
     dispatch(
       clearApproveNotification({ id: notifycation.id, preState: APPROVE })

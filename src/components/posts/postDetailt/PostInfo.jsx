@@ -140,7 +140,7 @@ function PostInfo({ postDetail, language }) {
       setComments((preComments) =>
         preComments.filter(
           (comment) =>
-            comment.id !== hiddenedCommentId || (comment.owner.id = user.id)
+            comment.id !== hiddenedCommentId || (comment.owner.id === user.id)
         )
       );
     });

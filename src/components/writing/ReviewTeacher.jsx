@@ -59,7 +59,7 @@ function ReviewTeacher() {
     formData.append("review", content);
     formData.append("done", done ? 1 : 0);
     if (location.state?.update) {
-      updateReviewTeacher({ body: formData, teacherId: teacher, reviewTeacherId: location.state?.reviewTeacherId })
+      updateReviewTeacher({ body: formData, teacherId: teacher, reviewTeacherId: location.state?.reviewTeacher.id })
       .then(() => {
         setTeacher("");
         setLiveView(false);

@@ -144,7 +144,7 @@ function ReviewTeacherModal({ open }) {
       setComments((preComments) =>
         preComments.filter(
           (comment) =>
-            comment.id !== hiddenedCommentId || (comment.owner.id = user.id)
+            comment.id !== hiddenedCommentId
         )
       );
     });
