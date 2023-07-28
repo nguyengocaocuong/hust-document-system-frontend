@@ -49,7 +49,7 @@ function Home() {
         overflow={"auto"}
         height={"100%"}
       >
-        <Box width={"100%"}>
+        <Box width={"100%"} height={'100%'} overflow={'hidden'}>
           <InfiniteScroll
             dataLength={posts.items.length}
             hasMore={posts.currentPage < posts.totalPages}

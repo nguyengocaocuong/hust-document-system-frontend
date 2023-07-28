@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import WebViewer from "@pdftron/webviewer";
 import ConfrimSplitModal from "./modal/ConfrimSplitModal";
+import editIcon from '../assets/images/icon/edit.svg'
 function SubjectDocumentDetail() {
   const [openConfirmSplit, setOpenConfirmSplit] = useState({ open: false });
   const viewer = useRef(null);
@@ -128,19 +129,18 @@ function SubjectDocumentDetail() {
           enableAnnotations: false,
           loadAsPDF: true,
           fullAPI: true,
+          licenseKey:
+            "demo:1687424583865:7d9865fa030000000050a5812850e2d2c4914807b2282b5e7b5bb1cb9f",
         },
         viewer.current
       ).then((instance) => {
         const { UI } = instance;
         UI.setFitMode(instance.UI.FitMode.FitWidth);
         UI.setHeaderItems((headers) => {
-          console.log(headers.headers.default[5])
+          console.log(headers.headers.default[5]);
           headers.push({
             type: "actionButton",
-            html: `<div
-            style="width: 50px; height: 50px; background-color: aqua; border-radius: 50%"
-          ></div>
-          `,
+            img: editIcon,
             onClick: () => {
               navigate("/annotation");
             },

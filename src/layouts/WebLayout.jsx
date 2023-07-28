@@ -16,7 +16,8 @@ function WebLayout() {
     if (isLogin)
       resendJwtToken(user.token)
         .then((response) => {
-          if (response.error?.status === 401) {
+          console.log(response)
+          if (response.error !== undefined) {
             dispatch(signOut());
           } else {
             dispatch(updateJwtToken(response.data?.token));

@@ -55,6 +55,7 @@ function Recommend() {
     <Box
       height={"100%"}
       maxHeight={"100%"}
+      overflow={"hidden"}
       width={"30%"}
       sx={{
         transition: "width 0.04s",
@@ -62,7 +63,7 @@ function Recommend() {
         backgroundColor: "white",
       }}
     >
-      <Stack spacing={2} height={"100%"} width={"100%"}>
+      <Stack spacing={2} width={"100%"}>
         <Box pl="10px" p={2} pb={0}>
           <Typography variant="h4" style={{ fontWeight: "bold" }}>
             Có thể bạn quan tâm

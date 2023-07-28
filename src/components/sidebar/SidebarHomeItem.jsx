@@ -23,7 +23,7 @@ function SidebarHomeItem() {
         alignItems={"center"}
         sx={{
           background:
-            location.pathname === "/"
+            location.pathname === "/" || location.pathname.startsWith('/post/')
               ? "linear-gradient(90deg, rgba(255,0,4,1) 0%, rgba(255,82,82,0.8856792717086834) 0%, rgba(255,0,0,1) 100%)"
               : "gray",
           width: "90%",
