@@ -82,13 +82,6 @@ const userSidebarSettingItem = [
     Icon: DeleteOutlineOutlinedIcon,
     selectedColor: "red",
   },
-  {
-    type: "ITEM",
-    title: "Cài đặt",
-    to: "/setting",
-    Icon: SettingsOutlinedIcon,
-    selectedColor: "red",
-  },
 ];
 const adminSidebarItem = [
   {

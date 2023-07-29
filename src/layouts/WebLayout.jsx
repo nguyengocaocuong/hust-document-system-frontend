@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import { Box } from "@mui/material";
 import { useResendJwtTokenMutation } from "../services/AuthService";
 import { signOut, updateJwtToken } from "../store/authState";
+import Setup from "../pages/Setup";
 function WebLayout() {
   const dispatch = useDispatch();
   const [isChecked, setChecked] = useState(false);
@@ -16,7 +17,7 @@ function WebLayout() {
     if (isLogin)
       resendJwtToken(user.token)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           if (response.error !== undefined) {
             dispatch(signOut());
           } else {
@@ -29,23 +30,32 @@ function WebLayout() {
         });
   }, [isLogin, user, dispatch, resendJwtToken]);
 
+  const isFristLogin = true;
   return isLogin ? (
     isChecked ? (
-      <BoxFull
-        maxHeight={"100vh"}
-        maxWidth={"100vw"}
-        width={"100vw"}
-        overflow={"hidden"}
-        display={"flex"}
-      >
-        <Sidebar />
-        <BoxFull>
-          <Header />
-          <Box width={"100%"} height={"calc(100vh - 72px)"} overflow={"hidden"}>
-            <Outlet />
-          </Box>
+      isFristLogin ? (
+        <Setup />
+      ) : (
+        <BoxFull
+          maxHeight={"100vh"}
+          maxWidth={"100vw"}
+          width={"100vw"}
+          overflow={"hidden"}
+          display={"flex"}
+        >
+          <Sidebar />
+          <BoxFull>
+            <Header />
+            <Box
+              width={"100%"}
+              height={"calc(100vh - 72px)"}
+              overflow={"hidden"}
+            >
+              <Outlet />
+            </Box>
+          </BoxFull>
         </BoxFull>
-      </BoxFull>
+      )
     ) : (
       <></>
     )
