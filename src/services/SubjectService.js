@@ -21,12 +21,12 @@ export const subjectApi = createApi({
   ],
   endpoints: (builder) => ({
     // SUBJECT
-    getAllSubject: builder.query({
-      query: () => "",
-      transformResponse: (response) => {
-        return response?.content;
-      },
-      providesTags: ["subject"],
+    getAllSubject: builder.mutation({
+      query: (data) => ({
+        url: `?page=${data.page}&size=${data.size}`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response.content,
     }),
     getSubjectDetail: builder.query({
       query: (id) => `/${id}`,
@@ -319,7 +319,7 @@ export const subjectApi = createApi({
 });
 
 export const {
-  useGetAllSubjectQuery,
+  useGetAllSubjectMutation,
   useGetSubjectDetailQuery,
   useCommentSubjectDocumentMutation,
   useDeleteCommentSubjectDocumentMutation,

@@ -14,10 +14,7 @@ import { convertJsonToFormData } from "../../../utils/ConvertData";
 import { useParams } from "react-router-dom";
 import Owner from "../../Owner";
 import { Box, Chip } from "@mui/material";
-import PropperMenu from "../../PropperMenu";
 import DetailActions from "../../DetailActions";
-import CopyAllIcon from "@mui/icons-material/CopyAll";
-import FlagIcon from "@mui/icons-material/Flag";
 import Comment from "../../comment";
 import DetailtAnswers from "../../DetailAnswers";
 import TranslateLanguage from "../../TranslateLanguage";
@@ -36,7 +33,7 @@ function PostInfo({ postDetail, language }) {
   const [toggleFavoriteAnswerPost] = useToggleFavoriteAnswerPostMutation();
   const [favoritePost] = useFavoritePostMutation();
   const toggleFavorite = () => {
-    favoritePost(postDetail.id).then((response) => {
+    favoritePost(postDetail.id).then(() => {
       const favorited =
         favorites.find((favorite) => favorite.user.id === user.id) !==
         undefined;
@@ -55,12 +52,12 @@ function PostInfo({ postDetail, language }) {
   const { data: commentData = [], refetch: refetchComment } =
     useGetAllCommentForPostQuery(id);
   const addComment = (data, reset) => {
+    reset();
     commentPost({
       postId: id,
       body: convertJsonToFormData(data),
     }).then(() => {
       refetchComment();
-      reset();
     });
   };
 
@@ -85,28 +82,6 @@ function PostInfo({ postDetail, language }) {
       refetchComment();
     });
   };
-  const copyUrl = () => {
-    const url = `http://localhost:3000/post/${id}`;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        alert("Đã copy vào clipboard");
-      })
-      .catch((error) => {
-        console.error("Lỗi khi sao chép vào clipboard:", error);
-      });
-  };
-
-  const reportSubjectDocument = () => {};
-  const actions = () => [
-    {
-      Icon: FlagIcon,
-      label: "Báo cáo tài liệu",
-      action: reportSubjectDocument,
-    },
-    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
-  ];
-
   const [comments, setComments] = useState([]);
   const [answers, setAnswers] = useState([]);
   useEffect(() => {
@@ -167,10 +142,9 @@ function PostInfo({ postDetail, language }) {
             key={1}
             label={postDetail.subject.name}
             size="small"
-            sx={{ maxWidth: "100px" }}
+            sx={{ maxWidth: "140px" }}
             color="info"
-          />,
-          <PropperMenu key={2} action={actions()} />,
+          />
         ]}
         sx={{ height: "70px" }}
       />

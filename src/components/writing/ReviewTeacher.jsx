@@ -10,6 +10,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { useGetAllTeacherForFilterQuery } from "../../services/FilterService";
 import MultipleSelect from "../MultipleSelect";
@@ -27,9 +28,13 @@ import Editor from "../Editor";
 
 import { useRef } from "react";
 import Actions from "../Actions";
-import { useCreateReviewTeacherMutation, useUpdateReviewTeacherMutation } from "../../services/TeacherService";
+import {
+  useCreateReviewTeacherMutation,
+  useUpdateReviewTeacherMutation,
+} from "../../services/TeacherService";
 import { useLocation } from "react-router-dom";
 function ReviewTeacher() {
+  const [isLoading, setLoading] = useState(false);
   const location = useLocation();
   const editorRef = useRef(null);
   const { data: teacherFilter = { title: "Giảng viên", item: [] } } =
@@ -53,29 +58,35 @@ function ReviewTeacher() {
     { Icon: CopyAllIcon, label: "Copy link truy cập", action: () => {} },
   ];
   const [createReviewTeacher] = useCreateReviewTeacherMutation();
-  const [updateReviewTeacher] = useUpdateReviewTeacherMutation()
+  const [updateReviewTeacher] = useUpdateReviewTeacherMutation();
   const onCreateReviewTeacher = () => {
+    setLoading(true);
     let formData = new FormData();
     formData.append("review", content);
     formData.append("done", done ? 1 : 0);
     if (location.state?.update) {
-      updateReviewTeacher({ body: formData, teacherId: teacher, reviewTeacherId: location.state?.reviewTeacher.id })
-      .then(() => {
-        setTeacher("");
-        setLiveView(false);
-        setContent("");
-        setDone(false);
-        setNotify(1);
-        setInterval(() => {
-          setNotify(0);
-        }, 4000);
+      updateReviewTeacher({
+        body: formData,
+        teacherId: teacher,
+        reviewTeacherId: location.state?.reviewTeacher.id,
       })
-      .catch(() => {
-        setNotify(2);
-        setInterval(() => {
-          setNotify(0);
-        }, 4000);
-      });
+        .then(() => {
+          setTeacher("");
+          setLiveView(false);
+          setContent("");
+          setDone(false);
+          setNotify(1);
+          setLoading(false);
+          setInterval(() => {
+            setNotify(0);
+          }, 4000);
+        })
+        .catch(() => {
+          setNotify(2);
+          setInterval(() => {
+            setNotify(0);
+          }, 4000);
+        });
     } else {
       createReviewTeacher({ body: formData, teacherId: teacher })
         .then(() => {
@@ -84,6 +95,7 @@ function ReviewTeacher() {
           setContent("");
           setDone(false);
           setNotify(1);
+          setLoading(false);
           setInterval(() => {
             setNotify(0);
           }, 4000);
@@ -97,9 +109,20 @@ function ReviewTeacher() {
     }
   };
   return (
-    <BoxFull p={2}>
+    <BoxFull>
+      {isNotify !== 0 && (
+        <Alert
+          severity={isNotify === 1 ? "success" : "error"}
+          onClose={() => {}}
+        >
+          {isNotify === 1
+            ? "Đăng tải bài viết thành công"
+            : "Lỗi khi đăng tải bài viết"}
+        </Alert>
+      )}
       <Typography
         variant="h3"
+        mt={isNotify === 0 ? 0 : 1}
         py={2}
         textAlign={"center"}
         textTransform={"uppercase"}
@@ -107,7 +130,7 @@ function ReviewTeacher() {
       >
         Viết bài review giảng viên
       </Typography>
-      <Box display={"flex"} width={"100%"}>
+      <Box display={"flex"} width={"100%"} px={2}>
         <Box width={liveView ? "60%" : "100%"} height={"100%"} pt={1}>
           <Box
             py={1}
@@ -146,40 +169,12 @@ function ReviewTeacher() {
                   </IconButton>
                 </Tooltip>
                 <Typography>Xem bài viết</Typography>
-                {isNotify === 1 && (
-                  <Alert
-                    severity="success"
-                    sx={{
-                      width: "300px",
-                      height: "40px",
-                      px: 1,
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    Đăng tải bài viết thành công
-                  </Alert>
-                )}
-                {isNotify === 2 && (
-                  <Alert
-                    severity="error"
-                    sx={{
-                      width: "300px",
-                      height: "40px",
-                      px: 1,
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    Lỗi khi đăng tải bài viết
-                  </Alert>
-                )}
               </Box>
             </Stack>
           </Box>
           <Editor
             editorRef={editorRef}
-            height={550}
+            height={isNotify !== 0 ? 500 : 550}
             setContent={setContent}
             content={content}
           />
@@ -194,8 +189,24 @@ function ReviewTeacher() {
               variant="contained"
               color="primary"
               onClick={onCreateReviewTeacher}
+              disabled={
+                content === undefined ||
+                content === null ||
+                content === "" ||
+                teacher === ""
+              }
             >
               {location.state?.update ? "Cập nhật" : "Đăng tải bài viết"}
+              {isLoading && (
+                <CircularProgress
+                  sx={{
+                    width: "30px!important",
+                    height: "30px!important",
+                    color: "white",
+                    fontSize: "12px",
+                  }}
+                />
+              )}
             </Button>
           </Box>
         </Box>

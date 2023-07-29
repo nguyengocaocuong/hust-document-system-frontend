@@ -42,7 +42,7 @@ function PostCard({ data, close }) {
         owner={post?.owner}
         createdAt={post?.createdAt}
         listItem={[
-          <Chip key={1} icon={<LocalOfferIcon />} label={post?.subject.name} />,
+          <Chip key={1} icon={<LocalOfferIcon />} label={post?.subject.name}  color="primary"/>,
           <IconButton
             key={3}
             onClick={(e) => {

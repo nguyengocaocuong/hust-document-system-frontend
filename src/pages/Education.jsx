@@ -14,7 +14,7 @@ function Education() {
     console.log(data);
   };
   return (
-    <Box sx={{ backgroundColor: "white" }} height={"100%"} overflow={"auto"}>
+    <Box sx={{ backgroundColor: "white" }} height={"100%"} overflow={"hidden"}>
       <Box p={2}>
         <Box
           display={"flex"}

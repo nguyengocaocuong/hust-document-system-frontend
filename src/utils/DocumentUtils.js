@@ -13,6 +13,7 @@ import html from "../assets/images/icon/html.png";
 import xlsx from "../assets/images/icon/xlsx.png";
 import office from "../assets/images/icon/office.png";
 import xls from "../assets/images/icon/xls.png";
+import unknown from "../assets/images/icon/unknown.png";
 const ICON = {
   pdf,
   ppt,
@@ -31,7 +32,9 @@ const ICON = {
   png: image,
   jpg: image,
   jpeg: image,
+  pptx: ppt,
+  unknown,
 };
 export const getIconForDocByFileName = (fileName) =>
   ICON[fileName.substring(fileName.lastIndexOf(".") + 1)];
-export const getIconForDocByLink = (link = "") => ICON["link"];
+export const getIconForDocByLink = (link = "link") => ICON[link];

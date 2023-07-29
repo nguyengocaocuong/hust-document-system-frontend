@@ -61,7 +61,19 @@ function Header() {
     dispatch(toggleNotification(isShow));
   };
   const isLoading = LOADING.find((item) => item.status === 0) ? true : false;
+  const handleResize = () => {
+    if (window.innerWidth < 1400 && !collapsed) {
+      collapseSidebar(true);
+    }
+    console.log(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
 
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   useEffect(() => {
     if (user.roleType === "ADMIN") return;
     const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
@@ -75,20 +87,10 @@ function Header() {
       }
     );
     channelNotification.bind(`review-subject-${user.id}`, (approve) => {
-      dispatch(
-        addApproveNotification([
-         approve,
-          ...APPROVE,
-        ])
-      );
+      dispatch(addApproveNotification([approve, ...APPROVE]));
     });
     channelNotification.bind(`review-teacher-${user.id}`, (approve) => {
-      dispatch(
-        addApproveNotification([
-          approve,
-          ...APPROVE,
-        ])
-      );
+      dispatch(addApproveNotification([approve, ...APPROVE]));
     });
 
     return () => {

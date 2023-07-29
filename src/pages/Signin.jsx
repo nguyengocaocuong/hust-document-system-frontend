@@ -20,15 +20,67 @@ function Signin() {
   const { isLogin } = useSelector((state) => state.authentication);
   const [creadentials, setCredentials] = useState({
     email: "",
+    emailMessage: " ",
     password: "",
+    passwordMessage: " ",
   });
   const [remember, setRemember] = useState(true);
   const handleOnChange = (e) => {
-    setCredentials({ ...creadentials, [e.target.name]: e.target.value });
+    setCredentials({
+      ...creadentials,
+      [e.target.name]: e.target.value,
+      emailMessage: " ",
+      passwordMessage: " ",
+    });
   };
-  const handleLogin = async () => {
-    if (creadentials.email === "" || creadentials.password === "") return;
-    await login(creadentials);
+  const handleLogin = () => {
+    if (creadentials.password === "" || creadentials.email === "") {
+      setCredentials({
+        ...creadentials,
+        emailMessage:
+          creadentials.email === "" ? "Email không được để trống" : " ",
+        passwordMessage:
+          creadentials.password === "" ? "Password không được để trống" : " ",
+      });
+      return;
+    }
+    if (!creadentials.email.endsWith("@sis.hust.edu.vn")) {
+      setCredentials({
+        ...creadentials,
+        emailMessage: "Bạn cần sử dụng email HUST để đăng nhập",
+        passwordMessage:
+          creadentials.password.length >= 8 &&
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(
+            creadentials.password
+          )
+            ? " "
+            : "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ in hoa, chữ thường",
+      });
+      return;
+    }
+    if (
+      creadentials.password.length < 8 ||
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(
+        creadentials.password
+      )
+    ) {
+      setCredentials({
+        ...creadentials,
+        passwordMessage:
+          "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ in hoa, chữ thường",
+      });
+      return;
+    }
+    login(creadentials).then(response => {
+      if(response.error){
+        setCredentials({
+          ...creadentials,
+          passwordMessage:
+            "Tài khoản hoặc mật khẩu sai",
+        });
+        return;
+      }
+    })
   };
   return isLogin ? (
     <Navigate to={"/"} replace />
@@ -65,8 +117,10 @@ function Signin() {
               </Typography>
             </Box>
             <Box width={"100%"}>
-              <Box mb={2} mt={2}>
+              <Box mb={0.5} mt={2}>
                 <TextField
+                  error={creadentials.emailMessage !== " "}
+                  helperText={creadentials.emailMessage}
                   required
                   inputProps={{
                     style: {
@@ -91,6 +145,8 @@ function Signin() {
               </Box>
               <Box mb={2}>
                 <TextField
+                  error={creadentials.passwordMessage !== " "}
+                  helperText={creadentials.passwordMessage}
                   required
                   type="password"
                   inputProps={{

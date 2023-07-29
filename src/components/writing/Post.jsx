@@ -1,12 +1,14 @@
 import React from "react";
 import BoxFull from "../BoxFull";
 import {
+  Alert,
   Box,
   Button,
   Card,
   Chip,
   IconButton,
   TextField,
+  CircularProgress,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -32,6 +34,8 @@ import {
 } from "../../services/PostService";
 import { useLocation } from "react-router-dom";
 function Post() {
+  const [isLoading, setLoading] = useState(false);
+
   const location = useLocation();
   const { data: subjectDocumentFilter = { title: "Môn học", item: [] } } =
     useGetAllSubjectForFilterQuery();
@@ -72,6 +76,7 @@ function Post() {
           setTitle("");
           setLiveView(false);
           setDoc(null);
+          setLoading(false);
         }
       );
     } else {
@@ -80,11 +85,15 @@ function Post() {
         setTitle("");
         setLiveView(false);
         setDoc(null);
+        setLoading(false);
       });
     }
   };
   return (
     <BoxFull>
+      <Alert severity="error" onClose={() => {}}>
+        This is an error alert — check it out!
+      </Alert>
       <BoxBetween>
         <Box width={"480px"} height={"80%"} border={"1px solid gray"}>
           <Box
@@ -194,6 +203,16 @@ function Post() {
               onClick={onCreatePost}
             >
               {location.state?.update ? "Cập nhật" : "Đăng bài"}
+              {isLoading && (
+                <CircularProgress
+                  sx={{
+                    width: "30px!important",
+                    height: "30px!important",
+                    color: "white",
+                    fontSize: "12px",
+                  }}
+                />
+              )}
             </Button>
           </Box>
         </Box>

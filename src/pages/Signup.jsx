@@ -23,18 +23,90 @@ function Signup() {
   const [register, { isSuccess }] = useRegisterMutation();
   const [user, setUser] = useState({
     email: "",
+    messageEmail: " ",
     password: "",
+    messagePassword: " ",
     matchingPassword: "",
+    messpageMatchingPassowrd: " ",
     firstName: "",
+    messageFirstName: " ",
     lastName: "",
+    messageLastName: " ",
   });
   const handleOnChange = (e) => {
+    if (
+      user.messageEmail !== " " ||
+      user.messagePassword !== " " ||
+      user.messpageMatchingPassowrd !== " " ||
+      user.messageFirstName !== " " ||
+      user.messageLastName !== " "
+    ) {
+      setUser((preState) => ({
+        ...preState,
+        messageEmail: " ",
+        messagePassword: " ",
+        messageFirstName: " ",
+        messpageMatchingPassowrd: " ",
+        messageLastName: " ",
+        [e.target.name]: e.target.value,
+      }));
+      return;
+    }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const handleRegister = () => {
+    if (
+      user.email === "" ||
+      user.password === "" ||
+      user.matchingPassword === "" ||
+      user.firstName === "" ||
+      user.lastName === ""
+    ) {
+      setUser((preState) => ({
+        ...preState,
+        messageEmail: user.email === "" ? "Email không được để trống" : " ",
+        messagePassword:
+          user.password === "" ? "Password không được để trống" : " ",
+        messpageMatchingPassowrd:
+          user.matchingPassword === "" ? "Bạn cần xác nhận lại mật khẩu" : " ",
+        messageFirstName: user.firstName === "" ? "Bạn cần nhập ho" : " ",
+        messageLastName: user.lastName === "" ? "Bạn cần nhập tên" : " ",
+      }));
+      return;
+    }
+    if (!user.email.endsWith("@sis.hust.edu.vn")) {
+      setUser((preState) => ({
+        ...preState,
+        messageEmail: "Bạn cần đăng ký bằng tài khoản email HUST",
+      }));
+      return;
+    }
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(user.password)) {
+      setUser((preState) => ({
+        ...preState,
+        messagePassword:
+          "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ in hoa, chữ thường",
+      }));
+      return;
+    }
+    if (user.password !== user.matchingPassword) {
+      setUser((preState) => ({
+        ...preState,
+        messagePassword: "Mật khẩu không khớp",
+      }));
+      return;
+    }
     setLoading(true);
     const formData = convertJsonToFormData(user);
-    register(formData).then((response) => setLoading(false));
+    register(formData).then((response) => {
+      setLoading(false);
+      if (response.error) {
+        setUser((preState) => ({
+          ...preState,
+          messpageMatchingPassowrd: "Có lỗi khi đăng ký tài khoản, hãy thử lại",
+        }));
+      }
+    });
   };
   return isLogin ? (
     <Navigate to={"/"} replace />
@@ -101,7 +173,7 @@ function Signup() {
             ) : (
               <Box width={"100%"}>
                 <Box
-                  mb={2}
+                  mb={1}
                   mt={2}
                   display={"flex"}
                   justifyContent={"space-between"}
@@ -109,6 +181,10 @@ function Signup() {
                 >
                   <Box width={"45%"}>
                     <TextField
+                      disabled={isLoading}
+                      required
+                      error={user.messageFirstName !== " "}
+                      helperText={user.messageFirstName}
                       inputProps={{
                         style: {
                           fontSize: "17px",
@@ -121,7 +197,7 @@ function Signup() {
                       }}
                       sx={{ width: "100%" }}
                       name="firstName"
-                      label="Họ"
+                      label="Họ "
                       variant="outlined"
                       value={user.firstName}
                       style={{ fontSize: "17px" }}
@@ -131,6 +207,10 @@ function Signup() {
                   </Box>
                   <Box width={"45%"}>
                     <TextField
+                      disabled={isLoading}
+                      required
+                      error={user.messageLastName !== " "}
+                      helperText={user.messageLastName}
                       inputProps={{
                         style: {
                           fontSize: "17px",
@@ -152,8 +232,12 @@ function Signup() {
                     />
                   </Box>
                 </Box>
-                <Box mb={2}>
+                <Box mb={1}>
                   <TextField
+                    disabled={isLoading}
+                    required
+                    error={user.messageEmail !== " "}
+                    helperText={user.messageEmail}
                     inputProps={{
                       style: {
                         fontSize: "17px",
@@ -174,8 +258,12 @@ function Signup() {
                     size="medium"
                   />
                 </Box>
-                <Box mb={2}>
+                <Box mb={1}>
                   <TextField
+                    disabled={isLoading}
+                    required
+                    error={user.messagePassword !== " "}
+                    helperText={user.messagePassword}
                     inputProps={{
                       style: {
                         fontSize: "17px",
@@ -196,8 +284,12 @@ function Signup() {
                     size="medium"
                   />
                 </Box>
-                <Box mb={2}>
+                <Box mb={1}>
                   <TextField
+                    disabled={isLoading}
+                    required
+                    error={user.messpageMatchingPassowrd !== " "}
+                    helperText={user.messpageMatchingPassowrd}
                     inputProps={{
                       style: {
                         fontSize: "17px",
@@ -229,10 +321,18 @@ function Signup() {
                     onClick={handleRegister}
                     sx={{ textTransform: "capitalize", fontSize: "18px" }}
                   >
-                    <Typography mx={1} fontSize={'17px'}> Đăng ký</Typography>
+                    <Typography mx={1} fontSize={"17px"}>
+                      {" "}
+                      Đăng ký
+                    </Typography>
                     {isLoading && (
                       <CircularProgress
-                        sx={{ width: "15px", height: "15px", color: "white" }}
+                        sx={{
+                          width: "30px!important",
+                          height: "30px!important",
+                          color: "white",
+                          fontSize: "12px",
+                        }}
                       />
                     )}
                   </Button>

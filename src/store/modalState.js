@@ -132,6 +132,10 @@ export const modalState = createSlice({
       state.answerPostModal.dataModal = action.payload;
       state.answerPostModal.open = true;
     },
+    clearAnswerPostModal:(state)=>{
+      state.answerPostModal.dataModal = null;
+      state.answerPostModal.open = false;
+    },
     openAnswerSubjectDocumentModal: (state, action) => {
       if (action.payload === undefined) return;
       state.answerSubjectDocumentModal.dataModal = action.payload;
@@ -277,5 +281,6 @@ export const {
   openReportDuplicateSubjectDocumentModal,
   openNewReviewSubjectModal,
   openNewReviewTeacherModal,
+  clearAnswerPostModal
 } = modalState.actions;
 export default modalState.reducer;

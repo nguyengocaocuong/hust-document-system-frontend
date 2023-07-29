@@ -8,7 +8,10 @@ import {
   useCreateAnswerForPostMutation,
   useGetAllAnswerForPostQuery,
 } from "../../services/PostService";
-import { closeAnswerPostModal } from "../../store/modalState";
+import {
+  clearAnswerPostModal,
+  closeAnswerPostModal,
+} from "../../store/modalState";
 import { v4 as uuid } from "uuid";
 import { addLoadingNotification } from "../../store/notificationState";
 const style = {
@@ -67,6 +70,7 @@ function AnswerPostModal({ open }) {
       );
       createAnswerForPost({ id, body: formData })
         .then((response) => {
+          dispatch(clearAnswerPostModal());
           dispatch(
             addLoadingNotification([
               ...LOADING,
@@ -103,6 +107,7 @@ function AnswerPostModal({ open }) {
     } else {
       formData.append("url", data.url);
       createAnswerForPost({ id, body: formData }).then(() => {
+        dispatch(clearAnswerPostModal());
         refetch();
       });
     }

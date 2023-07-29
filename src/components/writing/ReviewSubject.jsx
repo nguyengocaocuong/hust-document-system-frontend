@@ -10,6 +10,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
 import MultipleSelect from "../MultipleSelect";
@@ -27,9 +28,13 @@ import Editor from "../Editor";
 
 import { useRef } from "react";
 import Actions from "../Actions";
-import { useCreateReviewSubjectMutation, useUpdateReviewSubjectMutation } from "../../services/SubjectService";
+import {
+  useCreateReviewSubjectMutation,
+  useUpdateReviewSubjectMutation,
+} from "../../services/SubjectService";
 import { useLocation } from "react-router-dom";
 function ReviewSubject() {
+  const [isLoading, setLoading] = useState(false);
   const location = useLocation();
   const editorRef = useRef(null);
   const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
@@ -54,7 +59,8 @@ function ReviewSubject() {
   ];
   const [createReviewSubject] = useCreateReviewSubjectMutation();
   const [updateReviewSubject] = useUpdateReviewSubjectMutation();
-  const onCreateReviewTeacher = () => {
+  const onCreateReviewSubject = () => {
+    setLoading(true);
     let body = new FormData();
     body.append("review", content);
     body.append("done", done ? 1 : 0);
@@ -70,6 +76,7 @@ function ReviewSubject() {
           setContent("");
           setDone(false);
           setNotify(1);
+          setLoading(false);
           setInterval(() => {
             setNotify(0);
           }, 4000);
@@ -88,6 +95,7 @@ function ReviewSubject() {
         setContent("");
         setDone(false);
         setNotify(1);
+        setLoading(false);
         setInterval(() => {
           setNotify(0);
         }, 4000);
@@ -100,17 +108,28 @@ function ReviewSubject() {
       });
   };
   return (
-    <BoxFull p={2}>
+    <BoxFull>
+      {isNotify !== 0 && (
+        <Alert
+          severity={isNotify === 1 ? "success" : "error"}
+          onClose={() => {}}
+        >
+          {isNotify === 1
+            ? "Đăng tải bài viết thành công"
+            : "Lỗi khi đăng tải bài viết"}
+        </Alert>
+      )}
       <Typography
         variant="h3"
         py={2}
+        mt={isNotify === 0 ? 0 : 1}
         textAlign={"center"}
         textTransform={"uppercase"}
         bgcolor={"#F0F0F0"}
       >
         Viết bài review môn học
       </Typography>
-      <Box display={"flex"} width={"100%"}>
+      <Box display={"flex"} width={"100%"} px={2}>
         <Box width={liveView ? "60%" : "100%"} height={"100%"} pt={1}>
           <Box
             py={1}
@@ -150,39 +169,11 @@ function ReviewSubject() {
                 </Tooltip>
                 <Typography>Xem bài viết</Typography>
               </Box>
-              {isNotify === 1 && (
-                <Alert
-                  severity="success"
-                  sx={{
-                    width: "300px",
-                    height: "40px",
-                    px: 1,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  Đăng tải bài viết thành công
-                </Alert>
-              )}
-              {isNotify === 2 && (
-                <Alert
-                  severity="error"
-                  sx={{
-                    width: "300px",
-                    height: "40px",
-                    px: 1,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  Lỗi khi đăng tải bài viết
-                </Alert>
-              )}
             </Stack>
           </Box>
           <Editor
             editorRef={editorRef}
-            height={550}
+            height={isNotify !== 0 ? 500 : 550}
             setContent={setContent}
             content={content}
           />
@@ -196,9 +187,25 @@ function ReviewSubject() {
             <Button
               variant="contained"
               color="primary"
-              onClick={onCreateReviewTeacher}
+              onClick={onCreateReviewSubject}
+              disabled={
+                content === undefined ||
+                content === null ||
+                content === "" ||
+                subject === ""
+              }
             >
               {location.state?.update ? "Cập nhật" : "Đăng tải bài viết"}
+              {isLoading && (
+                <CircularProgress
+                  sx={{
+                    width: "30px!important",
+                    height: "30px!important",
+                    color: "white",
+                    fontSize: "12px",
+                  }}
+                />
+              )}
             </Button>
           </Box>
         </Box>

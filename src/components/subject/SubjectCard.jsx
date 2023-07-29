@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {
   useFavoriteSubjectMutation,
-  useGetAllSubjectQuery,
+  // useGetAllSubjectQuery,
 } from "../../services/SubjectService";
 import PropperMenu from "../PropperMenu";
 import AddIcon from "@mui/icons-material/Add";
@@ -19,14 +19,14 @@ import { openSubjectDocumentModal } from "../../store/modalState";
 function SubjectCard({ subject }) {
   const dispatch = useDispatch();
   const [favoriteSubject] = useFavoriteSubjectMutation();
-  const { refetch } = useGetAllSubjectQuery();
+  // const { refetch } = useGetAllSubjectQuery();
   const navigate = useNavigate();
   const toggleFavoriteSubject = () => {
     favoriteSubject({
       subjectId: subject?.id,
       body: { notificationType: "ALL" },
     }).then(() => {
-      refetch();
+      // refetch();
     });
   };
   const onAddSubjectDocument = () => {

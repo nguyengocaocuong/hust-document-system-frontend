@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { StyledTextarea } from "../EmptyTextarea";
 import {
   useCreateSubjectMutation,
-  useGetAllSubjectQuery,
+  // useGetAllSubjectQuery,
 } from "../../services/SubjectService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
 import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
@@ -40,14 +40,14 @@ function SubjectModal({ open }) {
   };
   const theme = useTheme();
   const { refetch } = useGetAllSubjectForFilterQuery();
-  const { refetch: refetchAll } = useGetAllSubjectQuery();
+  // const { refetch: refetchAll } = useGetAllSubjectQuery();
   const [createSubject] = useCreateSubjectMutation();
   const createNewSubject = () => {
     createSubject(convertJsonToFormData(subject)).then((response) => {
       setSubject({ subjectCode: "", name: "", description: "" });
       closeModal();
       refetch();
-      refetchAll();
+      // refetchAll();
     });
   };
   return (

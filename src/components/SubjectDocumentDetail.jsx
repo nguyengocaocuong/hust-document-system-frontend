@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import WebViewer from "@pdftron/webviewer";
 import ConfrimSplitModal from "./modal/ConfrimSplitModal";
-import editIcon from '../assets/images/icon/edit.svg'
+import editIcon from "../assets/images/icon/edit.svg";
 function SubjectDocumentDetail() {
   const [openConfirmSplit, setOpenConfirmSplit] = useState({ open: false });
   const viewer = useRef(null);
@@ -24,8 +24,11 @@ function SubjectDocumentDetail() {
   const [uri, setUri] = useState(
     `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/readFile?token=${token}`
   );
-  const [language, setLanguage] = useState("ROOT");
-
+  const [language, setLanguage] = useState({
+    value: "ROOT",
+    loading: true,
+  });
+  const [rootBlob, setRootBlob] = useState(null);
   const handleSelectLanguage = async (value) => {
     const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"]; // Các phần mở rộng tệp tin hình ảnh hợp lệ
     const pageCount = viewerInstance.Core.documentViewer.getPageCount();
@@ -36,7 +39,7 @@ function SubjectDocumentDetail() {
       .toLowerCase();
 
     if (imageExtensions.includes(fileExtension)) {
-      setLanguage(value);
+      setLanguage({ value, loading: true });
       const doc = viewerInstance.Core.documentViewer.getDocument();
       const xfdfString =
         await viewerInstance.Core.annotationManager.exportAnnotations();
@@ -73,20 +76,21 @@ function SubjectDocumentDetail() {
           () =>
             `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/translate?targetLanguage=${value}&token=${token}`
         );
-        return value;
+        return { value, loading: true };
       });
     }
   };
 
   const resetLanguage = () => {
-    setUri(() => {
-      setLanguage("ROOT");
-      return `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/readFile?token=${token}`;
+    viewerInstance.UI.loadDocument(rootBlob, {
+      filename: subjectDocumentDetail.document.name,
     });
   };
 
   const onTranslage = async (translate, page) => {
     if (translate) {
+      setOpenConfirmSplit({ open: false });
+      setLanguage({ value: openConfirmSplit.language, loading: true });
       const doc = viewerInstance.Core.documentViewer.getDocument();
       const data = await doc.extractPages(page);
       const arr = new Uint8Array(data);
@@ -106,15 +110,22 @@ function SubjectDocumentDetail() {
       )
         .then((response) => response.blob())
         .then((blobData) => {
-          viewerInstance.UI.loadDocument(blobData, {
-            filename: subjectDocumentDetail.document.name,
-          });
+          viewerInstance.UI.addEventListener(
+            viewerInstance.UI.Events.TAB_MANAGER_READY,
+            async () => {
+              await viewerInstance.UI.TabManager.addTab(blobData, {
+                setActive: true,
+              });
+            }
+          );
+          viewerInstance.UI.enableFeatures(["MultiTab"]);
+          // viewerInstance.UI.loadDocument(blobData, {
+          //   filename: subjectDocumentDetail.document.name,
+          // });
         })
         .catch((error) => {
           console.error("Error:", error);
         });
-      setLanguage(openConfirmSplit.language);
-      setOpenConfirmSplit({ open: false });
       return;
     }
   };
@@ -135,9 +146,7 @@ function SubjectDocumentDetail() {
         viewer.current
       ).then((instance) => {
         const { UI } = instance;
-        UI.setFitMode(instance.UI.FitMode.FitWidth);
         UI.setHeaderItems((headers) => {
-          console.log(headers.headers.default[5]);
           headers.push({
             type: "actionButton",
             img: editIcon,
@@ -145,6 +154,10 @@ function SubjectDocumentDetail() {
               navigate("/annotation");
             },
           });
+        });
+        UI.addEventListener(UI.Events.DOCUMENT_LOADED, () => {
+          UI.setFitMode(UI.FitMode.FitWidth);
+          setLanguage((preState) => ({ ...preState, loading: false }));
         });
         setViewerInstance(instance);
       });
@@ -159,14 +172,15 @@ function SubjectDocumentDetail() {
       })
         .then((response) => response.blob())
         .then((blobData) => {
+          setRootBlob(URL.createObjectURL(blobData));
           viewerInstance.UI.loadDocument(blobData, {
             filename: subjectDocumentDetail.document.name,
-            customHeaders: {
-              Authorization: `Bearer ${user.token}`,
-            },
           });
         })
         .catch(() => {});
+    return () => {
+      if (rootBlob !== null) URL.revokeObjectURL(rootBlob);
+    };
   }, [uri, subjectDocumentDetail, user, viewerInstance]);
   return (
     isSuccess && (
