@@ -54,9 +54,8 @@ function Recommend() {
   return (
     <Box
       height={"100%"}
-      maxHeight={"100%"}
       overflow={"hidden"}
-      width={"30%"}
+      width={"100%"}
       sx={{
         transition: "width 0.04s",
         transitionTimingFunction: "linear",

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useGetSubjectDocumentDetailQuery } from "../services/SubjectService";
-import { Box } from "@mui/material";
-
+import { Box, Fab, IconButton, Tooltip } from "@mui/material";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import BoxFull from "./BoxFull";
 import SubjectDocumentInfo from "./SubjectDocumentInfo";
 import { useSelector } from "react-redux";
@@ -10,7 +10,12 @@ import { useEffect } from "react";
 import WebViewer from "@pdftron/webviewer";
 import ConfrimSplitModal from "./modal/ConfrimSplitModal";
 import editIcon from "../assets/images/icon/edit.svg";
+import { useProSidebar } from "react-pro-sidebar";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 function SubjectDocumentDetail() {
+  const { collapseSidebar, collapsed } = useProSidebar();
   const [openConfirmSplit, setOpenConfirmSplit] = useState({ open: false });
   const viewer = useRef(null);
   const navigate = useNavigate();
@@ -151,6 +156,7 @@ function SubjectDocumentDetail() {
             type: "actionButton",
             img: editIcon,
             onClick: () => {
+              setShowDetail(false)
               navigate("/annotation");
             },
           });
@@ -182,22 +188,96 @@ function SubjectDocumentDetail() {
       if (rootBlob !== null) URL.revokeObjectURL(rootBlob);
     };
   }, [uri, subjectDocumentDetail, user, viewerInstance]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (!collapsed && window.innerWidth < 1400) {
+        collapseSidebar(true);
+      }
+      if (collapsed && window.innerWidth >= 1400) {
+        collapseSidebar(false);
+      }
+      if (window.innerWidth <= 1150) setShowDetail(false);
+      if (window.innerWidth > 1150) setShowDetail(true);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const [isShowDetail, setShowDetail] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     isSuccess && (
       <BoxFull sx={{ backgroundColor: "white" }}>
-        <Box display={"flex"} height={"100%"}>
+        <Box display={"flex"} height={"100%"} position={"relative"}>
           <Box
-            width={`70%`}
+            width={!isShowDetail ? "100%" : `70%`}
             borderRight="1px solid #D8D9D9"
             borderBottom="1px solid #D8D9D9"
             ref={viewer}
-          ></Box>
-          <SubjectDocumentInfo
-            subjectDocumentDetail={subjectDocumentDetail}
-            language={language}
-            setLanguage={handleSelectLanguage}
-            resetLanguage={resetLanguage}
-          />
+            position={"relative"}
+            sx={{ transition: "width 0.4s" }}
+          >
+            <Box
+              position={"absolute"}
+              top={50}
+              right={0}
+              bottom={50}
+              height={"100%"}
+              width={"100px"}
+              display={isShowDetail ? "none" : "flex"}
+              alignItems={"center"}
+              justifyContent={"end"}
+              sx={{
+                background:
+                  "linear-gradient(90deg, rgba(213,209,209,0) 50%, rgba(128,126,124,0.4515056022408963) 100%)",
+                opacity: 0.4,
+                "&:hover": {
+                  opacity: 1,
+                },
+                transition: "opacity 0.4s",
+              }}
+            >
+              <Tooltip title={show ? "Ẩn bình luận" : "Hiện bình luận"}>
+                {show ? (
+                  <ChevronRightIcon
+                    onClick={() => setShow(false)}
+                    color="primary"
+                    style={{
+                      height: "150px",
+                      width: "50px",
+                      cursor: "pointer",
+                    }}
+                  />
+                ) : (
+                  <ChevronLeftIcon
+                    onClick={() => setShow(true)}
+                    color="primary"
+                    style={{
+                      height: "150px",
+                      width: "50px",
+                      cursor: "pointer",
+                    }}
+                  />
+                )}
+              </Tooltip>
+            </Box>
+          </Box>
+          <Box
+            width={isShowDetail || show ? "30%" : 0}
+            minWidth={isShowDetail || show ? "400px" : 0}
+            opacity={isShowDetail || show ? 1 : 0}
+            overflow={"hidden"}
+            height={"100%"}
+            sx={{ transition: "width 0.4s, opacity 0.4s" }}
+          >
+            <SubjectDocumentInfo
+              subjectDocumentDetail={subjectDocumentDetail}
+              language={language}
+              setLanguage={handleSelectLanguage}
+              resetLanguage={resetLanguage}
+            />
+          </Box>
         </Box>
         <ConfrimSplitModal
           open={openConfirmSplit.open}

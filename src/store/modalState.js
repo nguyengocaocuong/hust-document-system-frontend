@@ -73,6 +73,9 @@ const initialState = {
     open: false,
     dataModal: null,
   },
+  internetModal: {
+    open: false,
+  },
 };
 
 export const modalState = createSlice({
@@ -81,6 +84,10 @@ export const modalState = createSlice({
   reducers: {
     closeAnswerPostModal: (state) => {
       state.answerPostModal.open = false;
+      // state.answerPostModal.dataModal = null;
+    },
+    closeInternetModal: (state) => {
+      state.internetModal.open = false;
       // state.answerPostModal.dataModal = null;
     },
     closeAnswerSubjectDocumentModal: (state) => {
@@ -132,7 +139,7 @@ export const modalState = createSlice({
       state.answerPostModal.dataModal = action.payload;
       state.answerPostModal.open = true;
     },
-    clearAnswerPostModal:(state)=>{
+    clearAnswerPostModal: (state) => {
       state.answerPostModal.dataModal = null;
       state.answerPostModal.open = false;
     },
@@ -241,6 +248,10 @@ export const modalState = createSlice({
       state.newReviewTeacherModal.dataModal = action.payload;
       state.newReviewTeacherModal.open = true;
     },
+    openInternetModal: (state) => {
+      state.internetModal.open = true;
+      // state.answerPostModal.dataModal = null;
+    },
   },
 });
 export const {
@@ -257,6 +268,7 @@ export const {
   closeTeacherModal,
   closeUpdateSubjectModal,
   closeUpdateTeacherModal,
+  closeInternetModal,
   openAnswerPostModal,
   openAnswerSubjectDocumentModal,
   openDocumentViewerModal,
@@ -281,6 +293,7 @@ export const {
   openReportDuplicateSubjectDocumentModal,
   openNewReviewSubjectModal,
   openNewReviewTeacherModal,
-  clearAnswerPostModal
+  openInternetModal,
+  clearAnswerPostModal,
 } = modalState.actions;
 export default modalState.reducer;

@@ -23,7 +23,7 @@ function Annotation() {
         viewer.current
       ).then((instance) => {
         const {
-          Core: { annotationManager, Tools },
+          Core: { annotationManager },
           UI,
         } = instance;
         UI.setLanguage(UI.Languages.VI);
@@ -44,11 +44,11 @@ function Annotation() {
         setInstance(instance);
       });
     }
-  }, [isViewerReady]);
+  }, [isViewerReady, instance, user]);
   return (
     <Box
-      width={"100vw"}
-      height={"100vh"}
+      width={"100%"}
+      height={"100%"}
       ref={(el) => {
         viewer.current = el;
         setViewerReady(true);

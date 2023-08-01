@@ -11,6 +11,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { useDispatch } from "react-redux";
 import { openSubjectDocumentModal } from "../../store/modalState";
 import noDocument from "../../assets/images/noDocument.png";
+import { useEffect } from "react";
 function SubjectDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -31,18 +32,36 @@ function SubjectDetail() {
       })
     );
   };
+  const [closeSubjectDetail, setCloseSubjectDetail] = useState(false);
+  const [showState] = useState(true);
+  useEffect(() => {
+    const handleResize = () => {
+      if(window.innerWidth <= 900){
+        setCloseSubjectDetail(true)
+      }
+      if(window.innerWidth > 900){
+        setCloseSubjectDetail(false)
+      }
+    };
+    window.addEventListener('resize', handleResize)
 
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={"white"}>
       {isSuccess && (
         <>
           <Box
-            width={"27%"}
+            width={closeSubjectDetail ?  showState ? "100%" : 0 : "27%"}
             height={"100%"}
-            overflow={"auto"}
+            minWidth={!closeSubjectDetail && "350px"}
+            overflow={closeSubjectDetail && showState ? "auto" : "hidden"}
             borderRight={"1px solid #D8D9D9"}
             p={2}
             boxShadow={5}
+            sx={{transition:'width 0.4s'}}
           >
             <Typography variant="h2" textAlign={"center"} p={2} pb={3}>
               <strong>{subjectDetail.subjectCode}</strong>
@@ -124,7 +143,11 @@ function SubjectDetail() {
             </Box>
             <Divider />
           </Box>
-          <Box width={"73%"} overflow={"auto"}>
+          <Box
+            width={closeSubjectDetail  ? !showState ?  "100%" : 0 : "73%"}
+            overflow={closeSubjectDetail && !showState ? "auto" : "hidden"}
+            sx={{transition:'width 0.4s'}}
+          >
             {selected.length > 0 &&
               selected.map((s, index) => (
                 <SubjectTypeDetail
@@ -154,7 +177,7 @@ function SubjectDetail() {
                 >
                   <img src={noDocument} alt="?" />
                   <Typography variant="h4">
-                    Môn học này chưa có tài liệu
+                    Không có tài liệu nào dành cho bạn
                   </Typography>
                 </Box>
               </BoxBetween>

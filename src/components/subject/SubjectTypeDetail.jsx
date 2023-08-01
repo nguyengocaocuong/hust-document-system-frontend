@@ -25,7 +25,7 @@ function SubjectTypeDetail({ subjectType = {}, subjectDetail = {} }) {
     dispatch(openSharingModal({ subjectDocumentId: subjectDocument.id }));
   };
   return (
-    <Box p={2} width={"100%"}>
+    <Box p={2} width={"100%"} >
       <Typography variant="h4" fontWeight={"bold"} py={1}>
         {type[subjectType.type]?.title}
       </Typography>

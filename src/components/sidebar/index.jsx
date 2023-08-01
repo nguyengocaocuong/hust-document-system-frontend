@@ -12,7 +12,9 @@ import { MenuItem, menuClasses } from "react-pro-sidebar";
 import { signOut } from "../../store/authState";
 import { useNavigate } from "react-router-dom";
 import { useProSidebar } from "react-pro-sidebar";
-function Sidebar() {
+import { useRef } from "react";
+import { useEffect } from "react";
+function Sidebar({ setSidebarWidth }) {
   const { collapsed } = useProSidebar();
   const {
     user: { roleType },
@@ -24,8 +26,28 @@ function Sidebar() {
     dispatch(signOut());
     navigate("/");
   };
+  const sidebarRef = useRef();
+  useEffect(() => {
+    const updateElementAWidth = () => {
+      if (sidebarRef.current) {
+        setSidebarWidth(sidebarRef.current.getBoundingClientRect().width);
+      }
+    };
+
+    updateElementAWidth();
+
+    const observer = new ResizeObserver(updateElementAWidth);
+    if (sidebarRef.current) {
+      observer.observe(sidebarRef.current);
+    }
+    return () => {
+      observer.unobserve(sidebarRef.current);
+    };
+  }, [sidebarRef]);
   return (
     <ProSidebar
+      defaultCollapsed={window.innerWidth <=1100}
+      ref={sidebarRef}
       rootStyles={{
         [`.${sidebarClasses.container}`]: {
           backgroundColor: "white",
@@ -79,7 +101,10 @@ function Sidebar() {
             component={<Box onClick={handleSignOut} />}
           >
             <Typography
-              style={{ fontSize: "15px", display: collapsed ? "none" : "block" }}
+              style={{
+                fontSize: "15px",
+                display: collapsed ? "none" : "block",
+              }}
             >
               Thoát
             </Typography>

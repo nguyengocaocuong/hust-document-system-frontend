@@ -11,6 +11,7 @@ import SharingModal from "./SharingModal";
 import SubjectDocumentModal from "./SubjectDocumentModal";
 import TeacherModal from "./TeacherModal";
 import SubjectModal from "./SubjectModal";
+import LostInternetModal from "./LostInternetModal";
 function UserModal() {
   const {
     answerPostModal,
@@ -23,6 +24,7 @@ function UserModal() {
     subjectDocumentModal,
     teacherModal,
     subjectModal,
+    internetModal
   } = useSelector((state) => state.modalState);
   return (
     <Box>
@@ -49,6 +51,7 @@ function UserModal() {
       {teacherModal.open && <TeacherModal open={teacherModal.open} />}
       {subjectModal.open && <SubjectModal open={subjectModal.open} />}
       {reportModal.open && <ReportModal open={reportModal.open} />}
+      {internetModal.open && <LostInternetModal open={internetModal.open} />}
     </Box>
   );
 }

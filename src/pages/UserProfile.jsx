@@ -6,18 +6,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useSelector } from "react-redux";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ManageHistoryOutlinedIcon from "@mui/icons-material/ManageHistoryOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
 
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import Infor from "../components/profile/Infor";
-import History from "../components/profile/History";
 import EnrollmentSubject from "../components/profile/EnrollmentSubject";
-import Setting from "../components/profile/Setting";
 import Uploaded from "../components/profile/Uploaded";
 import Reviewed from "../components/profile/Reviewed";
 
-function Profile() {
+function UserProfile() {
   const fileInputRef = useRef();
   const { user } = useSelector((state) => state.authentication);
   const [isActive, setActive] = useState(0);
@@ -210,47 +206,16 @@ function Profile() {
             icon={<CloudDoneIcon />}
             label={<Typography variant="h5">Bài viết</Typography>}
           />
-          <Chip
-            color="warning"
-            onClick={() => setActive(4)}
-            variant={isActive === 4 ? "contained" : "outlined"}
-            sx={{
-              p: 1.5,
-              cursor: "pointer",
-              boxShadow: isActive === 4 ? 2 : 0,
-              height: "40px",
-              transition: "background-color 1s",
-              "&:hover": { boxShadow: 2 },
-            }}
-            icon={<SettingsIcon />}
-            label={<Typography variant="h5">Thiết lập cài đặt</Typography>}
-          />
-          <Chip
-            color="success"
-            onClick={() => setActive(5)}
-            variant={isActive === 5 ? "contained" : "outlined"}
-            sx={{
-              p: 1.5,
-              cursor: "pointer",
-              boxShadow: isActive === 5 ? 2 : 0,
-              "&:hover": { boxShadow: 2 },
-              height: "40px",
-            }}
-            icon={<ManageHistoryOutlinedIcon />}
-            label={<Typography variant="h5">Lịch sử truy cập</Typography>}
-          />
         </Stack>
         <Box width={"100%"} pb={2}>
           {isActive === 0 && <Infor />}
           {isActive === 1 && <EnrollmentSubject />}
           {isActive === 2 && <Uploaded />}
           {isActive === 3 && <Reviewed />}
-          {isActive === 4 && <Setting />}
-          {isActive === 5 && <History />}
         </Box>
       </Box>
     </BoxFull>
   );
 }
 
-export default Profile;
+export default UserProfile;

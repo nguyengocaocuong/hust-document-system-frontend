@@ -15,7 +15,7 @@ function Education() {
   };
   return (
     <Box sx={{ backgroundColor: "white" }} height={"100%"} overflow={"hidden"}>
-      <Box p={2}>
+      <Box p={2} height={"110px"}>
         <Box
           display={"flex"}
           alignItems={"center"}
@@ -35,7 +35,9 @@ function Education() {
           </Tooltip>
         </Box>
       </Box>
-      <Subject />
+      <Box height={"calc(100% - 110px)"}>
+        <Subject />
+      </Box>
     </Box>
   );
 }

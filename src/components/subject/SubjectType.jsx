@@ -23,13 +23,13 @@ const SubjectType = ({ data = {}, select, openModal }) => {
     },
   ];
   return (
-    <Grid item xl={6}>
+    <Grid item md={12} lg={6} xl={6}>
       <Box
         width={"100%"}
         display={"flex"}
         p={2}
         alignItems={"center"}
-        height={"200px"}
+        height={"220px"}
         justifyContent={"center"}
         onClick={() => select(data)}
       >

@@ -6,7 +6,7 @@ import BoxFull from "./components/BoxFull";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UserLayout from "./layouts/UserLayout";
 import WebLayout from "./layouts/WebLayout";
 import { ProSidebarProvider } from "react-pro-sidebar";
@@ -35,6 +35,8 @@ import UserInfo from "./pages/UserInfo";
 import Search from "./pages/Search";
 import BabComment from "./pages/BabComment";
 import Annotation from "./pages/Annotation";
+import Setup from "./pages/Setup";
+import UserProfile from "./pages/UserProfile";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -63,6 +65,7 @@ function App() {
                       <Route path="/" element={<UserLayout />}>
                         <Route index element={<Home />} />
                         <Route path="review" element={<Review />} />
+                        <Route path="annotation" element={<Annotation />} />
                         <Route path="writing" element={<Writing />} />
                         <Route path="post/:id" element={<PostDetailt />} />
                         <Route
@@ -76,6 +79,7 @@ function App() {
                           element={<SubjectDetail />}
                         />
                         <Route path="search" element={<Search />} />
+                        <Route path="profile/:id" element={<UserProfile />} />
                         <Route path="private" element={<Private />}>
                           <Route index path="document" element={<Document />} />
                           <Route index path="posted" element={<Posted />} />
@@ -85,7 +89,7 @@ function App() {
                       </Route>
                     )}
                   </Route>
-                  <Route path="annotation" element={<Annotation />} />
+                  <Route path="set-up" element={<Setup/>}/>
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-up" element={<Signup />} />

@@ -7,8 +7,8 @@ import Header from "../components/Header";
 import { Box } from "@mui/material";
 import { useResendJwtTokenMutation } from "../services/AuthService";
 import { signOut, updateJwtToken } from "../store/authState";
-import Setup from "../pages/Setup";
 function WebLayout() {
+  const [sidebarWidth, setSidebarWidth] = useState(0);
   const dispatch = useDispatch();
   const [isChecked, setChecked] = useState(false);
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -17,7 +17,6 @@ function WebLayout() {
     if (isLogin)
       resendJwtToken(user.token)
         .then((response) => {
-          console.log(response);
           if (response.error !== undefined) {
             dispatch(signOut());
           } else {
@@ -29,12 +28,10 @@ function WebLayout() {
           setChecked(false);
         });
   }, [isLogin, user, dispatch, resendJwtToken]);
-
-  const isFristLogin = true;
   return isLogin ? (
     isChecked ? (
-      isFristLogin ? (
-        <Setup />
+      !user.setup ? (
+        <Navigate to={"/set-up"} />
       ) : (
         <BoxFull
           maxHeight={"100vh"}
@@ -43,9 +40,9 @@ function WebLayout() {
           overflow={"hidden"}
           display={"flex"}
         >
-          <Sidebar />
+          <Sidebar setSidebarWidth={setSidebarWidth} />
           <BoxFull>
-            <Header />
+            <Header sidebarWidth={sidebarWidth} />
             <Box
               width={"100%"}
               height={"calc(100vh - 72px)"}

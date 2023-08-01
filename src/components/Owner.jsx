@@ -16,6 +16,7 @@ import {
   grey,
   indigo,
 } from "@mui/material/colors";
+import { Link } from "react-router-dom";
 
 const color = [
   deepOrange,
@@ -41,6 +42,7 @@ function Owner({ owner, createdAt, listItem = [], sx }) {
       p={2}
       sx={{ ...sx }}
       width={"100%"}
+      onClick={(e) => e.stopPropagation()}
     >
       <Box
         display={"flex"}
@@ -67,15 +69,25 @@ function Owner({ owner, createdAt, listItem = [], sx }) {
           )}
         </Avatar>
         <Box ml={1} width="100%">
-          <Typography
-            variant="h6"
-            textTransform={"capitalize"}
-            sx={{ maxWidth: "100%" }}
-            noWrap={true}
-            color={"text.secondary"}
+          <Link
+            to={`/profile/${owner.id}`}
+
           >
-            {`${owner?.firstName} ${owner?.lastName}`.toLocaleLowerCase()}
-          </Typography>
+            <Typography
+              variant="h6"
+              textTransform={"capitalize"}
+              sx={{
+                maxWidth: "100%",
+                "&:hover": {
+                  color: "blue",
+                },
+              }}
+              noWrap={true}
+              color={"text.secondary"}
+            >
+              {`${owner?.firstName} ${owner?.lastName}`.toLocaleLowerCase()}
+            </Typography>
+          </Link>
           {createdAt && (
             <Typography fontSize={"12px"} textAlign={"start"}>
               {formatTimeAgo(createdAt)}

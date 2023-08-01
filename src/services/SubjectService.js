@@ -305,11 +305,24 @@ export const subjectApi = createApi({
         body: data.body,
       }),
     }),
+    getSubjectByInstitute: builder.mutation({
+      query: (institute) => ({
+        url: "search",
+        method: "GET",
+        params: {
+          institute,
+        },
+      }),
+    }),
+    getInstitute: builder.query({
+      query: () => "/institute",
+      transformResponse: (response) => response.content,
+    }),
     sendAnnotationSubjectDocument: builder.mutation({
       query: (data) => ({
         url: `/subjectDocument/${data.subjectDocumentId}/annotation`,
         params: {
-          action: data.action
+          action: data.action,
         },
         method: "POST",
         body: data.body,
@@ -359,5 +372,7 @@ export const {
   useReportContentSubjectDocumentMutation,
   useReportDuplicateSubjectDocumentMutation,
   useUpdateReviewSubjectMutation,
-  useSendAnnotationSubjectDocumentMutation
+  useSendAnnotationSubjectDocumentMutation,
+  useGetSubjectByInstituteMutation,
+  useGetInstituteQuery
 } = subjectApi;

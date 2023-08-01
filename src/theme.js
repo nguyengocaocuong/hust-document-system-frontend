@@ -133,7 +133,7 @@ export const themeSettings = (mode) => {
               main: colors.primary[500],
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: "#FC8AED",
             },
             neutral: {
               dark: colors.grey[700],
@@ -143,10 +143,10 @@ export const themeSettings = (mode) => {
             background: {
               default: colors.primary[500],
             },
-            text:{
-              primary: '#535f6b',
-              secondary: '#303030'
-            }
+            text: {
+              primary: "#535f6b",
+              secondary: "#303030",
+            },
           }
         : {
             // palette values for light mode
@@ -155,7 +155,7 @@ export const themeSettings = (mode) => {
               light: "#8f93f6",
             },
             secondary: {
-              main: "#DBDEE3",
+              main: "#FC8AED",
             },
             neutral: {
               dark: colors.grey[700],
@@ -165,10 +165,10 @@ export const themeSettings = (mode) => {
             background: {
               default: "#fcfcfc",
             },
-            text:{
-              primary: '#535f6b',
-              secondary: '#303030'
-            }
+            text: {
+              primary: "#535f6b",
+              secondary: "#303030",
+            },
           }),
     },
     typography: {
@@ -199,10 +199,9 @@ export const themeSettings = (mode) => {
         fontSize: 14,
       },
     },
-    shape:{
-      borderRadius: 8
+    shape: {
+      borderRadius: 8,
     },
-   
   };
 };
 

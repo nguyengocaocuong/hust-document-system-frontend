@@ -21,6 +21,8 @@ import {
 } from "../store/notificationState";
 import UploadAnimation from "./UploadAnimation";
 import Pusher from "pusher-js";
+import { closeInternetModal, openInternetModal } from "../store/modalState";
+import { useRef } from "react";
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
@@ -49,10 +51,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   },
 }));
-function Header() {
+function Header({ sidebarWidth }) {
   const { collapseSidebar, collapsed } = useProSidebar();
   const { user } = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
+  const searchBoxRef = useRef();
   const {
     notifications: { LOADING, APPROVE, SHARED },
     isShow,
@@ -62,14 +65,21 @@ function Header() {
   };
   const isLoading = LOADING.find((item) => item.status === 0) ? true : false;
   const handleResize = () => {
-    if (window.innerWidth < 1400 && !collapsed) {
+    if (window.innerWidth < 1100 && !collapsed) {
       collapseSidebar(true);
     }
-    console.log(window.innerWidth);
+    if (window.innerWidth < 900 && window.innerWidth >= 600) {
+      searchBoxRef.current.style.width = "350px";
+    }
+    if (window.innerWidth < 600) {
+      searchBoxRef.current.style.width = 0;
+    }
+    if (window.innerWidth >= 900) {
+      searchBoxRef.current.style.width = "440px";
+    }
   };
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -99,10 +109,17 @@ function Header() {
       pusherService.disconnect();
     };
   }, [user, dispatch, SHARED, APPROVE]);
+  useEffect(() => {
+    window.ononline = () => {
+      dispatch(closeInternetModal());
+    };
+    window.onoffline = () => {
+      dispatch(openInternetModal());
+    };
+  }, []);
   return (
     <Box
-      width={"100%"}
-      maxWidth={`calc(100vw - ${collapsed ? 50 : 250}px)`}
+      width={`calc(100vw - ${sidebarWidth}px)`}
       height={"72px"}
       display={"flex"}
       justifyContent={"space-between"}
@@ -120,7 +137,7 @@ function Header() {
         <IconButton onClick={() => collapseSidebar(!collapsed)}>
           <MenuOpenOutlinedIcon style={{ fontSize: "25px" }} />
         </IconButton>
-        <SearchBox placeHolde={"Bạn tìm gì?"} />
+        <SearchBox placeHolde={"Bạn tìm gì?"} searchBoxRef={searchBoxRef} />
       </Box>
       <Box
         width={"400px"}

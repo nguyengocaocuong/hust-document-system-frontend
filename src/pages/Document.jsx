@@ -19,6 +19,7 @@ import {
   Box,
   Chip,
   IconButton,
+  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -56,6 +57,12 @@ import { useState } from "react";
 import ConfirmModal from "../components/modal/ComfirmModal";
 import noDocument from "../assets/images/noDocument.png";
 import { useGetAllSubjectDocumentDeletedQuery } from "../services/UserService";
+import { useGetAllHistoryQuery } from "../services/HistoryService";
+import Owner from "../components/Owner";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import PreviewIcon from "@mui/icons-material/Preview";
+import DownloadIcon from "@mui/icons-material/Download";
+import PropperMenu from "../components/PropperMenu";
 const color = [
   deepOrange,
   deepPurple,
@@ -85,7 +92,7 @@ const headers = [
 function Document() {
   const message =
     "Tài liệu của bạn sẽ được chuyển vào thùng rác, và sẽ bị xóa vĩnh viễn sau 30 ngày, bạn có chắc chắn muốn xóa không?";
-  
+
   const {
     data = [],
     refetch,
@@ -106,6 +113,7 @@ function Document() {
   const [makeSubjectDocumentPrivate] = useMakeSubjectDocumentPrivateMutation();
   const [makeSubjectDocumentPublic] = useMakeSubjectDocumentPublicMutation();
   const [moveSubjectDocumentToTrash] = useMoveSubjectDocumentToTrashMutation();
+  const { data: histories } = useGetAllHistoryQuery();
   const [open, setOpen] = useState({ open: false, item: null });
   const closeModal = () => setOpen({ open: false, item: null });
   const openModal = (item) => setOpen({ open: true, item });
@@ -294,6 +302,22 @@ function Document() {
       </Box>
     </Box>
   );
+   const actions = () => {
+    let action = [
+      { Icon: PreviewIcon, label: "Xem tài liệu", action: preview },
+      {
+        Icon: InsertLinkIcon,
+        label: "Copy link truy cập",
+        action: () => {},
+      },
+    ];
+      action.push({
+        Icon: DownloadIcon,
+        label: "Tải tài liệu",
+        action: ()=>{},
+      });
+    return action;
+  };
   return (
     <Box
       width={"100%"}
@@ -345,13 +369,77 @@ function Document() {
           </Box>
         </Box>
       )}
+      <Box height={"275px"} width={"100%"} px={2} pt={1}>
+        <Typography color={"text.secondary"} fontWeight={"bold"} pb={1}>
+          Vừa truy cập
+        </Typography>
+        <Stack
+          width={"100%"}
+          maxWidth={"100%"}
+          height={"240px"}
+          direction={"row"}
+          spacing={2}
+        >
+          {histories?.slice(0, 5).map((history) => (
+            <Box
+              sx={{
+                "&:hover": { boxShadow: 2 },
+                transition: "box-shadow 0.4s",
+                cursor: "pointer",
+                borderRadius: 3,
+                height: "100%",
+                width: "240px",
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+              }}
+              p={1}
+            >
+              <Stack spacing={1} >
+                <Owner
+                  owner={history.subjectDocument?.owner}
+                  createdAt={history.createdAt}
+                  sx={{ p:0 }}
+                  listItem={[<PropperMenu key={1} action={actions()} />]}
+                />
+                <Box
+                  height={"110px"}
+                  width={"100%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                >
+                  <Box
+                    height={"100%"}
+                    width={"100%"}
+                    overflow={"hidden"}
+                    borderRadius={2}
+                  >
+                    <img
+                      width={"100%"}
+                      height={"auto"}
+                      alt={history.subjectDocument.document.name}
+                      src={history.subjectDocument.document.thumbnail}
+                    />
+                  </Box>
+                </Box>
+                <Stack spacing={0.5}>
+                  <Typography variant="h5" fontWeight={"bold"}>
+                    {history.subjectDocument.subjectDocumentType}
+                  </Typography>
+                  <Typography variant="h6" noWrap>
+                    {history.subjectDocument.description}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Box>
+          ))}
+        </Stack>
+      </Box>
       {data.length > 0 && isSuccess && (
         <Table
           headers={headers}
           items={data}
           renderItem={renderItem}
-          pageSize={10}
-          itemHeight={55}
+          pageSize={5}
+          itemHeight={57}
         />
       )}
       {open.open && (

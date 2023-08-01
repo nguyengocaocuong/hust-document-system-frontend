@@ -133,7 +133,7 @@ function PostInfo({ postDetail, language }) {
     };
   }, [id, user]);
   return (
-    <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
+    <Box width={`30%`} minWidth={'380px'} borderBottom="1px solid #D8D9D9" pb={2}>
       <Owner
         owner={postDetail.owner}
         createdAt={postDetail.createdAt}

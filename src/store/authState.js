@@ -19,6 +19,9 @@ export const authState = createSlice({
     },
     updateJwtToken: (state, action) => {
       state.user.token = action.payload
+    },
+    updateSetup: (state)=>{
+      state.user.setup = true
     }
   },
   extraReducers: (builder) => {
@@ -32,5 +35,5 @@ export const authState = createSlice({
   },
 });
 
-export const { signOut, updateAuthProfile, updateJwtToken } = authState.actions;
+export const { signOut, updateAuthProfile, updateJwtToken, updateSetup } = authState.actions;
 export default authState.reducer;

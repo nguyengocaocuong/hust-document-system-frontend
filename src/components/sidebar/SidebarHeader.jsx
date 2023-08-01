@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { useProSidebar } from "react-pro-sidebar";
-import logo_notext from "../../assets/images/logo/logo_notext.png";
+import logo_white from "../../assets/images/logo/logo-white.png";
 import logo from "../../assets/images/logo/logo.png";
 function SidebarHeader() {
   const { collapsed } = useProSidebar();
@@ -13,8 +13,12 @@ function SidebarHeader() {
       alignItems={"center"}
       mb="15px"
     >
-      <Box width={"90%"} p="15px">
-        <img src={collapsed ? logo_notext : logo} width={"100%"} alt={"logo"} />
+      <Box width={"100%"} p={2} pb={0} overflow={'hidden'}>
+        <img
+          src={collapsed ? logo_white : logo}
+          width={"220px"}
+          alt={"logo"}
+        />
       </Box>
     </Box>
   );

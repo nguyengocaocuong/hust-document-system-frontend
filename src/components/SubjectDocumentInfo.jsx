@@ -89,7 +89,6 @@ function SubjectDocumentInfo({
     });
   };
   const editComment = (comment) => {
-    console.log("edit");
     const body = convertJsonToFormData(comment);
     updateCommentSubjectDocument({
       subjectDocumentId: subjectDocumentDetail.id,
@@ -171,7 +170,7 @@ function SubjectDocumentInfo({
     };
   },[channelName, user])
   return (
-    <Box width={`30%`} borderBottom="1px solid #D8D9D9" pb={2}>
+    <Box width={`100%`}  borderBottom="1px solid #D8D9D9" pb={2} height={'100%'}>
       <Owner
         owner={subjectDocumentDetail.owner}
         createdAt={subjectDocumentDetail.createdAt}

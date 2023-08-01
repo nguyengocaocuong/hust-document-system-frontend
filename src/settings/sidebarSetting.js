@@ -12,7 +12,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import BeenhereOutlinedIcon from "@mui/icons-material/BeenhereOutlined";
-import QuickreplyOutlinedIcon from '@mui/icons-material/QuickreplyOutlined';
+import QuickreplyOutlinedIcon from "@mui/icons-material/QuickreplyOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 const userSidebarItem = [
   {
     type: "ITEM",
@@ -71,7 +72,14 @@ const userSidebarItem = [
         selectedColor: "red",
       },
     ],
-  }
+  },
+  {
+    type: "ITEM",
+    title: "Tìm kiếm",
+    to: "/search",
+    Icon: SearchOutlinedIcon,
+    selectedColor: "red",
+  },
 ];
 
 const userSidebarSettingItem = [

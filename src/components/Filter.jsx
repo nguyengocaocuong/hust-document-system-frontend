@@ -36,24 +36,15 @@ function Filter({
       type: "teacherFilter",
     },
   } = useGetAllTeacherForFilterQuery();
-  const {
-    data: semesterFilter = {
-      title: "Học kỳ",
-      item: [],
-      type: "semesterFilter",
-    },
-  } = useGetAllSemesterForFilterQuery();
   const data = [];
   if (document) data.push(subjectDocumentFilter);
   if (documentType) data.push(subjectDocumentTypeFilter);
   if (teacher) data.push(teacherFilter);
-  if (semester) data.push(semesterFilter);
 
   const [filterState, setFilterState] = useState({
     documentFilter: "",
     documentTypeFilter: "",
     teacherFilter: "",
-    semesterFilter: "",
   });
   const handleChangeAndSearch = (changeType, value) => {
     onSearching({ ...filterState, [changeType]: value });

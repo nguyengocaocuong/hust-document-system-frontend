@@ -17,7 +17,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import MultipleSelect from "./MultipleSelect";
-function SearchBox({ handle, placeHolde }) {
+function SearchBox({ placeHolde, searchBoxRef }) {
   const [isSearch, setIsSearch] = useState({ basic: false, advane: false });
   const settings = {
     dots: false,
@@ -30,7 +30,9 @@ function SearchBox({ handle, placeHolde }) {
   };
   return (
     <Box
+      ref={searchBoxRef}
       width={"440px"}
+      maxWidth={"100%"}
       zIndex={10}
       position={"absolute"}
       top={16}
@@ -38,6 +40,7 @@ function SearchBox({ handle, placeHolde }) {
       borderRadius={2}
       bgcolor={"#F0F0F0"}
       overflow={"hidden"}
+      sx={{ transition: "width 0.4s" }}
     >
       <Box height={"40px"} width={"100%"} display={"flex"}>
         <IconButton
@@ -52,6 +55,7 @@ function SearchBox({ handle, placeHolde }) {
 
             fontSize: "17px",
           }}
+          placeholder={placeHolde}
         />
         <IconButton
           sx={{

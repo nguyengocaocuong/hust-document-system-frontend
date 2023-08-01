@@ -25,7 +25,7 @@ function Subject() {
         }
       );
     });
-  }, []);
+  }, [getAllSubject]);
   const featchMoreData = () => {
     if (subjects.currentPage >= subjects.totalPages) return;
     getAllSubject({ page: subjects.currentPage, size: 20 }).then((response) => {
@@ -38,7 +38,15 @@ function Subject() {
     });
   };
   return (
-    <Box sx={{ backgroundColor: "white" }}>
+    <Box
+      sx={{
+        backgroundColor: "white",
+        boxShadow: '0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset',
+        WebkitBoxShadow: '0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset',
+        MozBoxShadow: '0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset',
+      }}
+      pt={1}
+    >
       <Box display={"flex"} flexWrap={"wrap"}>
         <InfiniteScroll
           dataLength={subjects.items.length}
