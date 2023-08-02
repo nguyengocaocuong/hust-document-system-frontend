@@ -41,12 +41,12 @@ function Sidebar({ setSidebarWidth }) {
       observer.observe(sidebarRef.current);
     }
     return () => {
-      observer.unobserve(sidebarRef.current);
+      if (sidebarRef.current) observer.unobserve(sidebarRef.current);
     };
   }, [sidebarRef]);
   return (
     <ProSidebar
-      defaultCollapsed={window.innerWidth <=1100}
+      defaultCollapsed={window.innerWidth <= 1100}
       ref={sidebarRef}
       rootStyles={{
         [`.${sidebarClasses.container}`]: {

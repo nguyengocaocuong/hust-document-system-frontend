@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import BoxBetween from "../components/BoxBetween";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import logo from "./../assets/images/logo/logo.png";
 import logoWhite from "./../assets/images/logo/logo-white.png";
 import { useResetPasswordMutation } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
+  const [isLoading, setLoading] = useState(false);
   const theme = useTheme();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(" ");
@@ -21,9 +29,11 @@ function ForgotPassword() {
       setMessage("Bạn cần nhập tài khoản email HUST");
       return;
     }
+    setLoading(true);
     resetPassword(email).then((response) => {
+      setLoading(false);
       if (response.error) {
-        setMessage("Có lỗi khi gửi mail, hãy thử lại");
+        setMessage("Có lỗi khi gửi mail, kiểm tra email và thử lại");
       } else {
         setSuccess(true);
       }
@@ -92,6 +102,7 @@ function ForgotPassword() {
               ) : (
                 <Box mb={2} mt={2}>
                   <TextField
+                    disabled={isLoading}
                     required
                     error={message !== " "}
                     helperText={message}
@@ -132,13 +143,27 @@ function ForgotPassword() {
                     sx={{ textTransform: "capitalize", fontSize: "18px" }}
                   >
                     Xác nhận
+                    {isLoading && (
+                      <CircularProgress
+                        sx={{
+                          width: "30px!important",
+                          height: "30px!important",
+                          color: "white",
+                          fontSize: "12px",
+                        }}
+                      />
+                    )}
                   </Button>
                 )}
               </BoxBetween>
               <Typography
                 textAlign={"end"}
                 color={"primary"}
-                sx={{ textDecoration: "underline", cursor: "pointer" }}
+                sx={{
+                  textDecoration: "none",
+                  "&:hover": { textDecoration: "underline" },
+                  cursor: "pointer",
+                }}
                 onClick={() => navigate("/sign-in")}
               >
                 Về trang đăng nhập

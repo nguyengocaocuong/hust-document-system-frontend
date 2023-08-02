@@ -9,12 +9,16 @@ import {
   Typography,
   useTheme,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import { Link, Navigate } from "react-router-dom";
 import { useLoginMutation } from "../services/AuthService";
 import { useSelector } from "react-redux";
 import BoxBetween from "../components/BoxBetween";
+import { checkPassword } from "../utils/PasswordCheckedUtils";
+
 function Signin() {
+  const [isLoading, setLoading] = useState(false);
   const theme = useTheme();
   const [login] = useLoginMutation();
   const { isLogin } = useSelector((state) => state.authentication);
@@ -50,37 +54,34 @@ function Signin() {
         emailMessage: "Bạn cần sử dụng email HUST để đăng nhập",
         passwordMessage:
           creadentials.password.length >= 8 &&
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(
-            creadentials.password
-          )
+          checkPassword(creadentials.password)
             ? " "
-            : "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ in hoa, chữ thường",
+            : "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ hoa, chữ thường, kí tự đặc biệt.",
       });
       return;
     }
     if (
       creadentials.password.length < 8 ||
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(
-        creadentials.password
-      )
+      !checkPassword(creadentials.password)
     ) {
       setCredentials({
         ...creadentials,
         passwordMessage:
-          "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ in hoa, chữ thường",
+          "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ hoa, chữ thường, kí tự đặc biệt.",
       });
       return;
     }
-    login(creadentials).then(response => {
-      if(response.error){
+    setLoading(true)
+    login(creadentials).then((response) => {
+      setLoading(false)
+      if (response.error) {
         setCredentials({
           ...creadentials,
-          passwordMessage:
-            "Tài khoản hoặc mật khẩu sai",
+          passwordMessage: "Tài khoản hoặc mật khẩu sai",
         });
         return;
       }
-    })
+    });
   };
   return isLogin ? (
     <Navigate to={"/"} replace />
@@ -119,6 +120,7 @@ function Signin() {
             <Box width={"100%"}>
               <Box mb={0.5} mt={2}>
                 <TextField
+                  disabled={isLoading}
                   error={creadentials.emailMessage !== " "}
                   helperText={creadentials.emailMessage}
                   required
@@ -145,6 +147,7 @@ function Signin() {
               </Box>
               <Box mb={2}>
                 <TextField
+                  disabled={isLoading}
                   error={creadentials.passwordMessage !== " "}
                   helperText={creadentials.passwordMessage}
                   required
@@ -207,6 +210,16 @@ function Signin() {
                   }}
                 >
                   Đăng nhập
+                  {isLoading && (
+                    <CircularProgress
+                      sx={{
+                        width: "30px!important",
+                        height: "30px!important",
+                        color: "white",
+                        fontSize: "12px",
+                      }}
+                    />
+                  )}
                 </Button>
               </BoxBetween>
               <BoxBetween>

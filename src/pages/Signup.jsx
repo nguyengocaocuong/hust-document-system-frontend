@@ -14,6 +14,7 @@ import { useRegisterMutation } from "../services/AuthService";
 import { convertJsonToFormData } from "../utils/ConvertData";
 import { useSelector } from "react-redux";
 import BoxBetween from "../components/BoxBetween";
+import { checkPassword } from "../utils/PasswordCheckedUtils";
 
 function Signup() {
   const [isLoading, setLoading] = useState(false);
@@ -81,11 +82,11 @@ function Signup() {
       }));
       return;
     }
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(user.password)) {
+    if (!checkPassword(user.password)) {
       setUser((preState) => ({
         ...preState,
         messagePassword:
-          "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ in hoa, chữ thường",
+          "Mật khẩu phải ít nhất 8 kí tự bao gồm chữ số, chữ hoa, chữ thường, kí tự đặc biệt",
       }));
       return;
     }

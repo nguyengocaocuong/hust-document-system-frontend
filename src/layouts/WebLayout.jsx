@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import { useResendJwtTokenMutation } from "../services/AuthService";
 import { signOut, updateJwtToken } from "../store/authState";
 function WebLayout() {
-  const [sidebarWidth, setSidebarWidth] = useState(0);
+const [sidebarWidth, setSidebarWidth] = useState(0);
   const dispatch = useDispatch();
   const [isChecked, setChecked] = useState(false);
   const { isLogin, user } = useSelector((state) => state.authentication);

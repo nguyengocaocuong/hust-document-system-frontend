@@ -6,7 +6,7 @@ import BoxFull from "./components/BoxFull";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import UserLayout from "./layouts/UserLayout";
 import WebLayout from "./layouts/WebLayout";
 import { ProSidebarProvider } from "react-pro-sidebar";
@@ -78,7 +78,6 @@ function App() {
                           path="education/:id"
                           element={<SubjectDetail />}
                         />
-                        <Route path="search" element={<Search />} />
                         <Route path="profile/:id" element={<UserProfile />} />
                         <Route path="private" element={<Private />}>
                           <Route index path="document" element={<Document />} />
@@ -89,7 +88,8 @@ function App() {
                       </Route>
                     )}
                   </Route>
-                  <Route path="set-up" element={<Setup/>}/>
+                  <Route path="search" element={<Search />} />
+                  <Route path="set-up" element={<Setup />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-up" element={<Signup />} />

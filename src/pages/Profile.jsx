@@ -178,7 +178,7 @@ function Profile() {
               transition: "background-color 1s",
             }}
             icon={<FavoriteIcon />}
-            label={<Typography variant="h5">Môn học yêu thích</Typography>}
+            label={<Typography variant="h5">Môn học đang học</Typography>}
           />
           <Chip
             color="primary"
