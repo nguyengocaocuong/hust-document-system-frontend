@@ -91,9 +91,17 @@ function ReportModal({ open }) {
       case "SUBJECT_DOCUMENT":
         if (reportSubjectDocumentType === "CONTENT_SUBJECT_DOCUMENT") {
           body.append("message", message);
-          reportContentSubjectDocument({subjectDocumentId: object.id, body});
+          reportContentSubjectDocument({
+            subjectDocumentId: object.id,
+            body,
+          }).then((response) => {
+            if (!response.error) {
+              closeConfirmModal();
+              closeModal();
+            }
+          });
         } else {
-        } 
+        }
         return;
       default:
         return "";

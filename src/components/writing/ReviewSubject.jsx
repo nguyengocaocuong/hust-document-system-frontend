@@ -35,6 +35,7 @@ import {
 import { useLocation } from "react-router-dom";
 function ReviewSubject() {
   const [isLoading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ isShow: false, status: false });
   const location = useLocation();
   const editorRef = useRef(null);
   const { data: subjectDocumentFilter = { title: "Loại tài liệu", item: [] } } =
@@ -48,7 +49,6 @@ function ReviewSubject() {
     location.state?.reviewSubject.review || ""
   );
   const [done, setDone] = useState(location.state?.reviewSubject.done || false);
-  const [isNotify, setNotify] = useState(0);
   const actions = () => [
     {
       Icon: FlagIcon,
@@ -69,60 +69,69 @@ function ReviewSubject() {
         body,
         subjectId: subject,
         reviewSubjectId: location.state?.reviewSubject.id,
-      })
-        .then(() => {
+      }).then((response) => {
+        if (!response.error) {
+          setAlert({ isShow: true, status: true });
+          setTimeout(() => {
+            setAlert({ isShow: false, status: true });
+          }, 4000);
           setSubject("");
           setLiveView(false);
           setContent("");
           setDone(false);
-          setNotify(1);
           setLoading(false);
-          setInterval(() => {
-            setNotify(0);
+        } else {
+          setAlert({ isShow: true, status: true });
+          setTimeout(() => {
+            setAlert({ isShow: false, status: true });
           }, 4000);
-        })
-        .catch(() => {
-          setNotify(2);
-          setInterval(() => {
-            setNotify(0);
-          }, 4000);
-        });
+        }
+      });
     }
-    createReviewSubject({ body, subjectId: subject })
-      .then(() => {
+    createReviewSubject({ body, subjectId: subject }).then((response) => {
+      if (!response.error) {
+        setAlert({ isShow: true, status: true });
+        setTimeout(() => {
+          setAlert({ isShow: false, status: true });
+        }, 4000);
         setSubject("");
         setLiveView(false);
         setContent("");
         setDone(false);
-        setNotify(1);
         setLoading(false);
-        setInterval(() => {
-          setNotify(0);
+      } else {
+        setAlert({ isShow: true, status: true });
+        setTimeout(() => {
+          setAlert({ isShow: false, status: true });
         }, 4000);
-      })
-      .catch(() => {
-        setNotify(2);
-        setInterval(() => {
-          setNotify(0);
-        }, 4000);
-      });
+      }
+    });
   };
   return (
     <BoxFull>
-      {isNotify !== 0 && (
+      <Box
+        sx={{
+          overflow: "hidden",
+          height: alert.isShow ? "45px" : 0,
+          borderRadius: 0,
+          transition: "height 0.6s",
+        }}
+      >
         <Alert
-          severity={isNotify === 1 ? "success" : "error"}
-          onClose={() => {}}
+          severity={alert.status ? "success" : "error"}
+          onClose={() => {
+            setAlert({ isShow: false });
+          }}
+          sx={{ borderRadius: 0 }}
         >
-          {isNotify === 1
-            ? "Đăng tải bài viết thành công"
-            : "Lỗi khi đăng tải bài viết"}
+          {alert.status
+            ? "Đăng bài thành công"
+            : "Lỗi khi đăng bài, hãy thử lại"}
         </Alert>
-      )}
+      </Box>
       <Typography
         variant="h3"
         py={2}
-        mt={isNotify === 0 ? 0 : 1}
         textAlign={"center"}
         textTransform={"uppercase"}
         bgcolor={"#F0F0F0"}
@@ -173,7 +182,7 @@ function ReviewSubject() {
           </Box>
           <Editor
             editorRef={editorRef}
-            height={isNotify !== 0 ? 500 : 550}
+            height={alert.isShow ? 500 : 550}
             setContent={setContent}
             content={content}
           />

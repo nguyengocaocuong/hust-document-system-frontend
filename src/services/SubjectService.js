@@ -6,7 +6,7 @@ export const subjectApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("X-HUST-DOCUMENT-KEY", token);
       }
       return headers;
     },
@@ -36,13 +36,16 @@ export const subjectApi = createApi({
         var subjectDocuments = {};
         for (var j = 0; j < content.subjectDocuments.length; j++) {
           if (
-            !subjectDocuments[content.subjectDocuments[j].subjectDocumentType]
+            !subjectDocuments[
+              content.subjectDocuments[j].subjectDocumentType.type
+            ]
           ) {
-            subjectDocuments[content.subjectDocuments[j].subjectDocumentType] =
-              [];
+            subjectDocuments[
+              content.subjectDocuments[j].subjectDocumentType.type
+            ] = [];
           }
           subjectDocuments[
-            content.subjectDocuments[j].subjectDocumentType
+            content.subjectDocuments[j].subjectDocumentType.type
           ].push(content.subjectDocuments[j]);
         }
         var convertToArray = [];
@@ -306,11 +309,11 @@ export const subjectApi = createApi({
       }),
     }),
     getSubjectByInstitute: builder.mutation({
-      query: (institute) => ({
+      query: (instituteId) => ({
         url: "search",
         method: "GET",
         params: {
-          institute,
+          instituteId,
         },
       }),
     }),
@@ -324,6 +327,54 @@ export const subjectApi = createApi({
         params: {
           action: data.action,
         },
+        method: "POST",
+        body: data.body,
+      }),
+    }),
+    getSubjectDocumentSharedByUser: builder.mutation({
+      query: (userId) => ({
+        url: `sharedByUser`,
+        params: {
+          userId,
+        },
+        method: "GET",
+      }),
+    }),
+    getAllReported: builder.mutation({
+      query: (userId) => ({
+        url: `reported`,
+        method: "GET",
+      }),
+    }),
+    updateReportContentReviewSubject: builder.mutation({
+      query: (data) => ({
+        url: `reviewSubject/${data.reviewSubjectId}/reportContent/${data.reportContentReviewSubjectId}`,
+        method: "PATCH",
+        body: data.body,
+      }),
+    }),
+    deleteReportContentReviewSubject: builder.mutation({
+      query: (data) => ({
+        url: `reviewTeacher/${data.reviewSubjectId}/reportContent/${data.reportContentReviewSubjectId}`,
+        method: "DELETE",
+      }),
+    }),
+    updateReportContentSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `subjectDocument/${data.subjectDocumentId}/reportContent/${data.reportContentSubjectDocumentId}`,
+        method: "PATCH",
+        body: data.body,
+      }),
+    }),
+    deleteReportContentSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `subjectDocument/${data.subjectDocumentId}/reportContent/${data.reportContentSubjectDocumentId}`,
+        method: "DELETE",
+      }),
+    }),
+    uploadAnnotateForSubjectDocument: builder.mutation({
+      query: (data) => ({
+        url: `subjectDocument/${data.subjectDocumentId}/answerSubjectDocument/annotation`,
         method: "POST",
         body: data.body,
       }),
@@ -374,5 +425,12 @@ export const {
   useUpdateReviewSubjectMutation,
   useSendAnnotationSubjectDocumentMutation,
   useGetSubjectByInstituteMutation,
-  useGetInstituteQuery
+  useGetInstituteQuery,
+  useGetSubjectDocumentSharedByUserMutation,
+  useGetAllReportedMutation,
+  useUpdateReportContentReviewSubjectMutation,
+  useDeleteReportContentReviewSubjectMutation,
+  useDeleteReportContentSubjectDocumentMutation,
+  useUpdateReportContentSubjectDocumentMutation,
+  useUploadAnnotateForSubjectDocumentMutation,
 } = subjectApi;

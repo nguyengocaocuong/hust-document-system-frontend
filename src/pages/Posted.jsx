@@ -1,5 +1,4 @@
 import React from "react";
-import Filter from "../components/Filter";
 import {
   useDeleteReviewSubjectMutation,
   useGetAllReviewSubjectCreatedByUserQuery,
@@ -9,7 +8,14 @@ import {
   useGetAllReviewTeacherCreatedByUserQuery,
 } from "../services/TeacherService";
 import Table from "../components/Table";
-import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import subjectIcon from "../assets/images/document/homework.png";
 import questionIcon from "../assets/images/question.png";
 import { formatTimeAgo } from "../utils/ConvertDate";
@@ -29,6 +35,8 @@ import {
   useGetAllPostCreatedByUserQuery,
 } from "../services/PostService";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+
 const headers = [
   { title: "", width: "119.25px" },
   { title: "Đối tượng", width: "17%" },
@@ -328,22 +336,133 @@ function Posted() {
   return (
     <Box
       width={"100%"}
-      height={"100%"}
-      overflow={"auto"}
+      height={"calc(100vh - 72px)"}
+      overflow={"hidden"}
       sx={{ backgroundColor: "white" }}
     >
-      <Box m={2} maxHeight={"60px"} height={"60px"}>
-        <Typography variant="h4" color={"text.secondary"} my={1}>
-          Danh sách bài đăng của bạn
-        </Typography>
-        <Filter documentType={false} semester={false} />
+      <Box p={2} height={"120px"} boxShadow={2}>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"start"}
+          pb={2}
+        >
+          <Typography variant="h3" color={"text.secondary"}>
+            Danh sách bài đăng của bạn
+          </Typography>
+        </Box>
+        <Stack
+          spacing={4}
+          direction={"row"}
+          width={"100%"}
+          display={"flex"}
+          alignItems={"center"}
+        >
+          <Stack
+            direction={"row"}
+            spacing={0.5}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+              Loại bài viết
+            </Typography>
+            <Select
+              isClearable
+              options={[
+                { label: "Tất cả", value: "ALL" },
+                { label: "Hỏi bài tập", value: "POST" },
+                { label: "Review giảng viên", value: "TEACHER" },
+                { label: "Review môn học", value: "SUBJECT" },
+              ]}
+              styles={{
+                control: (styles) => ({
+                  ...styles,
+                  minHeight: "40px",
+                  width: "300px",
+                }),
+                multiValueLabel: (styles) => ({
+                  ...styles,
+                  fontSize: "18px",
+                }),
+                singleValue: (styles) => ({
+                  ...styles,
+                  fontSize: "18px",
+                }),
+                placeholder: (styles) => ({ ...styles, fontSize: "18px" }),
+              }}
+              placeholder={"Loại bài viết"}
+            />
+          </Stack>
+          <Stack
+            direction={"row"}
+            spacing={0.5}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+              Đối tượng
+            </Typography>
+            <Select
+              options={[{ label: "Tất cả", value: "ALL" }]}
+              isMulti
+              styles={{
+                control: (styles) => ({
+                  ...styles,
+                  minHeight: "40px",
+                  maxHeight: "100%",
+                  minWidth: "300px",
+                }),
+                multiValueLabel: (styles) => ({
+                  ...styles,
+                  fontSize: "18px",
+                }),
+                placeholder: (styles) => ({ ...styles, fontSize: "18px" }),
+              }}
+              placeholder={"Đối tượng"}
+            />
+          </Stack>
+          <Stack
+            direction={"row"}
+            spacing={0.5}
+            display={"flex"}
+            alignItems={"center"}
+          >
+            <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+              Trạng thái
+            </Typography>
+            <Select
+              options={[
+                { label: "Tất cả", value: "ALL" },
+                { label: "Mới đăng", value: "NEW" },
+                { label: "Đã phê duyệt", value: "APPROVED" },
+                { label: "Bị từ chối", value: "REJECT" },
+              ]}
+              isMulti
+              styles={{
+                control: (styles) => ({
+                  ...styles,
+                  minHeight: "40px",
+                  maxHeight: "100%",
+                  minWidth: "300px",
+                }),
+                multiValueLabel: (styles) => ({
+                  ...styles,
+                  fontSize: "18px",
+                }),
+                placeholder: (styles) => ({ ...styles, fontSize: "18px" }),
+              }}
+              placeholder={"Trạng thái bài viết"}
+            />
+          </Stack>
+        </Stack>
       </Box>
       <Table
         headers={headers}
         items={items}
         renderItem={renderItem}
         pageSize={5}
-        itemHeight={112}
+        itemHeight={106}
       />
       {open.open && (
         <ConfirmModal

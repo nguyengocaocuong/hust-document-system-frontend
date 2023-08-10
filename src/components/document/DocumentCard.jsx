@@ -13,6 +13,7 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openAnswerSubjectDocumentModal,
+  openDownloadModal,
   openReportModal,
 } from "../../store/modalState";
 import FlagIcon from "@mui/icons-material/Flag";
@@ -72,6 +73,9 @@ function DocumentCard({
       });
   };
   const isOwner = document?.owner.id === authUser.id;
+  const downloadMul = () => {
+    dispatch(openDownloadModal({ subjectDocumentId: document.id }));
+  };
   const actions = () => {
     let arrAction = [
       { Icon: PreviewIcon, label: "Xem trước", action: preview },
@@ -85,6 +89,11 @@ function DocumentCard({
         Icon: DownloadIcon,
         label: "Tải tài liệu",
         action: downloadSubjectDocument,
+      },
+      {
+        Icon: DownloadIcon,
+        label: "Tải kèm đáp án",
+        action: downloadMul,
       },
       {
         Icon: FlagIcon,

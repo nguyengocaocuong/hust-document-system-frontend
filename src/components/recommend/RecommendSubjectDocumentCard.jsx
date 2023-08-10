@@ -4,9 +4,10 @@ import { documentType } from "../../settings/SubjectSetting";
 import Owner from "../Owner";
 import { CloseOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Box
       width={"100%"}
@@ -16,7 +17,7 @@ function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
         cursor: "pointer",
       }}
       p={2}
-      onClick={()=> navigate(`/education/subject-document/${recommend.id}`)}
+      onClick={() => navigate(`/education/subject-document/${recommend.id}`)}
     >
       <Owner
         owner={recommend.owner}
@@ -24,9 +25,10 @@ function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
         sx={{ p: -2 }}
         listItem={[
           <Chip
+            icon={<LocalOfferIcon />}
             key={1}
             color={"primary"}
-            label={<strong>{"Hóa học"}</strong>}
+            label={<strong>{recommend.subject.name}</strong>}
           />,
           <IconButton key={2} onClick={closeRecommend}>
             <CloseOutlined />
@@ -47,7 +49,7 @@ function RecommendSubjectDocumentCard({ recommend, closeRecommend }) {
         />
         <Box width={"calc(100% - 90px)"}>
           <Typography width={"100%"} textTransform={"uppercase"}>
-            <strong>#{documentType[recommend.subjectDocumentType].title}</strong>{" "}
+            <strong>#{recommend.subjectDocumentType.name}</strong>{" "}
           </Typography>
           <Typography>{recommend.description}</Typography>
         </Box>

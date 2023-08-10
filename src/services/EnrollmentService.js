@@ -6,7 +6,7 @@ export const enrollmentApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("X-HUST-DOCUMENT-KEY", token);
       }
       return headers;
     },
@@ -21,13 +21,21 @@ export const enrollmentApi = createApi({
       query: (data) => ({
         url: ``,
         method: "POST",
-        body: data
+        body: data,
       }),
-    })
+    }),
+    deleteEnrollmentSubjects: builder.mutation({
+      query: (data) => ({
+        url: ``,
+        method: "DELETE",
+        body: data,
+      }),
+    }),
   }),
 });
 
 export const {
-    useGetAllEnrollmentSubjectQuery,
-    useCreateEnrollmentSubjectsMutation
+  useGetAllEnrollmentSubjectQuery,
+  useCreateEnrollmentSubjectsMutation,
+  useDeleteEnrollmentSubjectsMutation,
 } = enrollmentApi;

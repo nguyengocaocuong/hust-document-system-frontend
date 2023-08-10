@@ -1,8 +1,9 @@
 FROM node:18-alpine as development
-WORKDIR /app
+WORKDIR /react-app
+
+COPY ./package.json .
+RUN yarn install
 
 COPY . .
-
-RUN yarn install
 CMD ["yarn","start"]
 EXPOSE 3000

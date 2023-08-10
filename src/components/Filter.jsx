@@ -3,7 +3,6 @@ import { Box, Typography } from "@mui/material";
 import MultipleSelect from "../components/MultipleSelect";
 import { getIconForDocByFileName } from "../utils/DocumentUtils";
 import {
-  useGetAllSemesterForFilterQuery,
   useGetAllSubjectDocumentTypeForFilterQuery,
   useGetAllSubjectForFilterQuery,
   useGetAllTeacherForFilterQuery,
@@ -13,7 +12,6 @@ function Filter({
   document = true,
   documentType = true,
   teacher = true,
-  semester = false,
 }) {
   const {
     data: subjectDocumentTypeFilter = {

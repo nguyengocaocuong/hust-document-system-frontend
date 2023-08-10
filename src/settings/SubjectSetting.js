@@ -29,7 +29,7 @@ export const documentType  = {
       img: quizImg,
       color: "#7974E3",
     },
-    MIDTERM_EXAM: {
+    MIDDLE_EXAM: {
       title: "Kiểm tra giữa kỳ",
       subTitle: "Midterm Exam",
       img: midtermExamImg,
@@ -47,7 +47,7 @@ export const documentType  = {
       img: projectImg,
       color: "#8F9FF5",
     },
-    HOMEWORK: {
+    ASSIGNMENT: {
       title: "Bài tập về nhà",
       subTitle: "Homework",
       img: homeworkImg,
@@ -59,7 +59,7 @@ export const documentType  = {
       img: textbookImg,
       color: "#DB4737",
     },
-    REFERENCE_BOOK: {
+    REFERENCE_MATERIAL: {
       title: "Tài liệu tham khảo",
       subTitle: "Ebook",
       img: ebookImg,
@@ -71,13 +71,13 @@ export const documentType  = {
       img: syllabusImg,
       color: "#233D91",
     },
-    PAPER: {
+    RESEARCH_PAPER: {
       title: "Bài báo",
       subTitle: "Paper",
       img: paperImg,
       color: "#321ABC",
     },
-    HANDOUT: {
+    NOTES: {
       title: "Tài liệu phát",
       subTitle: "Handout",
       img: handoutImg,

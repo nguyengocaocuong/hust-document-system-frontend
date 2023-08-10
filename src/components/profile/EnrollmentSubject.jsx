@@ -8,6 +8,8 @@ import {
   Avatar,
   AvatarGroup,
   Typography,
+  Button,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState } from "react";
 import BoxFull from "../BoxFull";
@@ -17,7 +19,11 @@ import CodeIcon from "@mui/icons-material/Code";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
-import { useGetAllEnrollmentSubjectQuery } from "../../services/EnrollmentService";
+import {
+  useCreateEnrollmentSubjectsMutation,
+  useDeleteEnrollmentSubjectsMutation,
+  useGetAllEnrollmentSubjectQuery,
+} from "../../services/EnrollmentService";
 import { useEffect } from "react";
 import { formatTimeAgo } from "../../utils/ConvertDate";
 import {
@@ -25,23 +31,30 @@ import {
   useGetSubjectByInstituteMutation,
 } from "../../services/SubjectService";
 import { useNavigate } from "react-router-dom";
+import { useGetAllInsitutesQuery } from "../../services/UserInstituteService";
 
 const EnrollmentSubject = () => {
-  const navigate = useNavigate()
+  const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { data: enrollment } = useGetAllEnrollmentSubjectQuery();
-  const [selectedSubject, setSelectedData] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState([]);
   useEffect(() => {
-    setSelectedData(enrollment || []);
+    setSelectedSubject(enrollment || []);
   }, [enrollment]);
   const [getSubjectByInstitute] = useGetSubjectByInstituteMutation();
-  const { data } = useGetInstituteQuery();
+  const { data: institutes } = useGetAllInsitutesQuery();
   const [selected, setSelected] = useState([]);
   const [instutite, setInstutite] = useState(null);
   const [listSubject, setListSubject] = useState([]);
   useEffect(() => {
     if (instutite)
       getSubjectByInstitute(instutite.value).then((response) => {
-        setListSubject(response.data?.content || []);
+        setListSubject(
+          response.data?.content?.filter(
+            (item) =>
+              selectedSubject.find((i) => i.id === item.id) === undefined
+          ) || []
+        );
       });
   }, [instutite]);
   const handleSelectInstutite = (value) => {
@@ -49,6 +62,33 @@ const EnrollmentSubject = () => {
   };
   const handleSelectSubject = (value) => {
     setSelected(value);
+  };
+  const [createEnrollmentSubjects] = useCreateEnrollmentSubjectsMutation();
+
+  const onAddEnrollmentSubject = () => {
+    setLoading(true);
+    const formData = new FormData();
+    selected.forEach((value) => formData.append("subjects", value.value));
+    createEnrollmentSubjects(formData).then((response) => {
+      if (!response.error) {
+        setSelected([]);
+        setLoading(false);
+      }
+    });
+  };
+
+  const [deleteEnrollmentSubject] = useDeleteEnrollmentSubjectsMutation();
+  const onDeleteEnrollmentSubject = (subject) => {
+    const data = new FormData();
+    data.append("subjects", subject.id);
+    data.append("subjects", subject.id);
+    deleteEnrollmentSubject(data).then((response) => {
+      if (!response.error) {
+        setSelectedSubject((preData) =>
+          preData.filter((data) => data.id !== subject.id)
+        );
+      }
+    });
   };
   return (
     <BoxFull p={2} minHeight={"100%"}>
@@ -64,8 +104,14 @@ const EnrollmentSubject = () => {
         </Typography>
         <Divider />
         <Select
+          isDisabled={isLoading}
           isClearable
-          options={data?.map((value) => ({ value, label: value })) || []}
+          options={
+            institutes?.map((item) => ({
+              value: item.id,
+              label: item.institute,
+            })) || []
+          }
           styles={{
             control: (styles) => ({
               ...styles,
@@ -81,7 +127,7 @@ const EnrollmentSubject = () => {
           onChange={handleSelectInstutite}
         />
         <Select
-          isDisabled={listSubject.length <= 0}
+          isDisabled={listSubject.length <= 0 || isLoading}
           options={
             listSubject?.map((subject) => ({
               value: subject.id,
@@ -101,8 +147,32 @@ const EnrollmentSubject = () => {
             placeholder: (styles) => ({ ...styles, fontSize: "18px" }),
           }}
           placeholder={"Chọn môn học..."}
+          value={selected}
           onChange={handleSelectSubject}
         />
+        <Box
+          display={selected.length > 0 ? "flex" : "none"}
+          justifyContent={"end"}
+        >
+          <Button
+            color={"primary"}
+            sx={{ borderRadius: 0 }}
+            variant="contained"
+            onClick={onAddEnrollmentSubject}
+          >
+            Thêm mới
+            {isLoading && (
+              <CircularProgress
+                sx={{
+                  width: "30px!important",
+                  height: "30px!important",
+                  color: "white",
+                  fontSize: "12px",
+                }}
+              />
+            )}
+          </Button>
+        </Box>
         <Divider />
         <BoxFull px={2}>
           <Grid container spacing={3}>
@@ -119,7 +189,6 @@ const EnrollmentSubject = () => {
                       boxShadow: 2,
                     },
                   }}
-
                 >
                   <Stack spacing={2}>
                     <Typography
@@ -135,7 +204,7 @@ const EnrollmentSubject = () => {
                         style={{ width: "25px", height: "25px" }}
                       />
                       <Divider orientation="vertical" flexItem />
-                      <Typography variant="h5">
+                      <Typography variant="h5" noWrap>
                         Bạn bắt đầu học <strong>{item.name}</strong> từ
                         {formatTimeAgo(item.createdAt)}
                       </Typography>
@@ -143,7 +212,7 @@ const EnrollmentSubject = () => {
                     <Stack direction={"row"} spacing={2}>
                       <CodeIcon style={{ width: "25px", height: "25px" }} />
                       <Divider orientation="vertical" flexItem />
-                      <Typography variant="h5">
+                      <Typography variant="h5" noWrap>
                         Mã học phần môn học <strong>{item.subjectCode}</strong>
                       </Typography>
                     </Stack>
@@ -152,8 +221,8 @@ const EnrollmentSubject = () => {
                         style={{ width: "25px", height: "25px" }}
                       />
                       <Divider orientation="vertical" flexItem />
-                      <Typography variant="h5">
-                        Viện <strong>{item.institute}</strong>
+                      <Typography variant="h5" noWrap>
+                        Viện <strong>{item.institute.institute}</strong>
                       </Typography>
                     </Stack>
                     <Divider />
@@ -163,9 +232,10 @@ const EnrollmentSubject = () => {
                         spacing={1}
                         display={"flex"}
                         alignItems={"center"}
-                      
                       >
-                        <IconButton onClick={()=> navigate(`/education/${item.id}`)}>
+                        <IconButton
+                          onClick={() => navigate(`/education/${item.id}`)}
+                        >
                           <VisibilityIcon />
                         </IconButton>
                         <Typography variant="h5" textTransform={"uppercase"}>
@@ -179,7 +249,9 @@ const EnrollmentSubject = () => {
                         display={"flex"}
                         alignItems={"center"}
                       >
-                        <IconButton>
+                        <IconButton
+                          onClick={() => onDeleteEnrollmentSubject(item)}
+                        >
                           <DisabledByDefaultIcon />
                         </IconButton>
                         <Typography variant="h5" textTransform={"uppercase"}>

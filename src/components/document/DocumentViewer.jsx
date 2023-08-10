@@ -5,7 +5,7 @@ import BoxFull from "../BoxFull";
 
 function DocumentViewer({ docs = [] }) {
   const { user } = useSelector((state) => state.authentication);
-  const headers = { Authorization: `Bearer ${user.token}` };
+  const headers = { "X-HUST-DOCUMENT-KEY": user.token };
   return (
     <BoxFull
       maxHeight={"100%"}

@@ -87,8 +87,8 @@ function ReviewTeacherModal({ open }) {
       commentId: id,
     }).then(() => refeatchCommentReviewTeacher());
   };
-  const handleClickReportIcon = () => {
-    dispatch(openReportModal({ data: "1" }));
+  const report = () => {
+    dispatch(openReportModal({ object: dataModal, type: "CONTENT_REVIEW_TEACHER" }));
   };
   const copyUrl = () => {
     const url = `http://localhost:3000/review?id=${dataModal.id}&type=REVIEW_TEACHER`;
@@ -110,7 +110,7 @@ function ReviewTeacherModal({ open }) {
     {
       Icon: FlagIcon,
       label: "Báo cáo bài viết",
-      action: handleClickReportIcon,
+      action: report,
     },
   ];
   const [comments, setComments] = useState([]);
@@ -142,10 +142,7 @@ function ReviewTeacherModal({ open }) {
     });
     channel.bind("hidden-comment", (hiddenedCommentId) => {
       setComments((preComments) =>
-        preComments.filter(
-          (comment) =>
-            comment.id !== hiddenedCommentId
-        )
+        preComments.filter((comment) => comment.id !== hiddenedCommentId)
       );
     });
     return () => {
@@ -163,8 +160,7 @@ function ReviewTeacherModal({ open }) {
             textAlign={"center"}
             width={"calc(100% - 30px)"}
           >
-            Review giảng viên
-            <strong>{dataModal.teacher.name}</strong>
+            Review giảng viên <strong>{dataModal.teacher.name}</strong>
           </Typography>
           <IconButton onClick={closeModal}>
             <CloseIcon />

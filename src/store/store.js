@@ -35,6 +35,8 @@ import { adminCommentReviewSubjectApi } from "../services/AdminCommentReviewSubj
 import { adminCommentReviewTeacherApi } from "../services/AdminCommentReviewTeacherService";
 import { enrollmentApi } from "../services/EnrollmentService";
 import { historyApi } from "../services/HistoryService";
+import { instituteApi } from "../services/UserInstituteService";
+import { subjectDocumentTypeApi } from "../services/UserSubjectDocumentTypeService";
 const rootReducer = combineReducers({
   authentication: authReducer,
   modalState: modalState,
@@ -67,6 +69,8 @@ const rootReducer = combineReducers({
   [searchApi.reducerPath]: searchApi.reducer,
   [enrollmentApi.reducerPath]: enrollmentApi.reducer,
   [historyApi.reducerPath]: historyApi.reducer,
+  [instituteApi.reducerPath]: instituteApi.reducer,
+  [subjectDocumentTypeApi.reducerPath]: subjectDocumentTypeApi.reducer,
 });
 const persistConig = {
   key: "root",
@@ -104,6 +108,8 @@ export const store = configureStore({
       adminCommentReviewSubjectApi.middleware,
       searchApi.middleware,
       enrollmentApi.middleware,
-      historyApi.middleware
+      historyApi.middleware,
+      instituteApi.middleware,
+      subjectDocumentTypeApi.middleware
     ),
 });

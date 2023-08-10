@@ -37,6 +37,7 @@ import BabComment from "./pages/BabComment";
 import Annotation from "./pages/Annotation";
 import Setup from "./pages/Setup";
 import UserProfile from "./pages/UserProfile";
+import Reported from "./pages/Reported";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -65,6 +66,7 @@ function App() {
                       <Route path="/" element={<UserLayout />}>
                         <Route index element={<Home />} />
                         <Route path="review" element={<Review />} />
+                        <Route path="reported" element={<Reported />} />
                         <Route path="annotation" element={<Annotation />} />
                         <Route path="writing" element={<Writing />} />
                         <Route path="post/:id" element={<PostDetailt />} />
@@ -73,6 +75,7 @@ function App() {
                           element={<SubjectDocumentDetail />}
                         />
                         <Route path="education" element={<Education />} />
+                        <Route path="search" element={<Search />} />
                         <Route path="trash" element={<Trash />} />
                         <Route
                           path="education/:id"
@@ -88,8 +91,7 @@ function App() {
                       </Route>
                     )}
                   </Route>
-                  <Route path="search" element={<Search />} />
-                  <Route path="set-up" element={<Setup />} />
+                  <Route path="welcome" element={<Setup />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-up" element={<Signup />} />

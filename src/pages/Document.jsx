@@ -1,10 +1,4 @@
 import React from "react";
-import Filter from "../components/Filter";
-import {
-  FileTypeFilter,
-  DocumentTypeFilter,
-  SubjectCodeFilter,
-} from "../settings/SharedSetting";
 import {
   useGetAllSubjectDocumentCreateByUserQuery,
   useMakeSubjectDocumentPrivateMutation,
@@ -150,7 +144,9 @@ function Document() {
   const openModalAddSubjectDocument = () => {
     dispatch(
       openSubjectDocumentModal({
-        subjectDocumentType: "EXAM",
+        subjectName: "test",
+        subjectId: 1,
+        subjectDocumentType: 1,
       })
     );
   };
@@ -183,7 +179,7 @@ function Document() {
         sx={{ fontWeight: "bold", width: "10%" }}
         color={"primary.main"}
       >
-        {item?.subjectDocumentType}
+        {item?.subjectDocumentType.name}
       </Typography>
       <Typography width={"20%"} noWrap>
         {item?.description}
@@ -202,11 +198,10 @@ function Document() {
         {formatTimeAgo(item?.lastEditedAt)}
       </Typography>
       <Box sx={{ width: "12%" }} justifyContent={"start"} display={"flex"}>
-        <AvatarGroup max={4} total={item?.shared.length}>
+        <AvatarGroup max={4} total={item?.shared?.length}>
           {item?.shared.slice(0, 4).map((s, i) => (
-            <Tooltip title={`${s.user.firstName} ${s.user.lastName}`}>
+            <Tooltip title={`${s.user.firstName} ${s.user.lastName}`} key={i}>
               <Avatar
-                key={i}
                 alt={s.user.lastName}
                 src={s.user.avatar}
                 sx={{
@@ -302,7 +297,7 @@ function Document() {
       </Box>
     </Box>
   );
-   const actions = () => {
+  const actions = () => {
     let action = [
       { Icon: PreviewIcon, label: "Xem tài liệu", action: preview },
       {
@@ -311,11 +306,11 @@ function Document() {
         action: () => {},
       },
     ];
-      action.push({
-        Icon: DownloadIcon,
-        label: "Tải tài liệu",
-        action: ()=>{},
-      });
+    action.push({
+      Icon: DownloadIcon,
+      label: "Tải tài liệu",
+      action: () => {},
+    });
     return action;
   };
   return (
@@ -325,15 +320,94 @@ function Document() {
       overflow={"auto"}
       sx={{ backgroundColor: "white" }}
     >
-      <Box m={2} maxHeight={"60px"} height={"60px"}>
-        <Typography variant="h4" color={"text.secondary"} my={1}>
-          Tài liệu của bạn
+      <Typography
+        variant="h4"
+        color={"text.secondary"}
+        p={2}
+        pb={0}
+        fontWeight={"bold"}
+      >
+        Tài liệu của bạn
+      </Typography>
+
+      <Box
+        height={"275px"}
+        width={"100%"}
+        px={2}
+        pt={1}
+        display={histories?.length === 0 ? "none" : "block"}
+      >
+        <Typography
+          color={"text.primary"}
+          variant="h5"
+          fontWeight={"bold"}
+          pb={1}
+        >
+          Vừa truy cập
         </Typography>
-        <Filter
-          data={[FileTypeFilter, DocumentTypeFilter, SubjectCodeFilter]}
-        />
+        <Stack
+          width={"100%"}
+          maxWidth={"100%"}
+          height={"240px"}
+          direction={"row"}
+          spacing={2}
+        >
+          {histories?.slice(0, 5).map((history) => (
+            <Box
+              key={history.id}
+              sx={{
+                "&:hover": { boxShadow: 2 },
+                transition: "box-shadow 0.4s",
+                cursor: "pointer",
+                borderRadius: 3,
+                height: "100%",
+                width: "240px",
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+              }}
+              p={1}
+              onClick={() => alert("tét")}
+            >
+              <Stack spacing={1}>
+                <Owner
+                  owner={history.subjectDocument?.owner}
+                  createdAt={history.createdAt}
+                  sx={{ p: 0 }}
+                  listItem={[<PropperMenu key={1} action={actions()} />]}
+                />
+                <Box
+                  height={"110px"}
+                  width={"100%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                >
+                  <Box
+                    height={"100%"}
+                    width={"100%"}
+                    overflow={"hidden"}
+                    borderRadius={2}
+                  >
+                    <img
+                      width={"100%"}
+                      height={"auto"}
+                      alt={history.subjectDocument.document.name}
+                      src={history.subjectDocument.document.thumbnail}
+                    />
+                  </Box>
+                </Box>
+                <Stack spacing={0.5}>
+                  <Typography variant="h5" fontWeight={"bold"}>
+                    {history.subjectDocument.subjectDocumentType.name}
+                  </Typography>
+                  <Typography variant="h6" noWrap>
+                    {history.subjectDocument.description}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Box>
+          ))}
+        </Stack>
       </Box>
-      {data.length === 0 && isSuccess && (
+      {data?.length === 0 && isSuccess && (
         <Box
           display={"flex"}
           alignItems={"center"}
@@ -369,77 +443,13 @@ function Document() {
           </Box>
         </Box>
       )}
-      <Box height={"275px"} width={"100%"} px={2} pt={1}>
-        <Typography color={"text.secondary"} fontWeight={"bold"} pb={1}>
-          Vừa truy cập
-        </Typography>
-        <Stack
-          width={"100%"}
-          maxWidth={"100%"}
-          height={"240px"}
-          direction={"row"}
-          spacing={2}
-        >
-          {histories?.slice(0, 5).map((history) => (
-            <Box
-              sx={{
-                "&:hover": { boxShadow: 2 },
-                transition: "box-shadow 0.4s",
-                cursor: "pointer",
-                borderRadius: 3,
-                height: "100%",
-                width: "240px",
-                backgroundColor: "rgba(0, 0, 0, 0.1)",
-              }}
-              p={1}
-            >
-              <Stack spacing={1} >
-                <Owner
-                  owner={history.subjectDocument?.owner}
-                  createdAt={history.createdAt}
-                  sx={{ p:0 }}
-                  listItem={[<PropperMenu key={1} action={actions()} />]}
-                />
-                <Box
-                  height={"110px"}
-                  width={"100%"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                >
-                  <Box
-                    height={"100%"}
-                    width={"100%"}
-                    overflow={"hidden"}
-                    borderRadius={2}
-                  >
-                    <img
-                      width={"100%"}
-                      height={"auto"}
-                      alt={history.subjectDocument.document.name}
-                      src={history.subjectDocument.document.thumbnail}
-                    />
-                  </Box>
-                </Box>
-                <Stack spacing={0.5}>
-                  <Typography variant="h5" fontWeight={"bold"}>
-                    {history.subjectDocument.subjectDocumentType}
-                  </Typography>
-                  <Typography variant="h6" noWrap>
-                    {history.subjectDocument.description}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Box>
-          ))}
-        </Stack>
-      </Box>
-      {data.length > 0 && isSuccess && (
+      {data?.length > 0 && isSuccess && (
         <Table
           headers={headers}
           items={data}
           renderItem={renderItem}
-          pageSize={5}
-          itemHeight={57}
+          pageSize={histories?.length === 0 ? 11 : 6}
+          itemHeight={56}
         />
       )}
       {open.open && (

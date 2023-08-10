@@ -4,12 +4,10 @@ import { useState } from "react";
 import Select from "react-select";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {
-  useGetInstituteQuery,
   useGetSubjectByInstituteMutation,
 } from "../services/SubjectService";
 import { useEffect } from "react";
 import BoxFull from "../components/BoxFull";
-import logo from "../assets/images/logo/logo.png";
 import logo_notext from "../assets/images/logo/logo_notext.png";
 import annotateImage from "../assets/images/welcome/Chú thích tài liệu.png";
 import shareDocument from "../assets/images/welcome/Trao đổi đáp án.png";
@@ -17,6 +15,7 @@ import { useCreateEnrollmentSubjectsMutation } from "../services/EnrollmentServi
 import { useDispatch } from "react-redux";
 import { updateSetup } from "../store/authState";
 import { useNavigate } from "react-router-dom";
+import { useGetAllInsitutesQuery } from "../services/UserInstituteService";
 const WelcomePage = () => {
   const [activeStep, setActiveStep] = useState(1);
   return (
@@ -142,7 +141,7 @@ const WelcomePage = () => {
 };
 function Setup() {
   const [getSubjectByInstitute] = useGetSubjectByInstituteMutation();
-  const { data } = useGetInstituteQuery();
+  const { data: institutes } = useGetAllInsitutesQuery();
   const [selected, setSelected] = useState([]);
   const [instutite, setInstutite] = useState(null);
   const [listSubject, setListSubject] = useState([]);
@@ -180,7 +179,7 @@ function Setup() {
       </Typography>
       <Select
         isClearable
-        options={data?.map((value) => ({ value, label: value })) || []}
+        options={institutes?.map((item) => ({ value: item.id, label: item.institute })) || []}
         styles={{
           control: (styles) => ({
             ...styles,
@@ -190,9 +189,13 @@ function Setup() {
             ...styles,
             fontSize: "18px",
           }),
+          singleValue: (styles)=>({
+            ...styles,
+            fontSize: "18px",
+          }),
           placeholder: (styles) => ({ ...styles, fontSize: "18px" }),
         }}
-        placeholder={"Chọn viện"}
+        placeholder={"Chọn trường-viện"}
         onChange={handleSelectInstutite}
       />
       <Select
@@ -200,7 +203,7 @@ function Setup() {
         options={
           listSubject?.map((subject) => ({
             value: subject.id,
-            label: subject.name,
+            label: `${subject.subjectCode} | ${subject.name}`,
           })) || []
         }
         isMulti

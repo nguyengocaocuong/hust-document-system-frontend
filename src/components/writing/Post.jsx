@@ -35,7 +35,6 @@ import {
 import { useLocation } from "react-router-dom";
 function Post() {
   const [isLoading, setLoading] = useState(false);
-
   const location = useLocation();
   const { data: subjectDocumentFilter = { title: "Môn học", item: [] } } =
     useGetAllSubjectForFilterQuery();
@@ -44,6 +43,7 @@ function Post() {
   const [title, setTitle] = useState(location.state?.post.description || "");
   const [doc, setDoc] = useState(null);
   const [liveView, setLiveView] = useState(false);
+  const [alert, setAlert] = useState({ isShow: false, status: false });
   const onDrop = useCallback((acceptedFiles = []) => {
     setDoc(acceptedFiles[0]);
   }, []);
@@ -68,32 +68,72 @@ function Post() {
     formData.append("subjectId", subject);
     formData.append("done", 1);
     if (doc) formData.append("documents", doc);
+    setLoading(true);
     if (location.state?.update) {
       updatePost({ postId: location.state?.post.id, body: formData }).then(
-        () => {
-          location.state = null;
+        (response) => {
+          if (!response.error) {
+            setAlert({ isShow: true, status: true });
+            setTimeout(() => {
+              setAlert({ isShow: false, status: true });
+            }, 4000);
+            location.state = null;
+            setSubject("");
+            setTitle("");
+            setLiveView(false);
+            setDoc(null);
+            setLoading(false);
+          } else {
+            setAlert({ isShow: true, status: false });
+            setTimeout(() => {
+              setAlert({ isShow: false, status: true });
+            }, 4000);
+          }
+        }
+      );
+    } else {
+      createPost(formData).then((response) => {
+        if (!response.error) {
+          setAlert({ isShow: true, status: true });
+          setTimeout(() => {
+            setAlert({ isShow: false, status: true });
+          }, 4000);
           setSubject("");
           setTitle("");
           setLiveView(false);
           setDoc(null);
           setLoading(false);
+        } else {
+          setAlert({ isShow: true, status: false });
+          setTimeout(() => {
+            setAlert({ isShow: false, status: true });
+          }, 4000);
         }
-      );
-    } else {
-      createPost(formData).then(() => {
-        setSubject("");
-        setTitle("");
-        setLiveView(false);
-        setDoc(null);
-        setLoading(false);
       });
     }
   };
   return (
     <BoxFull>
-      <Alert severity="error" onClose={() => {}}>
-        This is an error alert — check it out!
-      </Alert>
+      <Box
+        sx={{
+          overflow: "hidden",
+          height: alert.isShow ? "45px" : 0,
+          borderRadius: 0,
+          transition: "height 0.6s",
+        }}
+      >
+        <Alert
+          severity={alert.status ? "success" : "error"}
+          onClose={() => {
+            setAlert({ isShow: false });
+          }}
+          sx={{ borderRadius: 0 }}
+        >
+          {alert.status
+            ? "Đăng bài thành công"
+            : "Lỗi khi đăng bài, hãy thử lại"}
+        </Alert>
+      </Box>
       <BoxBetween>
         <Box width={"480px"} height={"80%"} border={"1px solid gray"}>
           <Box

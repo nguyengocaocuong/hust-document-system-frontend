@@ -13,7 +13,7 @@ const PDFViewer = ({
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          'HUST-DOCUMENT-KEY': user.token,
         },
       });
       const data = await response.blob();

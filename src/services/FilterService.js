@@ -6,7 +6,7 @@ export const filterApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("X-HUST-DOCUMENT-KEY", token);
       }
       return headers;
     },
@@ -35,7 +35,7 @@ export const filterApi = createApi({
         type: "documentFilter",
         item: response?.content.map((i) => {
           return {
-            label: i.name,
+            label: `${i.subjectCode} | ${i.name}`,
             value: i.id,
             data: i,
           };
@@ -90,9 +90,9 @@ export const filterApi = createApi({
 });
 
 export const {
-    useGetAllSemesterForFilterQuery,
-    useGetAllSubjectDocumentTypeForFilterQuery,
-    useGetAllSubjectForFilterQuery,
-    useGetAllTeacherForFilterQuery,
-    useGetUserForFilterQuery
+  useGetAllSemesterForFilterQuery,
+  useGetAllSubjectDocumentTypeForFilterQuery,
+  useGetAllSubjectForFilterQuery,
+  useGetAllTeacherForFilterQuery,
+  useGetUserForFilterQuery,
 } = filterApi;

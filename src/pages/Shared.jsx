@@ -88,7 +88,7 @@ function Shared() {
         sx={{ fontWeight: "bold", width: "10%" }}
         color={"primary.main"}
       >
-        {item?.subjectDocument?.subjectDocumentType}
+        {item?.subjectDocument?.subjectDocumentType.type}
       </Typography>
       <Typography sx={{ fontWeight: "bold", width: "10%" }}>
         {item?.subjectDocument?.subject?.name}

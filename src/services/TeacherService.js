@@ -6,7 +6,7 @@ export const teacherApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("X-HUST-DOCUMENT-KEY", token);
       }
       return headers;
     },
@@ -89,6 +89,19 @@ export const teacherApi = createApi({
         method: "DELETE",
       }),
     }),
+    updateReportContentReviewTeacher: builder.mutation({
+      query: (data) => ({
+        url: `reviewTeacher/${data.reviewTeacherId}/reportContent/${data.reportContentReviewTeacherId}`,
+        method: "PATCH",
+        body: data.body,
+      }),
+    }),
+    deleteReportContentReviewTeacher: builder.mutation({
+      query: (data) => ({
+        url: `reviewTeacher/${data.reviewTeacherId}/reportContent/${data.reportContentReviewTeacherId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -106,4 +119,6 @@ export const {
   useGetAllReviewTeacherCreatedByUserQuery,
   useReportContentReviewTeacherMutation,
   useUpdateReviewTeacherMutation,
+  useUpdateReportContentReviewTeacherMutation,
+  useDeleteReportContentReviewTeacherMutation,
 } = teacherApi;

@@ -24,7 +24,6 @@ function DocumentViewerModal({ open }) {
   const {
     documentViewerModal: { dataModal },
   } = useSelector((state) => state.modalState);
-  console.log(dataModal)
 
   const closeModal = () => {
     dispatch(closeDocumentViewerModal());
@@ -47,7 +46,7 @@ function DocumentViewerModal({ open }) {
         UI.loadDocument(dataModal.docs[0].uri, {
           filename: dataModal.docs[0].fileName,
           customHeaders: {
-            Authorization: `Bearer ${user.token}`,
+            "X-HUST-DOCUMENT-KEY": user.token,
           },
         });
       });
@@ -65,8 +64,7 @@ function DocumentViewerModal({ open }) {
             viewer.current = el;
             setRefVisible(true);
           }}
-        >
-        </Box>
+        ></Box>
       </Box>
     </Modal>
   );

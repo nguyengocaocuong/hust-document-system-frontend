@@ -36,14 +36,14 @@ function SubjectDetail() {
   const [showState] = useState(true);
   useEffect(() => {
     const handleResize = () => {
-      if(window.innerWidth <= 900){
-        setCloseSubjectDetail(true)
+      if (window.innerWidth <= 900) {
+        setCloseSubjectDetail(true);
       }
-      if(window.innerWidth > 900){
-        setCloseSubjectDetail(false)
+      if (window.innerWidth > 900) {
+        setCloseSubjectDetail(false);
       }
     };
-    window.addEventListener('resize', handleResize)
+    window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -54,14 +54,14 @@ function SubjectDetail() {
       {isSuccess && (
         <>
           <Box
-            width={closeSubjectDetail ?  showState ? "100%" : 0 : "27%"}
+            width={closeSubjectDetail ? (showState ? "100%" : 0) : "27%"}
             height={"100%"}
             minWidth={!closeSubjectDetail && "350px"}
             overflow={closeSubjectDetail && showState ? "auto" : "hidden"}
             borderRight={"1px solid #D8D9D9"}
             p={2}
             boxShadow={5}
-            sx={{transition:'width 0.4s'}}
+            sx={{ transition: "width 0.4s" }}
           >
             <Typography variant="h2" textAlign={"center"} p={2} pb={3}>
               <strong>{subjectDetail.subjectCode}</strong>
@@ -72,6 +72,14 @@ function SubjectDetail() {
                 Thông tin học phần
               </Typography>
               <Stack spacing={2}>
+                <Box>
+                  <Typography variant="h6">
+                    <strong>Trường-viện</strong>
+                  </Typography>
+                  <Typography variant="h5" fontWeight={500} color={"gray"}>
+                    {subjectDetail.institute?.institute}
+                  </Typography>
+                </Box>
                 <Box>
                   <Typography variant="h6">
                     <strong>Tên học phần</strong>
@@ -125,7 +133,7 @@ function SubjectDetail() {
                         },
                         width: "100%",
                       }}
-                      label={type[document.type].title}
+                      label={type[document.type]?.title}
                       icon={
                         selected?.find((i) => i.type === document.type) !==
                         undefined ? (
@@ -144,9 +152,10 @@ function SubjectDetail() {
             <Divider />
           </Box>
           <Box
-            width={closeSubjectDetail  ? !showState ?  "100%" : 0 : "73%"}
-            overflow={closeSubjectDetail && !showState ? "auto" : "hidden"}
-            sx={{transition:'width 0.4s'}}
+            width={closeSubjectDetail ? (!showState ? "100%" : 0) : "73%"}
+            // overflow={closeSubjectDetail && !showState ? "auto" : "hidden"}
+            overflow={"auto"}
+            sx={{ transition: "width 0.4s" }}
           >
             {selected.length > 0 &&
               selected.map((s, index) => (

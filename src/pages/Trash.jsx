@@ -82,7 +82,7 @@ function Trash() {
         sx={{ fontWeight: "bold", width: "10%" }}
         color={"primary.main"}
       >
-        {item?.subjectDocumentType}
+        {item?.subjectDocumentType.type}
       </Typography>
       <Typography width={"30%"} noWrap>
         {item?.description}

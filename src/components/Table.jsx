@@ -54,7 +54,7 @@ function Table({
         height={`${itemHeight * pageSize}px`}
       >
         {currentData.map((item) =>
-          renderItem(item, `${item.type}-${item.id}`)
+          renderItem(item,item.id)
         )}
       </Box>
       {showPagination && (

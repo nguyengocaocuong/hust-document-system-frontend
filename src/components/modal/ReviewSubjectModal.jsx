@@ -89,7 +89,9 @@ function ReviewSubjectModal({ open }) {
   };
 
   const report = () => {
-    dispatch(openReportModal({}));
+    dispatch(
+      openReportModal({ object: dataModal, type: "CONTENT_REVIEW_SUBJECT" })
+    );
   };
   const copyUrl = () => {
     const url = `http://localhost:3000/review?id=${dataModal.id}&type=REVIEW_SUBJECT`;

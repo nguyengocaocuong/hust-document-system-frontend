@@ -5,15 +5,14 @@ import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
 import AnswerCard from "./AnswerCard";
-import { openAnswerPostModal, openAnswerSubjectDocumentModal } from "../store/modalState";
-const MemoDocumentAnswer = memo(({ answers, toggleFavorite }) => (
+import {
+  openAnswerPostModal,
+  openAnswerSubjectDocumentModal,
+} from "../store/modalState";
+const MemoDocumentAnswer = memo(({ answers, toggleFavorite,onShowAnnotate }) => (
   <Stack spacing={1.5}>
     {answers.map((answer, index) => (
-      <AnswerCard
-        key={index}
-        answer={answer}
-        toggleFavorite={toggleFavorite}
-      />
+      <AnswerCard key={index} answer={answer} toggleFavorite={toggleFavorite} onShowAnnotate={onShowAnnotate}/>
     ))}
   </Stack>
 ));
@@ -56,6 +55,7 @@ function DetailtAnswers({ answers }) {
       >
         <MemoDocumentAnswer
           answers={answers.data}
+          onShowAnnotate={answers.onShowAnnotate}
           toggleFavorite={answers.toggleFavoriteAnswer}
         />
       </Box>

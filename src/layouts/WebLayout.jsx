@@ -31,7 +31,7 @@ const [sidebarWidth, setSidebarWidth] = useState(0);
   return isLogin ? (
     isChecked ? (
       !user.setup ? (
-        <Navigate to={"/set-up"} />
+        <Navigate to={"/welcome"} />
       ) : (
         <BoxFull
           maxHeight={"100vh"}

@@ -8,14 +8,11 @@ import ContactPageIcon from "@mui/icons-material/ContactPage";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ManageHistoryOutlinedIcon from "@mui/icons-material/ManageHistoryOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
-
-import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import Infor from "../components/profile/Infor";
 import History from "../components/profile/History";
 import EnrollmentSubject from "../components/profile/EnrollmentSubject";
 import Setting from "../components/profile/Setting";
-import Uploaded from "../components/profile/Uploaded";
-import Reviewed from "../components/profile/Reviewed";
+import { useUpdateAvatarMutation } from "../services/UserService";
 
 function Profile() {
   const fileInputRef = useRef();
@@ -25,13 +22,20 @@ function Profile() {
   useEffect(() => {
     setUserState({ ...user });
   }, [user]);
-  
+
+  const [updateAvatar] = useUpdateAvatarMutation();
   const onSelectFileAvatar = (e) => {
     setUserState((preState) => ({
       ...preState,
       avatarFile: e.target.files[0],
     }));
+    if (e.target.files[0]) {
+      const formData = new FormData();
+      formData.append("avatarFile", e.target.files[0]);
+      updateAvatar(formData);
+    }
   };
+
   return (
     <BoxFull
       bgcolor={"white"}
@@ -93,7 +97,7 @@ function Profile() {
                   src={
                     userState?.avatarFile
                       ? URL.createObjectURL(userState?.avatarFile)
-                      : avatar
+                      : userState.avatar || avatar
                   }
                   alt="avatar"
                   width={"100%"}
@@ -143,12 +147,7 @@ function Profile() {
           </Box>
         </BoxFull>
       </Box>
-      <Box
-        width={"100%"}
-        pt={8}
-        px={10}
-        height={"calc(100% - 280px)"}
-      >
+      <Box width={"100%"} pt={8} px={10} height={"calc(100% - 280px)"}>
         <Stack spacing={2} direction={"row"} width={"100%"} p={2}>
           <Chip
             color="info"
@@ -181,7 +180,7 @@ function Profile() {
             label={<Typography variant="h5">Môn học đang học</Typography>}
           />
           <Chip
-            color="primary"
+            color="warning"
             onClick={() => setActive(2)}
             variant={isActive === 2 ? "contained" : "outlined"}
             sx={{
@@ -192,47 +191,17 @@ function Profile() {
               transition: "background-color 1s",
               "&:hover": { boxShadow: 2 },
             }}
-            icon={<CloudDoneIcon />}
-            label={<Typography variant="h5">Đã chia sẻ</Typography>}
+            icon={<SettingsIcon />}
+            label={<Typography variant="h5">Thiết lập cài đặt</Typography>}
           />
           <Chip
-            color="secondary"
+            color="success"
             onClick={() => setActive(3)}
             variant={isActive === 3 ? "contained" : "outlined"}
             sx={{
               p: 1.5,
               cursor: "pointer",
               boxShadow: isActive === 3 ? 2 : 0,
-              height: "40px",
-              transition: "background-color 1s",
-              "&:hover": { boxShadow: 2 },
-            }}
-            icon={<CloudDoneIcon />}
-            label={<Typography variant="h5">Bài viết</Typography>}
-          />
-          <Chip
-            color="warning"
-            onClick={() => setActive(4)}
-            variant={isActive === 4 ? "contained" : "outlined"}
-            sx={{
-              p: 1.5,
-              cursor: "pointer",
-              boxShadow: isActive === 4 ? 2 : 0,
-              height: "40px",
-              transition: "background-color 1s",
-              "&:hover": { boxShadow: 2 },
-            }}
-            icon={<SettingsIcon />}
-            label={<Typography variant="h5">Thiết lập cài đặt</Typography>}
-          />
-          <Chip
-            color="success"
-            onClick={() => setActive(5)}
-            variant={isActive === 5 ? "contained" : "outlined"}
-            sx={{
-              p: 1.5,
-              cursor: "pointer",
-              boxShadow: isActive === 5 ? 2 : 0,
               "&:hover": { boxShadow: 2 },
               height: "40px",
             }}
@@ -243,10 +212,8 @@ function Profile() {
         <Box width={"100%"} pb={2}>
           {isActive === 0 && <Infor />}
           {isActive === 1 && <EnrollmentSubject />}
-          {isActive === 2 && <Uploaded />}
-          {isActive === 3 && <Reviewed />}
-          {isActive === 4 && <Setting />}
-          {isActive === 5 && <History />}
+          {isActive === 2 && <Setting />}
+          {isActive === 3 && <History />}
         </Box>
       </Box>
     </BoxFull>

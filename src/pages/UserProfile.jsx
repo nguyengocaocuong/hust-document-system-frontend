@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useSelector } from "react-redux";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
+import CreateIcon from "@mui/icons-material/Create";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import Infor from "../components/profile/Infor";
 import EnrollmentSubject from "../components/profile/EnrollmentSubject";
@@ -21,7 +21,7 @@ function UserProfile() {
   useEffect(() => {
     setUserState({ ...user });
   }, [user]);
-  
+
   const onSelectFileAvatar = (e) => {
     setUserState((preState) => ({
       ...preState,
@@ -139,12 +139,7 @@ function UserProfile() {
           </Box>
         </BoxFull>
       </Box>
-      <Box
-        width={"100%"}
-        pt={8}
-        px={10}
-        height={"calc(100% - 280px)"}
-      >
+      <Box width={"100%"} pt={8} px={10} height={"calc(100% - 280px)"}>
         <Stack spacing={2} direction={"row"} width={"100%"} p={2}>
           <Chip
             color="info"
@@ -203,7 +198,7 @@ function UserProfile() {
               transition: "background-color 1s",
               "&:hover": { boxShadow: 2 },
             }}
-            icon={<CloudDoneIcon />}
+            icon={<CreateIcon />}
             label={<Typography variant="h5">Bài viết</Typography>}
           />
         </Stack>

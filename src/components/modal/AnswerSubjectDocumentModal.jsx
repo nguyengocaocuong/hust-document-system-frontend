@@ -4,7 +4,10 @@ import { useDropzone } from "react-dropzone";
 import MultipleSelect from "../MultipleSelect";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useDispatch, useSelector } from "react-redux";
-import { closeAnswerSubjectDocumentModal } from "../../store/modalState";
+import {
+  clearAnswerSubjectDocumentModal,
+  closeAnswerSubjectDocumentModal,
+} from "../../store/modalState";
 import {
   useGetAllAnswerSubjectDocumentQuery,
   useUploadAnswerForSubjectDocumentMutation,
@@ -21,7 +24,7 @@ const style = {
   pt: 2,
   px: 4,
   pb: 3,
-  borderRadius:1
+  borderRadius: 1,
 };
 function AnswerSubjectDocumentModal({ open }) {
   const [data, setData] = useState({
@@ -39,7 +42,7 @@ function AnswerSubjectDocumentModal({ open }) {
   const id = Number(dataModal.subjectDocumentId);
   const dispatch = useDispatch();
   const closeModal = () => {
-    dispatch(closeAnswerSubjectDocumentModal());
+    dispatch(clearAnswerSubjectDocumentModal());
   };
   const [uploadAnswerForSubjectDocument] =
     useUploadAnswerForSubjectDocumentMutation();
@@ -62,7 +65,7 @@ function AnswerSubjectDocumentModal({ open }) {
         }
       );
     else {
-      closeModal();
+      dispatch(closeAnswerSubjectDocumentModal());
       dispatch(
         addLoadingNotification([
           ...LOADING,
@@ -93,6 +96,7 @@ function AnswerSubjectDocumentModal({ open }) {
               },
             ])
           );
+          dispatch(clearAnswerSubjectDocumentModal());
           retetchAnswerSubjectDocument();
         })
         .catch(() => {

@@ -35,6 +35,7 @@ import {
 import { useLocation } from "react-router-dom";
 function ReviewTeacher() {
   const [isLoading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ isShow: false, status: false });
   const location = useLocation();
   const editorRef = useRef(null);
   const { data: teacherFilter = { title: "Giảng viên", item: [] } } =
@@ -47,7 +48,6 @@ function ReviewTeacher() {
   const [content, setContent] = useState(
     location.state?.reviewTeacher?.review || ""
   );
-  const [isNotify, setNotify] = useState(0);
   const [done, setDone] = useState(location.state?.reviewTeacher.done || false);
   const actions = () => [
     {
@@ -69,60 +69,71 @@ function ReviewTeacher() {
         body: formData,
         teacherId: teacher,
         reviewTeacherId: location.state?.reviewTeacher.id,
-      })
-        .then(() => {
+      }).then((response) => {
+        if (!response.error) {
+          setAlert({ isShow: true, status: true });
+          setTimeout(() => {
+            setAlert({ isShow: false, status: true });
+          }, 4000);
           setTeacher("");
           setLiveView(false);
           setContent("");
           setDone(false);
-          setNotify(1);
           setLoading(false);
-          setInterval(() => {
-            setNotify(0);
+        } else {
+          setAlert({ isShow: true, status: false });
+          setTimeout(() => {
+            setAlert({ isShow: false, status: true });
           }, 4000);
-        })
-        .catch(() => {
-          setNotify(2);
-          setInterval(() => {
-            setNotify(0);
-          }, 4000);
-        });
+        }
+      });
     } else {
-      createReviewTeacher({ body: formData, teacherId: teacher })
-        .then(() => {
-          setTeacher("");
-          setLiveView(false);
-          setContent("");
-          setDone(false);
-          setNotify(1);
-          setLoading(false);
-          setInterval(() => {
-            setNotify(0);
-          }, 4000);
-        })
-        .catch(() => {
-          setNotify(2);
-          setInterval(() => {
-            setNotify(0);
-          }, 4000);
-        });
+      createReviewTeacher({ body: formData, teacherId: teacher }).then(
+        (response) => {
+          if (!response.error) {
+            setAlert({ isShow: true, status: true });
+            setTimeout(() => {
+              setAlert({ isShow: false, status: true });
+            }, 4000);
+            setTeacher("");
+            setLiveView(false);
+            setContent("");
+            setDone(false);
+            setLoading(false);
+          } else {
+            setAlert({ isShow: true, status: false });
+            setTimeout(() => {
+              setAlert({ isShow: false, status: true });
+            }, 4000);
+          }
+        }
+      );
     }
   };
   return (
     <BoxFull>
-      {isNotify !== 0 && (
+      <Box
+        sx={{
+          overflow: "hidden",
+          height: alert.isShow ? "45px" : 0,
+          borderRadius: 0,
+          transition: "height 0.6s",
+        }}
+      >
         <Alert
-          severity={isNotify === 1 ? "success" : "error"}
-          onClose={() => {}}
+          severity={alert.status ? "success" : "error"}
+          onClose={() => {
+            setAlert({ isShow: false });
+          }}
+          sx={{ borderRadius: 0 }}
         >
-          {isNotify === 1
-            ? "Đăng tải bài viết thành công"
-            : "Lỗi khi đăng tải bài viết"}
+          {alert.status
+            ? "Đăng bài thành công"
+            : "Lỗi khi đăng bài, hãy thử lại"}
         </Alert>
-      )}
+      </Box>
       <Typography
         variant="h3"
-        mt={isNotify === 0 ? 0 : 1}
         py={2}
         textAlign={"center"}
         textTransform={"uppercase"}
@@ -174,7 +185,7 @@ function ReviewTeacher() {
           </Box>
           <Editor
             editorRef={editorRef}
-            height={isNotify !== 0 ? 500 : 550}
+            height={alert.isShow ? 500 : 550}
             setContent={setContent}
             content={content}
           />

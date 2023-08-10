@@ -6,7 +6,7 @@ export const adminReportContentTeacherSubjectApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("X-HUST-DOCUMENT-KEY", token);
       }
       return headers;
     },

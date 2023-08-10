@@ -14,7 +14,15 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import BeenhereOutlinedIcon from "@mui/icons-material/BeenhereOutlined";
 import QuickreplyOutlinedIcon from "@mui/icons-material/QuickreplyOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
 const userSidebarItem = [
+  {
+    type: "ITEM",
+    title: "Tìm kiếm",
+    to: "/search",
+    Icon: SearchOutlinedIcon,
+    selectedColor: "red",
+  },
   {
     type: "ITEM",
     title: "Đăng bài",
@@ -75,9 +83,9 @@ const userSidebarItem = [
   },
   {
     type: "ITEM",
-    title: "Tìm kiếm",
-    to: "/search",
-    Icon: SearchOutlinedIcon,
+    title: "Báo cáo",
+    to: "/reported",
+    Icon: FlagOutlinedIcon,
     selectedColor: "red",
   },
 ];

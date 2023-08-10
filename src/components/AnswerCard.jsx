@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import PreviewIcon from "@mui/icons-material/Preview";
 import DownloadIcon from "@mui/icons-material/Download";
-import FlagIcon from "@mui/icons-material/Flag";
-import { openDocumentViewerModal, openReportModal } from "../store/modalState";
+import { openDocumentViewerModal } from "../store/modalState";
 import PropperMenu from "./PropperMenu";
 import DeleteIcon from "@mui/icons-material/Delete";
+import noteIcon from "../assets/images/icon/note.png";
 import { useLocation, useParams } from "react-router-dom";
-function AnswerCard({ answer, toggleFavorite }) {
+function AnswerCard({ answer, toggleFavorite, onShowAnnotate }) {
   const { id } = useParams();
   const location = useLocation();
   const [isShowAll, setShowAll] = React.useState(false);
@@ -27,6 +27,8 @@ function AnswerCard({ answer, toggleFavorite }) {
   const preview = () => {
     if (answer.type === "LINK") {
       window.open(answer.document.url, "_blank");
+    } else if (answer.type === "ANNOTATE") {
+      onShowAnnotate(answer.id);
     } else {
       dispatch(
         openDocumentViewerModal({
@@ -43,13 +45,13 @@ function AnswerCard({ answer, toggleFavorite }) {
     }
   };
   const downloadAnswerSubjectDocument = () => {};
-  const reportAnswerSubjectDocument = () => {
-    dispatch(
-      openReportModal({
-        answerPostId: answer.id,
-      })
-    );
-  };
+  // const reportAnswerSubjectDocument = () => {
+  //   dispatch(
+  //     openReportModal({
+  //       answerPostId: answer.id,
+  //     })
+  //   );
+  // };
   const deleteAnswerSubjectDocument = () => {
     alert("delete");
   };
@@ -62,12 +64,6 @@ function AnswerCard({ answer, toggleFavorite }) {
         action: () => {},
       },
     ];
-    if (!isOwnerAnswer)
-      action.push({
-        Icon: FlagIcon,
-        label: "Báo cáo tài liệu",
-        action: reportAnswerSubjectDocument,
-      });
     if (answer.type !== "LINK")
       action.push({
         Icon: DownloadIcon,
@@ -105,6 +101,7 @@ function AnswerCard({ answer, toggleFavorite }) {
             color="text.secondary"
             sx={{ lineHeight: "22px" }}
             width={"100%"}
+            display={answer?.type === "ANNOTATE" ? "none" : "block"}
           >
             {isShowAll
               ? answer?.description
@@ -167,7 +164,7 @@ function AnswerCard({ answer, toggleFavorite }) {
               </Box>
             </Box>
           )}
-          {answer?.type !== "LINK" && (
+          {answer?.type !== "LINK" && answer?.type !== "ANNOTATE" && (
             <Box
               width={"100%"}
               maxHeight={"150px"}
@@ -180,6 +177,21 @@ function AnswerCard({ answer, toggleFavorite }) {
                 style={{ width: "100%" }}
                 alt="?"
               />
+            </Box>
+          )}
+          {answer?.type === "ANNOTATE" && (
+            <Box
+              width={"100%"}
+              maxHeight={"150px"}
+              maxWidth={"100%"}
+              overflow={"hidden"}
+              borderRadius={1}
+              display={"flex"}
+            >
+              <img src={noteIcon} style={{ height: "100px" }} alt="?" />
+              <Typography px={2} variant="h5">
+                {answer.description}
+              </Typography>
             </Box>
           )}
           <Box

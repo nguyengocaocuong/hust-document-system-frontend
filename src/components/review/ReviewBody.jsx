@@ -23,8 +23,9 @@ function ReviewBody({ reviews = [] }) {
   return (
     <Box
       width={"100%"}
-      height={"calc(100% - 166px)"}
-      pb={2}
+      height={"calc(100% - 60px)"}
+      p={2}
+      pt={0}
       overflow={"auto"}
       sx={{ "&::-webkit-scrollbar": { display: "none" } }}
     >

@@ -2,25 +2,27 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const searchApi = createApi({
   reducerPath: "searchs",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://www.googleapis.com/customsearch/v1",
+    baseUrl: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_API_VERSION}/users/search`,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().authentication?.user?.token;
+      if (token) {
+        headers.set("X-HUST-DOCUMENT-KEY", token);
+      }
+      return headers;
+    },
   }),
   tagTypes: ["search"],
   endpoints: (builder) => ({
-    searchAllInWebsite: builder.mutation({
-      query: (data) => ({
-        url: "",
+    searchSubjectDocument: builder.mutation({
+      query: (params) => ({
+        url: "/search-subject-document",
         method: "GET",
-        params: {
-          key: process.env.REACT_APP_GOOGLE_SEARCH_API_KEY,
-          cx: process.env.REACT_APP_GOOGLE_SEARCH_ENGINE_ID,
-          q: data.q,
-          num: data.num,
-          start: data.startIndex,
-        },
+        params: params,
       }),
       providesTags: ["search"],
+      transformResponse: (response) => response.content,
     }),
   }),
 });
 
-export const { useSearchAllInWebsiteMutation } = searchApi;
+export const { useSearchSubjectDocumentMutation } = searchApi;

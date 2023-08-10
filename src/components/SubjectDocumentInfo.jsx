@@ -11,7 +11,7 @@ import {
   useUpdateCommentSubjectDocumentMutation,
   useUploadAnswerForSubjectDocumentMutation,
 } from "../services/SubjectService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import Owner from "./Owner";
 import PropperMenu from "./PropperMenu";
@@ -23,12 +23,19 @@ import CopyAllIcon from "@mui/icons-material/CopyAll";
 import FlagIcon from "@mui/icons-material/Flag";
 import { useEffect } from "react";
 import Pusher from "pusher-js";
+import DownloadIcon from "@mui/icons-material/Download";
+import { saveAs } from "file-saver";
+import { openDownloadModal, openReportModal } from "../store/modalState";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 function SubjectDocumentInfo({
   subjectDocumentDetail = {},
+  onShowAnnotate,
   language,
   setLanguage,
   resetLanguage,
+  onAddAnnotate,
 }) {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authentication);
   const isOwnerSubjectDocument = subjectDocumentDetail.owner.id === user.id;
   const [favorites, setFavorite] = useState(subjectDocumentDetail.favorites);
@@ -119,15 +126,97 @@ function SubjectDocumentInfo({
         console.error("Lỗi khi sao chép vào clipboard:", error);
       });
   };
-  const reportSubjectDocument = () => {};
-  const actions = () => [
-    {
-      Icon: FlagIcon,
-      label: "Báo cáo tài liệu",
-      action: reportSubjectDocument,
-    },
-    { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
-  ];
+  const reportSubjectDocument = () => {
+    dispatch(
+      openReportModal({
+        object: subjectDocumentDetail,
+        type: "SUBJECT_DOCUMENT",
+      })
+    );
+  };
+  const download = () => {
+    fetch(
+      `http://localhost:8080/api/v1/users/subjects/subjectDocument/${subjectDocumentDetail.id}/download`,
+      {
+        method: "GET",
+        headers: {
+          "X-HUST-DOCUMENT-KEY": user.token,
+        },
+      }
+    )
+      .then((response) => {
+        const contentLength = response.headers.get("Content-Length");
+        let loadedBytes = 0;
+
+        const reader = response.body.getReader();
+
+        return new Response(
+          new ReadableStream({
+            async start(controller) {
+              while (true) {
+                const { done, value } = await reader.read();
+
+                if (done) {
+                  controller.close();
+                  break;
+                }
+                loadedBytes += value.length;
+                const percentCompleted = Math.round(
+                  (loadedBytes * 100) / contentLength
+                );
+                console.log(`Đã tải về: ${percentCompleted}%`);
+
+                controller.enqueue(value);
+              }
+            },
+          })
+        );
+      })
+      .then((response) => response.blob())
+      .then((blobData) => {
+        saveAs(blobData, subjectDocumentDetail.document.name);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const downloadMul = () => {
+    dispatch(
+      openDownloadModal({ subjectDocumentId: subjectDocumentDetail.id })
+    );
+  };
+  const annotateDocument = () => {
+    onAddAnnotate();
+  };
+  const actions = () => {
+    const action = [
+      {
+        Icon: DownloadIcon,
+        label: "Tải xuống",
+        action: download,
+      },
+      {
+        Icon: NoteAddIcon,
+        label: "Ghi chú lên tài liệu",
+        action: annotateDocument,
+      },
+      {
+        Icon: DownloadIcon,
+        label: "Tải kèm đáp án",
+        action: downloadMul,
+      },
+
+      { Icon: CopyAllIcon, label: "Copy link truy cập", action: copyUrl },
+    ];
+    if (subjectDocumentDetail.owner.id !== user.id) {
+      action.push({
+        Icon: FlagIcon,
+        label: "Báo cáo tài liệu",
+        action: reportSubjectDocument,
+      });
+    }
+    return action;
+  };
 
   const [comments, setComments] = useState([]);
   useEffect(() => {
@@ -135,7 +224,7 @@ function SubjectDocumentInfo({
   }, [commentSubjectDocuments]);
 
   const channelName = `comment-subject-document-${subjectDocumentDetail.id}`;
-  useEffect(()=>{
+  useEffect(() => {
     const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
       cluster: "ap1",
     });
@@ -168,15 +257,13 @@ function SubjectDocumentInfo({
       pusherService.unsubscribe(channelName);
       pusherService.disconnect();
     };
-  },[channelName, user])
+  }, [channelName, user]);
   return (
-    <Box width={`100%`}  borderBottom="1px solid #D8D9D9" pb={2} height={'100%'}>
+    <Box width={`100%`} borderBottom="1px solid #D8D9D9" pb={2} height={"100%"}>
       <Owner
         owner={subjectDocumentDetail.owner}
         createdAt={subjectDocumentDetail.createdAt}
-        listItem={[
-          <PropperMenu key={2} action={actions()} />,
-        ]}
+        listItem={[<PropperMenu key={2} action={actions()} />]}
         sx={{ height: "70px" }}
       />
       <DetailActions
@@ -195,6 +282,7 @@ function SubjectDocumentInfo({
         {selectedId === 1 && (
           <DetailtAnswers
             answers={{
+              onShowAnnotate: onShowAnnotate,
               data: answers,
               add: addAnswerSubjectDocument,
               toggleFavoriteAnswer,

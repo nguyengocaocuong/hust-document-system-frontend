@@ -19,7 +19,7 @@ function Recommend() {
     items: [],
     hasMore: true,
     currentPage: 0,
-    size: 5,
+    size: 4,
   });
   const closeRecommend = (recommend) => {
     setRecommends({

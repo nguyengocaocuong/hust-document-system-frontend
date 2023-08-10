@@ -76,6 +76,10 @@ const initialState = {
   internetModal: {
     open: false,
   },
+  downloadModal: {
+    open: false,
+    dataModal: null,
+  },
 };
 
 export const modalState = createSlice({
@@ -243,6 +247,13 @@ export const modalState = createSlice({
       state.newReviewTeacherModal.open = false;
       state.newReviewTeacherModal.dataModal = null;
     },
+    closeDownloadModal: (state) => {
+      state.downloadModal.open = false;
+    },
+    clearDownloadModal: (state) => {
+      state.downloadModal.open = false;
+      state.downloadModal.dataModal = null;
+    },
     openNewReviewTeacherModal: (state, action) => {
       if (action.payload === undefined) return;
       state.newReviewTeacherModal.dataModal = action.payload;
@@ -251,6 +262,14 @@ export const modalState = createSlice({
     openInternetModal: (state) => {
       state.internetModal.open = true;
       // state.answerPostModal.dataModal = null;
+    },
+    openDownloadModal: (state, action) => {
+      state.downloadModal.open = true;
+      state.downloadModal.dataModal = action.payload;
+    },
+    clearAnswerSubjectDocumentModal: (state) => {
+      state.answerSubjectDocumentModal.open = false;
+      state.answerSubjectDocumentModal.dataModal = null;
     },
   },
 });
@@ -295,5 +314,9 @@ export const {
   openNewReviewTeacherModal,
   openInternetModal,
   clearAnswerPostModal,
+  openDownloadModal,
+  closeDownloadModal,
+  clearDownloadModal,
+  clearAnswerSubjectDocumentModal
 } = modalState.actions;
 export default modalState.reducer;

@@ -44,11 +44,11 @@ function WebViewer({
         filename,
       });
     } else {
-      console.log('white')
+      console.log("white");
       fetch(url, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          "X-HUST-DOCUMENT-KEY": user.token,
         },
       })
         .then((response) => response.blob())
@@ -56,7 +56,7 @@ function WebViewer({
           UI.loadDocument(blobData, {
             filename,
             customHeaders: {
-              Authorization: `Bearer ${user.token}`,
+              "X-HUST-DOCUMENT-KEY": user.token,
             },
           });
         })
