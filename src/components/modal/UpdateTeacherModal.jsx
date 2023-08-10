@@ -12,7 +12,7 @@ import avatarImg from "../../assets/images/avatar/06.jpg";
 import React, { useRef, useState } from "react";
 import BoxBetween from "../BoxBetween";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import { StyledTextarea } from "../EmptyTextarea";
+// import { StyledTextarea } from "../EmptyTextarea";
 import { convertJsonToFormData } from "../../utils/ConvertData";
 import { useDispatch, useSelector } from "react-redux";
 import { closeUpdateTeacherModal } from "../../store/modalState";
@@ -224,7 +224,7 @@ function UpdateTeacherModal({ open }) {
                       >
                         Giới thiệu giảng viên:
                       </Typography>
-                      <StyledTextarea
+                      {/* <StyledTextarea
                         minRows={4.3}
                         maxRows={4.3}
                         sx={{ resize: "none" }}
@@ -232,7 +232,7 @@ function UpdateTeacherModal({ open }) {
                         value={teacher?.description}
                         onChange={handleChange}
                         name="description"
-                      />
+                      /> */}
                     </Box>
                   </Grid>
                   <Grid item xl={12} textAlign={"center"}>

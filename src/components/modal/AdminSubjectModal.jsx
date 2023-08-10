@@ -9,7 +9,7 @@ import {
   Modal,
 } from "@mui/material";
 import React, { useState } from "react";
-import { StyledTextarea } from "../EmptyTextarea";
+// import { StyledTextarea } from "../EmptyTextarea";
 import { useCreateSubjectMutation } from "../../services/SubjectService";
 import { convertJsonToFormData } from "../../utils/ConvertData";
 import { useDispatch } from "react-redux";
@@ -152,7 +152,7 @@ function AdminSubjectModal({ open }) {
                     >
                       Mô tả môn học:
                     </Typography>
-                    <StyledTextarea
+                    {/* <StyledTextarea
                       maxRows={10}
                       minRows={10}
                       placeholder="Nhập mô tả môn học"
@@ -160,7 +160,7 @@ function AdminSubjectModal({ open }) {
                       name="description"
                       sx={{ resize: "none" }}
                       onChange={handleChange}
-                    />
+                    /> */}
                   </Box>
                 </Grid>
                 <Grid item xl={12} textAlign={"center"}>

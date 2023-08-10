@@ -9,8 +9,8 @@ import ReviewTeacherModal from "./ReviewTeacherModal";
 import ReviewSubjectModal from "./ReviewSubjectModal";
 import SharingModal from "./SharingModal";
 import SubjectDocumentModal from "./SubjectDocumentModal";
-import TeacherModal from "./TeacherModal";
-import SubjectModal from "./SubjectModal";
+// import TeacherModal from "./TeacherModal";
+// import SubjectModal from "./SubjectModal";
 import LostInternetModal from "./LostInternetModal";
 import DownloadModal from "./DownloadModal";
 function UserModal() {
@@ -23,8 +23,8 @@ function UserModal() {
     reviewSubjectModal,
     sharingModal,
     subjectDocumentModal,
-    teacherModal,
-    subjectModal,
+    // teacherModal,
+    // subjectModal,
     internetModal,
     downloadModal
   } = useSelector((state) => state.modalState);
@@ -53,8 +53,8 @@ function UserModal() {
       {(downloadModal.open || downloadModal.dataModal) && (
         <DownloadModal open={downloadModal.open} />
       )}
-      {teacherModal.open && <TeacherModal open={teacherModal.open} />}
-      {subjectModal.open && <SubjectModal open={subjectModal.open} />}
+      {/* {teacherModal.open && <TeacherModal open={teacherModal.open} />} */}
+      {/* {subjectModal.open && <SubjectModal open={subjectModal.open} />} */}
       {reportModal.open && <ReportModal open={reportModal.open} />}
       {internetModal.open && <LostInternetModal open={internetModal.open} />}
     </Box>
