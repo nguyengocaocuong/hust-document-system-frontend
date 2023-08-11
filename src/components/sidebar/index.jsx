@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetSidebarItem } from "../../settings/SidebarSetting";
+import { GetSidebarItem } from "../../settings/SidebarSettingJson";
 import { Sidebar as ProSidebar, Menu, sidebarClasses } from "react-pro-sidebar";
 import SidebarHeader from "./SidebarHeader";
 import SidebarHomeItem from "./SidebarHomeItem";
