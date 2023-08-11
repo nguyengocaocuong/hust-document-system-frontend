@@ -17,7 +17,7 @@ function Review() {
   const { data: reviewSubject = [] } = useGetAllReviewSubjectQuery();
   const { data: reviewTeacher = [] } = useGetAllReviewTeacherQuery();
   const [reviews, setReviews] = useState([]);
-  const [reviewTypes, setReviewTypes] = useState([
+  const [reviewTypes] = useState([
     { label: "Review giảng viên", value: "TEACHER" },
     { label: "Review môn học", value: "SUBJECT" },
     { label: "Tất cả bài review", value: "ALL" },
@@ -63,6 +63,7 @@ function Review() {
             value: { type: "TEACHER", ...review.teacher },
             label: `Giảng viên ${review.teacher.name}`,
           });
+          return true;
         });
 
         return [...newTeacher, ...preState];
@@ -80,6 +81,7 @@ function Review() {
             value: review.owner,
             label: `${review.owner.firstName} ${review.owner.lastName}`,
           });
+          return true;
         });
         return [...newWriter, ...preState];
       });
@@ -88,6 +90,7 @@ function Review() {
         ...reviewTeacher.map((review) => ({ ...review, type: "TEACHER" })),
       ]);
     }
+    // eslint-disable-next-line
   }, [reviewTeacher]);
   useEffect(() => {
     if (reviewSubject?.length > 0) {
@@ -105,6 +108,7 @@ function Review() {
             value: { ...review.subject, type: "SUBJECT" },
             label: `Học phần ${review.subject.name}`,
           });
+          return true;
         });
         return [...newSubject, ...preState];
       });
@@ -121,6 +125,7 @@ function Review() {
             value: review.owner,
             label: `${review.owner.firstName} ${review.owner.lastName}`,
           });
+          return true;
         });
         return [...newWriter, ...preState];
       });
@@ -129,6 +134,7 @@ function Review() {
         reviewSubject.map((review) => ({ ...review, type: "SUBJECT" })),
       ]);
     }
+    // eslint-disable-next-line
   }, [reviewSubject]);
   const dispatch = useDispatch();
   const location = useLocation();

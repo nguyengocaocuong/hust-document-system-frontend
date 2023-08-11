@@ -12,7 +12,6 @@ import React, { useState } from "react";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useGetSubjectByInstituteMutation } from "../../services/SubjectService";
 import { useEffect } from "react";
 import { useGetAllInsitutesQuery } from "../../services/UserInstituteService";
 import {
@@ -24,7 +23,7 @@ function Filter({
   resetSearchOptions,
   subjectDocumentTypes,
   subjectDocumentFilter,
-  searchOptions
+  searchOptions,
 }) {
   const [openFilterOption, setOpenFilterOption] = useState(undefined);
   const [keyFilter, setKeyFilter] = useState({
@@ -115,7 +114,6 @@ function Filter({
       ...preState,
       [e.target.name]: e.target.value,
     }));
-  const [getSubjectByInstitute] = useGetSubjectByInstituteMutation();
   const { data: institutes, isSuccess } = useGetAllInsitutesQuery();
   useEffect(() => {
     if (isSuccess)
@@ -135,6 +133,8 @@ function Filter({
         ];
         return newFilterOptions;
       });
+
+    // eslint-disable-next-line
   }, [isSuccess]);
   const handleSelectFilterOptions = (filter, item) => {
     onChangeSearchOptions(filter.value, item.value);
@@ -159,10 +159,11 @@ function Filter({
           value: 2,
           title: "Học phần",
           items:
-          subjectDocumentFilter.item
+            subjectDocumentFilter.item
               ?.filter(
-                (s) => searchOptions[1].length == 0 ||
-                searchOptions[1].find(
+                (s) =>
+                  searchOptions[1].length === 0 ||
+                  searchOptions[1].find(
                     (instituteID) => instituteID === s.data.institute.id
                   ) !== undefined
               )

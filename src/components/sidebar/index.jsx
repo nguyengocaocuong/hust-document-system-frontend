@@ -41,8 +41,10 @@ function Sidebar({ setSidebarWidth }) {
       observer.observe(sidebarRef.current);
     }
     return () => {
+    // eslint-disable-next-line
       if (sidebarRef.current) observer.unobserve(sidebarRef.current);
     };
+    // eslint-disable-next-line
   }, [sidebarRef]);
   return (
     <ProSidebar

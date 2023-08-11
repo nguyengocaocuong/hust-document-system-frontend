@@ -1,6 +1,5 @@
 import { Box, Chip, IconButton, Typography } from "@mui/material";
 import React from "react";
-import { documentType } from "../../settings/SubjectSetting";
 import Owner from "../Owner";
 import { CloseOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";

@@ -27,7 +27,6 @@ import {
 import { useEffect } from "react";
 import { formatTimeAgo } from "../../utils/ConvertDate";
 import {
-  useGetInstituteQuery,
   useGetSubjectByInstituteMutation,
 } from "../../services/SubjectService";
 import { useNavigate } from "react-router-dom";
@@ -56,6 +55,7 @@ const EnrollmentSubject = () => {
           ) || []
         );
       });
+    // eslint-disable-next-line  
   }, [instutite]);
   const handleSelectInstutite = (value) => {
     setInstutite(value);

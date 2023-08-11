@@ -105,6 +105,7 @@ function Uploaded() {
         setSubjectDocument(response.data?.content || []);
       }
     });
+  // eslint-disable-next-line
   }, []);
   return (
     <Box width={"100%"} border={"1px solid #5054B6"}>

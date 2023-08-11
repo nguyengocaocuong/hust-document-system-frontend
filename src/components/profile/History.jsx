@@ -19,7 +19,7 @@ import { useEffect } from "react";
 
 const History = () => {
   const navigate = useNavigate();
-  const [isHelperBox, setHelperBox] = useState(false);
+  const [isHelperBox] = useState(false);
   const [checkBoxHistory, setCheckBoxHistory] = useState([]);
   const [historys, setihistorys] = useState([]);
   const { data } = useGetAllHistoryQuery();
@@ -66,7 +66,7 @@ const History = () => {
             alignItems={"center"}
             sx={{
               backgroundColor: checkBoxHistory.find(
-                (item) => history.id == item.id
+                (item) => history.id === item.id
               )
                 ? "#E7F8CE"
                 : "white",

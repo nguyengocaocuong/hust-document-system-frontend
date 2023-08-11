@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import {
-  useGetAllAnswerSubjectDocumentQuery,
   useGetSubjectDocumentDetailQuery,
   useUploadAnnotateForSubjectDocumentMutation,
 } from "../services/SubjectService";
@@ -27,7 +26,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { saveAs } from "file-saver";
 function SubjectDocumentDetail() {
   const { id } = useParams();
   const viewer = useRef(null);
@@ -257,6 +255,7 @@ function SubjectDocumentDetail() {
       });
       setInstance(instance);
     });
+    // eslint-disable-next-line
   }, []);
 
   // Đọc tệp gốc và hiển thị
@@ -272,6 +271,7 @@ function SubjectDocumentDetail() {
           setActive: true,
         }
       );
+    // eslint-disable-next-line
   }, [instance, isSuccess]);
 
   useEffect(() => {

@@ -163,6 +163,7 @@ function Setup() {
       getSubjectByInstitute(instutite.value).then((response) => {
         setListSubject(response.data?.content || []);
       });
+  // eslint-disable-next-line
   }, [instutite]);
   const handleSelectInstutite = (value) => {
     setInstutite(value);

@@ -50,6 +50,7 @@ function DocumentViewerModal({ open }) {
           },
         });
       });
+    // eslint-disable-next-line
   }, [refVisible]);
   return (
     <Modal open={open} onClose={closeModal}>

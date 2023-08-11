@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import notfoundImage from "../assets/notfoun.png";
 import { Link } from "react-router-dom";

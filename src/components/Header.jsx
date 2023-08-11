@@ -83,6 +83,7 @@ function Header({ sidebarWidth }) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     if (user.roleType === "ADMIN") return;
@@ -116,6 +117,7 @@ function Header({ sidebarWidth }) {
     window.onoffline = () => {
       dispatch(openInternetModal());
     };
+    // eslint-disable-next-line
   }, []);
   return (
     <Box
