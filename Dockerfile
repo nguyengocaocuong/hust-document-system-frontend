@@ -4,6 +4,7 @@ WORKDIR /app
 RUN apk update && \
     apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev libpng-dev jpeg-dev giflib-dev librsvg-dev
 
+ENV PATH $HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH
 
 COPY ./package.json .
 RUN yarn install
