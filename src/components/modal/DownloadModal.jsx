@@ -49,7 +49,7 @@ function DownloadModal({ open }) {
   const onDownload = () => {
     dispatch(closeDownloadModal());
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${
+      `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/users/subjects/subjectDocument/${
         dataModal.subjectDocumentId
       }/download-multiple?answerIds=${selectedAnswers
         .map((answer) => answer.id)

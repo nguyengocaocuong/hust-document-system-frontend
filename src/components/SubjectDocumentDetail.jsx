@@ -77,7 +77,7 @@ function SubjectDocumentDetail() {
     const body = new FormData();
     body.append("file", file);
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/2/translate-file?targetLanguage=${value}`,
+      `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/users/subjects/subjectDocument/2/translate-file?targetLanguage=${value}`,
       {
         method: "POST",
         headers: {
@@ -118,7 +118,7 @@ function SubjectDocumentDetail() {
       const body = new FormData();
       body.append("file", file);
       fetch(
-        `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/2/translate-file?targetLanguage=${openConfirmSplit.language}`,
+        `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/users/subjects/subjectDocument/2/translate-file?targetLanguage=${openConfirmSplit.language}`,
         {
           method: "POST",
           headers: {
@@ -159,7 +159,7 @@ function SubjectDocumentDetail() {
     }
     setLanguage({ value, loading: true });
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/translate?targetLanguage=${value}&${location.search}`,
+      `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/api/v1/users/subjects/subjectDocument/${id}/translate?targetLanguage=${value}&${location.search}`,
       {
         method: "GET",
         headers: {
@@ -262,7 +262,7 @@ function SubjectDocumentDetail() {
   useEffect(() => {
     if (isSuccess && instance)
       instance.UI.TabManager.addTab(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/readFile?${location.search}`,
+        `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/api/v1/users/subjects/subjectDocument/${id}/readFile?${location.search}`,
         {
           filename: subjectDocumentDetail.document.name,
           customHeaders: {
@@ -324,7 +324,7 @@ function SubjectDocumentDetail() {
   };
   const onShowAnnotate = (annotateId) => {
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/answerSubjectDocument/${annotateId}/readFile`,
+      `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/api/v1/users/subjects/subjectDocument/${id}/answerSubjectDocument/${annotateId}/readFile`,
       {
         method: "GET",
         headers: {

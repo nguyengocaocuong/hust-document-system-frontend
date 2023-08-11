@@ -35,8 +35,8 @@ function AnswerCard({ answer, toggleFavorite, onShowAnnotate }) {
           docs: [
             {
               uri: location.pathname.startsWith("/post/")
-                ? `${process.env.REACT_APP_BASE_URL}/api/v1/users/posts/${id}/answer/${answer?.id}/readFile`
-                : `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/answerSubjectDocument/${answer.id}/readFile`,
+                ? `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/api/v1/users/posts/${id}/answer/${answer?.id}/readFile`
+                : `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/api/v1/users/subjects/subjectDocument/${id}/answerSubjectDocument/${answer.id}/readFile`,
               fileName: answer.document.name,
             },
           ],
