@@ -1,3 +1,6 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Node.js CI
 
 on:
@@ -11,20 +14,15 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-         - uses: actions/checkout@v2
+
+         - uses: actions/checkout@v3
          - name: Use Node.js 18.x
-           uses: actions/setup-node@v2
+           uses: actions/setup-node@v3
            with:
               node-version: 18.x
               cache: "yarn"
+         - run: brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman
          - run: yarn install
-
-         # Thêm lệnh cài đặt các gói phụ thuộc tại đây
-         - name: Install Dependencies
-           run: |
-             sudo apt-get update
-             sudo apt-get install -y pkg-config cairo pango libpng-dev libjpeg-dev libgif-dev librsvg2-bin
-
          - run: yarn run build
          - name: Build & push Docker image
            uses: mr-smithers-excellent/docker-build-push@v5
@@ -35,3 +33,4 @@ jobs:
                dockerfile: ./Dockerfile
                username: ${{ secrets.DOCKER_USERNAME}}
                password: ${{ secrets.DOCKER_PASSWORD}}
+
