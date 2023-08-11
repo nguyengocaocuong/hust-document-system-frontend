@@ -10,7 +10,6 @@ RUN yarn install
 
 COPY . .
 
-RUN node tools/copy-webviewer-files.js
 
 CMD ["yarn","start"]
 EXPOSE 3000
