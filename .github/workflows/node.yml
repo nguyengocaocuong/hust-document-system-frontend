@@ -14,14 +14,12 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-
          - uses: actions/checkout@v3
          - name: Use Node.js 18.x
            uses: actions/setup-node@v3
            with:
               node-version: 18.x
               cache: "yarn"
-         - run: brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman
          - run: yarn install
          - run: yarn run build
          - name: Build & push Docker image
