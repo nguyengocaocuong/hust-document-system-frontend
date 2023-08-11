@@ -13,8 +13,6 @@ import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import searchMenuIcon from "../assets/images/search.svg";
 import { documentType } from "../settings/SubjectSetting";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import MultipleSelect from "./MultipleSelect";
 import { useLocation } from "react-router-dom";

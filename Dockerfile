@@ -1,7 +1,7 @@
 FROM node:18-alpine as development
-WORKDIR /react-app
+WORKDIR /app
 
-COPY ./package.json .
+COPY ./build .
 RUN yarn install
 
 COPY . .
