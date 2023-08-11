@@ -1,0 +1,48 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: ["develop"]
+
+jobs:
+  deploy:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "yarn"
+      - run: yarn install
+      - run: yarn run build
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: projects/82819559070/locations/global/workloadIdentityPools/font-pool/providers/front-provider
+          service_account: service-account-for-hust-docum@hust-doument-system.iam.gserviceaccount.com
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ secrets.GAR_LOCATION }}-docker.pkg.dev'
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/${{ secrets.SERVICE }}:${{ github.sha }}" ./
+          docker push "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/${{ secrets.SERVICE }}:${{ github.sha }}"
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        run: |-
+          gcloud run deploy ${{ secrets.SERVICE }} --image ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/${{ secrets.SERVICE }}:${{ github.sha }} --quiet --platform managed --min-instances 1 --max-instances 5 --region ${{ secrets.REGION }} --project ${{ secrets.PROJECT_ID }} --format json --no-allow-unauthenticated --update-env-vars REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }},REACT_APP_PUSHER_KEY=${{ secrets.REACT_APP_PUSHER_KEY }},REACT_APP_PUSHER_CLUSTER=${{ secrets.REACT_APP_PUSHER_CLUSTER }}
