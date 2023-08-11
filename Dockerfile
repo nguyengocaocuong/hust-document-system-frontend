@@ -5,8 +5,13 @@ RUN apk update && \
     apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev libpng-dev jpeg-dev giflib-dev librsvg-dev
 
 COPY . .
+
 RUN yarn install
 
-EXPOSE 80
+RUN yarn run build
 
-CMD ["yarn","start"]
+
+FROM nginx:1.19
+
+COPY --from=development /app/build /usr/share/nginx/html
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf

@@ -49,7 +49,7 @@ function DownloadModal({ open }) {
   const onDownload = () => {
     dispatch(closeDownloadModal());
     fetch(
-      `http://localhost:8080/api/v1/users/subjects/subjectDocument/${
+      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${
         dataModal.subjectDocumentId
       }/download-multiple?answerIds=${selectedAnswers
         .map((answer) => answer.id)

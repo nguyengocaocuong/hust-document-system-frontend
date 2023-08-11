@@ -136,7 +136,7 @@ function SubjectDocumentInfo({
   };
   const download = () => {
     fetch(
-      `http://localhost:8080/api/v1/users/subjects/subjectDocument/${subjectDocumentDetail.id}/download`,
+      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${subjectDocumentDetail.id}/download`,
       {
         method: "GET",
         headers: {

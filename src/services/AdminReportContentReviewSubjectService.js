@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const adminReportContentReviewSubjectApi = createApi({
   reducerPath: "adminReportDuplicateSubjectDocument",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_API_VERSION}/admins/reportContentReviewSubject`,
+    baseUrl: `${process.env.REACT_APP_BASE_URL}/admins/reportContentReviewSubject`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {

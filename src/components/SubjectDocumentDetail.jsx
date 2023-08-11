@@ -77,7 +77,7 @@ function SubjectDocumentDetail() {
     const body = new FormData();
     body.append("file", file);
     fetch(
-      `http://localhost:8080/api/v1/users/subjects/subjectDocument/2/translate-file?targetLanguage=${value}`,
+      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/2/translate-file?targetLanguage=${value}`,
       {
         method: "POST",
         headers: {
@@ -118,7 +118,7 @@ function SubjectDocumentDetail() {
       const body = new FormData();
       body.append("file", file);
       fetch(
-        `http://localhost:8080/api/v1/users/subjects/subjectDocument/2/translate-file?targetLanguage=${openConfirmSplit.language}`,
+        `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/2/translate-file?targetLanguage=${openConfirmSplit.language}`,
         {
           method: "POST",
           headers: {

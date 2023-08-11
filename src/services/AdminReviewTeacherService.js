@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const adminReviewTeacherApi = createApi({
   reducerPath: "reviewTeacher",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_API_VERSION}/admins/teachers/reviewTeacher`,
+    baseUrl: `${process.env.REACT_APP_BASE_URL}/admins/teachers/reviewTeacher`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {
