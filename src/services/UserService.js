@@ -67,6 +67,13 @@ export const userApi = createApi({
       }),
       transformErrorResponse: (response) => response.content,
     }),
+    getAllWroteByUserId: builder.mutation({
+      query: (id) => ({
+        url: `/wrote?userId=${id}`,
+        method: "GET",
+      }),
+      transformErrorResponse: (response) => response.content,
+    }),
   }),
 });
 
@@ -77,5 +84,6 @@ export const {
   useUpdateAvatarMutation,
   useUpdateAccountInfoMutation,
   useUpdateUserInfoMutation,
-  useGetUserProfileByIdMutation
+  useGetUserProfileByIdMutation,
+  useGetAllWroteByUserIdMutation,
 } = userApi;

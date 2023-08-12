@@ -76,7 +76,7 @@ function ReportContentSubjectDocumentModal({ open }) {
           <DocumentViewer
             docs={[
               {
-                uri: `${process.env.REACT_APP_BASE_URL}/api/v1/admins/subjects/subjectDocuments/${dataModal.subjectDocument.id}/readFile`,
+                uri: `${process.env.REACT_APP_BASE_URL}/admins/subjects/subjectDocuments/${dataModal.subjectDocument.id}/readFile`,
                 fileName: dataModal.subjectDocument.document.name,
               },
             ]}

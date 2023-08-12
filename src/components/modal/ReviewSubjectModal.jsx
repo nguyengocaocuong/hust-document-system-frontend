@@ -61,18 +61,17 @@ function ReviewSubjectModal({ open }) {
 
   const [deleteCommentReviewSubject] = useDeleteCommentReviewSubjectMutation();
 
-  const {
-    data: commentsReviewSubject = [],
-    refetch: refeatchCommentReviewSubject,
-  } = useGetAllCommentForReviewSubjectQuery(dataModal.id);
+  const { data: commentsReviewSubject = [] } =
+    useGetAllCommentForReviewSubjectQuery(dataModal.id);
 
   const addComment = (data, reset) => {
     createCommentReviewSubject({
       id: dataModal.id,
       body: convertJsonToFormData(data),
-    }).then(() => {
-      refeatchCommentReviewSubject();
-      reset();
+    }).then((response) => {
+      if (!response.error) {
+        setComments((preState) => [...preState, response.data.content]);
+      }
     });
   };
   const handleClickCommentButton = () => setShowComment(!isShowComment);
@@ -85,7 +84,11 @@ function ReviewSubjectModal({ open }) {
     deleteCommentReviewSubject({
       reviewSubjectId: dataModal.id,
       commentId: id,
-    }).then(() => refeatchCommentReviewSubject());
+    }).then((response) => {
+      if (!response.error) {
+        setComments((preState) => preState.filter((c) => c.id !== id));
+      }
+    });
   };
 
   const report = () => {

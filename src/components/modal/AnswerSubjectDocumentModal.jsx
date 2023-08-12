@@ -90,7 +90,7 @@ function AnswerSubjectDocumentModal({ open }) {
                 status: 1,
                 objectType: "ANSWER_SUBJECT_DOCUMENT",
                 documents: [data.documents.map((file) => file.name)],
-                subject: { name: `Tài liệu` },
+                subject: { name: `Tài liệu ${dataModal.name}` },
                 startTime: new Date().toLocaleString(),
                 answerSubjectDocument: response.data,
               },
@@ -108,7 +108,7 @@ function AnswerSubjectDocumentModal({ open }) {
                 type: "LOADING",
                 status: 3,
                 documents: data.documents.map((file) => file.name),
-                subject: { name: `Tài liệu` },
+                subject: { name: `Tài liệu ${dataModal.name}` },
                 startTime: new Date().toLocaleString(),
               },
             ])

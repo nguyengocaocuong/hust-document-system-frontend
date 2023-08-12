@@ -33,7 +33,7 @@ function DocumentAnswer({ answer, toggleFavorite }) {
         openDocumentViewerModal({
           docs: [
             {
-              uri: `${process.env.REACT_APP_BASE_URL}/api/v1/users/posts/answer/${answer?.id}/readFile`,
+              uri: `${process.env.REACT_APP_BASE_URL}/users/posts/answer/${answer?.id}/readFile`,
               fileName: answer.document.name,
             },
           ],

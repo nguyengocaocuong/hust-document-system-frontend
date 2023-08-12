@@ -55,6 +55,48 @@ const History = () => {
         width={"100%"}
         pb={isHelperBox && "100px"}
       >
+        <Stack
+          py={1}
+          px={2}
+          spacing={2}
+          direction={"row"}
+          width={"100%"}
+          display={"flex"}
+          alignItems={"center"}
+          sx={{
+            backgroundColor: "#9eb57d",
+            borderBottom: "0.2px solid #D8D9D9",
+          }}
+        >
+          <Checkbox sx={{ opacity: 0 }} />
+          <Typography
+            variant="h4"
+            fontWeight={"bold"}
+            width={"10%"}
+            color={"text.secondary"}
+            noWrap
+          >
+            Thời gian
+          </Typography>
+          <Typography
+            variant="h4"
+            color={"text.secondary"}
+            width={"40%"}
+            fontWeight={"bold"}
+            noWrap
+          >
+            Mô tả tài liệu
+          </Typography>
+          <Typography
+            variant="h4"
+            width={"30%"}
+            color={"text.secondary"}
+            fontWeight={"bold"}
+            noWrap
+          >
+            Link truy cập
+          </Typography>
+        </Stack>
         {historys?.map((history) => (
           <Stack
             py={1}
@@ -90,14 +132,14 @@ const History = () => {
             <Typography
               variant="h4"
               color={"text.secondary"}
-              width={"30%"}
+              width={"40%"}
               noWrap
             >
               {history.subjectDocument.description}
             </Typography>
-            <Typography variant="h6" width={"50%"} noWrap>
-              http://localhost:3000/education/subject-document/
-              {history.subjectDocument.id}
+            <Typography variant="h6" width={"30%"} noWrap>
+              {`http://localhost:3000/education/subject-document/
+              ${history.subjectDocument.id}`}
             </Typography>
             <IconButton
               onClick={() =>

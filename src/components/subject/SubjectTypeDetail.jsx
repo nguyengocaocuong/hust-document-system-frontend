@@ -14,7 +14,7 @@ function SubjectTypeDetail({ subjectType = {}, subjectDetail = {} }) {
       openDocumentViewerModal({
         docs: [
           {
-            uri: `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${subjectDocument?.id}/readFile`,
+            uri: `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${subjectDocument?.id}/readFile`,
             fileName: subjectDocument.document.name,
           },
         ],

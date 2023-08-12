@@ -14,7 +14,9 @@ export const enrollmentApi = createApi({
   tagTypes: ["enrollment"],
   endpoints: (builder) => ({
     getAllEnrollmentSubject: builder.query({
-      query: () => "",
+      query: (userId) => {
+        return userId ? `?userId=${userId}` : ""
+      },
       transformResponse: (response) => response.content,
     }),
     createEnrollmentSubjects: builder.mutation({

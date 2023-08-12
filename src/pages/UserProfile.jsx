@@ -7,7 +7,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CreateIcon from "@mui/icons-material/Create";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import Infor from "../components/profile/Infor_";
-import EnrollmentSubject from "../components/profile/EnrollmentSubject";
+import EnrollmentSubject from "../components/profile/EnrollmentSubject_";
 import Uploaded from "../components/profile/Uploaded";
 import Reviewed from "../components/profile/Reviewed";
 import { useGetUserProfileByIdMutation } from "../services/UserService";
@@ -21,6 +21,7 @@ function UserProfile() {
     getUserProfileById(id).then((response) => {
       if (!response.error) {
         setUserProfile(response.data.content);
+        console.log(response.data)
       }
     });
     // eslint-disable-next-line
@@ -52,12 +53,12 @@ function UserProfile() {
             backgroundColor: "gray",
             top: 0,
             left: 0,
-            opacity: 0.6,
+            opacity: 0.5,
             zIndex: 1,
             transition: "opacity 0.4s",
           },
           "&:hover": {
-            "&::before": { opacity: 0.7 },
+            "&::before": { opacity: 0.6 },
           },
         }}
       >
@@ -136,7 +137,7 @@ function UserProfile() {
               transition: "background-color 1s",
             }}
             icon={<FavoriteIcon />}
-            label={<Typography variant="h5">Môn học yêu thích</Typography>}
+            label={<Typography variant="h5">Học phần đang học</Typography>}
           />
           <Chip
             color="primary"

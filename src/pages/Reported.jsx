@@ -15,6 +15,10 @@ function Reported() {
     value: "ALL",
     label: "Tất cả các báo cáo",
   });
+  const [reportStatus, setReportStatus] = useState({
+    value: "ALL",
+    label: "Tất cả trạng thái",
+  });
   const [reports, setReports] = useState([]);
   useEffect(() => {
     getAllReported().then((response) => {
@@ -64,6 +68,10 @@ function Reported() {
     if (type) setReportType(type);
     else setReportType({ value: "ALL", label: "Tất cả các báo cáo" });
   };
+  const onSelectReportStatus = (type) => {
+    if (type) setReportStatus(type);
+    else setReportStatus({ value: "ALL", label: "Tất cả trạng thái " });
+  };
 
   return (
     <BoxFull sx={{ backgroundColor: "white" }}>
@@ -105,7 +113,7 @@ function Reported() {
             control: (styles) => ({
               ...styles,
               minHeight: "40px",
-              width: "500px",
+              width: "400px",
             }),
             multiValueLabel: (styles) => ({
               ...styles,
@@ -121,7 +129,52 @@ function Reported() {
           placeholder={"Chọn loại báo cáo"}
           onChange={onSelectReportType}
         />
+        <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+          Trạng thái phê duyệt
+        </Typography>
+        <Select
+          isClearable
+          options={[
+            {
+              label: "Đã phê duyệt",
+              value: "APPROVED",
+            },
+            { label: "Chưa phê duyệt", value: "NEW" },
+            {
+              label: "Bị từ chối",
+              value: "REJECT",
+            },
+            {
+              label: "Tất cả trạng thái phê duyệt",
+              value: "ALL",
+            },
+          ]}
+          styles={{
+            control: (styles) => ({
+              ...styles,
+              minHeight: "40px",
+              width: "400px",
+            }),
+            multiValueLabel: (styles) => ({
+              ...styles,
+              fontSize: "18px",
+            }),
+            singleValue: (styles) => ({
+              ...styles,
+              fontSize: "18px",
+            }),
+            placeholder: (styles) => ({ ...styles, fontSize: "18px" }),
+          }}
+          value={reportStatus}
+          placeholder={"Trạng thái phê duyệt"}
+          onChange={onSelectReportStatus}
+        />
       </Stack>
+      {currentData.length === 0 && (
+        <BoxBetween>
+          <Typography variant="h3">Bạn chưa báo cáo bất kỳ bài viết nào</Typography>
+        </BoxBetween>
+      )}
       <Box height={"calc(100% - 120px)"} width={"100%"} overflow={"auto"} p={2}>
         <BoxBetween>
           <Box height={"550px"} width="100%">

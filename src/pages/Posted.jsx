@@ -457,13 +457,24 @@ function Posted() {
           </Stack>
         </Stack>
       </Box>
-      <Table
-        headers={headers}
-        items={items}
-        renderItem={renderItem}
-        pageSize={Math.floor((window.innerHeight - 192) / 106)}
-        itemHeight={106}
-      />
+      <Box
+        sx={{
+          backgroundColor: "white",
+          boxShadow: "0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset",
+          WebkitBoxShadow: "0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset",
+          MozBoxShadow: "0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset",
+        }}
+        width={"100%"}
+      >
+        <Table
+          headers={headers}
+          items={items}
+          renderItem={renderItem}
+          pageSize={Math.floor((window.innerHeight - 192) / 106)}
+          itemHeight={106}
+        />
+      </Box>
+
       {open.open && (
         <ConfirmModal
           message={message}

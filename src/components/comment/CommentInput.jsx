@@ -4,7 +4,12 @@ import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
 import { red } from "@mui/material/colors";
 
-const CommentInput = ({ add, parentCommentId, reply = false , mainColor = "#F2F2F2"}) => {
+const CommentInput = ({
+  add,
+  parentCommentId,
+  reply = false,
+  mainColor = "#F2F2F2",
+}) => {
   const { user } = useSelector((state) => state.authentication);
   const [comment, setComment] = useState("");
   return (
@@ -44,12 +49,13 @@ const CommentInput = ({ add, parentCommentId, reply = false , mainColor = "#F2F2
         }}
       />
       <IconButton
-        onClick={() =>
+        onClick={() => {
+          setComment("");
           add(
             parentCommentId ? { comment, parentCommentId } : { comment },
-            () => setComment("")
-          )
-        }
+            () => {}
+          );
+        }}
       >
         <SendIcon
           sx={{

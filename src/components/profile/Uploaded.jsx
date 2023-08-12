@@ -6,6 +6,10 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import { formatTimeAgo } from "../../utils/ConvertDate";
 import { useGetSubjectDocumentSharedByUserMutation } from "../../services/SubjectService";
+import { useNavigate, useParams } from "react-router-dom";
+import BoxBetween from "../BoxBetween";
+import noDocument from "../../assets/images/noDocument.png";
+
 const headers = [
   { title: "", width: "30px" },
   { title: "Mã học phần", width: "10%" },
@@ -16,7 +20,11 @@ const headers = [
   { title: "", width: "18%" },
 ];
 function Uploaded() {
-  const preview = (item) => {};
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const preview = (item) => {
+    navigate(`/education/subject-document/${item.id}`);
+  };
   const copyUrl = (item) => {};
   const renderItem = (item, key) => (
     <Box
@@ -77,7 +85,7 @@ function Uploaded() {
           }}
         >
           <Tooltip title={"Xem tài liệu"}>
-            <IconButton onClick={() => preview(item.id)}>
+            <IconButton onClick={() => preview(item)}>
               <RemoveRedEyeIcon
                 color={"success"}
                 sx={{ width: "18px", height: "18px" }}
@@ -100,23 +108,37 @@ function Uploaded() {
     useGetSubjectDocumentSharedByUserMutation();
   const [subjectDocument, setSubjectDocument] = useState([]);
   useEffect(() => {
-    getSubjectDocumentSharedByUser(2).then((response) => {
+    getSubjectDocumentSharedByUser(id).then((response) => {
       if (!response.error) {
         setSubjectDocument(response.data?.content || []);
       }
     });
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
   return (
     <Box width={"100%"} border={"1px solid #5054B6"}>
-      <Table
-        headers={headers}
-        items={subjectDocument}
-        renderItem={renderItem}
-        pageSize={subjectDocument.length}
-        itemHeight={57}
-        showPagination={false}
-      />
+      {subjectDocument?.length > 0 && (
+        <Table
+          headers={headers}
+          items={subjectDocument}
+          renderItem={renderItem}
+          pageSize={subjectDocument.length}
+          itemHeight={55}
+          showPagination={false}
+        />
+      )}
+      {subjectDocument?.length === 0 && (
+        <BoxBetween p={2}>
+          <Box p={5}>
+            <BoxBetween>
+              <img src={noDocument} alt="?" height={"200px"} />
+            </BoxBetween>
+            <Typography variant="h4" textAlign={"center"}>
+              Không có tài liệu nào dành cho bạn
+            </Typography>
+          </Box>
+        </BoxBetween>
+      )}
     </Box>
   );
 }

@@ -57,6 +57,8 @@ import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import PreviewIcon from "@mui/icons-material/Preview";
 import DownloadIcon from "@mui/icons-material/Download";
 import PropperMenu from "../components/PropperMenu";
+import BoxBetween from "../components/BoxBetween";
+import { useProSidebar } from "react-pro-sidebar";
 const color = [
   deepOrange,
   deepPurple,
@@ -93,7 +95,7 @@ function Document() {
     isSuccess,
   } = useGetAllSubjectDocumentCreateByUserQuery();
   const { refetch: refetchTrash } = useGetAllSubjectDocumentDeletedQuery();
-
+  const { collapsed } = useProSidebar();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -326,6 +328,7 @@ function Document() {
         p={2}
         pb={0}
         fontWeight={"bold"}
+        height={"45px"}
       >
         Tài liệu của bạn
       </Typography>
@@ -352,59 +355,68 @@ function Document() {
           direction={"row"}
           spacing={2}
         >
-          {histories?.slice(0, 5).map((history) => (
-            <Box
-              key={history.id}
-              sx={{
-                "&:hover": { boxShadow: 2 },
-                transition: "box-shadow 0.4s",
-                cursor: "pointer",
-                borderRadius: 3,
-                height: "100%",
-                width: "240px",
-                backgroundColor: "rgba(0, 0, 0, 0.1)",
-              }}
-              p={1}
-              onClick={() => navigate(`/education/subject-document/${history.subjectDocument.id}`)}
-            >
-              <Stack spacing={1}>
-                <Owner
-                  owner={history.subjectDocument?.owner}
-                  createdAt={history.createdAt}
-                  sx={{ p: 0 }}
-                  listItem={[<PropperMenu key={1} action={actions()} />]}
-                />
-                <Box
-                  height={"110px"}
-                  width={"100%"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                >
+          {histories
+            ?.slice(
+              0,
+              Math.floor((window.innerWidth - (collapsed ? 100 : 250)) / 256)
+            )
+            .map((history) => (
+              <Box
+                key={history.id}
+                sx={{
+                  "&:hover": { boxShadow: 2 },
+                  transition: "box-shadow 0.4s",
+                  cursor: "pointer",
+                  borderRadius: 3,
+                  height: "100%",
+                  width: "240px",
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                }}
+                p={1}
+                onClick={() =>
+                  navigate(
+                    `/education/subject-document/${history.subjectDocument.id}`
+                  )
+                }
+              >
+                <Stack spacing={1}>
+                  <Owner
+                    owner={history.subjectDocument?.owner}
+                    createdAt={history.createdAt}
+                    sx={{ p: 0 }}
+                    listItem={[<PropperMenu key={1} action={actions()} />]}
+                  />
                   <Box
-                    height={"100%"}
+                    height={"110px"}
                     width={"100%"}
-                    overflow={"hidden"}
-                    borderRadius={2}
+                    display={"flex"}
+                    justifyContent={"center"}
                   >
-                    <img
+                    <Box
+                      height={"100%"}
                       width={"100%"}
-                      height={"auto"}
-                      alt={history.subjectDocument.document.name}
-                      src={history.subjectDocument.document.thumbnail}
-                    />
+                      overflow={"hidden"}
+                      borderRadius={2}
+                    >
+                      <img
+                        width={"100%"}
+                        height={"auto"}
+                        alt={history.subjectDocument.document.name}
+                        src={history.subjectDocument.document.thumbnail}
+                      />
+                    </Box>
                   </Box>
-                </Box>
-                <Stack spacing={0.5}>
-                  <Typography variant="h5" fontWeight={"bold"}>
-                    {history.subjectDocument.subjectDocumentType.name}
-                  </Typography>
-                  <Typography variant="h6" noWrap>
-                    {history.subjectDocument.description}
-                  </Typography>
+                  <Stack spacing={0.5}>
+                    <Typography variant="h5" fontWeight={"bold"}>
+                      {history.subjectDocument.subjectDocumentType.name}
+                    </Typography>
+                    <Typography variant="h6" noWrap>
+                      {history.subjectDocument.description}
+                    </Typography>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </Box>
-          ))}
+              </Box>
+            ))}
         </Stack>
       </Box>
       {data?.length === 0 && isSuccess && (
@@ -426,16 +438,16 @@ function Document() {
               maxheight={"80%"}
               overflow={"hidden"}
             >
-              <img
-                src={noDocument}
-                alt="?"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                  maxHeight: "100%",
-                  maxWidth: "100%",
-                }}
-              />
+              <BoxBetween>
+                <img
+                  src={noDocument}
+                  alt="?"
+                  style={{
+                    width: "auto",
+                    height: "200px",
+                  }}
+                />
+              </BoxBetween>
             </Box>
             <Typography textAlign={"center"} fontSize={"18px"}>
               Click vào đây để tải tài liệu lên
@@ -448,7 +460,11 @@ function Document() {
           headers={headers}
           items={data}
           renderItem={renderItem}
-          pageSize={histories?.length === 0 ? 11 : 6}
+          pageSize={
+            histories?.length > 0
+              ? Math.floor((window.innerHeight - 392) / 56) - 1
+              : Math.floor((window.innerHeight - 117) / 56) - 1
+          }
           itemHeight={56}
         />
       )}

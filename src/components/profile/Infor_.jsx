@@ -10,7 +10,7 @@ import BoxFull from "../BoxFull";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
-const Infor = ({ userProfile }) => {
+const Infor = ({ userProfile = {} }) => {
   return (
     <BoxFull p={2} minHeight={"100%"}>
       <Stack

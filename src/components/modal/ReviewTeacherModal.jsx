@@ -57,10 +57,12 @@ function ReviewTeacherModal({ open }) {
   const [toggleFavoriteReviewTeacher] =
     useToggleFavoriteReviewTeacherMutation();
   const [deleteCommentReviewTeacher] = useDeleteCommentReviewTeacherMutation();
-  const {
-    data: commentsReviewTeacher = [],
-    refetch: refeatchCommentReviewTeacher,
-  } = useGetAllCommentForReviewTeacherQuery(dataModal.id);
+  const { data: commentsReviewTeacher = [] } =
+    useGetAllCommentForReviewTeacherQuery(dataModal.id);
+  useEffect(() => {
+    setComments(commentsReviewTeacher);
+  }, [commentsReviewTeacher]);
+
   const addComment = (data, reset) => {
     const formData = new FormData();
     formData.append("comment", data.comment);
@@ -70,9 +72,10 @@ function ReviewTeacherModal({ open }) {
     createCommentReviewTeacher({
       id: dataModal.id,
       body: formData,
-    }).then(() => {
-      reset();
-      refeatchCommentReviewTeacher();
+    }).then((response) => {
+      if (!response.error) {
+        setComments((preState) => [...preState, response.data.content]);
+      }
     });
   };
   const handleClickCommentButton = () => setShowComment(!isShowComment);
@@ -85,10 +88,16 @@ function ReviewTeacherModal({ open }) {
     deleteCommentReviewTeacher({
       reviewTeacherId: dataModal.id,
       commentId: id,
-    }).then(() => refeatchCommentReviewTeacher());
+    }).then((response) => {
+      if (!response.error) {
+        setComments((preState) => preState.filter((c) => c.id !== id));
+      }
+    });
   };
   const report = () => {
-    dispatch(openReportModal({ object: dataModal, type: "CONTENT_REVIEW_TEACHER" }));
+    dispatch(
+      openReportModal({ object: dataModal, type: "CONTENT_REVIEW_TEACHER" })
+    );
   };
   const copyUrl = () => {
     const url = `http://localhost:3000/review?id=${dataModal.id}&type=REVIEW_TEACHER`;
@@ -115,10 +124,6 @@ function ReviewTeacherModal({ open }) {
   ];
   const [comments, setComments] = useState([]);
 
-  useEffect(() => {
-    setComments(commentsReviewTeacher);
-  }, [commentsReviewTeacher]);
-
   const channelName = `comment-review-teacher-${dataModal.id}`;
   useEffect(() => {
     const pusherService = new Pusher("070ff19e8a1a4c8d4553", {
@@ -126,7 +131,11 @@ function ReviewTeacherModal({ open }) {
     });
     const channel = pusherService.subscribe(channelName);
     channel.bind("new-comment", (newComment) => {
-      setComments((preComments) => [...preComments, newComment]);
+      setComments((preComments) =>
+        preComments.find((c) => c.id === newComment.id)
+          ? preComments
+          : [newComment, ...preComments]
+      );
     });
     channel.bind("edit-comment", (editedComment) => {
       setComments((preComments) =>
