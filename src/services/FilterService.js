@@ -50,8 +50,8 @@ export const filterApi = createApi({
         type: "documentTypeFilter",
         item: response?.content.map((i) => {
           return {
-            label: i,
-            value: i,
+            label: i.name,
+            value: i.id,
             data: i,
           };
         }),

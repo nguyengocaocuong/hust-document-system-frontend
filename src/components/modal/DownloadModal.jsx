@@ -105,7 +105,6 @@ function DownloadModal({ open }) {
       }
       return [...preState, answer];
     });
-    console.log(selectedAnswers);
   };
   return (
     <Modal open={open} onClose={closeModal} sx={{ border: "none" }}>

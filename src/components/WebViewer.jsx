@@ -44,7 +44,6 @@ function WebViewer({
         filename,
       });
     } else {
-      console.log("white");
       fetch(url, {
         method: "GET",
         headers: {

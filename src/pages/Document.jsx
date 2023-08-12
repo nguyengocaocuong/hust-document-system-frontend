@@ -134,7 +134,7 @@ function Document() {
   };
   const copyUrl = (id) => {
     navigator.clipboard
-      .writeText(`http://localhost:3000/education/subject-document/${id}`)
+      .writeText(`${document.location.origin}/education/subject-document/${id}`)
       .then(() => {
         alert("Đã copy vào clipboard");
       })

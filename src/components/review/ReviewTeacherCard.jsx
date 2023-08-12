@@ -24,7 +24,7 @@ function ReviewTeacherCard({ openModal, review }) {
   const dispatch = useDispatch();
 
   const copyUrl = () => {
-    const url = `http://localhost:3000/review?id=${review.id}&type=REVIEW_TEACHER`;
+    const url = `${document.location.origin}/review?id=${review.id}&type=REVIEW_TEACHER`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

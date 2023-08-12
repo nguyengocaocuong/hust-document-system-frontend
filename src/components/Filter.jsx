@@ -8,7 +8,7 @@ import {
   useGetAllTeacherForFilterQuery,
 } from "../services/FilterService";
 function Filter({
-  onSearching = () => console.log("Searching"),
+  onSearching = () => {},
   document = true,
   documentType = true,
   teacher = true,

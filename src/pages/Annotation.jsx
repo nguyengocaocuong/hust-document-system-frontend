@@ -35,7 +35,6 @@ function Annotation() {
           "toolbarGroup-Edit",
         ]);
         UI.setHeaderItems((header) => {
-          console.log(header)
           header.getHeader("toolbarGroup-Insert").delete(1);
           header.getHeader("toolbarGroup-Insert").delete(1);
           header.getHeader("toolbarGroup-Insert").delete(5);

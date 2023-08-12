@@ -116,7 +116,7 @@ function SubjectDocumentInfo({
     }).then(() => refetchComment());
   };
   const copyUrl = () => {
-    const url = `http://localhost:3000/education/subject-document/${subjectDocumentDetail.id}`;
+    const url = `${document.location.origin}/education/subject-document/${subjectDocumentDetail.id}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

@@ -37,7 +37,6 @@ const style = {
 };
 function SubjectDocumentModal({ open }) {
   const {data: subjectDocumentTypes} = useGetAllSubjectDocumentTypesQuery()
-  console.log(subjectDocumentTypes)
   const {
     notifications: { LOADING },
   } = useSelector((state) => state.notificationState);

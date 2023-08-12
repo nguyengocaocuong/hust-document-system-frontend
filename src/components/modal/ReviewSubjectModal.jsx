@@ -97,7 +97,7 @@ function ReviewSubjectModal({ open }) {
     );
   };
   const copyUrl = () => {
-    const url = `http://localhost:3000/review?id=${dataModal.id}&type=REVIEW_SUBJECT`;
+    const url = `${document.location.origin}/review?id=${dataModal.id}&type=REVIEW_SUBJECT`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

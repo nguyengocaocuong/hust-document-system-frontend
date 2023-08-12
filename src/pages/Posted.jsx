@@ -66,8 +66,8 @@ function Posted() {
   const copyUrl = (item) => {
     let url;
     if (item.type !== "POST")
-      url = `http://localhost:3000/review?id=${item.id}&type=${item.type}`;
-    else url = `http://localhost:3000/post/${item.id}`;
+      url = `${document.location.origin}/review?id=${item.id}&type=${item.type}`;
+    else url = `${document.location.origin}/post/${item.id}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

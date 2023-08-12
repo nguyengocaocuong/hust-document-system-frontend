@@ -69,7 +69,6 @@ function ResetPassword() {
     body.append("email", resetInfor.email);
     body.append("newPassword", resetInfor.password);
     updatePasswordByToken({ token, body }).then((response) => {
-      console.log(response);
       setLoading(false);
       if (!response.error) {
         setSuccess(true);

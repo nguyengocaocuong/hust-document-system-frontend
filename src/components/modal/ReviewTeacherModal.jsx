@@ -100,7 +100,7 @@ function ReviewTeacherModal({ open }) {
     );
   };
   const copyUrl = () => {
-    const url = `http://localhost:3000/review?id=${dataModal.id}&type=REVIEW_TEACHER`;
+    const url = `${document.location.origin}/review?id=${dataModal.id}&type=REVIEW_TEACHER`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

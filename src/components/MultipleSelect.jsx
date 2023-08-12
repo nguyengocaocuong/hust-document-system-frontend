@@ -19,7 +19,7 @@ export default function MultipleSelect({
   width = "140px",
   value = "all",
   all = true,
-  handle = (e) => console.log(e),
+  handle = () => {},
   style,
   size = "small",
 }) {

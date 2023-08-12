@@ -42,7 +42,7 @@ import ResetPassword from "./pages/ResetPass";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
-  console.log(document.location.origin)
+  console.log(process.env.REACT_APP_BASE_URL)
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

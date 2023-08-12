@@ -46,7 +46,6 @@ function ReportContentReviewSubject({ report }) {
       reportContentReviewSubjectId: report.id,
     }).then((response) => {
       if (!response.error) {
-        console.log("ok");
       }
     });
   };

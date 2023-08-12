@@ -21,7 +21,6 @@ function UserProfile() {
     getUserProfileById(id).then((response) => {
       if (!response.error) {
         setUserProfile(response.data.content);
-        console.log(response.data)
       }
     });
     // eslint-disable-next-line

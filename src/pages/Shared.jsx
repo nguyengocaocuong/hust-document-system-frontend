@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import Filter from "../components/Filter";
 import {
-  FileTypeFilter,
-  DocumentTypeFilter,
-  SubjectCodeFilter,
-} from "../settings/SharedSetting";
-import {
   useDeleteSharedPrivateMutation,
   useGetAllSubjectDocumentSharedQuery,
 } from "../services/SubjectService";
@@ -155,7 +150,7 @@ function Shared() {
           Tài liệu được chia sẻ
         </Typography>
         <Filter
-          data={[FileTypeFilter, DocumentTypeFilter, SubjectCodeFilter]}
+          data={[]}
         />
       </Box>
       {data.length === 0 && isSuccess && (

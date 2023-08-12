@@ -42,7 +42,7 @@ const History = () => {
       )
       .forEach((subjectDocument) =>
         window.open(
-          `http://localhost:3000/education/subject-document/${subjectDocument.id}`
+          `${document.location.origin}/education/subject-document/${subjectDocument.id}`
         )
       );
   };
@@ -138,7 +138,7 @@ const History = () => {
               {history.subjectDocument.description}
             </Typography>
             <Typography variant="h6" width={"30%"} noWrap>
-              {`http://localhost:3000/education/subject-document/
+              {`${document.location.origin}/education/subject-document/
               ${history.subjectDocument.id}`}
             </Typography>
             <IconButton

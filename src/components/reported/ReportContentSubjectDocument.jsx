@@ -45,7 +45,6 @@ function ReportContentSubjectDocument({ report }) {
       reportContentSubjectDocumentId: report.id,
     }).then((response) => {
       if (!response.error) {
-        console.log("ok");
       }
     });
   };

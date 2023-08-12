@@ -18,7 +18,7 @@ function ReviewSujectCard({ review, openModal }) {
     );
   };
   const copyUrl = () => {
-    const url = `http://localhost:3000/review?id=${review.id}&type=REVIEW_SUBJECT`;
+    const url = `${document.location.origin}/review?id=${review.id}&type=REVIEW_SUBJECT`;
     navigator.clipboard
       .writeText(url)
       .then(() => {

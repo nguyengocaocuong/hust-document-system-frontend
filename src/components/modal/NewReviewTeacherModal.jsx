@@ -49,7 +49,6 @@ function NewReviewTeacherModal({ open }) {
   const onHidden = (status) => {
     if (status) {
       rejectReviewTeacher(dataModal.id).then((response) => {
-        console.log(response);
         closeModal();
       });
     }

@@ -62,7 +62,7 @@ function DocumentCard({
   };
 
   const copyUrl = () => {
-    const url = `http://localhost:3000/education/subject-document/${document.id}`;
+    const url = `${document.location.origin}/education/subject-document/${document.id}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
