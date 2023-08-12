@@ -135,7 +135,7 @@ function Post() {
         </Alert>
       </Box>
       <BoxBetween>
-        <Box width={"480px"} height={"80%"} border={"1px solid gray"}>
+        <Box width={"480px"}  border={"1px solid gray"}>
           <Box
             width={"100%"}
             display={"flex"}

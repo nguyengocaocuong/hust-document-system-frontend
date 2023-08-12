@@ -38,6 +38,7 @@ import Annotation from "./pages/Annotation";
 import Setup from "./pages/Setup";
 import UserProfile from "./pages/UserProfile";
 import Reported from "./pages/Reported";
+import ResetPassword from "./pages/ResetPass";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -93,6 +94,10 @@ function App() {
                   </Route>
                   <Route path="welcome" element={<Setup />} />
                   <Route path="sign-in" element={<Signin />} />
+                  <Route
+                    path="reset-password/:token"
+                    element={<ResetPassword />}
+                  />
                   <Route path="sign-in" element={<Signin />} />
                   <Route path="sign-up" element={<Signup />} />
                   <Route path="forgot-password" element={<ForgotPassword />} />

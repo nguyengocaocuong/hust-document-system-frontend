@@ -461,7 +461,7 @@ function Posted() {
         headers={headers}
         items={items}
         renderItem={renderItem}
-        pageSize={5}
+        pageSize={Math.floor((window.innerHeight - 192) / 106)}
         itemHeight={106}
       />
       {open.open && (

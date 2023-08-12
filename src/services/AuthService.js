@@ -26,39 +26,51 @@ export const authApi = createApi({
     }),
     generateToken: builder.mutation({
       query: (credentials) => ({
-        url: '/authenticate',
-        method: 'POST',
-        body: credentials
+        url: "/authenticate",
+        method: "POST",
+        body: credentials,
       }),
       invalidatesTags: ["auth"],
       transformResponse: (response) => response?.content,
     }),
     resetPassword: builder.mutation({
       query: (email) => ({
-        url: '/resetPassword',
-        method: 'GET',
+        url: "/resetPassword",
+        method: "GET",
         params: {
-          email
-        }
+          email,
+        },
       }),
       invalidatesTags: ["auth"],
       transformResponse: (response) => response?.content,
     }),
     resendJwtToken: builder.mutation({
       query: (token) => ({
-        url: '/resendJwtToken',
-        method: 'POST',
-        params: { oldToken: token }
+        url: "/resendJwtToken",
+        method: "POST",
+        params: { oldToken: token },
       }),
-      transformResponse: response => response.content
-    })
+      transformResponse: (response) => response.content,
+    }),
+    updatePasswordByToken: builder.mutation({
+      query: (data) => ({
+        url: "/chainPasswordByToken",
+        method: "POST",
+        params : {
+          token: data.token,
+        },
+        body: data.body,
+      }),
+      transformResponse: (response) => response.content,
+    }),
   }),
 });
 
-export const { 
-  useLoginMutation, 
-  useRegisterMutation, 
-  useGenerateTokenMutation, 
-  useResetPasswordMutation, 
-  useResendJwtTokenMutation
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useGenerateTokenMutation,
+  useResetPasswordMutation,
+  useResendJwtTokenMutation,
+  useUpdatePasswordByTokenMutation,
 } = authApi;

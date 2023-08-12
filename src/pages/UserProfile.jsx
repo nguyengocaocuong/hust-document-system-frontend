@@ -1,33 +1,32 @@
-import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { Box, Chip, Stack, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import BoxFull from "../components/BoxFull";
 import avatar from "../assets/images/avatar/06.jpg";
-import EditIcon from "@mui/icons-material/Edit";
-import { useSelector } from "react-redux";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CreateIcon from "@mui/icons-material/Create";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
-import Infor from "../components/profile/Infor";
+import Infor from "../components/profile/Infor_";
 import EnrollmentSubject from "../components/profile/EnrollmentSubject";
 import Uploaded from "../components/profile/Uploaded";
 import Reviewed from "../components/profile/Reviewed";
+import { useGetUserProfileByIdMutation } from "../services/UserService";
+import { useParams } from "react-router-dom";
 
 function UserProfile() {
-  const fileInputRef = useRef();
-  const { user } = useSelector((state) => state.authentication);
-  const [isActive, setActive] = useState(0);
-  const [userState, setUserState] = useState({});
+  const { id } = useParams();
+  const [getUserProfileById] = useGetUserProfileByIdMutation();
+  const [userProfile, setUserProfile] = useState({});
   useEffect(() => {
-    setUserState({ ...user });
-  }, [user]);
+    getUserProfileById(id).then((response) => {
+      if (!response.error) {
+        setUserProfile(response.data.content);
+      }
+    });
+    // eslint-disable-next-line
+  }, []);
+  const [isActive, setActive] = useState(0);
 
-  const onSelectFileAvatar = (e) => {
-    setUserState((preState) => ({
-      ...preState,
-      avatarFile: e.target.files[0],
-    }));
-  };
   return (
     <BoxFull
       bgcolor={"white"}
@@ -86,54 +85,22 @@ function UserProfile() {
                 borderRadius={"100%"}
               >
                 <img
-                  src={
-                    userState?.avatarFile
-                      ? URL.createObjectURL(userState?.avatarFile)
-                      : avatar
-                  }
+                  src={userProfile?.avatar || avatar}
                   alt="avatar"
                   width={"100%"}
                   height={"auto"}
                   style={{ borderRadius: "100%", minHeight: "100%" }}
                 />
               </Box>
-              <Box
-                width={"40px"}
-                height={"40px"}
-                borderRadius={"100%"}
-                bgcolor={"white"}
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                position={"absolute"}
-                right={"10px"}
-                bottom={0}
-                boxShadow={1}
-              >
-                <IconButton
-                  color="primary"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  <EditIcon />
-                </IconButton>
-              </Box>
-              <input
-                type="file"
-                hidden
-                ref={fileInputRef}
-                accept="image/*"
-                onChange={onSelectFileAvatar}
-                multiple={false}
-              />
             </BoxFull>
           </Box>
           <Box position={"absolute"} left={290} top={"110px"} zIndex={2}>
             <Stack spacing={1}>
               <Typography color={"white"} fontWeight={"bold"} variant="h2">
-                Nguyen Ngo Cao Cuong
+                {`${userProfile.firstName} ${userProfile.lastName}`}
               </Typography>
               <Typography color={"white"} variant="h4">
-                cuong.nnc184055@sis.hust.edu.vn
+                {userProfile.email}
               </Typography>
             </Stack>
           </Box>
@@ -203,7 +170,7 @@ function UserProfile() {
           />
         </Stack>
         <Box width={"100%"} pb={2}>
-          {isActive === 0 && <Infor />}
+          {isActive === 0 && <Infor userProfile={userProfile} />}
           {isActive === 1 && <EnrollmentSubject />}
           {isActive === 2 && <Uploaded />}
           {isActive === 3 && <Reviewed />}

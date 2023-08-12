@@ -53,7 +53,7 @@ function Recommend() {
   };
   return (
     <Box
-      height={"100%"}
+      height={"calc(100vh - 72px)"}
       overflow={"hidden"}
       width={"100%"}
       sx={{
@@ -62,7 +62,7 @@ function Recommend() {
         backgroundColor: "white",
       }}
     >
-      <Stack spacing={2} width={"100%"}>
+      <Stack spacing={2} width={"100%"} height={"100%"}>
         <Box pl="10px" p={2} pb={0}>
           <Typography variant="h4" style={{ fontWeight: "bold" }}>
             Có thể bạn quan tâm
@@ -96,7 +96,7 @@ function Recommend() {
               </Box>
             }
             endMessage={<></>}
-            height={643}
+            height={"100%"}
             width={"100%"}
           >
             {recommends.items

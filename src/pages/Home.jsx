@@ -119,7 +119,7 @@ function Home() {
               </Box>
             }
             endMessage={<Typography></Typography>}
-            height={755}
+            height={"calc(100vh - 72px)"}
             width={"100%"}
           >
             <Box display={"flex"} justifyContent={"center"} width={"100%"}>

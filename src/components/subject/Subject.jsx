@@ -24,6 +24,7 @@ function Subject({ selected = [] }) {
           currentPage: 0,
         }
       );
+      console.log(response);
     });
   }, [getAllSubject]);
   const featchMoreData = () => {
@@ -45,8 +46,8 @@ function Subject({ selected = [] }) {
         WebkitBoxShadow: "0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset",
         MozBoxShadow: "0px 8px 5px 0px rgba(155, 155, 155, 0.1) inset",
       }}
-      pt={1}
       width={"100%"}
+      height={"100%"}
       overflow={"hidden"}
     >
       <InfiniteScroll
@@ -61,7 +62,7 @@ function Subject({ selected = [] }) {
           </Box>
         }
         endMessage={<Typography></Typography>}
-        height={630}
+        height={"calc(100vh - 192px)"}
         width={"100%"}
       >
         <Grid container spacing={4} px={2} py={2} width={"calc(100vw - 230px)"}>

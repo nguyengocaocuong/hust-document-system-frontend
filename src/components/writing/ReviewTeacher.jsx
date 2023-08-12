@@ -111,7 +111,7 @@ function ReviewTeacher() {
     }
   };
   return (
-    <BoxFull>
+    <BoxFull height={"calc(100vh - 72px)"}>
       <Box
         sx={{
           overflow: "hidden",
@@ -138,10 +138,16 @@ function ReviewTeacher() {
         textAlign={"center"}
         textTransform={"uppercase"}
         bgcolor={"#F0F0F0"}
+        height={"60px"}
       >
         Viết bài review giảng viên
       </Typography>
-      <Box display={"flex"} width={"100%"} px={2}>
+      <Box
+        display={"flex"}
+        width={"100%"}
+        px={2}
+        height={alert.isShow ? "calc(100% - 105px)" : "calc(100% - 60px)"}
+      >
         <Box width={liveView ? "60%" : "100%"} height={"100%"} pt={1}>
           <Box
             py={1}
@@ -183,12 +189,14 @@ function ReviewTeacher() {
               </Box>
             </Stack>
           </Box>
-          <Editor
-            editorRef={editorRef}
-            height={alert.isShow ? 500 : 550}
-            setContent={setContent}
-            content={content}
-          />
+          <Box height={"calc(100% - 130px)"}>
+            <Editor
+              editorRef={editorRef}
+              setContent={setContent}
+              height={"100%"}
+              content={content}
+            />
+          </Box>
           <Box
             py={1}
             display={"flex"}

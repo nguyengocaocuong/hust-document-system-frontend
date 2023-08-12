@@ -60,6 +60,13 @@ export const userApi = createApi({
       }),
       transformErrorResponse: (response) => response.content,
     }),
+    getUserProfileById: builder.mutation({
+      query: (id) => ({
+        url: `/profile?userId=${id}`,
+        method: "GET",
+      }),
+      transformErrorResponse: (response) => response.content,
+    }),
   }),
 });
 
@@ -70,4 +77,5 @@ export const {
   useUpdateAvatarMutation,
   useUpdateAccountInfoMutation,
   useUpdateUserInfoMutation,
+  useGetUserProfileByIdMutation
 } = userApi;

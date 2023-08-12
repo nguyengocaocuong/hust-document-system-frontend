@@ -365,7 +365,7 @@ function Document() {
                 backgroundColor: "rgba(0, 0, 0, 0.1)",
               }}
               p={1}
-              onClick={() => alert("tét")}
+              onClick={() => navigate(`/education/subject-document/${history.subjectDocument.id}`)}
             >
               <Stack spacing={1}>
                 <Owner

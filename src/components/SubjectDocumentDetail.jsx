@@ -159,7 +159,7 @@ function SubjectDocumentDetail() {
     }
     setLanguage({ value, loading: true });
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/translate?targetLanguage=${value}&${location.search}`,
+      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${id}/translate?targetLanguage=${value}&${location.search}`,
       {
         method: "GET",
         headers: {
@@ -262,7 +262,7 @@ function SubjectDocumentDetail() {
   useEffect(() => {
     if (isSuccess && instance)
       instance.UI.TabManager.addTab(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/readFile?${location.search}`,
+        `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${id}/readFile${location.search}`,
         {
           filename: subjectDocumentDetail.document.name,
           customHeaders: {
@@ -324,7 +324,7 @@ function SubjectDocumentDetail() {
   };
   const onShowAnnotate = (annotateId) => {
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/users/subjects/subjectDocument/${id}/answerSubjectDocument/${annotateId}/readFile`,
+      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${id}/answerSubjectDocument/${annotateId}/readFile`,
       {
         method: "GET",
         headers: {
