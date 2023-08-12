@@ -76,7 +76,7 @@ function ReportContentSubjectDocumentModal({ open }) {
           <DocumentViewer
             docs={[
               {
-                uri: `${process.env.REACT_APP_BASE_URL}/admins/subjects/subjectDocuments/${dataModal.subjectDocument.id}/readFile`,
+                uri: `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/admins/subjects/subjectDocuments/${dataModal.subjectDocument.id}/readFile`,
                 fileName: dataModal.subjectDocument.document.name,
               },
             ]}

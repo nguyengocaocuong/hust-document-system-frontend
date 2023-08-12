@@ -33,7 +33,7 @@ function DocumentAnswer({ answer, toggleFavorite }) {
         openDocumentViewerModal({
           docs: [
             {
-              uri: `${process.env.REACT_APP_BASE_URL}/users/posts/answer/${answer?.id}/readFile`,
+              uri: `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/users/posts/answer/${answer?.id}/readFile`,
               fileName: answer.document.name,
             },
           ],

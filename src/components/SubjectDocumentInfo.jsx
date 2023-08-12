@@ -136,7 +136,7 @@ function SubjectDocumentInfo({
   };
   const download = () => {
     fetch(
-      `${process.env.REACT_APP_BASE_URL}/users/subjects/subjectDocument/${subjectDocumentDetail.id}/download`,
+      `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/users/subjects/subjectDocument/${subjectDocumentDetail.id}/download`,
       {
         method: "GET",
         headers: {

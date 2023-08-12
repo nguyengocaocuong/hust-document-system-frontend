@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const subjectApi = createApi({
   reducerPath: "subjects",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}/users/subjects`,
+    baseUrl: `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/users/subjects`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {

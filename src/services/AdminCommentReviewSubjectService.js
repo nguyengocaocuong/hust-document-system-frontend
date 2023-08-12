@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const adminCommentReviewSubjectApi = createApi({
   reducerPath: "adminCommentReviewSubject",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}/admins/subjects/reviewSubject/comment`,
+    baseUrl: `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/admins/subjects/reviewSubject/comment`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authentication?.user?.token;
       if (token) {

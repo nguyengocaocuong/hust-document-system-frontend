@@ -81,7 +81,7 @@ function ReportDuplicateSubjectDocumentModal({ open }) {
               <DocumentViewer
                 docs={[
                   {
-                    uri: `${process.env.REACT_APP_BASE_URL}/admins/subjects/subjectDocuments/${dataModal.subjectDocumentFirst.id}/readFile`,
+                    uri: `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/admins/subjects/subjectDocuments/${dataModal.subjectDocumentFirst.id}/readFile`,
                     fileName: dataModal.subjectDocumentFirst.document.name,
                   },
                 ]}
@@ -103,7 +103,7 @@ function ReportDuplicateSubjectDocumentModal({ open }) {
               <DocumentViewer
                 docs={[
                   {
-                    uri: `${process.env.REACT_APP_BASE_URL}/admins/subjects/subjectDocuments/${dataModal.subjectDocumentSecond.id}/readFile`,
+                    uri: `https://hust-document-system-backend-vxw4qk34wa-as.a.run.app/api/v1/admins/subjects/subjectDocuments/${dataModal.subjectDocumentSecond.id}/readFile`,
                     fileName: dataModal.subjectDocumentSecond.document.name,
                   },
                 ]}
