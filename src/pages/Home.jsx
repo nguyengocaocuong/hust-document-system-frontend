@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress, Fab, Stack, Tooltip } from "@mui/material";
+import { Box, Fab, Stack, Tooltip } from "@mui/material";
 import PostCard from "../components/posts/postCard";
 import Recommend from "../components/recommend";
 import { useState } from "react";

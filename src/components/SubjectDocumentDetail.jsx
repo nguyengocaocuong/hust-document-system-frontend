@@ -253,9 +253,6 @@ function SubjectDocumentDetail() {
           documentViewer.disableAnnotations();
         }
       });
-      UI.addEventListener(UI.Events.TAB_ADDED, (p) => {
-        console.log(p);
-      });
       setInstance(instance);
     });
     // eslint-disable-next-line
@@ -345,7 +342,6 @@ function SubjectDocumentDetail() {
         annotationManager.promoteUserToAdmin();
         const annots = annotationManager.getAnnotationsList();
         annotationManager.deleteAnnotations(annots);
-        console.log(annots)
 
         // if (user.id !== subjectDocumentDetail.owner.id)
         // annotationManager.enableReadOnlyMode();

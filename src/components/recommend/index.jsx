@@ -1,6 +1,5 @@
 import {
   Box,
-  CircularProgress,
   InputBase,
   Stack,
   Typography,

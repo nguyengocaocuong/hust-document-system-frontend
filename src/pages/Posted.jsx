@@ -159,7 +159,7 @@ function Posted() {
         });
         break;
       default:
-        console.log("default");
+        console.log();
     }
   };
   const renderItem = (item, key) => (
