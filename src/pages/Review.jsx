@@ -14,8 +14,8 @@ import Select from "react-select";
 import { Stack, Typography } from "@mui/material";
 
 function Review() {
-  const { data: reviewSubject = [] } = useGetAllReviewSubjectQuery();
-  const { data: reviewTeacher = [] } = useGetAllReviewTeacherQuery();
+  const { data: reviewSubject = [], isLoading: loadingReviewSubject } = useGetAllReviewSubjectQuery();
+  const { data: reviewTeacher = [], isLoading: loadingReviewTeacher } = useGetAllReviewTeacherQuery();
   const [reviews, setReviews] = useState([]);
   const [reviewTypes] = useState([
     { label: "Review giảng viên", value: "TEACHER" },
@@ -273,6 +273,7 @@ function Review() {
         />
       </Stack>
       <ReviewBody
+        isLoading={loadingReviewSubject && loadingReviewTeacher}
         reviews={reviews.filter((review) => {
           const statusReviewType =
             selectedReviewType.value === "ALL" ||

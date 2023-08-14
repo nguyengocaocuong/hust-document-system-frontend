@@ -7,7 +7,8 @@ import {
   openReviewSubjectModal,
   openReviewTeacherModal,
 } from "../../store/modalState";
-function ReviewBody({ reviews = [] }) {
+import ReviewSkeleton from "../skeleton/ReviewSkeleton";
+function ReviewBody({ reviews = [], isLoading }) {
   const dispatch = useDispatch();
   const openReviewTeacher = (reviewTeacher) => {
     dispatch(openReviewTeacherModal(reviewTeacher));
@@ -29,20 +30,27 @@ function ReviewBody({ reviews = [] }) {
       overflow={"auto"}
       sx={{ "&::-webkit-scrollbar": { display: "none" } }}
     >
-      <Grid container spacing={3}>
-        {reviews.map((review, index) => (
-          <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
-            {review.type === "TEACHER" ? (
-              <ReviewTeacherCard
-                openModal={openReviewTeacher}
-                review={review}
-              />
-            ) : (
-              <ReviewSujectCard openModal={openReviewSubject} review={review} />
-            )}
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading ? (
+        <ReviewSkeleton />
+      ) : (
+        <Grid container spacing={3}>
+          {reviews.map((review, index) => (
+            <Grid item xs={12} md={6} lg={4} xl={3} key={index}>
+              {review.type === "TEACHER" ? (
+                <ReviewTeacherCard
+                  openModal={openReviewTeacher}
+                  review={review}
+                />
+              ) : (
+                <ReviewSujectCard
+                  openModal={openReviewSubject}
+                  review={review}
+                />
+              )}
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 }

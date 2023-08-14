@@ -39,6 +39,7 @@ import Setup from "./pages/Setup";
 import UserProfile from "./pages/UserProfile";
 import Reported from "./pages/Reported";
 import ResetPassword from "./pages/ResetPass";
+import Test from "./pages/Test";
 function App() {
   const [theme, colorMode] = useMode();
   const { isLogin, user } = useSelector((state) => state.authentication);
@@ -93,6 +94,7 @@ function App() {
                     )}
                   </Route>
 
+                  <Route path="test" element={<Test />} />
                   <Route path="welcome" element={<Setup />} />
                   <Route path="sign-in" element={<Signin />} />
                   <Route

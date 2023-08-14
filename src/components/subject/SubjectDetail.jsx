@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { openSubjectDocumentModal } from "../../store/modalState";
 import noDocument from "../../assets/images/noDocument.png";
 import { useEffect } from "react";
+import SubjectDetailSkeleton from "../skeleton/SubjectDetailSkeleton";
 function SubjectDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -51,7 +52,7 @@ function SubjectDetail() {
   }, []);
   return (
     <Box height={"100%"} overflow={"hidden"} display={"flex"} bgcolor={"white"}>
-      {isSuccess && (
+      {isSuccess ? (
         <>
           <Box
             width={closeSubjectDetail ? (showState ? "100%" : 0) : "27%"}
@@ -193,6 +194,8 @@ function SubjectDetail() {
             )}
           </Box>
         </>
+      ) : (
+        <SubjectDetailSkeleton />
       )}
     </Box>
   );
