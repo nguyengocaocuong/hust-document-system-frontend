@@ -175,7 +175,7 @@ function Reported() {
           <Typography variant="h3">Bạn chưa báo cáo bất kỳ bài viết nào</Typography>
         </BoxBetween>
       )}
-      <Box height={"calc(100% - 120px)"} width={"100%"} overflow={"auto"} p={2}>
+      <Box height={"calc(100% - 110px)"} width={"100%"} overflow={"auto"} p={2}>
         <BoxBetween>
           <Box height={"550px"} width="100%">
             <Grid container spacing={2} width={"100%"}>
@@ -195,7 +195,7 @@ function Reported() {
         </BoxBetween>
       </Box>
       <Box
-        height={"60px"}
+        height={"50px"}
         display={"flex"}
         justifyContent={"end"}
         alignItems={"center"}

@@ -65,7 +65,7 @@ function ReportContentReviewTeacherModal({ open }) {
         </Box>
         <Divider />
         <Box
-          maxHeight={"500px"}
+          maxHeight={"440px"}
           overflow={"auto"}
           sx={{
             "&::-webkit-scrollbar": { display: "none" },

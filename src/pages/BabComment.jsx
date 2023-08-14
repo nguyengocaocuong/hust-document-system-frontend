@@ -159,7 +159,7 @@ function BabComment() {
                   ]}
                 />
                 <Box p={2} pt={0} pl={4}>
-                  <Typography fontWeight={700}>{babComment.comment}</Typography>
+                  <Typography fontWeight={700} noWrap>{babComment.comment}</Typography>
                 </Box>
               </Box>
             </Grid>

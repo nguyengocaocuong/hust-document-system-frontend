@@ -17,7 +17,10 @@ import {
   useUpdloadSubjectDocumentForSubjectMutation,
 } from "../../services/SubjectService";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSubjectDocumentModal } from "../../store/modalState";
+import {
+  clearSubjectDocumentModal,
+  closeSubjectDocumentModal,
+} from "../../store/modalState";
 import { addLoadingNotification } from "../../store/notificationState";
 import { v4 as uuid } from "uuid";
 import { useGetAllSubjectForFilterQuery } from "../../services/FilterService";
@@ -36,7 +39,7 @@ const style = {
   pb: 3,
 };
 function SubjectDocumentModal({ open }) {
-  const {data: subjectDocumentTypes} = useGetAllSubjectDocumentTypesQuery()
+  const { data: subjectDocumentTypes } = useGetAllSubjectDocumentTypesQuery();
   const {
     notifications: { LOADING },
   } = useSelector((state) => state.notificationState);
@@ -109,6 +112,7 @@ function SubjectDocumentModal({ open }) {
             },
           ])
         );
+        dispatch(clearSubjectDocumentModal());
         refetchSubjectDocument();
         refetchGetAllSubjectDocumentCreatedByUser();
       })

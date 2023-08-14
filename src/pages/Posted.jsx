@@ -43,7 +43,7 @@ const headers = [
   { title: "Loại bài viết", width: "12%" },
   { title: "Nội dung ", width: "20%" },
   { title: "Trạng thái", width: "8%" },
-  { title: "Chỉnh sửa lần cuối", width: "10%" },
+  { title: "Chỉnh sửa", width: "10%" },
   { title: "", width: "15%" },
 ];
 
@@ -470,8 +470,8 @@ function Posted() {
           headers={headers}
           items={items}
           renderItem={renderItem}
-          pageSize={Math.floor((window.innerHeight - 192) / 106)}
-          itemHeight={106}
+          pageSize={Math.floor((window.innerHeight - 222) / 111)}
+          itemHeight={111}
         />
       </Box>
 

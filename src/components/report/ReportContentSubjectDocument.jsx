@@ -18,7 +18,7 @@ function ReportContentSubjectDocument({ report }) {
   return (
     <Box
       width={"100%"}
-      height={"280px"}
+      height={"255px"}
       sx={{
         backgroundColor: "#F0F0F0",
         "&:hover": { boxShadow: 4 },
@@ -39,11 +39,12 @@ function ReportContentSubjectDocument({ report }) {
             icon={<Flag />}
           />,
         ]}
+        sx={{pb:1}}
       />
       <Box
         p={1}
         pt={0}
-        height={"150px"}
+        height={"130px"}
         display={"flex"}
         justifyContent={"space-between"}
         overflow={"hidden"}

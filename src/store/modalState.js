@@ -271,6 +271,10 @@ export const modalState = createSlice({
       state.answerSubjectDocumentModal.open = false;
       state.answerSubjectDocumentModal.dataModal = null;
     },
+    clearSubjectDocumentModal: (state) => {
+      state.subjectDocumentModal.open = false;
+      state.subjectDocumentModal.dataModal = null;
+    },
   },
 });
 export const {
@@ -317,6 +321,7 @@ export const {
   openDownloadModal,
   closeDownloadModal,
   clearDownloadModal,
-  clearAnswerSubjectDocumentModal
+  clearAnswerSubjectDocumentModal,
+  clearSubjectDocumentModal,
 } = modalState.actions;
 export default modalState.reducer;

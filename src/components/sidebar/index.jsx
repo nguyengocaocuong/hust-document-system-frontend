@@ -63,7 +63,7 @@ function Sidebar({ setSidebarWidth }) {
     >
       <SidebarHeader />
       <SidebarHomeItem />
-      <Box overflow={"auto"} height={"calc(100vh - 300px)"}>
+      <Box overflow={"auto"} height={"calc(100vh - 263px)"}>
         <Menu>
           {sidebarItem.map((item, index) => {
             return item.type === "ITEM" ? (

@@ -253,6 +253,9 @@ function SubjectDocumentDetail() {
           documentViewer.disableAnnotations();
         }
       });
+      UI.addEventListener(UI.Events.TAB_ADDED, (p) => {
+        console.log(p);
+      });
       setInstance(instance);
     });
     // eslint-disable-next-line
@@ -339,13 +342,14 @@ function SubjectDocumentDetail() {
           Core: { annotationManager, documentViewer },
         } = instance;
 
-        // annotationManager.promoteUserToAdmin();
-        // const annots = annotationManager.getAnnotationsList();
-        // annotationManager.deleteAnnotations(annots);
-        // annotationManager.demoteUserFromAdmin();
+        annotationManager.promoteUserToAdmin();
+        const annots = annotationManager.getAnnotationsList();
+        annotationManager.deleteAnnotations(annots);
+        console.log(annots)
 
         // if (user.id !== subjectDocumentDetail.owner.id)
-        annotationManager.enableReadOnlyMode();
+        // annotationManager.enableReadOnlyMode();
+        annotationManager.disableReadOnlyMode();
         UI.enableFeatures([UI.Feature.Annotations]);
         documentViewer.enableAnnotations();
         annotationManager.importAnnotations(text);

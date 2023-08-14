@@ -74,7 +74,7 @@ function ReviewTeacherModal({ open }) {
       body: formData,
     }).then((response) => {
       if (!response.error) {
-        setComments((preState) => [...preState, response.data.content]);
+        // setComments((preState) => [...preState, response.data.content]);
       }
     });
   };

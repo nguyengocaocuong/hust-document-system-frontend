@@ -175,7 +175,7 @@ function DownloadModal({ open }) {
               </Box>
               <Box
                 width={"100%"}
-                height={"352px"}
+                height={"280px"}
                 overflow={"auto"}
                 px={2}
                 py={2}

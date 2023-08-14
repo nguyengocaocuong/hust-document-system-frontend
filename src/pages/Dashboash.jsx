@@ -59,7 +59,7 @@ import {
   grey,
   indigo,
 } from "@mui/material/colors";
-
+import avatar from "../assets/images/avatar/05.jpg";
 const color = [
   deepOrange,
   deepPurple,
@@ -167,14 +167,13 @@ function Dashboash() {
         display={"flex"}
         alignItems={"center"}
       >
-        <Box
-          width={"50px"}
-          height={"50px"}
-          overflow={"hidden"}
-          sx={{ borderRadius: 1, boxShadow: 2 }}
-        >
+        <Box width={"50px"} height={"50px"} overflow={"hidden"}>
           <img
-            src={item.type === "TEACHER" ? item?.teacher.avatar : subjectIcon}
+            src={
+              item.type === "TEACHER"
+                ? item?.teacher.avatar || avatar
+                : subjectIcon
+            }
             width={"100%"}
             height={"auto"}
             style={{ maxHeight: "53px" }}
@@ -467,7 +466,7 @@ function Dashboash() {
                   Danh sách người dùng mới{" "}
                 </Typography>
                 <Box width={"100%"} pt={2}>
-                  {newUser.slice(0, 6).map((user, index) => (
+                  {newUser.slice(0, 5).map((user, index) => (
                     <Box
                       key={index}
                       display={"flex"}

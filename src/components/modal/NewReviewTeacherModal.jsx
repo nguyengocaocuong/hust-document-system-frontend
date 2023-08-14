@@ -72,7 +72,7 @@ function NewReviewTeacherModal({ open }) {
         </Box>
         <Divider />
         <Box
-          maxHeight={"580px"}
+          maxHeight={"510px"}
           minHeight={"300px"}
           overflow={"auto"}
           sx={{
@@ -80,7 +80,7 @@ function NewReviewTeacherModal({ open }) {
           }}
         >
           <Owner owner={dataModal.owner} createdAt={dataModal.createdAt} />
-          <Box p={2} pt={1} sx={{ backgroundColor: "white", borderRadius: 1 }}>
+          <Box p={2} pt={1} sx={{ backgroundColor: "white", borderRadius: 1 }} >
             <div
               dangerouslySetInnerHTML={{
                 __html: dataModal.review,

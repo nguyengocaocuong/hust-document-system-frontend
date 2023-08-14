@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  CircularProgress,
-  Fab,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Fab, Stack, Tooltip } from "@mui/material";
 import PostCard from "../components/posts/postCard";
 import Recommend from "../components/recommend";
 import { useState } from "react";
@@ -14,6 +7,7 @@ import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useGetAllPostsMutation } from "../services/PostService";
 import SwitchRightIcon from "@mui/icons-material/SwitchRight";
+import PostSkeleton from "../components/skeleton/PostSkeleton";
 function Home() {
   const [getAllPost] = useGetAllPostsMutation();
   const [isShowRecomment, setShowRecomment] = useState(true);
@@ -25,7 +19,7 @@ function Home() {
     currentPage: 0,
   });
   useEffect(() => {
-    getAllPost({ page: 0, size: 5 }).then((response) => {
+    getAllPost({ page: 0, size: 10 }).then((response) => {
       setPosts(
         { ...response?.data, currentPage: 0 } || {
           items: [],
@@ -42,7 +36,7 @@ function Home() {
   };
   const featchMoreData = () => {
     if (posts.currentPage >= posts.totalPages) return;
-    getAllPost({ page: posts.currentPage, size: 10 }).then((response) => {
+    getAllPost({ page: posts.currentPage + 1, size: 10 }).then((response) => {
       setPosts((preState) => {
         const newPosts = response.data?.items.filter(
           (item) => !preState.items.find((i) => item.id === i.id)
@@ -108,17 +102,18 @@ function Home() {
         height={"100%"}
         sx={{ transition: "width 0.3s" }}
       >
-        <Box width={"100%"} height={"100%"} overflow={"hidden"}>
+        <Box
+          width={"100%"}
+          height={"100%"}
+          overflow={"hidden"}
+          bgcolor={posts.items?.length === 0 ? "white" : "inherit"}
+        >
           <InfiniteScroll
-            dataLength={posts.items.length}
+            dataLength={posts.items?.length}
             hasMore={posts.currentPage < posts.totalPages}
             next={featchMoreData}
-            loader={
-              <Box p={2} display={"flex"} justifyContent={"center"}>
-                <CircularProgress sx={{ width: "25px", height: "25px" }} />
-              </Box>
-            }
-            endMessage={<Typography></Typography>}
+            loader={<PostSkeleton />}
+            endMessage={posts.items?.length === 0 ? <PostSkeleton /> : <></>}
             height={"calc(100vh - 72px)"}
             width={"100%"}
           >
@@ -131,7 +126,7 @@ function Home() {
                 pb={2}
               >
                 <Stack spacing={2}>
-                  {posts.items.map((post) => (
+                  {posts.items?.map((post) => (
                     <PostCard
                       data={post}
                       key={post.id}

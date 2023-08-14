@@ -25,7 +25,7 @@ function Filter({
   subjectDocumentFilter,
   searchOptions,
 }) {
-  const [openFilterOption, setOpenFilterOption] = useState(undefined);
+  const [openFilterOption, setOpenFilterOption] = useState(1);
   const [keyFilter, setKeyFilter] = useState({
     1: "",
     2: "",
@@ -59,7 +59,7 @@ function Filter({
     },
   ]);
   const resetFilterOptions = () => {
-    setOpenFilterOption(undefined);
+    setOpenFilterOption(1);
     resetSearchOptions();
     setFilterOptions((preState) =>
       preState.map((filter) => {
@@ -231,13 +231,9 @@ function Filter({
                 <small style={{ color: "black", fontWeight: 700 }}>
                   (
                   {openFilterOption === filter.value
-                    ? filter.items.length < 8
+                    ? (filter.items.length < 6
                       ? filter.items.length
-                      : 8
-                    : openFilterOption === undefined
-                    ? filter.items.length < 2
-                      ? filter.items.length
-                      : 2
+                      : 6)
                     : 0}
                   /{filter.items.length})
                 </small>
@@ -267,13 +263,9 @@ function Filter({
               overflow={"hidden"}
               height={
                 openFilterOption === filter.value
-                  ? filter.items.length <= 8
+                  ? filter.items.length <= 6
                     ? `${filter.items.length * 40 + 30}px`
-                    : "350px"
-                  : openFilterOption === undefined
-                  ? filter.items.length <= 2
-                    ? `${filter.items.length * 40 + 30}px`
-                    : "110px"
+                    : "270px"
                   : "30px"
               }
               sx={{ transition: "height 0.4s" }}
@@ -296,9 +288,9 @@ function Filter({
                 .slice(
                   0,
                   openFilterOption === undefined
-                    ? 2
+                    ? 0
                     : openFilterOption === filter.value
-                    ? 8
+                    ? 6
                     : 0
                 )
                 .map((item) => (

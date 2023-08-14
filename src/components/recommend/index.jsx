@@ -11,6 +11,7 @@ import { useGetRecommendMutation } from "../../services/UserService";
 import { useEffect } from "react";
 import RecommendCard from "./RecommendCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import RecommendSkeleton from "../skeleton/RecommendSkeleton";
 
 function Recommend() {
   const [getRecommend] = useGetRecommendMutation();
@@ -90,11 +91,7 @@ function Recommend() {
             dataLength={recommends.items.length}
             hasMore={recommends.hasMore}
             next={featchMoreData}
-            loader={
-              <Box p={2} display={"flex"} justifyContent={"center"}>
-                <CircularProgress sx={{ width: "25px", height: "25px" }} />
-              </Box>
-            }
+            loader={<RecommendSkeleton />}
             endMessage={<></>}
             height={"100%"}
             width={"100%"}

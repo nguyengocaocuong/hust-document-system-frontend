@@ -171,7 +171,7 @@ function Teacher() {
         <Typography variant="h3" color={"text.primary"}>
           Danh sách giảng viên
         </Typography>
-        <Button onClick={addTeacher} variant="outlined" >
+        <Button onClick={addTeacher} variant="outlined">
           <Stack spacing={0.5} direction={"row"}>
             <Typography>Thêm giảng viên</Typography>
             <AddBoxIcon />
@@ -184,8 +184,8 @@ function Teacher() {
           headers={headers}
           items={teachers}
           renderItem={renderItem}
-          pageSize={10}
-          itemHeight={60.5}
+          pageSize={Math.floor(window.innerHeight - 162) / 60.5 - 2}
+          itemHeight={63}
         />
       </Box>
       {open.open && (

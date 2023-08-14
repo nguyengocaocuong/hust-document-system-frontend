@@ -193,7 +193,7 @@ function Review() {
         sx={{ backgroundColor: "#F0F0F0" }}
         px={2}
       >
-        <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+        <Typography variant={'h5'} fontWeight={"bold"} mr={1}>
           Chọn loại bài viết
         </Typography>
         <Select
@@ -203,7 +203,7 @@ function Review() {
             control: (styles) => ({
               ...styles,
               minHeight: "40px",
-              width: "300px",
+              width: "280px",
             }),
             multiValueLabel: (styles) => ({
               ...styles,
@@ -219,7 +219,7 @@ function Review() {
           value={selectedReviewType}
           onChange={onSeletedReviewType}
         />
-        <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+        <Typography variant={'h5'} fontWeight={"bold"} mr={1}>
           Chọn đối tượng
         </Typography>
         <Select
@@ -229,7 +229,7 @@ function Review() {
             control: (styles) => ({
               ...styles,
               minHeight: "40px",
-              width: "300px",
+              width: "280px",
             }),
             multiValueLabel: (styles) => ({
               ...styles,
@@ -245,7 +245,7 @@ function Review() {
           value={selectedReviewObject}
           onChange={onSeletedReviewObject}
         />
-        <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
+        <Typography variant={'h5'} fontWeight={"bold"} mr={1}>
           Chọn tác giả
         </Typography>
         <Select
@@ -255,7 +255,7 @@ function Review() {
             control: (styles) => ({
               ...styles,
               minHeight: "40px",
-              width: "300px",
+              width: "280px",
             }),
             multiValueLabel: (styles) => ({
               ...styles,

@@ -67,9 +67,9 @@ function Report() {
         </Typography>
         <MultipleSelect items={[]} />
       </Box>
-      <Box height={"calc(100% - 120px)"} width={"100%"} overflow={"auto"} p={2}>
+      <Box height={"calc(100% - 110px)"} width={"100%"} overflow={"auto"} p={2}>
         <BoxBetween>
-          <Box height={"550px"} width="100%">
+          <Box width="100%" height={"100%"}>
             <Grid container spacing={2} width={"100%"}>
               {currentData.map((report, index) => (
                 <Grid item xl={4} md={6} sm={12} key={index}>
@@ -81,7 +81,7 @@ function Report() {
         </BoxBetween>
       </Box>
       <Box
-        height={"60px"}
+        height={"50px"}
         display={"flex"}
         justifyContent={"end"}
         alignItems={"center"}

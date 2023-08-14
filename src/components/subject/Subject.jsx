@@ -5,6 +5,7 @@ import { useGetAllSubjectMutation } from "../../services/SubjectService";
 import { useEffect } from "react";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SubjectSkeleton from "../skeleton/SubjectSkeleton";
 
 function Subject({ selected = [] }) {
   const [subjects, setSubject] = useState({
@@ -15,7 +16,7 @@ function Subject({ selected = [] }) {
   });
   const [getAllSubject] = useGetAllSubjectMutation();
   useEffect(() => {
-    getAllSubject({ page: 0, size: 10 }).then((response) => {
+    getAllSubject({ page: 0, size: 18 }).then((response) => {
       setSubject(
         { ...response?.data, currentPage: 1 } || {
           items: [],
@@ -24,12 +25,11 @@ function Subject({ selected = [] }) {
           currentPage: 0,
         }
       );
-      console.log(response);
     });
   }, [getAllSubject]);
   const featchMoreData = () => {
     if (subjects.currentPage >= subjects.totalPages) return;
-    getAllSubject({ page: subjects.currentPage, size: 10 }).then((response) => {
+    getAllSubject({ page: subjects.currentPage, size: 18 }).then((response) => {
       setSubject({
         items: [...subjects.items, ...response.data?.items],
         currentPage: subjects.currentPage + 1,
@@ -56,12 +56,14 @@ function Subject({ selected = [] }) {
           selected.length === 0 && subjects.currentPage < subjects.totalPages
         }
         next={featchMoreData}
-        loader={
-          <Box p={2} display={"flex"} justifyContent={"center"}>
-            <CircularProgress sx={{ width: "25px", height: "25px" }} />
-          </Box>
+        loader={<SubjectSkeleton size={3}/>}
+        endMessage={
+          subjects.items.length > 0 ? (
+            <Typography></Typography>
+          ) : (
+            <SubjectSkeleton size={6}/>
+          )
         }
-        endMessage={<Typography></Typography>}
         height={"calc(100vh - 192px)"}
         width={"100%"}
       >

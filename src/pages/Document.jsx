@@ -334,6 +334,7 @@ function Document() {
       </Typography>
 
       <Box
+        overflow={"hidden"}
         height={"275px"}
         width={"100%"}
         px={2}
@@ -462,10 +463,10 @@ function Document() {
           renderItem={renderItem}
           pageSize={
             histories?.length > 0
-              ? Math.floor((window.innerHeight - 392) / 56) - 1
-              : Math.floor((window.innerHeight - 117) / 56) - 1
+              ? Math.floor((window.innerHeight - 422) / 57) - 1
+              : Math.floor((window.innerHeight - 147) / 57) - 1
           }
-          itemHeight={56}
+          itemHeight={57}
         />
       )}
       {open.open && (

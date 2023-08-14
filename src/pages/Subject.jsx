@@ -61,7 +61,7 @@ function Subject() {
         "&:hover": { backgroundColor: "#D9DFED" },
         cursor: "pointer",
       }}
-      height={"60px"}
+      height={"57px"}
       justifyContent={"space-between"}
     >
       <Box width={"30px"}>
@@ -142,24 +142,25 @@ function Subject() {
         alignItems={"center"}
         px={2}
         height={"50px"}
+        overflow={"hidden"}
       >
         <Typography variant="h3" color={"text.secondary"}>
           Danh sách môn học trong hệ thống
         </Typography>
-        <Button onClick={addSubject} variant="outlined" color="warning">
+        <Button onClick={addSubject} variant="outlined" color="primary">
           <Stack spacing={0.5} direction={"row"}>
             <Typography>Thêm môn học</Typography>
             <AddBoxIcon />
           </Stack>
         </Button>
       </Stack>
-      <Box height={"calc(100% - 50px)"}>
+      <Box height={"calc(100vh - 122px)"} overflow={"hidden"}>
         <Table
           headers={headers}
           items={subjects}
           renderItem={renderItem}
-          pageSize={10}
-          itemHeight={60.5}
+          pageSize={Math.floor((window.innerHeight - 122) / 57) - 1}
+          itemHeight={57}
         />
       </Box>
       {open.open && (

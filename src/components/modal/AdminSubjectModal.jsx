@@ -138,7 +138,7 @@ function AdminSubjectModal({ open }) {
                       width={"350px"}
                       placeholder="Nhập tên viện quản lý"
                       sx={{ width: "100%" }}
-                      value={subject?.institute}
+                      value={subject?.institute.name}
                       onChange={handleChange}
                     />
                   </Box>

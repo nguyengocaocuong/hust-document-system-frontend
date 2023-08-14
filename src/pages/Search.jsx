@@ -1,9 +1,7 @@
 import {
-  Backdrop,
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   InputBase,
   Stack,
   Tooltip,
@@ -16,7 +14,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useSearchSubjectDocumentMutation } from "../services/SearchService";
 import { useGetAllSubjectDocumentTypesQuery } from "../services/UserSubjectDocumentTypeService";
 import { useGetAllSubjectForFilterQuery } from "../services/FilterService";
-
 function Search() {
   const [result, setResult] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -182,15 +179,9 @@ function Search() {
               </Tooltip>
             </Stack>
           </Box>
-          <Content result={result} />
+          <Content result={result} isSearching={isSearching} />
         </Box>
       </Box>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isSearching}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </Box>
   );
 }

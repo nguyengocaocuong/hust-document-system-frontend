@@ -99,7 +99,7 @@ function Approve() {
         });
       } else {
         rejectReviewTeacher(open.item.id).then((response) => {
-          removeItem(response.data.content, "REVIEW_Teacher");
+          removeItem(response.data.content, "REVIEW_TEACHER");
           closeModal();
         });
       }
@@ -112,7 +112,7 @@ function Approve() {
         });
       } else {
         approveReviewTeacher(open.item.id).then((response) => {
-          removeItem(response.data.content, "REVIEW_Teacher");
+          removeItem(response.data.content, "REVIEW_TEACHER");
           closeModal();
         });
       }
@@ -132,19 +132,19 @@ function Approve() {
         </Typography>
         <MultipleSelect items={[]} />
         <Typography fontSize={"17px"} fontWeight={"bold"} mr={1}>
-          Chọn đối tượng bị báo cáo
+          Chọn đối tượng
         </Typography>
         <MultipleSelect items={[]} />
       </Box>
-      <Box height={"calc(100% - 120px)"} width={"100%"} overflow={"auto"} p={2}>
+      <Box height={"calc(100% - 110px)"} width={"100%"} overflow={"auto"} p={2}>
         <BoxBetween>
-          <Box height={"550px"} width="100%">
+          <Box width="100%" height={"100%"}>
             <Grid container spacing={2} width={"100%"}>
-              {currentData.map((review, index) => (
+              {currentData?.map((review, index) => (
                 <Grid item xl={4} md={6} sm={12} key={index}>
                   <Box
                     width={"100%"}
-                    height={"280px"}
+                    height={"255px"}
                     sx={{
                       backgroundColor: "#F0F0F0",
                       "&:hover": { boxShadow: 4 },
@@ -167,11 +167,12 @@ function Approve() {
                           <CloseIcon />
                         </IconButton>,
                       ]}
+                      sx={{ pb: 1 }}
                     />
                     <Box
                       p={1}
                       pt={0}
-                      height={"150px"}
+                      height={"130px"}
                       display={"flex"}
                       flexDirection={"column"}
                       justifyContent={"space-between"}
@@ -183,7 +184,11 @@ function Approve() {
                         dangerouslySetInnerHTML={{
                           __html: review?.review,
                         }}
-                        sx={{ backgroundColor: "white", borderRadius: 2, p: 1 }}
+                        sx={{
+                          backgroundColor: "white",
+                          borderRadius: 2,
+                          p: 1,
+                        }}
                       ></Box>
                     </Box>
                     <Divider />
@@ -277,11 +282,10 @@ function Approve() {
         </BoxBetween>
       </Box>
       <Box
-        height={"60px"}
+        height={"50px"}
         display={"flex"}
         justifyContent={"end"}
         alignItems={"center"}
-        px={3}
       >
         <Pagination
           page={page}

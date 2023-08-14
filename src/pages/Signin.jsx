@@ -71,9 +71,9 @@ function Signin() {
       });
       return;
     }
-    setLoading(true)
+    setLoading(true);
     login(creadentials).then((response) => {
-      setLoading(false)
+      setLoading(false);
       if (response.error) {
         setCredentials({
           ...creadentials,
@@ -82,6 +82,9 @@ function Signin() {
         return;
       }
     });
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") handleLogin();
   };
   return isLogin ? (
     <Navigate to={"/"} replace />
@@ -120,6 +123,7 @@ function Signin() {
             <Box width={"100%"}>
               <Box mb={0.5} mt={2}>
                 <TextField
+                  onKeyDown={handleKeyPress}
                   disabled={isLoading}
                   error={creadentials.emailMessage !== " "}
                   helperText={creadentials.emailMessage}
@@ -147,6 +151,7 @@ function Signin() {
               </Box>
               <Box mb={2}>
                 <TextField
+                  onKeyDown={handleKeyPress}
                   disabled={isLoading}
                   error={creadentials.passwordMessage !== " "}
                   helperText={creadentials.passwordMessage}

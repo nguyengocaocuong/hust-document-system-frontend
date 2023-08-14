@@ -6,29 +6,24 @@ import Owner from "../../Owner";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { useSelector } from "react-redux";
 import { useFavoritePostMutation } from "../../../services/PostService";
 function PostCard({ data, close }) {
   const navigate = useNavigate();
   const [post, setPost] = useState({ ...data });
-  const { user } = useSelector((state) => state.authentication);
-  const isFavorited =
-    post.favorites.find((favorite) => favorite.user.id === user.id) !==
-    undefined;
   const [favoritePost] = useFavoritePostMutation();
   const toggleFavorite = () => {
     favoritePost(post.id).then(() => {
-      if (isFavorited) {
+      if (post.favorite) {
         setPost({
           ...post,
-          favorites: post.favorites.filter(
-            (favorite) => favorite.user.id !== user.id
-          ),
+          favorite: false,
+          totalFavorites: post.totalFavorites - 1,
         });
       } else
         setPost({
           ...post,
-          favorites: [...post.favorites, { user }],
+          favorite: true,
+          totalFavorites: post.totalFavorites + 1,
         });
     });
   };
@@ -42,7 +37,12 @@ function PostCard({ data, close }) {
         owner={post?.owner}
         createdAt={post?.createdAt}
         listItem={[
-          <Chip key={1} icon={<LocalOfferIcon />} label={post?.subject.name}  color="primary"/>,
+          <Chip
+            key={1}
+            icon={<LocalOfferIcon />}
+            label={post?.subject.name}
+            color="primary"
+          />,
           <IconButton
             key={3}
             onClick={(e) => {
@@ -72,10 +72,10 @@ function PostCard({ data, close }) {
         <img src={post.document.path} alt="?" width={"100%"} />
       </Box>
       <CardActions
-        totalFavorite={post?.favorites?.length}
-        totalComment={post?.comments?.length}
-        totalAnswer={post?.answers?.length}
-        isFavorited={isFavorited}
+        totalFavorite={post?.totalFavorites}
+        totalComment={post?.totalComments}
+        totalAnswer={post?.totalAnswers}
+        isFavorited={post?.favorite}
         toggleFavorite={toggleFavorite}
       />
     </Card>
